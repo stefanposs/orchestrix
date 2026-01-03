@@ -10,14 +10,14 @@ theme:
   name: material
   palette:
     - scheme: default
-      primary: indigo
-      accent: indigo
+      primary: blue
+      accent: light blue
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: blue
+      accent: light blue
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
@@ -26,9 +26,21 @@ theme:
     - navigation.sections
     - navigation.expand
     - navigation.top
+    - navigation.instant
+    - navigation.tracking
     - search.suggest
     - search.highlight
+    - search.share
     - content.code.copy
+    - content.code.annotate
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    repo: fontawesome/brands/github
+
+extra_css:
+  - stylesheets/extra.css
 
 nav:
   - Home: index.md
@@ -39,16 +51,16 @@ nav:
   - User Guide:
       - Creating Modules: guide/creating-modules.md
       - Commands & Events: guide/commands-events.md
-      - Aggregates: guide/aggregates.md
       - Message Bus: guide/message-bus.md
       - Event Store: guide/event-store.md
+      - Best Practices: guide/best-practices.md
   - API Reference:
       - Core: api/core.md
       - Infrastructure: api/infrastructure.md
   - Development:
       - Contributing: development/contributing.md
       - Testing: development/testing.md
-      - Release Process: development/release.md
+      - Architecture: development/architecture.md
 
 plugins:
   - search
