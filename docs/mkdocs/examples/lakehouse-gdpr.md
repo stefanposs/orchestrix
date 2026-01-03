@@ -2,6 +2,11 @@
 
 This example demonstrates a complete GDPR-compliant data lakehouse platform built with event sourcing.
 
+> **📂 Source Code:**  
+> Simple Demo: [`examples/lakehouse/gdpr_simple.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/lakehouse/gdpr_simple.py)  
+> Full Implementation: [`examples/lakehouse/gdpr.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/lakehouse/gdpr.py)  
+> Domain Models: [`examples/lakehouse/models.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/lakehouse/models.py)
+
 ## Overview
 
 The GDPR compliance example shows how to implement:
@@ -434,7 +439,12 @@ async def generate_monthly_report():
 
 ## Source Code
 
-- `examples/lakehouse/gdpr_simple.py` - Simple runnable demo
-- `examples/lakehouse/gdpr.py` - Full implementation
-- `examples/lakehouse/models.py` - Domain model
-- `examples/lakehouse/aggregate.py` - Business logic
+Explore the complete implementation on GitHub:
+
+- [`gdpr_simple.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/lakehouse/gdpr_simple.py) - Simple runnable demo (90 lines)
+- [`gdpr.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/lakehouse/gdpr.py) - Full implementation with aggregates (400 lines)
+- [`models.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/lakehouse/models.py) - Domain model (Commands, Events, Enums)
+- [`aggregate.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/lakehouse/aggregate.py) - Business logic and state management
+- [`example.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/lakehouse/example.py) - Data anonymization example
+
+**Complete Lakehouse Examples:** [Browse on GitHub](https://github.com/stefanposs/orchestrix/tree/main/examples/lakehouse)

@@ -13,7 +13,8 @@ Account management system with event sourcing, including:
 - Domain-driven design patterns
 
 **Key Concepts:** Event Sourcing, Aggregates, Domain Events  
-**Source:** `examples/banking/`
+**Source:** [`examples/banking/`](https://github.com/stefanposs/orchestrix/tree/main/examples/banking)  
+**Run:** `uv run python -m examples.banking.example`
 
 ---
 
@@ -26,7 +27,8 @@ Complete order processing system with:
 - Inventory management integration
 
 **Key Concepts:** Sagas, Process Managers, Event Choreography  
-**Source:** `examples/ecommerce/`
+**Source:** [`examples/ecommerce/`](https://github.com/stefanposs/orchestrix/tree/main/examples/ecommerce)  
+**Run:** `uv run python -m examples.ecommerce.example`
 
 ---
 
@@ -39,7 +41,10 @@ Data lakehouse with GDPR compliance featuring:
 - Snapshot optimization for large event streams
 
 **Key Concepts:** GDPR Compliance, Data Anonymization, Event Store, Snapshots  
-**Source:** `examples/lakehouse/`
+**Source:** [`examples/lakehouse/`](https://github.com/stefanposs/orchestrix/tree/main/examples/lakehouse)  
+**Quick Start:**
+- Anonymization: `uv run python -m examples.lakehouse.example`
+- GDPR Demo: `uv run python examples/lakehouse/gdpr_simple.py`
 
 ---
 
@@ -51,7 +56,9 @@ Resilient notification system with:
 - Email, SMS, and push notification channels
 - Circuit breaker pattern
 
-**Key Concepts:** Resilience Patterns, Dead Letter Queue, Retries
+**Key Concepts:** Resilience Patterns, Dead Letter Queue, Retries  
+**Source:** [`examples/notifications/`](https://github.com/stefanposs/orchestrix/tree/main/examples/notifications)  
+**Run:** `uv run python -m examples.notifications.example`
 
 ---
 

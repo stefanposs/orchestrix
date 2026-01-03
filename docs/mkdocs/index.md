@@ -93,13 +93,30 @@ Orchestrix follows **Domain-Driven Design** and **CQRS/ES** principles:
 - **Message Bus** routes commands and events to handlers
 - **Event Store** persists event streams for reconstruction
 
+Learn more in the [Architecture Guide](development/architecture.md).
+
+---
+
+## Examples
+
+Explore production-ready examples demonstrating real-world patterns:
+
+- 🏦 **[Banking](examples/index.md)** - Account management with event sourcing
+- 🛒 **[E-Commerce](examples/index.md)** - Order processing with saga pattern
+- 🏢 **[Lakehouse Platform](examples/lakehouse-gdpr.md)** - GDPR-compliant data lake
+- 🔔 **[Notifications](examples/index.md)** - Resilient notification system
+
+[**Browse All Examples →**](examples/index.md)
+
+---
+
 ## Contributing
 
 Contributions are welcome! Please read our [Contributing Guide](https://github.com/stefanposs/orchestrix/blob/main/.github/CONTRIBUTING.md) for details.
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
+MIT License - see [LICENSE](https://github.com/stefanposs/orchestrix/blob/main/LICENSE) for details.
 
 ## Support
 

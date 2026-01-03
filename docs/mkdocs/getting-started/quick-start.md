@@ -183,6 +183,21 @@ bus.publish(CompleteTask(task_id="TASK-001"))
 
 ## Next Steps
 
+**Learn More:**
+
 - [Core Concepts](concepts.md) - Understand Messages, Commands, and Events
 - [Creating Modules](../guide/creating-modules.md) - Best practices for module design
-- [API Reference](../api/core.md) - Complete API documentation
+- [Event Store Guide](../guide/event-store.md) - Persist and replay events
+- [Best Practices](../guide/best-practices.md) - Production patterns
+
+**Explore Examples:**
+
+- [Banking Example](../examples/index.md) - Simple event sourcing with accounts
+- [E-Commerce Example](../examples/index.md) - Saga pattern for order processing  
+- [GDPR Lakehouse](../examples/lakehouse-gdpr.md) - Complete compliance example
+- [All Examples](../examples/index.md) - Browse all production-ready samples
+
+**API Reference:**
+
+- [Core API](../api/core.md) - Commands, Events, Aggregates
+- [Infrastructure API](../api/infrastructure.md) - Message Bus, Event Store
