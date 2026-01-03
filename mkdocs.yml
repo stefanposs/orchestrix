@@ -59,6 +59,9 @@ nav:
       - Best Practices: guide/best-practices.md
   - Examples:
       - Overview: examples/index.md
+      - Banking: examples/banking.md
+      - E-Commerce: examples/ecommerce.md
+      - Notifications: examples/notifications.md
       - Lakehouse Platform:
           - GDPR Compliance: examples/lakehouse-gdpr.md
   - API Reference:

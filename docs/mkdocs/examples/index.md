@@ -4,7 +4,7 @@ Orchestrix comes with production-ready examples demonstrating real-world pattern
 
 ## Available Examples
 
-### 🏦 Banking
+### 🏦 [Banking](banking.md)
 Account management system with event sourcing, including:
 
 - Account creation and transactions
@@ -18,7 +18,7 @@ Account management system with event sourcing, including:
 
 ---
 
-### 🛒 E-Commerce
+### 🛒 [E-Commerce](ecommerce.md)
 Complete order processing system with:
 
 - Order lifecycle management
@@ -32,7 +32,7 @@ Complete order processing system with:
 
 ---
 
-### 🏢 Lakehouse Platform
+### 🏢 [Lakehouse Platform](lakehouse-gdpr.md)
 Data lakehouse with GDPR compliance featuring:
 
 - **[GDPR Compliance](lakehouse-gdpr.md)** - Right-to-be-forgotten implementation
@@ -48,7 +48,7 @@ Data lakehouse with GDPR compliance featuring:
 
 ---
 
-### 🔔 Notifications
+### 🔔 [Notifications](notifications.md)
 Resilient notification system with:
 
 - Retry logic with exponential backoff

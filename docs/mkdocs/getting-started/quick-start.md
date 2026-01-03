@@ -192,8 +192,9 @@ bus.publish(CompleteTask(task_id="TASK-001"))
 
 **Explore Examples:**
 
-- [Banking Example](../examples/index.md) - Simple event sourcing with accounts
-- [E-Commerce Example](../examples/index.md) - Saga pattern for order processing  
+- [Banking Example](../examples/banking.md) - Simple event sourcing with accounts
+- [E-Commerce Example](../examples/ecommerce.md) - Saga pattern for order processing  
+- [Notifications Example](../examples/notifications.md) - Retry logic and error handling
 - [GDPR Lakehouse](../examples/lakehouse-gdpr.md) - Complete compliance example
 - [All Examples](../examples/index.md) - Browse all production-ready samples
 
