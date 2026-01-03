@@ -57,6 +57,10 @@ nav:
       - Message Bus: guide/message-bus.md
       - Event Store: guide/event-store.md
       - Best Practices: guide/best-practices.md
+  - Examples:
+      - Overview: examples/index.md
+      - Lakehouse Platform:
+          - GDPR Compliance: examples/lakehouse-gdpr.md
   - API Reference:
       - Core: api/core.md
       - Infrastructure: api/infrastructure.md
