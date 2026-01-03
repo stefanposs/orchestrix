@@ -3,7 +3,6 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
 from orchestrix.core.aggregate import AggregateRoot
-from orchestrix.core.event import Event
 
 from .models import (
     Address,
@@ -54,16 +53,12 @@ class Order(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "OrderCreated",
-                OrderCreated(
-                    order_id=order_id,
-                    customer_id=customer_id,
-                    items=items,
-                    shipping_address=shipping_address,
-                    created_at=now,
-                ),
+            OrderCreated(
+                order_id=order_id,
+                customer_id=customer_id,
+                items=items,
+                shipping_address=shipping_address,
+                created_at=now,
             )
         )
 
@@ -75,16 +70,12 @@ class Order(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "PaymentInitiated",
-                PaymentInitiated(
-                    order_id=self.id,
-                    payment_id=payment_id,
-                    amount=amount,
-                    method=method,
-                    initiated_at=now,
-                ),
+            PaymentInitiated(
+                order_id=self.aggregate_id,
+                payment_id=payment_id,
+                amount=amount,
+                method=method,
+                initiated_at=now,
             )
         )
 
@@ -96,16 +87,12 @@ class Order(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "PaymentCompleted",
-                PaymentCompleted(
-                    order_id=self.id,
-                    payment_id=payment_id,
-                    transaction_id=transaction_id,
-                    amount=amount,
-                    completed_at=now,
-                ),
+            PaymentCompleted(
+                order_id=self.aggregate_id,
+                payment_id=payment_id,
+                transaction_id=transaction_id,
+                amount=amount,
+                completed_at=now,
             )
         )
 
@@ -117,15 +104,11 @@ class Order(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "PaymentFailed",
-                PaymentFailed(
-                    order_id=self.id,
-                    payment_id=payment_id,
-                    reason=reason,
-                    failed_at=now,
-                ),
+            PaymentFailed(
+                order_id=self.aggregate_id,
+                payment_id=payment_id,
+                reason=reason,
+                failed_at=now,
             )
         )
 
@@ -137,15 +120,11 @@ class Order(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "InventoryReserved",
-                InventoryReserved(
-                    order_id=self.id,
-                    items=items,
-                    reservation_id=reservation_id,
-                    reserved_at=now,
-                ),
+            InventoryReserved(
+                order_id=self.aggregate_id,
+                items=items,
+                reservation_id=reservation_id,
+                reserved_at=now,
             )
         )
 
@@ -157,15 +136,11 @@ class Order(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "InventoryReservationFailed",
-                InventoryReservationFailed(
-                    order_id=self.id,
-                    items=items,
-                    reason=reason,
-                    failed_at=now,
-                ),
+            InventoryReservationFailed(
+                order_id=self.aggregate_id,
+                items=items,
+                reason=reason,
+                failed_at=now,
             )
         )
 
@@ -177,11 +152,7 @@ class Order(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "OrderConfirmed",
-                OrderConfirmed(order_id=self.id, confirmed_at=now),
-            )
+            OrderConfirmed(order_id=self.aggregate_id, confirmed_at=now)
         )
 
     def cancel(self, reason: str) -> None:
@@ -196,11 +167,7 @@ class Order(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "OrderCancelled",
-                OrderCancelled(order_id=self.id, reason=reason, cancelled_at=now),
-            )
+            OrderCancelled(order_id=self.aggregate_id, reason=reason, cancelled_at=now)
         )
 
     def complete(self) -> None:
@@ -211,25 +178,17 @@ class Order(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "OrderCompleted",
-                OrderCompleted(order_id=self.id, completed_at=now),
-            )
+            OrderCompleted(order_id=self.aggregate_id, completed_at=now)
         )
 
     def release_inventory(self, reservation_id: str) -> None:
         """Release inventory reservation (compensation)."""
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "InventoryReleased",
-                InventoryReleased(
-                    order_id=self.id,
-                    reservation_id=reservation_id,
-                    released_at=now,
-                ),
+            InventoryReleased(
+                order_id=self.aggregate_id,
+                reservation_id=reservation_id,
+                released_at=now,
             )
         )
 
@@ -237,89 +196,74 @@ class Order(AggregateRoot):
         """Refund payment (compensation)."""
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "PaymentRefunded",
-                PaymentRefunded(
-                    order_id=self.id,
-                    payment_id=payment_id,
-                    refund_id=refund_id,
-                    amount=amount,
-                    refunded_at=now,
-                ),
+            PaymentRefunded(
+                order_id=self.aggregate_id,
+                payment_id=payment_id,
+                refund_id=refund_id,
+                amount=amount,
+                refunded_at=now,
             )
         )
 
     # Event handlers
 
-    def _when_order_created(self, event: Event) -> None:
+    def _when_order_created(self, event: OrderCreated) -> None:
         """Apply OrderCreated event."""
-        data = event.data
-        self.id = data.order_id
-        self.customer_id = data.customer_id
-        self.items = data.items
-        self.shipping_address = data.shipping_address
+        self.aggregate_id = event.order_id
+        self.customer_id = event.customer_id
+        self.items = event.items
+        self.shipping_address = event.shipping_address
         self.status = OrderStatus.PENDING
-        self.created_at = data.created_at
-        self.updated_at = data.created_at
+        self.created_at = event.created_at
+        self.updated_at = event.created_at
 
-    def _when_payment_initiated(self, event: Event) -> None:
+    def _when_payment_initiated(self, event: PaymentInitiated) -> None:
         """Apply PaymentInitiated event."""
-        data = event.data
-        self.payment_id = data.payment_id
+        self.payment_id = event.payment_id
         self.status = OrderStatus.PAYMENT_PROCESSING
-        self.updated_at = data.initiated_at
+        self.updated_at = event.initiated_at
 
-    def _when_payment_completed(self, event: Event) -> None:
+    def _when_payment_completed(self, event: PaymentCompleted) -> None:
         """Apply PaymentCompleted event."""
-        data = event.data
         self.status = OrderStatus.PAYMENT_COMPLETED
-        self.updated_at = data.completed_at
+        self.updated_at = event.completed_at
 
-    def _when_payment_failed(self, event: Event) -> None:
+    def _when_payment_failed(self, event: PaymentFailed) -> None:
         """Apply PaymentFailed event."""
-        data = event.data
         self.status = OrderStatus.PAYMENT_FAILED
-        self.updated_at = data.failed_at
+        self.updated_at = event.failed_at
 
-    def _when_inventory_reserved(self, event: Event) -> None:
+    def _when_inventory_reserved(self, event: InventoryReserved) -> None:
         """Apply InventoryReserved event."""
-        data = event.data
-        self.reservation_id = data.reservation_id
+        self.reservation_id = event.reservation_id
         self.status = OrderStatus.INVENTORY_RESERVED
-        self.updated_at = data.reserved_at
+        self.updated_at = event.reserved_at
 
-    def _when_inventory_reservation_failed(self, event: Event) -> None:
+    def _when_inventory_reservation_failed(self, event: InventoryReservationFailed) -> None:
         """Apply InventoryReservationFailed event."""
-        data = event.data
         self.status = OrderStatus.INVENTORY_FAILED
-        self.updated_at = data.failed_at
+        self.updated_at = event.failed_at
 
-    def _when_order_confirmed(self, event: Event) -> None:
+    def _when_order_confirmed(self, event: OrderConfirmed) -> None:
         """Apply OrderConfirmed event."""
-        data = event.data
         self.status = OrderStatus.CONFIRMED
-        self.updated_at = data.confirmed_at
+        self.updated_at = event.confirmed_at
 
-    def _when_order_cancelled(self, event: Event) -> None:
+    def _when_order_cancelled(self, event: OrderCancelled) -> None:
         """Apply OrderCancelled event."""
-        data = event.data
         self.status = OrderStatus.CANCELLED
-        self.updated_at = data.cancelled_at
+        self.updated_at = event.cancelled_at
 
-    def _when_order_completed(self, event: Event) -> None:
+    def _when_order_completed(self, event: OrderCompleted) -> None:
         """Apply OrderCompleted event."""
-        data = event.data
         self.status = OrderStatus.COMPLETED
-        self.updated_at = data.completed_at
+        self.updated_at = event.completed_at
 
-    def _when_inventory_released(self, event: Event) -> None:
+    def _when_inventory_released(self, event: InventoryReleased) -> None:
         """Apply InventoryReleased event (compensation)."""
-        data = event.data
         self.reservation_id = None
-        self.updated_at = data.released_at
+        self.updated_at = event.released_at
 
-    def _when_payment_refunded(self, event: Event) -> None:
+    def _when_payment_refunded(self, event: PaymentRefunded) -> None:
         """Apply PaymentRefunded event (compensation)."""
-        data = event.data
-        self.updated_at = data.refunded_at
+        self.updated_at = event.refunded_at

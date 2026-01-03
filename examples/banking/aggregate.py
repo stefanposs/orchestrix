@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 
 from orchestrix.core.aggregate import AggregateRoot
-from orchestrix.core.event import Event
+from orchestrix.core.message import Event
 
 from .models import (
     AccountClosed,
@@ -41,15 +41,11 @@ class Account(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "AccountOpened",
-                AccountOpened(
-                    account_id=account_id,
-                    owner_name=owner_name,
-                    initial_balance=initial_balance,
-                    opened_at=now,
-                ),
+            AccountOpened(
+                account_id=account_id,
+                owner_name=owner_name,
+                initial_balance=initial_balance,
+                opened_at=now,
             )
         )
 
@@ -63,16 +59,12 @@ class Account(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "MoneyDeposited",
-                MoneyDeposited(
-                    account_id=self.id,
-                    amount=amount,
-                    transaction_id=transaction_id,
-                    description=description,
-                    deposited_at=now,
-                ),
+            MoneyDeposited(
+                account_id=self.aggregate_id,
+                amount=amount,
+                transaction_id=transaction_id,
+                description=description,
+                deposited_at=now,
             )
         )
 
@@ -90,16 +82,12 @@ class Account(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "MoneyWithdrawn",
-                MoneyWithdrawn(
-                    account_id=self.id,
-                    amount=amount,
-                    transaction_id=transaction_id,
-                    description=description,
-                    withdrawn_at=now,
-                ),
+            MoneyWithdrawn(
+                account_id=self.aggregate_id,
+                amount=amount,
+                transaction_id=transaction_id,
+                description=description,
+                withdrawn_at=now,
             )
         )
 
@@ -111,12 +99,10 @@ class Account(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "AccountSuspended",
-                AccountSuspended(
-                    account_id=self.id, reason=reason, suspended_at=now
-                ),
+            AccountSuspended(
+                account_id=self.aggregate_id,
+                reason=reason,
+                suspended_at=now,
             )
         )
 
@@ -128,10 +114,9 @@ class Account(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "AccountReactivated",
-                AccountReactivated(account_id=self.id, reactivated_at=now),
+            AccountReactivated(
+                account_id=self.aggregate_id,
+                reactivated_at=now,
             )
         )
 
@@ -145,12 +130,10 @@ class Account(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "AccountClosed",
-                AccountClosed(
-                    account_id=self.id, final_balance=self.balance, closed_at=now
-                ),
+            AccountClosed(
+                account_id=self.aggregate_id,
+                final_balance=self.balance,
+                closed_at=now,
             )
         )
 
@@ -162,35 +145,32 @@ class Account(AggregateRoot):
 
     # Event handlers
 
-    def _when_account_opened(self, event: Event) -> None:
+    def _when_account_opened(self, event: AccountOpened) -> None:
         """Apply AccountOpened event."""
-        data = event.data
-        self.id = data.account_id
-        self.owner_name = data.owner_name
-        self.balance = data.initial_balance
+        self.aggregate_id = event.account_id
+        self.owner_name = event.owner_name
+        self.balance = event.initial_balance
         self.status = AccountStatus.ACTIVE
-        self.opened_at = data.opened_at
+        self.opened_at = event.opened_at
 
-    def _when_money_deposited(self, event: Event) -> None:
+    def _when_money_deposited(self, event: MoneyDeposited) -> None:
         """Apply MoneyDeposited event."""
-        data = event.data
-        self.balance += data.amount
-        self.transactions.append(data.transaction_id)
+        self.balance += event.amount
+        self.transactions.append(event.transaction_id)
 
-    def _when_money_withdrawn(self, event: Event) -> None:
+    def _when_money_withdrawn(self, event: MoneyWithdrawn) -> None:
         """Apply MoneyWithdrawn event."""
-        data = event.data
-        self.balance -= data.amount
-        self.transactions.append(data.transaction_id)
+        self.balance -= event.amount
+        self.transactions.append(event.transaction_id)
 
-    def _when_account_suspended(self, _event: Event) -> None:
+    def _when_account_suspended(self, _event: AccountSuspended) -> None:
         """Apply AccountSuspended event."""
         self.status = AccountStatus.SUSPENDED
 
-    def _when_account_reactivated(self, _event: Event) -> None:
+    def _when_account_reactivated(self, _event: AccountReactivated) -> None:
         """Apply AccountReactivated event."""
         self.status = AccountStatus.ACTIVE
 
-    def _when_account_closed(self, _event: Event) -> None:
+    def _when_account_closed(self, _event: AccountClosed) -> None:
         """Apply AccountClosed event."""
         self.status = AccountStatus.CLOSED

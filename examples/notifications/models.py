@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 
+from orchestrix.core.message import Command, Event
+
 
 class NotificationChannel(str, Enum):
     """Notification delivery channels."""
@@ -27,8 +29,8 @@ class NotificationStatus(str, Enum):
 # Events
 
 
-@dataclass(frozen=True)
-class UserRegistered:
+@dataclass(frozen=True, kw_only=True)
+class UserRegistered(Event):
     """User registered in the system."""
 
     user_id: str
@@ -37,8 +39,8 @@ class UserRegistered:
     registered_at: datetime
 
 
-@dataclass(frozen=True)
-class OrderPlaced:
+@dataclass(frozen=True, kw_only=True)
+class OrderPlaced(Event):
     """Order was placed by user."""
 
     order_id: str
@@ -47,8 +49,8 @@ class OrderPlaced:
     placed_at: datetime
 
 
-@dataclass(frozen=True)
-class PaymentReceived:
+@dataclass(frozen=True, kw_only=True)
+class PaymentReceived(Event):
     """Payment was received."""
 
     payment_id: str
@@ -57,8 +59,8 @@ class PaymentReceived:
     received_at: datetime
 
 
-@dataclass(frozen=True)
-class NotificationRequested:
+@dataclass(frozen=True, kw_only=True)
+class NotificationRequested(Event):
     """Notification was requested."""
 
     notification_id: str
@@ -70,8 +72,8 @@ class NotificationRequested:
     requested_at: datetime
 
 
-@dataclass(frozen=True)
-class NotificationSent:
+@dataclass(frozen=True, kw_only=True)
+class NotificationSent(Event):
     """Notification was successfully sent."""
 
     notification_id: str
@@ -80,8 +82,8 @@ class NotificationSent:
     sent_at: datetime
 
 
-@dataclass(frozen=True)
-class NotificationFailed:
+@dataclass(frozen=True, kw_only=True)
+class NotificationFailed(Event):
     """Notification failed to send."""
 
     notification_id: str
@@ -92,8 +94,8 @@ class NotificationFailed:
     failed_at: datetime
 
 
-@dataclass(frozen=True)
-class NotificationRetrying:
+@dataclass(frozen=True, kw_only=True)
+class NotificationRetrying(Event):
     """Notification is being retried."""
 
     notification_id: str
@@ -101,8 +103,8 @@ class NotificationRetrying:
     next_retry_at: datetime
 
 
-@dataclass(frozen=True)
-class NotificationMovedToDeadLetter:
+@dataclass(frozen=True, kw_only=True)
+class NotificationMovedToDeadLetter(Event):
     """Notification moved to dead letter queue after max retries."""
 
     notification_id: str
@@ -116,8 +118,8 @@ class NotificationMovedToDeadLetter:
 # Commands
 
 
-@dataclass(frozen=True)
-class SendNotification:
+@dataclass(frozen=True, kw_only=True)
+class SendNotification(Command):
     """Send a notification."""
 
     notification_id: str

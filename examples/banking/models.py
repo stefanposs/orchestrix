@@ -4,6 +4,8 @@ from datetime import datetime
 from decimal import Decimal
 from enum import Enum
 
+from orchestrix.core.message import Command, Event
+
 
 class AccountStatus(str, Enum):
     """Account lifecycle states."""
@@ -26,8 +28,8 @@ class TransferStatus(str, Enum):
 # Events
 
 
-@dataclass(frozen=True)
-class AccountOpened:
+@dataclass(frozen=True, kw_only=True)
+class AccountOpened(Event):
     """Account was opened."""
 
     account_id: str
@@ -36,8 +38,8 @@ class AccountOpened:
     opened_at: datetime
 
 
-@dataclass(frozen=True)
-class MoneyDeposited:
+@dataclass(frozen=True, kw_only=True)
+class MoneyDeposited(Event):
     """Money was deposited into account."""
 
     account_id: str
@@ -47,8 +49,8 @@ class MoneyDeposited:
     deposited_at: datetime
 
 
-@dataclass(frozen=True)
-class MoneyWithdrawn:
+@dataclass(frozen=True, kw_only=True)
+class MoneyWithdrawn(Event):
     """Money was withdrawn from account."""
 
     account_id: str
@@ -58,8 +60,8 @@ class MoneyWithdrawn:
     withdrawn_at: datetime
 
 
-@dataclass(frozen=True)
-class AccountSuspended:
+@dataclass(frozen=True, kw_only=True)
+class AccountSuspended(Event):
     """Account was suspended."""
 
     account_id: str
@@ -67,16 +69,16 @@ class AccountSuspended:
     suspended_at: datetime
 
 
-@dataclass(frozen=True)
-class AccountReactivated:
+@dataclass(frozen=True, kw_only=True)
+class AccountReactivated(Event):
     """Account was reactivated."""
 
     account_id: str
     reactivated_at: datetime
 
 
-@dataclass(frozen=True)
-class AccountClosed:
+@dataclass(frozen=True, kw_only=True)
+class AccountClosed(Event):
     """Account was closed."""
 
     account_id: str
@@ -84,8 +86,8 @@ class AccountClosed:
     closed_at: datetime
 
 
-@dataclass(frozen=True)
-class TransferInitiated:
+@dataclass(frozen=True, kw_only=True)
+class TransferInitiated(Event):
     """Transfer between accounts was started."""
 
     transfer_id: str
@@ -96,8 +98,8 @@ class TransferInitiated:
     initiated_at: datetime
 
 
-@dataclass(frozen=True)
-class TransferDebited:
+@dataclass(frozen=True, kw_only=True)
+class TransferDebited(Event):
     """Money was debited from source account."""
 
     transfer_id: str
@@ -106,8 +108,8 @@ class TransferDebited:
     debited_at: datetime
 
 
-@dataclass(frozen=True)
-class TransferCompleted:
+@dataclass(frozen=True, kw_only=True)
+class TransferCompleted(Event):
     """Transfer was completed successfully."""
 
     transfer_id: str
@@ -117,8 +119,8 @@ class TransferCompleted:
     completed_at: datetime
 
 
-@dataclass(frozen=True)
-class TransferFailed:
+@dataclass(frozen=True, kw_only=True)
+class TransferFailed(Event):
     """Transfer failed."""
 
     transfer_id: str
@@ -129,8 +131,8 @@ class TransferFailed:
     failed_at: datetime
 
 
-@dataclass(frozen=True)
-class TransferReversed:
+@dataclass(frozen=True, kw_only=True)
+class TransferReversed(Event):
     """Transfer was reversed (compensation)."""
 
     transfer_id: str
@@ -142,8 +144,8 @@ class TransferReversed:
 # Commands
 
 
-@dataclass(frozen=True)
-class OpenAccount:
+@dataclass(frozen=True, kw_only=True)
+class OpenAccount(Command):
     """Open a new account."""
 
     account_id: str
@@ -151,8 +153,8 @@ class OpenAccount:
     initial_balance: Decimal
 
 
-@dataclass(frozen=True)
-class DepositMoney:
+@dataclass(frozen=True, kw_only=True)
+class DepositMoney(Command):
     """Deposit money into an account."""
 
     account_id: str
@@ -160,8 +162,8 @@ class DepositMoney:
     description: str
 
 
-@dataclass(frozen=True)
-class WithdrawMoney:
+@dataclass(frozen=True, kw_only=True)
+class WithdrawMoney(Command):
     """Withdraw money from an account."""
 
     account_id: str
@@ -169,8 +171,8 @@ class WithdrawMoney:
     description: str
 
 
-@dataclass(frozen=True)
-class TransferMoney:
+@dataclass(frozen=True, kw_only=True)
+class TransferMoney(Command):
     """Transfer money between accounts."""
 
     transfer_id: str
@@ -180,23 +182,23 @@ class TransferMoney:
     description: str
 
 
-@dataclass(frozen=True)
-class SuspendAccount:
+@dataclass(frozen=True, kw_only=True)
+class SuspendAccount(Command):
     """Suspend an account."""
 
     account_id: str
     reason: str
 
 
-@dataclass(frozen=True)
-class ReactivateAccount:
+@dataclass(frozen=True, kw_only=True)
+class ReactivateAccount(Command):
     """Reactivate a suspended account."""
 
     account_id: str
 
 
-@dataclass(frozen=True)
-class CloseAccount:
+@dataclass(frozen=True, kw_only=True)
+class CloseAccount(Command):
     """Close an account."""
 
     account_id: str

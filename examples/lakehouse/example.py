@@ -217,10 +217,10 @@ async def run_example() -> None:
     events = await event_store.load_async("anon-job-001")
     for i, event in enumerate(events, 1):
         print(f"{i}. {event.type}")
-        if hasattr(event.data, "completed_at"):
-            print(f"   Completed at: {event.data.completed_at}")
-        elif hasattr(event.data, "started_at"):
-            print(f"   Started at: {event.data.started_at}")
+        if hasattr(event, "completed_at"):
+            print(f"   Completed at: {event.completed_at}")
+        elif hasattr(event, "started_at"):
+            print(f"   Started at: {event.started_at}")
 
     print("\n" + "=" * 70)
     print("✅ Anonymization Complete!")

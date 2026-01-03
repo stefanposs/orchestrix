@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 
+from orchestrix.core.message import Command, Event
+
 
 class AnonymizationStrategy(str, Enum):
     """Anonymization techniques."""
@@ -84,8 +86,8 @@ class DryRunResult:
 # Events
 
 
-@dataclass(frozen=True)
-class AnonymizationJobCreated:
+@dataclass(frozen=True, kw_only=True)
+class AnonymizationJobCreated(Event):
     """Anonymization job was created."""
 
     job_id: str
@@ -96,8 +98,8 @@ class AnonymizationJobCreated:
     created_at: datetime
 
 
-@dataclass(frozen=True)
-class DryRunStarted:
+@dataclass(frozen=True, kw_only=True)
+class DryRunStarted(Event):
     """Dry-run validation started."""
 
     job_id: str
@@ -105,8 +107,8 @@ class DryRunStarted:
     started_at: datetime
 
 
-@dataclass(frozen=True)
-class DryRunCompleted:
+@dataclass(frozen=True, kw_only=True)
+class DryRunCompleted(Event):
     """Dry-run validation completed successfully."""
 
     job_id: str
@@ -114,8 +116,8 @@ class DryRunCompleted:
     completed_at: datetime
 
 
-@dataclass(frozen=True)
-class DryRunFailed:
+@dataclass(frozen=True, kw_only=True)
+class DryRunFailed(Event):
     """Dry-run validation failed."""
 
     job_id: str
@@ -123,8 +125,8 @@ class DryRunFailed:
     failed_at: datetime
 
 
-@dataclass(frozen=True)
-class ValidationPassed:
+@dataclass(frozen=True, kw_only=True)
+class ValidationPassed(Event):
     """Dry-run validation passed and job approved."""
 
     job_id: str
@@ -132,8 +134,8 @@ class ValidationPassed:
     approved_at: datetime
 
 
-@dataclass(frozen=True)
-class AnonymizationStarted:
+@dataclass(frozen=True, kw_only=True)
+class AnonymizationStarted(Event):
     """Actual anonymization started."""
 
     job_id: str
@@ -141,8 +143,8 @@ class AnonymizationStarted:
     started_at: datetime
 
 
-@dataclass(frozen=True)
-class ColumnAnonymized:
+@dataclass(frozen=True, kw_only=True)
+class ColumnAnonymized(Event):
     """A column was anonymized."""
 
     job_id: str
@@ -152,8 +154,8 @@ class ColumnAnonymized:
     anonymized_at: datetime
 
 
-@dataclass(frozen=True)
-class AnonymizationCompleted:
+@dataclass(frozen=True, kw_only=True)
+class AnonymizationCompleted(Event):
     """Anonymization completed successfully."""
 
     job_id: str
@@ -163,8 +165,8 @@ class AnonymizationCompleted:
     completed_at: datetime
 
 
-@dataclass(frozen=True)
-class AnonymizationFailed:
+@dataclass(frozen=True, kw_only=True)
+class AnonymizationFailed(Event):
     """Anonymization failed."""
 
     job_id: str
@@ -173,8 +175,8 @@ class AnonymizationFailed:
     failed_at: datetime
 
 
-@dataclass(frozen=True)
-class AnonymizationRolledBack:
+@dataclass(frozen=True, kw_only=True)
+class AnonymizationRolledBack(Event):
     """Anonymization was rolled back."""
 
     job_id: str
@@ -185,8 +187,8 @@ class AnonymizationRolledBack:
 # Commands
 
 
-@dataclass(frozen=True)
-class CreateAnonymizationJob:
+@dataclass(frozen=True, kw_only=True)
+class CreateAnonymizationJob(Command):
     """Create a new anonymization job."""
 
     job_id: str
@@ -196,30 +198,30 @@ class CreateAnonymizationJob:
     reason: str
 
 
-@dataclass(frozen=True)
-class StartDryRun:
+@dataclass(frozen=True, kw_only=True)
+class StartDryRun(Command):
     """Start dry-run validation."""
 
     job_id: str
 
 
-@dataclass(frozen=True)
-class ApproveJob:
+@dataclass(frozen=True, kw_only=True)
+class ApproveJob(Command):
     """Approve job after dry-run."""
 
     job_id: str
     approver: str
 
 
-@dataclass(frozen=True)
-class StartAnonymization:
+@dataclass(frozen=True, kw_only=True)
+class StartAnonymization(Command):
     """Start actual anonymization."""
 
     job_id: str
 
 
-@dataclass(frozen=True)
-class RollbackAnonymization:
+@dataclass(frozen=True, kw_only=True)
+class RollbackAnonymization(Command):
     """Rollback anonymization from backup."""
 
     job_id: str

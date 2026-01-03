@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 
 from orchestrix.core.aggregate import AggregateRepository
-from orchestrix.core.event import Event
+from orchestrix.core.message import Event
 from orchestrix.core.messaging import MessageBus
 
 from .models import (
@@ -30,17 +30,15 @@ class TransferSaga:
     message_bus: MessageBus
     repository: AggregateRepository
 
-    async def handle_transfer_initiated(self, event: Event) -> None:
+    async def handle_transfer_initiated(self, event: TransferInitiated) -> None:
         """Start transfer by debiting source account."""
-        data: TransferInitiated = event.data
-
         try:
             # Withdraw from source account
             await self.message_bus.publish_async(
                 WithdrawMoney(
-                    account_id=data.from_account_id,
-                    amount=data.amount,
-                    description=f"Transfer {data.transfer_id}: {data.description}",
+                    account_id=event.from_account_id,
+                    amount=event.amount,
+                    description=f"Transfer {event.transfer_id}: {event.description}",
                 )
             )
 
@@ -48,9 +46,9 @@ class TransferSaga:
             now = datetime.now(timezone.utc)
             await self.message_bus.publish_async(
                 TransferDebited(
-                    transfer_id=data.transfer_id,
-                    from_account_id=data.from_account_id,
-                    amount=data.amount,
+                    transfer_id=event.transfer_id,
+                    from_account_id=event.from_account_id,
+                    amount=event.amount,
                     debited_at=now,
                 )
             )
@@ -59,25 +57,23 @@ class TransferSaga:
             now = datetime.now(timezone.utc)
             await self.message_bus.publish_async(
                 TransferFailed(
-                    transfer_id=data.transfer_id,
-                    from_account_id=data.from_account_id,
-                    to_account_id=data.to_account_id,
-                    amount=data.amount,
+                    transfer_id=event.transfer_id,
+                    from_account_id=event.from_account_id,
+                    to_account_id=event.to_account_id,
+                    amount=event.amount,
                     reason=str(e),
                     failed_at=now,
                 )
             )
 
-    async def handle_transfer_debited(self, event: Event) -> None:
+    async def handle_transfer_debited(self, event: TransferDebited) -> None:
         """Complete transfer by crediting destination account."""
-        data: TransferDebited = event.data
-
         # Find the original transfer info
         # In production, you'd store transfer state or query from event store
         # For this example, we'll get it from the context
         transfer_event = None
         events = await self.repository.event_store.load_async(
-            f"transfer-{data.transfer_id}"
+            f"transfer-{event.transfer_id}"
         )
         for evt in events:
             if evt.type == "TransferInitiated":
@@ -87,15 +83,15 @@ class TransferSaga:
         if not transfer_event:
             return  # Cannot proceed without transfer info
 
-        transfer_data: TransferInitiated = transfer_event.data
+        transfer_data: TransferInitiated = transfer_event
 
         try:
             # Deposit to destination account
             await self.message_bus.publish_async(
                 DepositMoney(
                     account_id=transfer_data.to_account_id,
-                    amount=data.amount,
-                    description=f"Transfer {data.transfer_id}: {transfer_data.description}",
+                    amount=event.amount,
+                    description=f"Transfer {event.transfer_id}: {transfer_data.description}",
                 )
             )
 
@@ -103,10 +99,10 @@ class TransferSaga:
             now = datetime.now(timezone.utc)
             await self.message_bus.publish_async(
                 TransferCompleted(
-                    transfer_id=data.transfer_id,
-                    from_account_id=data.from_account_id,
+                    transfer_id=event.transfer_id,
+                    from_account_id=event.from_account_id,
                     to_account_id=transfer_data.to_account_id,
-                    amount=data.amount,
+                    amount=event.amount,
                     completed_at=now,
                 )
             )
@@ -115,9 +111,9 @@ class TransferSaga:
             # Re-deposit to source account
             await self.message_bus.publish_async(
                 DepositMoney(
-                    account_id=data.from_account_id,
-                    amount=data.amount,
-                    description=f"Transfer {data.transfer_id} reversal",
+                    account_id=event.from_account_id,
+                    amount=event.amount,
+                    description=f"Transfer {event.transfer_id} reversal",
                 )
             )
 
@@ -125,9 +121,9 @@ class TransferSaga:
             now = datetime.now(timezone.utc)
             await self.message_bus.publish_async(
                 TransferReversed(
-                    transfer_id=data.transfer_id,
-                    from_account_id=data.from_account_id,
-                    amount=data.amount,
+                    transfer_id=event.transfer_id,
+                    from_account_id=event.from_account_id,
+                    amount=event.amount,
                     reversed_at=now,
                 )
             )
@@ -135,10 +131,10 @@ class TransferSaga:
             # Also mark as failed
             await self.message_bus.publish_async(
                 TransferFailed(
-                    transfer_id=data.transfer_id,
-                    from_account_id=data.from_account_id,
+                    transfer_id=event.transfer_id,
+                    from_account_id=event.from_account_id,
                     to_account_id=transfer_data.to_account_id,
-                    amount=data.amount,
+                    amount=event.amount,
                     reason=f"Deposit failed: {e}. Transfer reversed.",
                     failed_at=now,
                 )

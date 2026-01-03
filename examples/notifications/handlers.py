@@ -3,7 +3,7 @@ import asyncio
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 
-from orchestrix.core.event import Event
+from orchestrix.core.message import Event
 from orchestrix.core.messaging import MessageBus
 
 from .models import (
@@ -72,54 +72,48 @@ class NotificationHandler:
     retry_attempts: dict[str, int] = field(default_factory=dict)
     dead_letter_queue: list[Event] = field(default_factory=list)
 
-    async def handle_user_registered(self, event: Event) -> None:
+    async def handle_user_registered(self, event: UserRegistered) -> None:
         """Send welcome email when user registers."""
-        data: UserRegistered = event.data
-
         # Create notification request
         now = datetime.now(timezone.utc)
         await self.message_bus.publish_async(
             NotificationRequested(
-                notification_id=f"welcome-{data.user_id}",
+                notification_id=f"welcome-{event.user_id}",
                 channel=NotificationChannel.EMAIL,
-                recipient=data.email,
+                recipient=event.email,
                 subject="Welcome to Our Platform!",
-                message=f"Hello {data.name},\\n\\nWelcome to our platform!",
-                metadata={"user_id": data.user_id, "event": "registration"},
+                message=f"Hello {event.name},\n\nWelcome to our platform!",
+                metadata={"user_id": event.user_id, "event": "registration"},
                 requested_at=now,
             )
         )
 
-    async def handle_order_placed(self, event: Event) -> None:
+    async def handle_order_placed(self, event: OrderPlaced) -> None:
         """Send order confirmation when order is placed."""
-        data: OrderPlaced = event.data
-
         now = datetime.now(timezone.utc)
         await self.message_bus.publish_async(
             NotificationRequested(
-                notification_id=f"order-{data.order_id}",
+                notification_id=f"order-{event.order_id}",
                 channel=NotificationChannel.EMAIL,
-                recipient=f"user-{data.user_id}@example.com",  # Would lookup real email
+                recipient=f"user-{event.user_id}@example.com",  # Would lookup real email
                 subject="Order Confirmation",
-                message=f"Your order #{data.order_id} totaling ${data.total_amount} has been received.",
-                metadata={"order_id": data.order_id, "event": "order_placed"},
+                message=f"Your order #{event.order_id} totaling ${event.total_amount} has been received.",
+                metadata={"order_id": event.order_id, "event": "order_placed"},
                 requested_at=now,
             )
         )
 
-    async def handle_payment_received(self, event: Event) -> None:
+    async def handle_payment_received(self, event: PaymentReceived) -> None:
         """Send payment receipt when payment is received."""
-        data: PaymentReceived = event.data
-
         now = datetime.now(timezone.utc)
         await self.message_bus.publish_async(
             NotificationRequested(
-                notification_id=f"payment-{data.payment_id}",
+                notification_id=f"payment-{event.payment_id}",
                 channel=NotificationChannel.SMS,
                 recipient="+1234567890",  # Would lookup real phone
                 subject="Payment Received",
-                message=f"Payment of ${data.amount} received for order {data.order_id}",
-                metadata={"payment_id": data.payment_id, "event": "payment_received"},
+                message=f"Payment of ${event.amount} received for order {event.order_id}",
+                metadata={"payment_id": event.payment_id, "event": "payment_received"},
                 requested_at=now,
             )
         )

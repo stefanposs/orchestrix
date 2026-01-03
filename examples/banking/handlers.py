@@ -39,7 +39,7 @@ class BankingCommandHandlers:
 
         # Publish events
         for event in account.uncommitted_events:
-            await self.message_bus.publish_async(event.data)
+            await self.message_bus.publish_async(event)
 
     async def handle_deposit_money(self, command: DepositMoney) -> None:
         """Deposit money into an account."""
@@ -56,7 +56,7 @@ class BankingCommandHandlers:
 
         # Publish events
         for event in account.uncommitted_events:
-            await self.message_bus.publish_async(event.data)
+            await self.message_bus.publish_async(event)
 
     async def handle_withdraw_money(self, command: WithdrawMoney) -> None:
         """Withdraw money from an account."""
@@ -73,7 +73,7 @@ class BankingCommandHandlers:
 
         # Publish events
         for event in account.uncommitted_events:
-            await self.message_bus.publish_async(event.data)
+            await self.message_bus.publish_async(event)
 
     async def handle_transfer_money(self, command: TransferMoney) -> None:
         """Initiate a money transfer (saga will handle the workflow)."""

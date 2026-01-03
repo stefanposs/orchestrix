@@ -31,7 +31,7 @@ class AnonymizationHandlers:
 
         # Publish events
         for event in job.uncommitted_events:
-            await self.message_bus.publish_async(event.data)
+            await self.message_bus.publish_async(event)
 
 
 def register_handlers(

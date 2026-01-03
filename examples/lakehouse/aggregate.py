@@ -3,7 +3,6 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
 from orchestrix.core.aggregate import AggregateRoot
-from orchestrix.core.event import Event
 
 from .models import (
     AnonymizationCompleted,
@@ -57,17 +56,13 @@ class AnonymizationJob(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "AnonymizationJobCreated",
-                AnonymizationJobCreated(
-                    job_id=job_id,
-                    table_schema=table_schema,
-                    rules=rules,
-                    requester=requester,
-                    reason=reason,
-                    created_at=now,
-                ),
+            AnonymizationJobCreated(
+                job_id=job_id,
+                table_schema=table_schema,
+                rules=rules,
+                requester=requester,
+                reason=reason,
+                created_at=now,
             )
         )
 
@@ -79,14 +74,10 @@ class AnonymizationJob(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "DryRunStarted",
-                DryRunStarted(
-                    job_id=self.id,
-                    table_schema=self.table_schema,
-                    started_at=now,
-                ),
+            DryRunStarted(
+                job_id=self.aggregate_id,
+                table_schema=self.table_schema,
+                started_at=now,
             )
         )
 
@@ -98,12 +89,8 @@ class AnonymizationJob(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "DryRunCompleted",
-                DryRunCompleted(
-                    job_id=self.id, result=result, completed_at=now
-                ),
+            DryRunCompleted(
+                job_id=self.aggregate_id, result=result, completed_at=now
             )
         )
 
@@ -115,11 +102,7 @@ class AnonymizationJob(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "DryRunFailed",
-                DryRunFailed(job_id=self.id, reason=reason, failed_at=now),
-            )
+            DryRunFailed(job_id=self.aggregate_id, reason=reason, failed_at=now)
         )
 
     def approve(self, approver: str) -> None:
@@ -130,12 +113,8 @@ class AnonymizationJob(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "ValidationPassed",
-                ValidationPassed(
-                    job_id=self.id, approved_by=approver, approved_at=now
-                ),
+            ValidationPassed(
+                job_id=self.aggregate_id, approved_by=approver, approved_at=now
             )
         )
 
@@ -147,14 +126,10 @@ class AnonymizationJob(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "AnonymizationStarted",
-                AnonymizationStarted(
-                    job_id=self.id,
-                    backup_location=backup_location,
-                    started_at=now,
-                ),
+            AnonymizationStarted(
+                job_id=self.aggregate_id,
+                backup_location=backup_location,
+                started_at=now,
             )
         )
 
@@ -168,16 +143,12 @@ class AnonymizationJob(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "ColumnAnonymized",
-                ColumnAnonymized(
-                    job_id=self.id,
-                    column_name=column_name,
-                    strategy=strategy,
-                    rows_affected=rows_affected,
-                    anonymized_at=now,
-                ),
+            ColumnAnonymized(
+                job_id=self.aggregate_id,
+                column_name=column_name,
+                strategy=strategy,
+                rows_affected=rows_affected,
+                anonymized_at=now,
             )
         )
 
@@ -191,16 +162,12 @@ class AnonymizationJob(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "AnonymizationCompleted",
-                AnonymizationCompleted(
-                    job_id=self.id,
-                    total_rows_affected=total_rows,
-                    total_columns_affected=total_columns,
-                    duration_seconds=duration,
-                    completed_at=now,
-                ),
+            AnonymizationCompleted(
+                job_id=self.aggregate_id,
+                total_rows_affected=total_rows,
+                total_columns_affected=total_columns,
+                duration_seconds=duration,
+                completed_at=now,
             )
         )
 
@@ -212,15 +179,11 @@ class AnonymizationJob(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "AnonymizationFailed",
-                AnonymizationFailed(
-                    job_id=self.id,
-                    reason=reason,
-                    column_name=column_name,
-                    failed_at=now,
-                ),
+            AnonymizationFailed(
+                job_id=self.aggregate_id,
+                reason=reason,
+                column_name=column_name,
+                failed_at=now,
             )
         )
 
@@ -235,71 +198,61 @@ class AnonymizationJob(AggregateRoot):
 
         now = datetime.now(timezone.utc)
         self._apply_event(
-            Event.from_aggregate(
-                self,
-                "AnonymizationRolledBack",
-                AnonymizationRolledBack(
-                    job_id=self.id,
-                    backup_restored_from=backup_location,
-                    rolled_back_at=now,
-                ),
+            AnonymizationRolledBack(
+                job_id=self.aggregate_id,
+                backup_restored_from=backup_location,
+                rolled_back_at=now,
             )
         )
 
     # Event handlers
 
-    def _when_anonymization_job_created(self, event: Event) -> None:
+    def _when_anonymization_job_created(self, event: AnonymizationJobCreated) -> None:
         """Apply AnonymizationJobCreated event."""
-        data = event.data
-        self.id = data.job_id
-        self.table_schema = data.table_schema
-        self.rules = data.rules
-        self.requester = data.requester
-        self.reason = data.reason
+        self.aggregate_id = event.job_id
+        self.table_schema = event.table_schema
+        self.rules = event.rules
+        self.requester = event.requester
+        self.reason = event.reason
         self.status = JobStatus.PENDING
 
-    def _when_dry_run_started(self, _event: Event) -> None:
+    def _when_dry_run_started(self, _event: DryRunStarted) -> None:
         """Apply DryRunStarted event."""
         self.status = JobStatus.DRY_RUN_STARTED
 
-    def _when_dry_run_completed(self, event: Event) -> None:
+    def _when_dry_run_completed(self, event: DryRunCompleted) -> None:
         """Apply DryRunCompleted event."""
-        data = event.data
-        self.dry_run_result = data.result
+        self.dry_run_result = event.result
         self.status = JobStatus.DRY_RUN_COMPLETED
 
-    def _when_dry_run_failed(self, event: Event) -> None:
+    def _when_dry_run_failed(self, event: DryRunFailed) -> None:
         """Apply DryRunFailed event."""
-        data = event.data
-        self.error_message = data.reason
+        self.error_message = event.reason
         self.status = JobStatus.DRY_RUN_FAILED
 
-    def _when_validation_passed(self, _event: Event) -> None:
+    def _when_validation_passed(self, _event: ValidationPassed) -> None:
         """Apply ValidationPassed event."""
         self.status = JobStatus.VALIDATION_PASSED
 
-    def _when_anonymization_started(self, event: Event) -> None:
+    def _when_anonymization_started(self, event: AnonymizationStarted) -> None:
         """Apply AnonymizationStarted event."""
-        data = event.data
-        self.backup_location = data.backup_location
+        self.backup_location = event.backup_location
         self.status = JobStatus.ANONYMIZATION_STARTED
 
-    def _when_column_anonymized(self, event: Event) -> None:
+    def _when_column_anonymized(self, event: ColumnAnonymized) -> None:
         """Apply ColumnAnonymized event."""
-        data = event.data
         self.columns_affected += 1
-        self.rows_affected += data.rows_affected
+        self.rows_affected += event.rows_affected
 
-    def _when_anonymization_completed(self, _event: Event) -> None:
+    def _when_anonymization_completed(self, _event: AnonymizationCompleted) -> None:
         """Apply AnonymizationCompleted event."""
         self.status = JobStatus.ANONYMIZATION_COMPLETED
 
-    def _when_anonymization_failed(self, event: Event) -> None:
+    def _when_anonymization_failed(self, event: AnonymizationFailed) -> None:
         """Apply AnonymizationFailed event."""
-        data = event.data
-        self.error_message = data.reason
+        self.error_message = event.reason
         self.status = JobStatus.ANONYMIZATION_FAILED
 
-    def _when_anonymization_rolled_back(self, _event: Event) -> None:
+    def _when_anonymization_rolled_back(self, _event: AnonymizationRolledBack) -> None:
         """Apply AnonymizationRolledBack event."""
         self.status = JobStatus.ROLLED_BACK

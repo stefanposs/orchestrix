@@ -130,12 +130,11 @@ async def run_example() -> None:
     if handler.dead_letter_queue:
         print("\n💀 Dead Letter Queue Contents:")
         for event in handler.dead_letter_queue:
-            data = event.data
-            print(f"  - {data['notification_id']}")
-            print(f"    Channel: {data['channel']}")
-            print(f"    Recipient: {data['recipient']}")
-            print(f"    Reason: {data['reason']}")
-            print(f"    Attempts: {data['attempts']}")
+            print(f"  - {event.notification_id}")
+            print(f"    Channel: {event.channel}")
+            print(f"    Recipient: {event.recipient}")
+            print(f"    Reason: {event.final_reason}")
+            print(f"    Attempts: {event.attempts}")
 
     # Show retry configuration
     print("\n" + "=" * 70)

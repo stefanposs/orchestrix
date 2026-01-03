@@ -38,7 +38,7 @@ class OrderCommandHandlers:
 
         # Publish events to trigger saga
         for event in order.uncommitted_events:
-            await self.message_bus.publish_async(event.data)
+            await self.message_bus.publish_async(event)
 
     async def handle_process_payment(self, command: ProcessPayment) -> None:
         """Process payment for an order."""
@@ -64,7 +64,7 @@ class OrderCommandHandlers:
 
         # Publish events
         for event in order.uncommitted_events:
-            await self.message_bus.publish_async(event.data)
+            await self.message_bus.publish_async(event)
 
     async def handle_reserve_inventory(self, command: ReserveInventory) -> None:
         """Reserve inventory for an order."""
@@ -80,7 +80,7 @@ class OrderCommandHandlers:
 
         # Publish events
         for event in order.uncommitted_events:
-            await self.message_bus.publish_async(event.data)
+            await self.message_bus.publish_async(event)
 
     async def handle_confirm_order(self, command: ConfirmOrder) -> None:
         """Confirm an order."""
@@ -93,7 +93,7 @@ class OrderCommandHandlers:
 
         # Publish events
         for event in order.uncommitted_events:
-            await self.message_bus.publish_async(event.data)
+            await self.message_bus.publish_async(event)
 
     async def handle_cancel_order(self, command: CancelOrder) -> None:
         """Cancel an order."""
@@ -106,7 +106,7 @@ class OrderCommandHandlers:
 
         # Publish events
         for event in order.uncommitted_events:
-            await self.message_bus.publish_async(event.data)
+            await self.message_bus.publish_async(event)
 
     async def handle_release_inventory(self, command: ReleaseInventory) -> None:
         """Release inventory reservation (compensation)."""
@@ -120,7 +120,7 @@ class OrderCommandHandlers:
 
         # Publish events
         for event in order.uncommitted_events:
-            await self.message_bus.publish_async(event.data)
+            await self.message_bus.publish_async(event)
 
     async def handle_refund_payment(self, command: RefundPayment) -> None:
         """Refund a payment (compensation)."""
@@ -139,7 +139,7 @@ class OrderCommandHandlers:
 
         # Publish events
         for event in order.uncommitted_events:
-            await self.message_bus.publish_async(event.data)
+            await self.message_bus.publish_async(event)
 
 
 def register_handlers(

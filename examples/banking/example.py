@@ -104,10 +104,10 @@ async def run_example() -> None:
     print("=" * 70)
     for i, event in enumerate(alice_events, 1):
         print(f"{i}. {event.type}")
-        if hasattr(event.data, "amount"):
-            print(f"   Amount: ${event.data.amount}")
-        if hasattr(event.data, "description"):
-            print(f"   Description: {event.data.description}")
+        if hasattr(event, "amount"):
+            print(f"   Amount: ${event.amount}")
+        if hasattr(event, "description"):
+            print(f"   Description: {event.description}")
 
     # Show Bob's transaction history
     bob_events = await event_store.load_async("bob-456")
@@ -115,10 +115,10 @@ async def run_example() -> None:
     print("=" * 70)
     for i, event in enumerate(bob_events, 1):
         print(f"{i}. {event.type}")
-        if hasattr(event.data, "amount"):
-            print(f"   Amount: ${event.data.amount}")
-        if hasattr(event.data, "description"):
-            print(f"   Description: {event.data.description}")
+        if hasattr(event, "amount"):
+            print(f"   Amount: ${event.amount}")
+        if hasattr(event, "description"):
+            print(f"   Description: {event.description}")
 
     # Demonstrate compensation by trying invalid transfer
     print("\n" + "=" * 70)

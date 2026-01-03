@@ -78,7 +78,7 @@ async def run_example() -> None:
     print("\n" + "=" * 60)
     print("📊 Final Order State:")
     print("=" * 60)
-    print(f"Order ID: {order.id}")
+    print(f"Order ID: {order.aggregate_id}")
     print(f"Customer ID: {order.customer_id}")
     print(f"Status: {order.status.value.upper()}")
     print(f"Payment ID: {order.payment_id}")
@@ -106,12 +106,12 @@ async def run_example() -> None:
 
     for i, event in enumerate(events, 1):
         print(f"{i}. {event.type}")
-        if hasattr(event.data, "order_id"):
-            print(f"   Order ID: {event.data.order_id}")
-        if hasattr(event.data, "payment_id"):
-            print(f"   Payment ID: {event.data.payment_id}")
-        if hasattr(event.data, "reservation_id"):
-            print(f"   Reservation ID: {event.data.reservation_id}")
+        if hasattr(event, "order_id"):
+            print(f"   Order ID: {event.order_id}")
+        if hasattr(event, "payment_id"):
+            print(f"   Payment ID: {event.payment_id}")
+        if hasattr(event, "reservation_id"):
+            print(f"   Reservation ID: {event.reservation_id}")
 
     print("\n✅ Example completed successfully!\n")
 

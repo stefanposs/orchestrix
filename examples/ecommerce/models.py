@@ -4,6 +4,8 @@ from datetime import datetime
 from decimal import Decimal
 from enum import Enum
 
+from orchestrix.core.message import Event
+
 
 class OrderStatus(str, Enum):
     """Order lifecycle states."""
@@ -66,8 +68,8 @@ class PaymentDetails:
 # Events
 
 
-@dataclass(frozen=True)
-class OrderCreated:
+@dataclass(frozen=True, kw_only=True)
+class OrderCreated(Event):
     """Order was created."""
 
     order_id: str
@@ -77,8 +79,8 @@ class OrderCreated:
     created_at: datetime
 
 
-@dataclass(frozen=True)
-class PaymentInitiated:
+@dataclass(frozen=True, kw_only=True)
+class PaymentInitiated(Event):
     """Payment processing started."""
 
     order_id: str
@@ -88,8 +90,8 @@ class PaymentInitiated:
     initiated_at: datetime
 
 
-@dataclass(frozen=True)
-class PaymentCompleted:
+@dataclass(frozen=True, kw_only=True)
+class PaymentCompleted(Event):
     """Payment was successful."""
 
     order_id: str
@@ -99,8 +101,8 @@ class PaymentCompleted:
     completed_at: datetime
 
 
-@dataclass(frozen=True)
-class PaymentFailed:
+@dataclass(frozen=True, kw_only=True)
+class PaymentFailed(Event):
     """Payment failed."""
 
     order_id: str
@@ -109,8 +111,8 @@ class PaymentFailed:
     failed_at: datetime
 
 
-@dataclass(frozen=True)
-class InventoryReserved:
+@dataclass(frozen=True, kw_only=True)
+class InventoryReserved(Event):
     """Inventory was reserved for the order."""
 
     order_id: str
@@ -119,8 +121,8 @@ class InventoryReserved:
     reserved_at: datetime
 
 
-@dataclass(frozen=True)
-class InventoryReservationFailed:
+@dataclass(frozen=True, kw_only=True)
+class InventoryReservationFailed(Event):
     """Inventory reservation failed."""
 
     order_id: str
@@ -129,16 +131,16 @@ class InventoryReservationFailed:
     failed_at: datetime
 
 
-@dataclass(frozen=True)
-class OrderConfirmed:
+@dataclass(frozen=True, kw_only=True)
+class OrderConfirmed(Event):
     """Order was confirmed and is being fulfilled."""
 
     order_id: str
     confirmed_at: datetime
 
 
-@dataclass(frozen=True)
-class OrderCancelled:
+@dataclass(frozen=True, kw_only=True)
+class OrderCancelled(Event):
     """Order was cancelled."""
 
     order_id: str
@@ -146,16 +148,16 @@ class OrderCancelled:
     cancelled_at: datetime
 
 
-@dataclass(frozen=True)
-class OrderCompleted:
+@dataclass(frozen=True, kw_only=True)
+class OrderCompleted(Event):
     """Order fulfillment completed."""
 
     order_id: str
     completed_at: datetime
 
 
-@dataclass(frozen=True)
-class InventoryReleased:
+@dataclass(frozen=True, kw_only=True)
+class InventoryReleased(Event):
     """Inventory reservation was released (compensation)."""
 
     order_id: str
@@ -163,8 +165,8 @@ class InventoryReleased:
     released_at: datetime
 
 
-@dataclass(frozen=True)
-class PaymentRefunded:
+@dataclass(frozen=True, kw_only=True)
+class PaymentRefunded(Event):
     """Payment was refunded (compensation)."""
 
     order_id: str
