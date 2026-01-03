@@ -6,6 +6,8 @@ with CloudEvents-compatible messages.
 
 from orchestrix.command_handler import CommandHandler
 from orchestrix.event_store import EventStore
+from orchestrix.infrastructure.inmemory_bus import InMemoryMessageBus
+from orchestrix.infrastructure.inmemory_store import InMemoryEventStore
 from orchestrix.message import Command, Event, Message
 from orchestrix.message_bus import MessageBus
 from orchestrix.module import Module
@@ -15,6 +17,8 @@ __all__ = [
     "CommandHandler",
     "Event",
     "EventStore",
+    "InMemoryEventStore",
+    "InMemoryMessageBus",
     "Message",
     "MessageBus",
     "Module",
