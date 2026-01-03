@@ -23,9 +23,9 @@ import json
 from dataclasses import dataclass
 from typing import Any
 
-from orchestrix.event_store import EventStore
-from orchestrix.message import Event
-from orchestrix.snapshot import Snapshot
+from orchestrix.core.event_store import EventStore
+from orchestrix.core.message import Event
+from orchestrix.core.snapshot import Snapshot
 
 try:
     import asyncpg

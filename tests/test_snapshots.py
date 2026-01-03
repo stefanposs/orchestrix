@@ -3,8 +3,8 @@
 import pytest
 
 from orchestrix.infrastructure import InMemoryEventStore
-from orchestrix.message import Event
-from orchestrix.snapshot import Snapshot
+from orchestrix.core.message import Event
+from orchestrix.core.snapshot import Snapshot
 
 
 class UserCreated(Event):

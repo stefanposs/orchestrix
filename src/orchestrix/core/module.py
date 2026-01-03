@@ -27,5 +27,5 @@ class Module(Protocol):
 
 
 # Import types for type hints
-from orchestrix.event_store import EventStore
-from orchestrix.message_bus import MessageBus
+from orchestrix.core.event_store import EventStore
+from orchestrix.core.message_bus import MessageBus

@@ -2,7 +2,7 @@
 
 import pytest
 
-from orchestrix.message import Command, Event, Message
+from orchestrix.core.message import Command, Event, Message
 
 
 class TestMessageMetadata:

@@ -8,9 +8,9 @@ from collections import defaultdict
 from collections.abc import Callable, Coroutine
 from typing import Any
 
-from orchestrix.exceptions import HandlerError
-from orchestrix.logging import StructuredLogger, get_logger
-from orchestrix.message import Message
+from orchestrix.core.exceptions import HandlerError
+from orchestrix.core.logging import StructuredLogger, get_logger
+from orchestrix.core.message import Message
 
 # Type alias for async message handlers
 AsyncMessageHandler = Callable[[Message], Coroutine[Any, Any, None]]

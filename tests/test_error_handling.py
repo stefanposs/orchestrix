@@ -2,9 +2,9 @@
 
 import pytest
 
-from orchestrix.exceptions import HandlerError
+from orchestrix.core.exceptions import HandlerError
 from orchestrix.infrastructure import InMemoryMessageBus
-from orchestrix.message import Command
+from orchestrix.core.message import Command
 
 
 @pytest.fixture

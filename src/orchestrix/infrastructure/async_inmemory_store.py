@@ -5,9 +5,9 @@ Non-blocking event persistence for async applications.
 
 from collections import defaultdict
 
-from orchestrix.logging import StructuredLogger, get_logger
-from orchestrix.message import Event
-from orchestrix.snapshot import Snapshot
+from orchestrix.core.logging import StructuredLogger, get_logger
+from orchestrix.core.message import Event
+from orchestrix.core.snapshot import Snapshot
 
 _logger = StructuredLogger(get_logger(__name__))
 

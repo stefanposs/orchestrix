@@ -5,8 +5,8 @@ from dataclasses import dataclass
 import pytest
 
 from orchestrix.infrastructure import InMemoryMessageBus
-from orchestrix.message import Command
-from orchestrix.validation import (
+from orchestrix.core.message import Command
+from orchestrix.core.validation import (
     ValidationError,
     validate_not_empty,
     validate_positive,

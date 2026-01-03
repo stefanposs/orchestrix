@@ -5,10 +5,10 @@ Simple synchronous message bus for development and testing.
 
 from collections import defaultdict
 
-from orchestrix.exceptions import HandlerError
-from orchestrix.logging import StructuredLogger, get_logger
-from orchestrix.message import Message
-from orchestrix.message_bus import MessageHandler
+from orchestrix.core.exceptions import HandlerError
+from orchestrix.core.logging import StructuredLogger, get_logger
+from orchestrix.core.message import Message
+from orchestrix.core.message_bus import MessageHandler
 
 _logger = StructuredLogger(get_logger(__name__))
 

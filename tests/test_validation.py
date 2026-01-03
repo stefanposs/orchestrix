@@ -2,7 +2,7 @@
 
 import pytest
 
-from orchestrix.validation import (
+from orchestrix.core.validation import (
     ValidationError,
     validate_in_range,
     validate_max_length,

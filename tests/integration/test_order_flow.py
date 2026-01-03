@@ -5,7 +5,7 @@ from dataclasses import dataclass
 import pytest
 
 from orchestrix.infrastructure import InMemoryEventStore, InMemoryMessageBus
-from orchestrix.message import Command, Event
+from orchestrix.core.message import Command, Event
 
 
 # Domain: Order Aggregate

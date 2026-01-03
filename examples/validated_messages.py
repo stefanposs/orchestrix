@@ -6,8 +6,8 @@ without external dependencies.
 
 from dataclasses import dataclass
 
-from orchestrix.message import Command, Event
-from orchestrix.validation import (
+from orchestrix.core.message import Command, Event
+from orchestrix.core.validation import (
     ValidationError,
     validate_in_range,
     validate_not_empty,

@@ -15,8 +15,8 @@ import pytest
 pytest.importorskip("eventsourcingdb", reason="eventsourcingdb not installed - skip tests")
 
 from orchestrix.infrastructure.eventsourcingdb_store import EventSourcingDBStore
-from orchestrix.message import Event
-from orchestrix.snapshot import Snapshot
+from orchestrix.core.message import Event
+from orchestrix.core.snapshot import Snapshot
 
 
 @dataclass(frozen=True)

@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from orchestrix.message import Event as BaseEvent
+from orchestrix.core.message import Event as BaseEvent
 
 
 @dataclass

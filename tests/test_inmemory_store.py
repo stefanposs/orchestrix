@@ -1,6 +1,6 @@
 """Tests for InMemoryEventStore."""
 
-from orchestrix.message import Event
+from orchestrix.core.message import Event
 
 
 class TestInMemoryEventStore:

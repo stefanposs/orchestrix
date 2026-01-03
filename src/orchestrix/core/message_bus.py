@@ -5,7 +5,7 @@ The message bus handles command/event routing and delivery.
 
 from typing import Callable, Protocol
 
-from orchestrix.message import Message
+from orchestrix.core.message import Message
 
 MessageHandler = Callable[[Message], None]
 

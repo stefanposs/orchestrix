@@ -2,7 +2,7 @@
 
 import pytest
 
-from orchestrix.retry import (
+from orchestrix.core.retry import (
     ExponentialBackoff,
     FixedDelay,
     LinearBackoff,

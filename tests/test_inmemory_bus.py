@@ -1,6 +1,6 @@
 """Tests for InMemoryMessageBus."""
 
-from orchestrix.message import Command, Event
+from orchestrix.core.message import Command, Event
 
 
 class TestInMemoryMessageBus:

@@ -9,13 +9,13 @@ from dataclasses import dataclass
 
 import pytest
 
-from orchestrix.dead_letter_queue import DeadLetteredMessage, InMemoryDeadLetterQueue
-from orchestrix.exceptions import HandlerError
+from orchestrix.core.dead_letter_queue import DeadLetteredMessage, InMemoryDeadLetterQueue
+from orchestrix.core.exceptions import HandlerError
 from orchestrix.infrastructure import InMemoryEventStore, InMemoryMessageBus
 from orchestrix.infrastructure.async_inmemory_bus import InMemoryAsyncMessageBus
 from orchestrix.infrastructure.async_inmemory_store import InMemoryAsyncEventStore
-from orchestrix.message import Command, Event
-from orchestrix.snapshot import Snapshot
+from orchestrix.core.message import Command, Event
+from orchestrix.core.snapshot import Snapshot
 
 
 @dataclass(frozen=True)

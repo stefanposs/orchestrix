@@ -5,7 +5,7 @@ The event store persists and retrieves domain events.
 
 from typing import Protocol
 
-from orchestrix.message import Event
+from orchestrix.core.message import Event
 
 
 class EventStore(Protocol):

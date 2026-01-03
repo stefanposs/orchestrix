@@ -9,8 +9,8 @@ The classes here provide _async method aliases for compatibility with examples.
 
 from orchestrix.infrastructure.async_inmemory_bus import InMemoryAsyncMessageBus
 from orchestrix.infrastructure.async_inmemory_store import InMemoryAsyncEventStore
-from orchestrix.message import Event, Message
-from orchestrix.snapshot import Snapshot
+from orchestrix.core.message import Event, Message
+from orchestrix.core.snapshot import Snapshot
 
 
 class InMemoryMessageBus(InMemoryAsyncMessageBus):

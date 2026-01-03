@@ -35,9 +35,9 @@ import contextlib
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
-from orchestrix.event_store import EventStore
-from orchestrix.message import Event
-from orchestrix.snapshot import Snapshot
+from orchestrix.core.event_store import EventStore
+from orchestrix.core.message import Event
+from orchestrix.core.snapshot import Snapshot
 
 try:
     from eventsourcingdb import Client, ReadEventsOptions

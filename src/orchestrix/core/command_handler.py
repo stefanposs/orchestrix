@@ -5,9 +5,9 @@ Command handlers process commands and persist resulting events.
 
 from typing import Protocol
 
-from orchestrix.event_store import EventStore
-from orchestrix.message import Command, Event
-from orchestrix.message_bus import MessageBus
+from orchestrix.core.event_store import EventStore
+from orchestrix.core.message import Command, Event
+from orchestrix.core.message_bus import MessageBus
 
 
 class CommandHandler(Protocol):

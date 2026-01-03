@@ -2,11 +2,11 @@
 
 import pytest
 
-from orchestrix.dead_letter_queue import (
+from orchestrix.core.dead_letter_queue import (
     DeadLetteredMessage,
     InMemoryDeadLetterQueue,
 )
-from orchestrix.message import Command
+from orchestrix.core.message import Command
 
 
 class CreateOrder(Command):

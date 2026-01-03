@@ -7,7 +7,7 @@ for later analysis and replay.
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
-from orchestrix.message import Message
+from orchestrix.core.message import Message
 
 
 @dataclass(frozen=True)

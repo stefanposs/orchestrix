@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from typing import Generic, TypeVar
 
 from orchestrix.core.event import Event
-from orchestrix.event_store import EventStore
+from orchestrix.core.event_store import EventStore
 
 T = TypeVar("T", bound="AggregateRoot")
 
