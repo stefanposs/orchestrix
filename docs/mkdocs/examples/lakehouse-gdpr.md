@@ -422,9 +422,9 @@ async def generate_monthly_report():
 
 ## Related Examples
 
-- **[Data Anonymization](lakehouse-anonymization.md)** - Anonymize PII in datasets
-- **[E-Commerce](ecommerce.md)** - Order processing with sagas
-- **[Banking](banking.md)** - Account management basics
+- **Data Anonymization** - Anonymize PII in datasets (see `examples/lakehouse/example.py`)
+- **E-Commerce** - Order processing with sagas (see `examples/ecommerce/`)
+- **Banking** - Account management basics (see `examples/banking/`)
 
 ## Learn More
 

@@ -4,7 +4,7 @@ Orchestrix comes with production-ready examples demonstrating real-world pattern
 
 ## Available Examples
 
-### 🏦 [Banking](banking.md)
+### 🏦 Banking
 Account management system with event sourcing, including:
 
 - Account creation and transactions
@@ -12,11 +12,12 @@ Account management system with event sourcing, including:
 - Transaction history and audit trail
 - Domain-driven design patterns
 
-**Key Concepts:** Event Sourcing, Aggregates, Domain Events
+**Key Concepts:** Event Sourcing, Aggregates, Domain Events  
+**Source:** `examples/banking/`
 
 ---
 
-### 🛒 [E-Commerce](ecommerce.md)
+### 🛒 E-Commerce
 Complete order processing system with:
 
 - Order lifecycle management
@@ -24,23 +25,25 @@ Complete order processing system with:
 - Payment processing coordination
 - Inventory management integration
 
-**Key Concepts:** Sagas, Process Managers, Event Choreography
+**Key Concepts:** Sagas, Process Managers, Event Choreography  
+**Source:** `examples/ecommerce/`
 
 ---
 
-### 🏢 [Lakehouse Platform](lakehouse.md)
+### 🏢 Lakehouse Platform
 Data lakehouse with GDPR compliance featuring:
 
-- [Data Anonymization](lakehouse-anonymization.md) - 8 anonymization strategies
-- [GDPR Compliance](lakehouse-gdpr.md) - Right-to-be-forgotten implementation
+- **[GDPR Compliance](lakehouse-gdpr.md)** - Right-to-be-forgotten implementation
+- Data Anonymization - 8 anonymization strategies
 - Event sourcing for audit trails
 - Snapshot optimization for large event streams
 
-**Key Concepts:** GDPR Compliance, Data Anonymization, Event Store, Snapshots
+**Key Concepts:** GDPR Compliance, Data Anonymization, Event Store, Snapshots  
+**Source:** `examples/lakehouse/`
 
 ---
 
-### 🔔 [Notifications](notifications.md)
+### 🔔 Notifications
 Resilient notification system with:
 
 - Retry logic with exponential backoff
