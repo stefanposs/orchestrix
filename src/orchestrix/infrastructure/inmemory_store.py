@@ -5,7 +5,10 @@ Simple event store backed by a dictionary for development and testing.
 
 from collections import defaultdict
 
+from orchestrix.logging import StructuredLogger, get_logger
 from orchestrix.message import Event
+
+_logger = StructuredLogger(get_logger(__name__))
 
 
 class InMemoryEventStore:
@@ -26,6 +29,11 @@ class InMemoryEventStore:
             events: List of events to persist
         """
         self._events[aggregate_id].extend(events)
+        _logger.info(
+            "Events saved",
+            aggregate_id=aggregate_id,
+            event_count=len(events),
+        )
 
     def load(self, aggregate_id: str) -> list[Event]:
         """Load all events for an aggregate.
@@ -36,4 +44,10 @@ class InMemoryEventStore:
         Returns:
             List of events in chronological order
         """
-        return list(self._events.get(aggregate_id, []))
+        events = list(self._events.get(aggregate_id, []))
+        _logger.debug(
+            "Events loaded",
+            aggregate_id=aggregate_id,
+            event_count=len(events),
+        )
+        return events

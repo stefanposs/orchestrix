@@ -4,7 +4,7 @@ Messages are immutable, CloudEvents-compatible data structures.
 """
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from uuid import uuid4
 
 
@@ -18,7 +18,7 @@ class Message:
     id: str = field(default_factory=lambda: str(uuid4()))
     type: str = field(default="")
     source: str = field(default="orchestrix")
-    timestamp: datetime = field(default_factory=datetime.utcnow)
+    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def __post_init__(self) -> None:
         """Set type from class name if not provided."""
