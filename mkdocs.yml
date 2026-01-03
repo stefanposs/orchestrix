@@ -1,0 +1,74 @@
+site_name: Orchestrix Documentation
+site_description: A modular event-driven architecture framework for Python
+site_author: Stefan Poss
+site_url: https://orchestrix.readthedocs.io
+
+repo_name: stefanposs/orchestrix
+repo_url: https://github.com/stefanposs/orchestrix
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quick-start.md
+      - Core Concepts: getting-started/concepts.md
+  - User Guide:
+      - Creating Modules: guide/creating-modules.md
+      - Commands & Events: guide/commands-events.md
+      - Aggregates: guide/aggregates.md
+      - Message Bus: guide/message-bus.md
+      - Event Store: guide/event-store.md
+  - API Reference:
+      - Core: api/core.md
+      - Infrastructure: api/infrastructure.md
+  - Development:
+      - Contributing: development/contributing.md
+      - Testing: development/testing.md
+      - Release Process: development/release.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: google
+            show_root_heading: true
+            show_source: true
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
