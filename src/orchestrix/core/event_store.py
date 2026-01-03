@@ -15,14 +15,22 @@ class EventStore(Protocol):
     - Saving events by aggregate ID
     - Loading event streams
     - Maintaining event order
+    - Optimistic concurrency control via expected_version
     """
 
-    def save(self, aggregate_id: str, events: list[Event]) -> None:
+    def save(
+        self, aggregate_id: str, events: list[Event], expected_version: int | None = None
+    ) -> None:
         """Save events for an aggregate.
 
         Args:
             aggregate_id: The ID of the aggregate
             events: List of events to persist
+            expected_version: Expected current version for optimistic locking.
+                If provided and doesn't match actual version, raises ConcurrencyError.
+
+        Raises:
+            ConcurrencyError: If expected_version doesn't match actual version
         """
         ...
 

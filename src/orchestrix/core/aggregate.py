@@ -109,6 +109,8 @@ class AggregateRepository(Generic[T]):
     - Load aggregates by ID with event replay
     - Save aggregates by persisting uncommitted events
     - Optimistic concurrency control via versioning
+
+    Supports both sync and async event stores via runtime detection.
     """
 
     event_store: EventStore
@@ -129,10 +131,10 @@ class AggregateRepository(Generic[T]):
         # Try to load with async method first, fall back to sync
         try:
             # Try calling as async coroutine
-            events = await self.event_store.load(aggregate_id)  # type: ignore[await-not-callable]
+            events = await self.event_store.load(aggregate_id)  # type: ignore[misc,await-not-callable]
         except TypeError:
             # Fall back to sync method
-            events = self.event_store.load(aggregate_id)  # type: ignore[arg-type]
+            events = self.event_store.load(aggregate_id)  # type: ignore[assignment]
 
         if not events:
             msg = f"Aggregate {aggregate_id} not found"
@@ -161,7 +163,7 @@ class AggregateRepository(Generic[T]):
             ValueError: If aggregate not found
         """
         # Load events from store
-        events = self.event_store.load(aggregate_id)
+        events = self.event_store.load(aggregate_id)  # type: ignore[union-attr]
 
         if not events:
             msg = f"Aggregate {aggregate_id} not found"
@@ -188,10 +190,10 @@ class AggregateRepository(Generic[T]):
         # Try to save with async method first, fall back to sync
         try:
             # Try calling as async coroutine
-            await self.event_store.save(aggregate.aggregate_id, aggregate.uncommitted_events)  # type: ignore[await-not-callable]
+            await self.event_store.save(aggregate.aggregate_id, aggregate.uncommitted_events)  # type: ignore[misc,await-not-callable]
         except TypeError:
             # Fall back to sync method
-            self.event_store.save(aggregate.aggregate_id, aggregate.uncommitted_events)  # type: ignore[arg-type]
+            self.event_store.save(aggregate.aggregate_id, aggregate.uncommitted_events)  # type: ignore[assignment]
 
         # Mark events as committed
         aggregate.mark_events_committed()
@@ -206,7 +208,7 @@ class AggregateRepository(Generic[T]):
             return
 
         # Persist events
-        self.event_store.save(aggregate.aggregate_id, aggregate.uncommitted_events)
+        self.event_store.save(aggregate.aggregate_id, aggregate.uncommitted_events)  # type: ignore[union-attr]
 
         # Mark events as committed
         aggregate.mark_events_committed()

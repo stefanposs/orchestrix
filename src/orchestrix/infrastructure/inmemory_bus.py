@@ -52,7 +52,7 @@ class InMemoryMessageBus:
                 handler_name = getattr(handler, "__name__", handler.__class__.__name__)
                 error = HandlerError(message_type.__name__, handler_name, e)
                 errors.append(error)
-                _logger.error(
+                _logger.exception(
                     "Handler failed",
                     message_type=message_type.__name__,
                     handler=handler_name,

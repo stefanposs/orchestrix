@@ -5,10 +5,9 @@ Designed for integration with OpenTelemetry, Prometheus, Jaeger, and other obser
 """
 
 import logging
-import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Callable, Optional
 
 
@@ -28,7 +27,7 @@ class MetricValue:
     name: str
     value: float
     unit: str = ""
-    timestamp: datetime = field(default_factory=datetime.utcnow)
+    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     labels: dict[str, str] = field(default_factory=dict)
     metric_type: str = MetricType.COUNTER
 
@@ -38,7 +37,7 @@ class TraceSpan:
     """Distributed trace span."""
 
     operation: str
-    start_time: datetime = field(default_factory=datetime.utcnow)
+    start_time: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     end_time: Optional[datetime] = None
     duration_ms: float = 0.0
     status: str = "pending"
@@ -47,7 +46,7 @@ class TraceSpan:
 
     def end(self) -> None:
         """Mark span as ended."""
-        self.end_time = datetime.utcnow()
+        self.end_time = datetime.now(timezone.utc)
         self.duration_ms = (self.end_time - self.start_time).total_seconds() * 1000
         if self.status == "pending":
             self.status = "ok"
@@ -56,7 +55,7 @@ class TraceSpan:
         """Mark span as errored."""
         self.error = error
         self.status = "error"
-        self.end_time = datetime.utcnow()
+        self.end_time = datetime.now(timezone.utc)
         self.duration_ms = (self.end_time - self.start_time).total_seconds() * 1000
 
 
@@ -73,7 +72,7 @@ class MetricsProvider(ABC):
         Args:
             metric: Metric to record
         """
-        pass
+        ...
 
     @abstractmethod
     def counter(
@@ -89,7 +88,7 @@ class MetricsProvider(ABC):
             value: Increment amount
             labels: Optional labels
         """
-        pass
+        ...
 
     @abstractmethod
     def gauge(
@@ -105,7 +104,7 @@ class MetricsProvider(ABC):
             value: Current value
             labels: Optional labels
         """
-        pass
+        ...
 
     @abstractmethod
     def histogram(
@@ -123,7 +122,7 @@ class MetricsProvider(ABC):
             unit: Unit of measurement
             labels: Optional labels
         """
-        pass
+        ...
 
 
 class NoOpMetricsProvider(MetricsProvider):
@@ -131,7 +130,6 @@ class NoOpMetricsProvider(MetricsProvider):
 
     def record_metric(self, metric: MetricValue) -> None:
         """No-op implementation."""
-        pass
 
     def counter(
         self,
@@ -140,7 +138,6 @@ class NoOpMetricsProvider(MetricsProvider):
         labels: Optional[dict[str, str]] = None,
     ) -> None:
         """No-op implementation."""
-        pass
 
     def gauge(
         self,
@@ -149,7 +146,6 @@ class NoOpMetricsProvider(MetricsProvider):
         labels: Optional[dict[str, str]] = None,
     ) -> None:
         """No-op implementation."""
-        pass
 
     def histogram(
         self,
@@ -159,7 +155,6 @@ class NoOpMetricsProvider(MetricsProvider):
         labels: Optional[dict[str, str]] = None,
     ) -> None:
         """No-op implementation."""
-        pass
 
 
 class TracingProvider(ABC):
@@ -178,7 +173,7 @@ class TracingProvider(ABC):
         Returns:
             TraceSpan instance
         """
-        pass
+        ...
 
     @abstractmethod
     def end_span(self, span: TraceSpan) -> None:
@@ -187,7 +182,7 @@ class TracingProvider(ABC):
         Args:
             span: TraceSpan to end
         """
-        pass
+        ...
 
 
 class NoOpTracingProvider(TracingProvider):
@@ -318,8 +313,7 @@ class ObservabilityHooks:
         Returns:
             TraceSpan instance
         """
-        span = self.tracing.start_span(f"event_store.{operation}")
-        return span
+        return self.tracing.start_span(f"event_store.{operation}")
 
     def end_event_store_operation(self, span: TraceSpan) -> None:
         """End event store operation trace.

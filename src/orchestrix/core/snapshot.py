@@ -5,7 +5,7 @@ Snapshots allow fast reconstruction of aggregate state without replaying all eve
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Protocol
+from typing import Any, Optional, Protocol
 
 
 @dataclass(frozen=True)
@@ -23,7 +23,7 @@ class Snapshot:
     aggregate_id: str
     aggregate_type: str
     version: int
-    state: dict
+    state: dict[str, Any]
     timestamp: datetime = field(
         default_factory=lambda: datetime.now(timezone.utc)
     )
@@ -45,7 +45,7 @@ class EventStore(Protocol):
         """
         ...
 
-    def load_snapshot(self, aggregate_id: str) -> Snapshot | None:
+    def load_snapshot(self, aggregate_id: str) -> Optional[Snapshot]:
         """Load the latest snapshot for an aggregate.
 
         Args:
@@ -56,7 +56,7 @@ class EventStore(Protocol):
         """
         ...
 
-    def save(self, aggregate_id: str, events: list) -> None:
+    def save(self, aggregate_id: str, events: list[Any]) -> None:
         """Save events for an aggregate.
 
         Args:
@@ -65,7 +65,7 @@ class EventStore(Protocol):
         """
         ...
 
-    def load(self, aggregate_id: str, from_version: int = 0) -> list:
+    def load(self, aggregate_id: str, from_version: int = 0) -> list[Any]:
         """Load events for an aggregate.
 
         Args:

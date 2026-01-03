@@ -4,6 +4,7 @@ Provides structured logging with message context.
 """
 
 import logging
+from typing import Union
 
 # Configure root logger
 logging.basicConfig(
@@ -36,7 +37,7 @@ class StructuredLogger:
         """
         self.logger = logger
 
-    def _format_context(self, **context: str | int | float | bool | None) -> str:
+    def _format_context(self, **context: Union[str, int, float, bool, None]) -> str:
         """Format context dictionary as key=value pairs.
 
         Args:
@@ -50,7 +51,7 @@ class StructuredLogger:
         items = [f"{k}={v}" for k, v in context.items()]
         return f" [{', '.join(items)}]"
 
-    def info(self, message: str, **context: str | int | float | bool | None) -> None:
+    def info(self, message: str, **context: Union[str, int, float, bool, None]) -> None:
         """Log info message with context.
 
         Args:
@@ -59,7 +60,7 @@ class StructuredLogger:
         """
         self.logger.info(f"{message}{self._format_context(**context)}")
 
-    def error(self, message: str, **context: str | int | float | bool | None) -> None:
+    def error(self, message: str, **context: Union[str, int, float, bool, None]) -> None:
         """Log error message with context.
 
         Args:
@@ -68,7 +69,16 @@ class StructuredLogger:
         """
         self.logger.error(f"{message}{self._format_context(**context)}")
 
-    def warning(self, message: str, **context: str | int | float | bool | None) -> None:
+    def exception(self, message: str, **context: Union[str, int, float, bool, None]) -> None:
+        """Log exception message with context and traceback.
+
+        Args:
+            message: Log message
+            **context: Additional context fields
+        """
+        self.logger.exception(f"{message}{self._format_context(**context)}")
+
+    def warning(self, message: str, **context: Union[str, int, float, bool, None]) -> None:
         """Log warning message with context.
 
         Args:
@@ -77,7 +87,7 @@ class StructuredLogger:
         """
         self.logger.warning(f"{message}{self._format_context(**context)}")
 
-    def debug(self, message: str, **context: str | int | float | bool | None) -> None:
+    def debug(self, message: str, **context: Union[str, int, float, bool, None]) -> None:
         """Log debug message with context.
 
         Args:

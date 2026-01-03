@@ -3,9 +3,12 @@
 Retry strategies for handlers that fail transiently.
 """
 
+import asyncio
+import logging
 import time
 from abc import ABC, abstractmethod
 from collections.abc import Callable
+from typing import Any, Optional
 
 
 class RetryPolicy(ABC):
@@ -216,9 +219,9 @@ class FixedDelay(RetryPolicy):
 
 
 def retry_sync(
-    func: Callable[[...], None],
+    func: Callable[..., None],
     *args: object,
-    policy: RetryPolicy | None = None,
+    policy: Optional[RetryPolicy] = None,
     **kwargs: object,
 ) -> None:
     """Execute function with retry policy.

@@ -4,6 +4,8 @@ Simple event store backed by a dictionary for development and testing.
 """
 
 from collections import defaultdict
+from typing import Optional
+from orchestrix.core.exceptions import ConcurrencyError
 
 from orchestrix.core.logging import StructuredLogger, get_logger
 from orchestrix.core.message import Event
@@ -24,13 +26,30 @@ class InMemoryEventStore:
         self._events: dict[str, list[Event]] = defaultdict(list)
         self._snapshots: dict[str, Snapshot] = {}
 
-    def save(self, aggregate_id: str, events: list[Event]) -> None:
+    def save(
+        self, aggregate_id: str, events: list[Event], expected_version: int | None = None
+    ) -> None:
         """Save events for an aggregate.
 
         Args:
             aggregate_id: The ID of the aggregate
             events: List of events to persist
+            expected_version: Expected current version for optimistic locking.
+                If provided and doesn't match actual version, raises ConcurrencyError.
+
+        Raises:
+            ConcurrencyError: If expected_version doesn't match actual version
         """
+        # Check optimistic lock
+        if expected_version is not None:
+            current_version = len(self._events[aggregate_id]) - 1
+            if current_version != expected_version:
+                raise ConcurrencyError(
+                    aggregate_id=aggregate_id,
+                    expected_version=expected_version,
+                    actual_version=current_version,
+                )
+        
         self._events[aggregate_id].extend(events)
         _logger.info(
             "Events saved",
@@ -71,7 +90,7 @@ class InMemoryEventStore:
             version=snapshot.version,
         )
 
-    def load_snapshot(self, aggregate_id: str) -> Snapshot | None:
+    def load_snapshot(self, aggregate_id: str) -> Optional[Snapshot]:
         """Load the latest snapshot for an aggregate.
 
         Args:

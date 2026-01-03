@@ -6,6 +6,7 @@ for later analysis and replay.
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from typing import Optional
 
 from orchestrix.core.message import Message
 
@@ -42,6 +43,7 @@ class DeadLetterQueue:
         Args:
             dead_lettered: The dead lettered message to store
         """
+        ...
 
     def dequeue_all(self) -> list[DeadLetteredMessage]:
         """Get all messages from the dead letter queue.
@@ -49,9 +51,11 @@ class DeadLetterQueue:
         Returns:
             List of all dead lettered messages
         """
+        ...
 
     def clear(self) -> None:
         """Clear all messages from the dead letter queue."""
+        ...
 
     def count(self) -> int:
         """Get the number of messages in the dead letter queue.
@@ -59,6 +63,7 @@ class DeadLetterQueue:
         Returns:
             Number of dead lettered messages
         """
+        ...
 
 
 class InMemoryDeadLetterQueue(DeadLetterQueue):
@@ -99,7 +104,7 @@ class InMemoryDeadLetterQueue(DeadLetterQueue):
         """
         return len(self._messages)
 
-    def get_by_message_id(self, message_id: str) -> DeadLetteredMessage | None:
+    def get_by_message_id(self, message_id: str) -> Optional[DeadLetteredMessage]:
         """Get a dead lettered message by its ID.
 
         Args:

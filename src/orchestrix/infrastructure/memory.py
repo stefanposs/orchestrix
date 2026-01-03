@@ -7,10 +7,12 @@ to support the import pattern used in examples:
 The classes here provide _async method aliases for compatibility with examples.
 """
 
-from orchestrix.infrastructure.async_inmemory_bus import InMemoryAsyncMessageBus
-from orchestrix.infrastructure.async_inmemory_store import InMemoryAsyncEventStore
+from typing import Optional
+
 from orchestrix.core.message import Event, Message
 from orchestrix.core.snapshot import Snapshot
+from orchestrix.infrastructure.async_inmemory_bus import InMemoryAsyncMessageBus
+from orchestrix.infrastructure.async_inmemory_store import InMemoryAsyncEventStore
 
 
 class InMemoryMessageBus(InMemoryAsyncMessageBus):
@@ -24,9 +26,11 @@ class InMemoryMessageBus(InMemoryAsyncMessageBus):
 class InMemoryEventStore(InMemoryAsyncEventStore):
     """Event store with _async method aliases for backward compatibility."""
 
-    async def save_async(self, aggregate_id: str, events: list[Event]) -> None:
+    async def save_async(
+        self, aggregate_id: str, events: list[Event], expected_version: int | None = None
+    ) -> None:
         """Alias for save() method."""
-        return await self.save(aggregate_id, events)
+        return await self.save(aggregate_id, events, expected_version)
 
     async def load_async(
         self, aggregate_id: str, from_version: int = 0
@@ -38,7 +42,7 @@ class InMemoryEventStore(InMemoryAsyncEventStore):
         """Alias for save_snapshot() method."""
         return await self.save_snapshot(snapshot)
 
-    async def load_snapshot_async(self, aggregate_id: str) -> Snapshot | None:
+    async def load_snapshot_async(self, aggregate_id: str) -> Optional[Snapshot]:
         """Alias for load_snapshot() method."""
         return await self.load_snapshot(aggregate_id)
 

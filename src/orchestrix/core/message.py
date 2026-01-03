@@ -5,6 +5,7 @@ Messages are immutable, CloudEvents-compatible data structures.
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from typing import Optional
 from uuid import uuid4
 
 
@@ -13,7 +14,7 @@ class Message:
     """Base class for all messages in Orchestrix.
 
     CloudEvents-compatible immutable message with metadata.
-    
+
     CloudEvents v1.0 Specification:
     - id: Unique identifier for the event
     - type: Event type (defaults to class name)
@@ -30,11 +31,11 @@ class Message:
     type: str = field(default="")
     source: str = field(default="orchestrix")
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    subject: str | None = field(default=None)
-    datacontenttype: str | None = field(default=None)
-    dataschema: str | None = field(default=None)
-    correlation_id: str | None = field(default=None)
-    causation_id: str | None = field(default=None)
+    subject: Optional[str] = field(default=None)
+    datacontenttype: Optional[str] = field(default=None)
+    dataschema: Optional[str] = field(default=None)
+    correlation_id: Optional[str] = field(default=None)
+    causation_id: Optional[str] = field(default=None)
 
     def __post_init__(self) -> None:
         """Set type from class name if not provided."""

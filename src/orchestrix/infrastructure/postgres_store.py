@@ -24,6 +24,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from orchestrix.core.event_store import EventStore
+from orchestrix.core.exceptions import ConcurrencyError
 from orchestrix.core.message import Event
 from orchestrix.core.snapshot import Snapshot
 
@@ -162,15 +163,19 @@ class PostgreSQLEventStore(EventStore):
         msg = "PostgreSQLEventStore requires async usage. Use await store.load(...)"
         raise NotImplementedError(msg)
 
-    async def save_async(self, aggregate_id: str, events: list[Event]) -> None:
+    async def save_async(
+        self, aggregate_id: str, events: list[Event], expected_version: int | None = None
+    ) -> None:
         """Save events to PostgreSQL with optimistic concurrency control.
 
         Args:
             aggregate_id: Unique identifier for the aggregate
             events: List of events to append to the stream
+            expected_version: Expected current version for optimistic locking.
+                If provided and doesn't match actual version, raises ConcurrencyError.
 
         Raises:
-            asyncpg.UniqueViolationError: If version conflict occurs
+            ConcurrencyError: If expected_version doesn't match actual version
         """
         if not events:
             return
@@ -185,6 +190,14 @@ class PostgreSQLEventStore(EventStore):
                 """,
                 aggregate_id,
             )
+
+            # Check optimistic lock
+            if expected_version is not None and current_version != expected_version:
+                raise ConcurrencyError(
+                    aggregate_id=aggregate_id,
+                    expected_version=expected_version,
+                    actual_version=current_version,
+                )
 
             # Insert events with incremental versions
             for idx, event in enumerate(events):

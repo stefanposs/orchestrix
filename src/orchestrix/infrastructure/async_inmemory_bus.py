@@ -23,7 +23,7 @@ class InMemoryAsyncMessageBus:
 
     Routes messages to registered async handlers with concurrent execution.
     Multiple handlers for the same message type execute in parallel via asyncio.gather().
-    
+
     Suitable for async applications, FastAPI, Starlette, and other async frameworks.
     """
 

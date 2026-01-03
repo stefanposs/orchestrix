@@ -3,6 +3,8 @@
 Pure Python validation without external dependencies.
 """
 
+from typing import Union
+
 
 class ValidationError(Exception):
     """Raised when message validation fails.
@@ -16,7 +18,7 @@ class ValidationError(Exception):
     def __init__(
         self,
         message: str,
-        field: str | None = None,
+        field: Union[str, None] = None,
         value: object = None,
     ) -> None:
         """Initialize validation error.
@@ -53,7 +55,7 @@ def validate_not_empty(value: str, field: str) -> None:
         raise ValidationError(msg, field=field, value=value)
 
 
-def validate_positive(value: float | int, field: str) -> None:
+def validate_positive(value: Union[float, int], field: str) -> None:
     """Validate that a number is positive.
 
     Args:
@@ -68,7 +70,7 @@ def validate_positive(value: float | int, field: str) -> None:
         raise ValidationError(msg, field=field, value=value)
 
 
-def validate_non_negative(value: float | int, field: str) -> None:
+def validate_non_negative(value: Union[float, int], field: str) -> None:
     """Validate that a number is non-negative.
 
     Args:
@@ -116,9 +118,9 @@ def validate_max_length(value: str, max_length: int, field: str) -> None:
 
 
 def validate_in_range(
-    value: float | int,
-    min_value: float | int,
-    max_value: float | int,
+    value: Union[float, int],
+    min_value: Union[float, int],
+    max_value: Union[float, int],
     field: str,
 ) -> None:
     """Validate that a number is within a range.
