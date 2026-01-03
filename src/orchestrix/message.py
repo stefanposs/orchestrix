@@ -13,12 +13,28 @@ class Message:
     """Base class for all messages in Orchestrix.
 
     CloudEvents-compatible immutable message with metadata.
+    
+    CloudEvents v1.0 Specification:
+    - id: Unique identifier for the event
+    - type: Event type (defaults to class name)
+    - source: Context in which the event occurred
+    - timestamp: When the event occurred (ISO 8601)
+    - subject: The subject of the event in context of the source (optional)
+    - datacontenttype: Content type of the data (optional)
+    - dataschema: Schema that data adheres to (optional)
+    - correlation_id: For tracing related events across services (extension)
+    - causation_id: ID of the message that caused this message (extension)
     """
 
     id: str = field(default_factory=lambda: str(uuid4()))
     type: str = field(default="")
     source: str = field(default="orchestrix")
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    subject: str | None = field(default=None)
+    datacontenttype: str | None = field(default=None)
+    dataschema: str | None = field(default=None)
+    correlation_id: str | None = field(default=None)
+    causation_id: str | None = field(default=None)
 
     def __post_init__(self) -> None:
         """Set type from class name if not provided."""
