@@ -126,8 +126,13 @@ class AggregateRepository(Generic[T]):
         Raises:
             ValueError: If aggregate not found
         """
-        # Load events from store
-        events = await self.event_store.load_async(aggregate_id)
+        # Try to load with async method first, fall back to sync
+        try:
+            # Try calling as async coroutine
+            events = await self.event_store.load(aggregate_id)  # type: ignore[await-not-callable]
+        except TypeError:
+            # Fall back to sync method
+            events = self.event_store.load(aggregate_id)  # type: ignore[arg-type]
 
         if not events:
             msg = f"Aggregate {aggregate_id} not found"
@@ -180,8 +185,13 @@ class AggregateRepository(Generic[T]):
         if not aggregate.uncommitted_events:
             return
 
-        # Persist events
-        await self.event_store.save_async(aggregate.aggregate_id, aggregate.uncommitted_events)
+        # Try to save with async method first, fall back to sync
+        try:
+            # Try calling as async coroutine
+            await self.event_store.save(aggregate.aggregate_id, aggregate.uncommitted_events)  # type: ignore[await-not-callable]
+        except TypeError:
+            # Fall back to sync method
+            self.event_store.save(aggregate.aggregate_id, aggregate.uncommitted_events)  # type: ignore[arg-type]
 
         # Mark events as committed
         aggregate.mark_events_committed()
