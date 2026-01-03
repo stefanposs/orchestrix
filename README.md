@@ -114,6 +114,14 @@ orchestrix/
     └── run_order_example.py # Runnable demo
 ```
 
+## Documentation
+
+- [Changelog](docs/CHANGELOG.md)
+- [Contributing](.github/CONTRIBUTING.md)
+- [Security Policy](.github/SECURITY.md)
+- [Code of Conduct](.github/CODE_OF_CONDUCT.md)
+- [Deployment Guide](docs/DEPLOYMENT.md)
+
 ## License
 
 MIT

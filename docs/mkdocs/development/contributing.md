@@ -261,7 +261,7 @@ Users can implement interfaces without inheriting from base classes.
 
 ### Code of Conduct
 
-Sei respektvoll und konstruktiv. Siehe [CODE_OF_CONDUCT.md](../../CODE_OF_CONDUCT.md).
+Sei respektvoll und konstruktiv. Siehe [CODE_OF_CONDUCT.md](https://github.com/stefanposs/orchestrix/blob/main/.github/CODE_OF_CONDUCT.md).
 
 ## Release Process
 

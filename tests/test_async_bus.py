@@ -6,7 +6,7 @@ import time
 import pytest
 
 from orchestrix.exceptions import HandlerError
-from orchestrix.infrastructure.async_bus import InMemoryAsyncMessageBus
+from orchestrix.infrastructure.async_inmemory_bus import InMemoryAsyncMessageBus
 from orchestrix.message import Command
 
 

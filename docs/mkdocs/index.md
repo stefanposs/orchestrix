@@ -95,7 +95,7 @@ Orchestrix follows **Domain-Driven Design** and **CQRS/ES** principles:
 
 ## Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
+Contributions are welcome! Please read our [Contributing Guide](https://github.com/stefanposs/orchestrix/blob/main/.github/CONTRIBUTING.md) for details.
 
 ## License
 

@@ -239,7 +239,7 @@ bus = InMemoryMessageBus()
 bus.publish(command)
 
 # Async (new)
-from orchestrix.infrastructure.async_bus import InMemoryAsyncMessageBus
+from orchestrix.infrastructure.async_inmemory_bus import InMemoryAsyncMessageBus
 async_bus = InMemoryAsyncMessageBus()
 await async_bus.publish(command)
 ```
@@ -287,8 +287,8 @@ Future v2.0 might unify APIs, but users will have deprecation warnings.
 
 ### Task 8: AsyncMessageBus (4-6 hours)
 ```
-src/orchestrix/async_message_bus.py  # Protocol + InMemory impl
-tests/test_async_bus.py               # Concurrent handler tests
+src/orchestrix/infrastructure/async_inmemory_bus.py  # Protocol + InMemory impl
+tests/test_async_bus.py                              # Concurrent handler tests
 ```
 
 **Tests to cover:**
@@ -301,7 +301,7 @@ tests/test_async_bus.py               # Concurrent handler tests
 
 ### Task 9: AsyncEventStore (2-3 hours)
 ```
-src/orchestrix/async_store.py         # Protocol + InMemory impl
+src/orchestrix/async_inmemory_store.py    # Protocol + InMemory impl
 tests/test_async_store.py             # Concurrent persistence tests
 ```
 
@@ -350,7 +350,7 @@ bus.publish(command)  # Blocking
 
 ### Async (New)
 ```python
-from orchestrix.infrastructure.async_bus import InMemoryAsyncMessageBus
+from orchestrix.infrastructure.async_inmemory_bus import InMemoryAsyncMessageBus
 
 bus = InMemoryAsyncMessageBus()
 bus.subscribe(CreateOrder, async_handler)

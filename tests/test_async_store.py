@@ -2,7 +2,7 @@
 
 import pytest
 
-from orchestrix.infrastructure.async_store import InMemoryAsyncEventStore
+from orchestrix.infrastructure.async_inmemory_store import InMemoryAsyncEventStore
 from orchestrix.message import Event
 
 

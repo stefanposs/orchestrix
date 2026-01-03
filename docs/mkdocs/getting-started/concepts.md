@@ -237,4 +237,3 @@ The typical flow is:
 
 - [Creating Modules](../guide/creating-modules.md) - Module design patterns
 - [Commands & Events](../guide/commands-events.md) - Message design guidelines
-- [Aggregates](../guide/aggregates.md) - Aggregate patterns
