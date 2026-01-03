@@ -8,8 +8,8 @@ This module provides the core abstractions for event-sourced aggregates:
 from dataclasses import dataclass, field
 from typing import Generic, TypeVar
 
-from orchestrix.core.event import Event
 from orchestrix.core.event_store import EventStore
+from orchestrix.core.message import Event
 
 T = TypeVar("T", bound="AggregateRoot")
 
@@ -43,10 +43,6 @@ class AggregateRoot:
         Args:
             event: The event to apply
         """
-        # Set subject if not already set
-        if not event.subject:
-            event.subject = self.aggregate_id
-
         # Apply the event to state
         self._when(event)
 
@@ -131,14 +127,11 @@ class AggregateRepository(Generic[T]):
             ValueError: If aggregate not found
         """
         # Load events from store
-        base_events = await self.event_store.load_async(aggregate_id)
+        events = await self.event_store.load_async(aggregate_id)
 
-        if not base_events:
+        if not events:
             msg = f"Aggregate {aggregate_id} not found"
             raise ValueError(msg)
-
-        # Convert base events to Event instances
-        events = [Event.from_base_event(e) for e in base_events]
 
         # Create empty aggregate
         aggregate = aggregate_type()
@@ -163,14 +156,11 @@ class AggregateRepository(Generic[T]):
             ValueError: If aggregate not found
         """
         # Load events from store
-        base_events = self.event_store.load(aggregate_id)
+        events = self.event_store.load(aggregate_id)
 
-        if not base_events:
+        if not events:
             msg = f"Aggregate {aggregate_id} not found"
             raise ValueError(msg)
-
-        # Convert base events to Event instances
-        events = [Event.from_base_event(e) for e in base_events]
 
         # Create empty aggregate
         aggregate = aggregate_type()
@@ -190,11 +180,8 @@ class AggregateRepository(Generic[T]):
         if not aggregate.uncommitted_events:
             return
 
-        # Convert to base events for storage
-        base_events = [e.to_base_event() for e in aggregate.uncommitted_events]
-
         # Persist events
-        await self.event_store.save_async(aggregate.aggregate_id, base_events)
+        await self.event_store.save_async(aggregate.aggregate_id, aggregate.uncommitted_events)
 
         # Mark events as committed
         aggregate.mark_events_committed()
@@ -208,11 +195,8 @@ class AggregateRepository(Generic[T]):
         if not aggregate.uncommitted_events:
             return
 
-        # Convert to base events for storage
-        base_events = [e.to_base_event() for e in aggregate.uncommitted_events]
-
         # Persist events
-        self.event_store.save(aggregate.aggregate_id, base_events)
+        self.event_store.save(aggregate.aggregate_id, aggregate.uncommitted_events)
 
         # Mark events as committed
         aggregate.mark_events_committed()

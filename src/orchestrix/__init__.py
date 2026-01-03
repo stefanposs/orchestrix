@@ -6,7 +6,6 @@ with CloudEvents-compatible messages.
 
 from orchestrix.core.aggregate import AggregateRepository, AggregateRoot
 from orchestrix.core.command_handler import CommandHandler
-from orchestrix.core.event import Event as CoreEvent
 from orchestrix.core.event_store import EventStore
 from orchestrix.core.message import Command, Event, Message
 from orchestrix.core.message_bus import MessageBus
@@ -19,7 +18,6 @@ __all__ = [
     "AggregateRoot",
     "Command",
     "CommandHandler",
-    "CoreEvent",
     "Event",
     "EventStore",
     "InMemoryEventStore",
@@ -30,3 +28,4 @@ __all__ = [
 ]
 
 __version__ = "0.1.0"
+
