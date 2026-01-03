@@ -49,6 +49,15 @@ docs = [
     "mkdocs-material>=9.4.0",
     "mkdocstrings[python]>=0.24.0",
 ]
+postgres = [
+    "asyncpg>=0.29.0",
+]
+eventsourcingdb = [
+    "aiohttp>=3.9.0",
+]
+all = [
+    "orchestrix[postgres,eventsourcingdb]",
+]
 
 [tool.setuptools]
 package-dir = {"" = "src"}
