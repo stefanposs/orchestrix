@@ -1,0 +1,2 @@
+[tool.ruff]
+extend-ignore = ["PLR0915"]  # Too many statements - examples are verbose for demonstration
