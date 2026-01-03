@@ -52,7 +52,7 @@ class InMemoryAsyncMessageBus:
         _logger.info(
             "Publishing message (async)",
             message_type=message_type.__name__,
-            message_id=message.id,
+            message_id=getattr(message, "id", "N/A"),
             handler_count=len(handlers),
         )
 
