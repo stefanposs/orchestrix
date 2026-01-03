@@ -7,7 +7,7 @@ name = "orchestrix"
 version = "0.1.0"
 description = "A modular event-driven architecture framework with CloudEvents-compatible messages"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 license = "MIT"
 authors = [
     {name = "Stefan Poss", email = "stefan@example.com"}
