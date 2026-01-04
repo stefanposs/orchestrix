@@ -72,7 +72,7 @@ Long-running business processes with compensation:
 
 **Key Concepts:** Saga Pattern, Compensation, Process Managers  
 **Source:** [`examples/sagas/`](https://github.com/stefanposs/orchestrix/tree/main/examples/sagas)  
-**Run:** `uv run python examples/sagas/example.py`
+**Run:** `uv run python -m examples.sagas.example`
 
 ---
 
@@ -86,7 +86,7 @@ Building optimized read models:
 
 **Key Concepts:** CQRS, Read Models, Denormalization  
 **Source:** [`examples/projections/`](https://github.com/stefanposs/orchestrix/tree/main/examples/projections)  
-**Run:** `uv run python examples/projections/example.py`
+**Run:** `uv run python -m examples.projections.example`
 
 ---
 
@@ -100,7 +100,7 @@ OpenTelemetry integration with Jaeger:
 
 **Key Concepts:** Observability, OpenTelemetry, Jaeger  
 **Source:** [`examples/tracing/`](https://github.com/stefanposs/orchestrix/tree/main/examples/tracing)  
-**Run:** `uv run python examples/tracing/example.py`
+**Run:** `uv run python -m examples.tracing.example`
 
 ---
 
@@ -114,7 +114,7 @@ Production metrics collection:
 
 **Key Concepts:** Metrics, Monitoring, Prometheus  
 **Source:** [`examples/prometheus/`](https://github.com/stefanposs/orchestrix/tree/main/examples/prometheus)  
-**Run:** `uv run python examples/prometheus/example.py`
+**Run:** `uv run python -m examples.prometheus.example`
 
 ---
 
@@ -128,7 +128,7 @@ Schema evolution with upcasters:
 
 **Key Concepts:** Schema Evolution, Upcasters, Backward Compatibility  
 **Source:** [`examples/versioning/`](https://github.com/stefanposs/orchestrix/tree/main/examples/versioning)  
-**Run:** `uv run python examples/versioning/example.py`
+**Run:** `uv run python -m examples.versioning.example`
 
 ---
 

@@ -125,19 +125,19 @@ uv run python -m examples.lakehouse.example
 uv run python -m examples.notifications.example
 
 # Sagas example (distributed transactions)
-uv run python examples/sagas/example.py
+uv run python -m examples.sagas.example
 
 # Projections example (read models)
-uv run python examples/projections/example.py
+uv run python -m examples.projections.example
 
 # Tracing example (OpenTelemetry with Jaeger)
-uv run python examples/tracing/example.py
+uv run python -m examples.tracing.example
 
 # Prometheus metrics example
-uv run python examples/prometheus/example.py
+uv run python -m examples.prometheus.example
 
 # Event versioning example
-uv run python examples/versioning/example.py
+uv run python -m examples.versioning.example
 ```
 
 ## Architecture

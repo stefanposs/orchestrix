@@ -1,0 +1,1 @@
+"""CQRS projections example."""
