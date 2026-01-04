@@ -74,45 +74,70 @@ pip install -e .
 ### Basic Usage
 
 ```python
-from orchestrix.infrastructure import InMemoryMessageBus, InMemoryEventStore
-from examples.order_module import OrderModule, CreateOrder
+import asyncio
+from decimal import Decimal
 
-# Setup infrastructure
-bus = InMemoryMessageBus()
-store = InMemoryEventStore()
+from orchestrix.core.aggregate import AggregateRepository
+from orchestrix.infrastructure.memory import InMemoryEventStore, InMemoryMessageBus
 
-# Register module
-module = OrderModule()
-module.register(bus, store)
+from examples.banking.aggregate import Account
+from examples.banking.handlers import register_handlers
+from examples.banking.models import OpenAccount
 
-# Execute command
-bus.publish(CreateOrder(
-    order_id="ORD-001",
-    customer_name="Alice",
-    total_amount=149.99
-))
+async def main():
+    # Setup infrastructure
+    event_store = InMemoryEventStore()
+    message_bus = InMemoryMessageBus()
+    repository = AggregateRepository(event_store)
+    
+    # Register handlers
+    register_handlers(message_bus, repository)
+    
+    # Execute command
+    await message_bus.publish_async(
+        OpenAccount(
+            account_id="acc-001",
+            owner_name="Alice",
+            initial_balance=Decimal("1000.00")
+        )
+    )
+    
+    # Load aggregate to verify
+    account = await repository.load_async(Account, "acc-001")
+    print(f"Account {account.owner_name}: ${account.balance}")
+
+asyncio.run(main())
 ```
 
 ### Run Examples
 
 ```bash
-# Basic order example
-uv run examples/ecommerce/order_example.py
+# Banking example (account management)
+uv run python -m examples.banking.example
 
-# Sagas (distributed transactions)
-uv run examples/sagas/example.py
+# E-commerce example (order processing with sagas)
+uv run python -m examples.ecommerce.example
 
-# Projections (read models)
-uv run examples/projections/example.py
+# Lakehouse example (data anonymization)
+uv run python -m examples.lakehouse.example
 
-# Tracing with Jaeger
-uv run examples/tracing/example.py
+# Notifications example (resilient messaging)
+uv run python -m examples.notifications.example
 
-# Prometheus metrics
-uv run examples/prometheus/example.py
+# Sagas example (distributed transactions)
+uv run python examples/sagas/example.py
 
-# Event versioning
-uv run examples/versioning/example.py
+# Projections example (read models)
+uv run python examples/projections/example.py
+
+# Tracing example (OpenTelemetry with Jaeger)
+uv run python examples/tracing/example.py
+
+# Prometheus metrics example
+uv run python examples/prometheus/example.py
+
+# Event versioning example
+uv run python examples/versioning/example.py
 ```
 
 ## Architecture
@@ -157,18 +182,46 @@ Rules:
 ```
 orchestrix/
 ├── src/orchestrix/          # Core framework
-│   ├── message.py           # Message base classes
-│   ├── module.py            # Module protocol
-│   ├── message_bus.py       # MessageBus protocol
-│   ├── event_store.py       # EventStore protocol
-│   ├── command_handler.py   # CommandHandler protocol
-│   ├── py.typed             # Type marker
-│   └── infrastructure/      # Implementations
-│       ├── inmemory_bus.py
-│       └── inmemory_store.py
-└── examples/
-    ├── order_module.py      # Example module
-    └── run_order_example.py # Runnable demo
+│   ├── core/                # Core abstractions
+│   │   ├── message.py           # Message base classes (Command, Event)
+│   │   ├── message_bus.py       # MessageBus protocol
+│   │   ├── event_store.py       # EventStore protocol
+│   │   ├── aggregate.py         # Aggregate root and repository
+│   │   ├── command_handler.py   # CommandHandler protocol
+│   │   ├── module.py            # Module protocol
+│   │   ├── saga.py              # Saga support
+│   │   ├── projection.py        # Projection engine
+│   │   ├── snapshot.py          # Snapshot support
+│   │   ├── versioning.py        # Event versioning/upcasters
+│   │   ├── retry.py             # Retry policies
+│   │   ├── dead_letter_queue.py # Dead letter queue
+│   │   ├── validation.py        # Message validation
+│   │   └── observability.py     # Metrics and tracing
+│   ├── infrastructure/      # Implementations
+│   │   ├── memory.py            # InMemory bus and store
+│   │   ├── inmemory_bus.py      # Sync in-memory bus
+│   │   ├── inmemory_store.py    # Sync in-memory store
+│   │   ├── async_inmemory_bus.py    # Async in-memory bus
+│   │   ├── async_inmemory_store.py  # Async in-memory store
+│   │   ├── postgres_store.py    # PostgreSQL event store
+│   │   ├── eventsourcingdb_store.py # EventSourcingDB store
+│   │   ├── connection_pool.py   # Connection pooling
+│   │   ├── prometheus_metrics.py # Prometheus metrics
+│   │   └── tracing.py           # OpenTelemetry tracing
+│   └── py.typed             # Type marker
+├── examples/                # Production-ready examples
+│   ├── banking/             # Account management
+│   ├── ecommerce/           # Order processing with sagas
+│   ├── lakehouse/           # Data lakehouse with GDPR
+│   ├── notifications/       # Resilient notifications
+│   ├── projections/         # Read model examples
+│   ├── sagas/               # Saga pattern examples
+│   ├── prometheus/          # Metrics examples
+│   ├── tracing/             # Distributed tracing
+│   └── versioning/          # Event schema evolution
+├── tests/                   # Test suite
+├── docs/                    # Documentation
+└── benchmarks/              # Performance benchmarks
 ```
 
 ## Documentation

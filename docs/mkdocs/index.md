@@ -82,23 +82,39 @@ uv add orchestrix
 ### Basic Usage
 
 ```python
-from orchestrix.infrastructure import InMemoryMessageBus, InMemoryEventStore
-from examples.order_module import OrderModule, CreateOrder
+import asyncio
+from decimal import Decimal
 
-# Setup infrastructure
-bus = InMemoryMessageBus()
-store = InMemoryEventStore()
+from orchestrix.core.aggregate import AggregateRepository
+from orchestrix.infrastructure.memory import InMemoryEventStore, InMemoryMessageBus
 
-# Register module
-module = OrderModule()
-module.register(bus, store)
+from examples.banking.aggregate import Account
+from examples.banking.handlers import register_handlers
+from examples.banking.models import OpenAccount
 
-# Execute command
-bus.publish(CreateOrder(
-    order_id="ORD-001",
-    customer_name="Alice",
-    total_amount=149.99
-))
+async def main():
+    # Setup infrastructure
+    event_store = InMemoryEventStore()
+    message_bus = InMemoryMessageBus()
+    repository = AggregateRepository(event_store)
+    
+    # Register handlers
+    register_handlers(message_bus, repository)
+    
+    # Execute command
+    await message_bus.publish_async(
+        OpenAccount(
+            account_id="acc-001",
+            owner_name="Alice",
+            initial_balance=Decimal("1000.00")
+        )
+    )
+    
+    # Load aggregate to verify
+    account = await repository.load_async(Account, "acc-001")
+    print(f"Account {account.owner_name}: ${account.balance}")
+
+asyncio.run(main())
 ```
 
 ## Documentation
@@ -125,7 +141,8 @@ class OrderCreated(Event):
     customer_name: str
     total_amount: float
 
-# Full example in examples/order_module.py
+# Full examples in examples/ directory
+# See: examples/banking/, examples/ecommerce/, examples/lakehouse/
 ```
 
 ## Architecture
