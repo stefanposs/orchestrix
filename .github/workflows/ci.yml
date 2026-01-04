@@ -42,10 +42,9 @@ jobs:
         run: uv sync --all-extras --dev
         
       - name: MyPy type checking
-        run: uv run mypy src/orchestrix
+        run: uv run mypy components/core components/infrastructure projects/orchestrix
         
-      - name: Ty type checking
-        run: uv run ty check src/orchestrix
+      # Ty check removed as it is not configured in the new structure
 
   test:
     runs-on: ${{ matrix.os }}

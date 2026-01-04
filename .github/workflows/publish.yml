@@ -23,7 +23,7 @@ jobs:
         run: uv sync --all-extras --dev
         
       - name: Build package
-        run: uv build
+        run: uv build --package orchestrix
         
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
