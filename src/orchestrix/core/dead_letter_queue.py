@@ -4,9 +4,10 @@ Messages that fail after max retries are routed to the dead letter queue
 for later analysis and replay.
 """
 
+from abc import abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Optional, Protocol
 
 from orchestrix.core.message import Message
 
@@ -37,6 +38,7 @@ class DeadLetterQueue:
     This allows for later analysis, debugging, and potential replay.
     """
 
+    @abstractmethod
     def enqueue(self, dead_lettered: DeadLetteredMessage) -> None:
         """Add a message to the dead letter queue.
 
@@ -45,6 +47,7 @@ class DeadLetterQueue:
         """
         ...
 
+    @abstractmethod
     def dequeue_all(self) -> list[DeadLetteredMessage]:
         """Get all messages from the dead letter queue.
 
@@ -53,10 +56,12 @@ class DeadLetterQueue:
         """
         ...
 
+    @abstractmethod
     def clear(self) -> None:
         """Clear all messages from the dead letter queue."""
         ...
 
+    @abstractmethod
     def count(self) -> int:
         """Get the number of messages in the dead letter queue.
 

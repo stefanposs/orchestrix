@@ -43,6 +43,9 @@ jobs:
         
       - name: MyPy type checking
         run: uv run mypy src/orchestrix
+        
+      - name: Ty type checking
+        run: uv run ty check src/orchestrix
 
   test:
     runs-on: ${{ matrix.os }}

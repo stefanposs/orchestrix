@@ -58,8 +58,8 @@ test-watch:
 # Code Quality
 # ============================================================================
 
-# Run all QA checks (lint, format-check, typecheck, test)
-qa: lint format-check typecheck test
+# Run all QA checks (lint, format-check, typecheck, ty, test)
+qa: lint format-check typecheck ty test
     @echo "✅ All QA checks passed!"
 
 # Run ruff linter
@@ -86,6 +86,14 @@ typecheck:
 typecheck-verbose:
     uv run mypy src/orchestrix --verbose
 
+# Run ty type checker (Astral)
+ty:
+    uv run ty check src/orchestrix
+
+# Run ty with verbose output
+ty-verbose:
+    uv run ty check src/orchestrix --verbose
+
 # ============================================================================
 # Combined Workflows
 # ============================================================================
@@ -98,8 +106,8 @@ fix: format lint-fix
 pre-commit:
     uv run pre-commit run --all-files
 
-# Full check before commit (format, lint, typecheck, test)
-check: format lint typecheck test
+# Full check before commit (format, lint, typecheck, ty, test)
+check: format lint typecheck ty test
     @echo "✅ Ready to commit!"
 
 # ============================================================================
@@ -174,11 +182,11 @@ shell:
 # ============================================================================
 
 # Simulate CI pipeline locally
-ci: clean install pre-commit test-ci typecheck
+ci: clean install pre-commit test-ci typecheck ty
     @echo "✅ CI simulation complete!"
 
 # Quick CI check (faster, skips some steps)
-ci-quick: lint typecheck test
+ci-quick: lint typecheck ty test
     @echo "✅ Quick CI check complete!"
 
 # ============================================================================

@@ -1,0 +1,15 @@
+# ty configuration file
+# https://docs.astral.sh/ty/configuration/
+
+[tool.ty]
+# Only report errors for now, warnings can be addressed later
+error-only = true
+
+# Ignore external dependencies that have type issues
+exclude = [
+    "src/orchestrix/infrastructure/eventsourcingdb_store.py",  # External SDK issues
+    "src/orchestrix/infrastructure/tracing.py",  # OpenTelemetry deprecated imports
+]
+
+# Target Python version
+python-version = "3.12"

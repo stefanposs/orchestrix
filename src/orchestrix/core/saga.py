@@ -246,7 +246,8 @@ class Saga:
             object.__setattr__(
                 self._state, "completed_at", datetime.now(timezone.utc)
             )
-            await self.state_store.save_state(self._state)
+            if self._state is not None:
+                await self.state_store.save_state(self._state)
 
             return result
 
