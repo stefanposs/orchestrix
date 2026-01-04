@@ -203,6 +203,6 @@ def get_version(event: Event) -> int:
 
 ## Learn More
 
-- [Versioning Guide](../guide/versioning.md)
+- [Best Practices](../guide/best-practices.md)
 - [Full Example](https://github.com/stefanposs/orchestrix/tree/main/examples/versioning)
 - [API Reference](../api/core.md#versioning)

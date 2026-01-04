@@ -98,6 +98,6 @@ uv run example.py
 
 ## Learn More
 
-- [Saga Pattern](../guide/sagas.md)
+- [Best Practices](../guide/best-practices.md)
 - [Full Example](https://github.com/stefanposs/orchestrix/tree/main/examples/sagas)
 - [API Reference](../api/core.md#saga)

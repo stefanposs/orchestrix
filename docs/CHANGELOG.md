@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Type Checking**: Integrated `ty` type checker from Astral for stricter type validation
+- **Documentation**: Comprehensive production deployment guide for small/medium/large projects
+- **Documentation**: Complete user guide covering project scaling strategies
+- **DevOps**: GitHub Actions security scanning workflow (CodeQL, Bandit, TruffleHog)
+- **DevOps**: Dependabot configuration for automated dependency updates
+- **Planning**: TODO.md with 50+ feature ideas and cloud service integration decisions
+- **Documentation**: "What Problem Does Orchestrix Solve?" and "When to Use" sections
 - Optimistic locking for event stores (ConcurrencyError)
 - Saga pattern implementation with compensation logic
 - Projection engine with multiple backend support (InMemory, PostgreSQL)
@@ -19,11 +26,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Examples for sagas, projections, tracing, metrics, and versioning
 
 ### Changed
+- **Documentation**: Updated project structure in README to reflect all 18 core modules
+- **Documentation**: Updated mkdocs navigation to include production guides
 - EventStore protocol now supports `expected_version` parameter
 - All store implementations (InMemory, PostgreSQL) support optimistic locking
 - Async stores now have consistent API with sync stores
 
 ### Fixed
+- **Type Safety**: Fixed 46 ty type errors across saga, event store, aggregate modules
+- **Type Safety**: Fixed 13 ty warnings with proper None checks and assertions
 - InMemoryAsyncEventStore now properly supports expected_version parameter
 - Memory compatibility layer passes through expected_version correctly
 

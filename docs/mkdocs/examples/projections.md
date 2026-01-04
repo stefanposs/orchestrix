@@ -117,6 +117,6 @@ uv run example.py
 
 ## Learn More
 
-- [Projection Guide](../guide/projections.md)
+- [Best Practices](../guide/best-practices.md)
 - [Full Example](https://github.com/stefanposs/orchestrix/tree/main/examples/projections)
 - [API Reference](../api/core.md#projection)

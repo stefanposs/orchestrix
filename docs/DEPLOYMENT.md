@@ -1,5 +1,13 @@
 # Orchestrix Deployment Guide
 
+> **⚠️ This document is being superseded by our comprehensive deployment guides:**
+> - **[Production Deployment Guide](mkdocs/guide/production-deployment.md)** - Complete guide for small/medium/large projects
+> - **[Production Readiness Guide](mkdocs/guide/production-ready.md)** - Detailed production checklist
+> 
+> The information below remains accurate for PyPI publishing workflow.
+
+---
+
 ## ✅ Current Status
 
 Orchestrix v0.1.0 ist jetzt **production-ready** und bereit für die Veröffentlichung auf PyPI!

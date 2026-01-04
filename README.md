@@ -156,19 +156,50 @@ Rules:
 
 ```
 orchestrix/
-├── src/orchestrix/          # Core framework
-│   ├── message.py           # Message base classes
-│   ├── module.py            # Module protocol
-│   ├── message_bus.py       # MessageBus protocol
-│   ├── event_store.py       # EventStore protocol
-│   ├── command_handler.py   # CommandHandler protocol
-│   ├── py.typed             # Type marker
-│   └── infrastructure/      # Implementations
-│       ├── inmemory_bus.py
-│       └── inmemory_store.py
-└── examples/
-    ├── order_module.py      # Example module
-    └── run_order_example.py # Runnable demo
+├── src/orchestrix/
+│   ├── core/                        # Core framework
+│   │   ├── __init__.py              # Public API exports
+│   │   ├── aggregate.py             # AggregateRoot & AggregateRepository
+│   │   ├── command_handler.py       # CommandHandler protocol
+│   │   ├── dead_letter_queue.py     # Failed message handling
+│   │   ├── event_store.py           # EventStore protocol
+│   │   ├── exceptions.py            # Framework exceptions
+│   │   ├── logging.py               # Structured logging
+│   │   ├── message.py               # Message, Command, Event base classes
+│   │   ├── message_bus.py           # MessageBus protocol
+│   │   ├── messaging.py             # Message metadata helpers
+│   │   ├── module.py                # Module protocol
+│   │   ├── observability.py         # ObservabilityHooks protocol
+│   │   ├── projection.py            # Projection & ProjectionEngine
+│   │   ├── retry.py                 # RetryPolicy & RetryableError
+│   │   ├── saga.py                  # Saga orchestration
+│   │   ├── snapshot.py              # Snapshot protocol & strategies
+│   │   ├── validation.py            # Message validation
+│   │   ├── versioning.py            # Event upcasters
+│   │   └── py.typed                 # Type marker
+│   └── infrastructure/              # Implementations
+│       ├── __init__.py              # Infrastructure exports
+│       ├── async_inmemory_bus.py    # Async message bus
+│       ├── async_inmemory_store.py  # Async event store
+│       ├── connection_pool.py       # PostgreSQL connection pooling
+│       ├── eventsourcingdb_store.py # EventSourcingDB backend
+│       ├── inmemory_bus.py          # Sync message bus
+│       ├── inmemory_store.py        # Sync event store
+│       ├── memory.py                # Shared memory utilities
+│       ├── postgres_store.py        # PostgreSQL backend
+│       ├── prometheus_metrics.py    # Prometheus metrics
+│       └── tracing.py               # OpenTelemetry tracing
+├── examples/                        # Production-ready examples
+│   ├── banking/                     # Banking domain (accounts, transfers)
+│   ├── ecommerce/                   # E-commerce (orders, inventory, shipping)
+│   ├── projections/                 # Read model patterns
+│   ├── sagas/                       # Distributed transaction examples
+│   ├── tracing/                     # Observability examples
+│   └── versioning/                  # Event schema evolution
+└── tests/                           # 404+ tests, 84% coverage
+    ├── unit/                        # Unit tests
+    ├── integration/                 # Integration tests
+    └── conftest.py                  # Shared fixtures
 ```
 
 ## Documentation

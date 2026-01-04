@@ -52,10 +52,13 @@ nav:
       - Quick Start: getting-started/quick-start.md
       - Core Concepts: getting-started/concepts.md
   - User Guide:
+      - Overview: guide/index.md
       - Creating Modules: guide/creating-modules.md
       - Commands & Events: guide/commands-events.md
       - Message Bus: guide/message-bus.md
       - Event Store: guide/event-store.md
+      - Production Deployment: guide/production-deployment.md
+      - Production Readiness: guide/production-ready.md
       - Best Practices: guide/best-practices.md
   - Examples:
       - Overview: examples/index.md
