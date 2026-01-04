@@ -43,8 +43,8 @@ addopts = [
     "--strict-config",
     "--cov=orchestrix",
     "--cov-report=term-missing",
-    "--cov-report=html",
-    "--cov-report=xml",
+    "--cov-report=html:output/htmlcov",
+    "--cov-report=xml:output/coverage.xml",
 ]
 
 [tool.coverage.run]

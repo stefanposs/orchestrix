@@ -66,3 +66,4 @@ site/
 
 # Ruff
 .ruff_cache/
+output/
