@@ -19,15 +19,15 @@ from orchestrix.core.snapshot import Snapshot
 
 
 @dataclass(frozen=True)
-class TestCommand(Command):
-    """Test command."""
+class MockCommand(Command):
+    """Mock command for testing."""
 
     value: str = "test"
 
 
 @dataclass(frozen=True)
-class TestEvent(Event):
-    """Test event."""
+class MockEvent(Event):
+    """Mock event for testing."""
 
     value: str = "test"
 
@@ -54,7 +54,7 @@ class TestEmptyStates:
     def test_message_bus_publish_without_subscribers(self) -> None:
         """Publishing without subscribers should not raise."""
         bus = InMemoryMessageBus()
-        cmd = TestCommand()
+        cmd = MockCommand()
 
         # Should not raise
         bus.publish(cmd)
@@ -64,17 +64,17 @@ class TestEmptyStates:
         bus = InMemoryMessageBus()
         calls = []
 
-        def handler(msg: TestCommand) -> None:
+        def handler(msg: MockCommand) -> None:
             calls.append(msg)
 
-        bus.subscribe(TestCommand, handler)
-        bus.publish(TestCommand())
+        bus.subscribe(MockCommand, handler)
+        bus.publish(MockCommand())
         assert len(calls) == 1
 
         # Unsubscribe by clearing handlers (no explicit API)
         # Bus should handle no handlers gracefully
-        bus._handlers[TestCommand].clear()
-        bus.publish(TestCommand())
+        bus._handlers[MockCommand].clear()
+        bus.publish(MockCommand())
         assert len(calls) == 1  # No new call
 
     def test_dlq_empty_queue_operations(self) -> None:
@@ -98,7 +98,7 @@ class TestBoundaryConditions:
         store = InMemoryEventStore()
         long_id = "a" * 1000
 
-        events = [TestEvent(), TestEvent()]
+        events = [MockEvent(), MockEvent()]
         store.save(long_id, events)
 
         loaded = store.load(long_id)
@@ -110,7 +110,7 @@ class TestBoundaryConditions:
 
         # Create 1000 aggregates
         for i in range(1000):
-            store.save(f"agg-{i}", [TestEvent()])
+            store.save(f"agg-{i}", [MockEvent()])
 
         # All should be isolated
         for i in range(1000):
@@ -125,12 +125,12 @@ class TestBoundaryConditions:
         # Subscribe 100 handlers
         for i in range(100):
 
-            def handler(_msg: TestCommand, idx: int = i) -> None:
+            def handler(_msg: MockCommand, idx: int = i) -> None:
                 calls.append(idx)
 
-            bus.subscribe(TestCommand, handler)
+            bus.subscribe(MockCommand, handler)
 
-        bus.publish(TestCommand())
+        bus.publish(MockCommand())
 
         assert len(calls) == 100
         assert set(calls) == set(range(100))
@@ -154,7 +154,7 @@ class TestBoundaryConditions:
     def test_load_events_from_future_version(self) -> None:
         """Loading from version beyond stream length."""
         store = InMemoryEventStore()
-        store.save("agg-001", [TestEvent(), TestEvent(), TestEvent()])
+        store.save("agg-001", [MockEvent(), MockEvent(), MockEvent()])
 
         # Load from version 10 (only 3 events)
         events = store.load("agg-001", from_version=10)
@@ -171,14 +171,14 @@ class TestConcurrentAccess:
         bus = InMemoryAsyncMessageBus()
         received = []
 
-        async def handler(msg: TestCommand) -> None:
+        async def handler(msg: MockCommand) -> None:
             await asyncio.sleep(0.01)  # Simulate work
             received.append(msg.value)
 
-        bus.subscribe(TestCommand, handler)
+        bus.subscribe(MockCommand, handler)
 
         # Publish 10 commands concurrently
-        commands = [TestCommand(value=f"cmd-{i}") for i in range(10)]
+        commands = [MockCommand(value=f"cmd-{i}") for i in range(10)]
         await asyncio.gather(*[bus.publish(cmd) for cmd in commands])
 
         assert len(received) == 10
@@ -190,7 +190,7 @@ class TestConcurrentAccess:
         store = InMemoryAsyncEventStore()
 
         async def save_events(agg_id: str) -> None:
-            events = [TestEvent(value=f"event-{agg_id}")]
+            events = [MockEvent(value=f"event-{agg_id}")]
             await store.save(agg_id, events)
 
         # Save to 50 aggregates concurrently
@@ -206,7 +206,7 @@ class TestConcurrentAccess:
     async def test_async_store_concurrent_reads(self) -> None:
         """Concurrent reads from same aggregate."""
         store = InMemoryAsyncEventStore()
-        events = [TestEvent() for _ in range(5)]
+        events = [MockEvent() for _ in range(5)]
         await store.save("agg-001", events)
 
         # Read 20 times concurrently
@@ -227,16 +227,16 @@ class TestInvalidInputs:
         def bad_handler() -> None:  # Missing message parameter
             pass
 
-        bus.subscribe(TestCommand, bad_handler)  # type: ignore
+        bus.subscribe(MockCommand, bad_handler)  # type: ignore
 
         # Should raise HandlerError when all handlers fail
         with pytest.raises(HandlerError):
-            bus.publish(TestCommand())
+            bus.publish(MockCommand())
 
     def test_event_store_load_with_negative_version(self) -> None:
         """Load with negative version (boundary)."""
         store = InMemoryEventStore()
-        store.save("agg-001", [TestEvent(), TestEvent()])
+        store.save("agg-001", [MockEvent(), MockEvent()])
 
         # Negative version - implementation may vary
         # Current implementation uses list slicing which handles this
@@ -248,7 +248,7 @@ class TestInvalidInputs:
     def test_dlq_duplicate_message_ids(self) -> None:
         """DLQ can handle multiple messages with same ID."""
         dlq = InMemoryDeadLetterQueue()
-        msg = TestCommand(value="test")
+        msg = MockCommand(value="test")
 
         # Add same message ID twice with different reasons
         dlq.enqueue(
@@ -273,19 +273,19 @@ class TestErrorRecovery:
         """All handlers fail - should raise HandlerError."""
         bus = InMemoryMessageBus()
 
-        def failing_handler1(_msg: TestCommand) -> None:
+        def failing_handler1(_msg: MockCommand) -> None:
             msg = "Handler 1 failed"
             raise ValueError(msg)
 
-        def failing_handler2(_msg: TestCommand) -> None:
+        def failing_handler2(_msg: MockCommand) -> None:
             msg = "Handler 2 failed"
             raise RuntimeError(msg)
 
-        bus.subscribe(TestCommand, failing_handler1)
-        bus.subscribe(TestCommand, failing_handler2)
+        bus.subscribe(MockCommand, failing_handler1)
+        bus.subscribe(MockCommand, failing_handler2)
 
         with pytest.raises(HandlerError) as exc_info:
-            bus.publish(TestCommand())
+            bus.publish(MockCommand())
 
         # HandlerError message indicates all handlers failed
         assert "all_handlers" in str(exc_info.value)
@@ -296,19 +296,19 @@ class TestErrorRecovery:
         bus = InMemoryMessageBus()
         success_calls = []
 
-        def failing_handler(_msg: TestCommand) -> None:
+        def failing_handler(_msg: MockCommand) -> None:
             msg = "Failed"
             raise ValueError(msg)
 
-        def success_handler(msg: TestCommand) -> None:
+        def success_handler(msg: MockCommand) -> None:
             success_calls.append(msg)
 
-        bus.subscribe(TestCommand, failing_handler)
-        bus.subscribe(TestCommand, success_handler)
-        bus.subscribe(TestCommand, failing_handler)
+        bus.subscribe(MockCommand, failing_handler)
+        bus.subscribe(MockCommand, success_handler)
+        bus.subscribe(MockCommand, failing_handler)
 
         # Should not raise (at least one handler succeeded)
-        bus.publish(TestCommand())
+        bus.publish(MockCommand())
 
         assert len(success_calls) == 1
 
@@ -318,19 +318,19 @@ class TestErrorRecovery:
         bus = InMemoryAsyncMessageBus()
         successes = []
 
-        async def failing_handler(_msg: TestCommand) -> None:
+        async def failing_handler(_msg: MockCommand) -> None:
             msg = "Async fail"
             raise ValueError(msg)
 
-        async def success_handler(msg: TestCommand) -> None:
+        async def success_handler(msg: MockCommand) -> None:
             successes.append(msg.value)
 
-        bus.subscribe(TestCommand, failing_handler)
-        bus.subscribe(TestCommand, success_handler)
-        bus.subscribe(TestCommand, failing_handler)
+        bus.subscribe(MockCommand, failing_handler)
+        bus.subscribe(MockCommand, success_handler)
+        bus.subscribe(MockCommand, failing_handler)
 
         # Should not raise (one success)
-        await bus.publish(TestCommand(value="test-1"))
+        await bus.publish(MockCommand(value="test-1"))
 
         assert len(successes) == 1
 
@@ -396,7 +396,7 @@ class TestMessageImmutability:
 
     def test_cannot_modify_message_after_creation(self) -> None:
         """Messages are frozen and cannot be modified."""
-        cmd = TestCommand(value="original")
+        cmd = MockCommand(value="original")
 
         with pytest.raises(AttributeError):
             cmd.value = "modified"  # type: ignore
@@ -404,7 +404,7 @@ class TestMessageImmutability:
     def test_message_in_dlq_cannot_be_modified(self) -> None:
         """Messages in DLQ remain immutable."""
         dlq = InMemoryDeadLetterQueue()
-        msg = TestCommand(value="test")
+        msg = MockCommand(value="test")
 
         dead_lettered = DeadLetteredMessage(
             message=msg, reason="Failed", failure_count=1
@@ -418,7 +418,7 @@ class TestMessageImmutability:
     def test_events_in_store_cannot_be_modified(self) -> None:
         """Events in store remain immutable."""
         store = InMemoryEventStore()
-        event = TestEvent(value="original")
+        event = MockEvent(value="original")
 
         store.save("agg-001", [event])
         loaded = store.load("agg-001")

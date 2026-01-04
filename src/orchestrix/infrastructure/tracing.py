@@ -408,15 +408,29 @@ def init_tracing(
     # Create resource with service name
     resource = Resource.create({SERVICE_NAME: config.service_name})
 
-    # Create Jaeger exporter
-    jaeger_exporter = JaegerExporter(
-        agent_host_name=config.jaeger_agent_host,
-        agent_port=config.jaeger_agent_port,
-    )
+    # Create OTLP exporter (Jaeger native OTLP support since v1.35)
+    # Note: Requires Jaeger v1.35+ with OTLP receiver enabled
+    # For older Jaeger, use JaegerExporter (deprecated)
+    try:
+        from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+        
+        # Use OTLP exporter (recommended for Jaeger v1.35+)
+        otlp_exporter = OTLPSpanExporter(
+            endpoint=f"http://{config.jaeger_agent_host}:4317",  # Jaeger OTLP gRPC port
+            insecure=True
+        )
+        span_processor = BatchSpanProcessor(otlp_exporter)
+    except ImportError:
+        # Fallback to Jaeger exporter if OTLP not available
+        jaeger_exporter = JaegerExporter(
+            agent_host_name=config.jaeger_agent_host,
+            agent_port=config.jaeger_agent_port,
+        )
+        span_processor = BatchSpanProcessor(jaeger_exporter)
 
     # Create and set trace provider
     trace_provider = TracerProvider(resource=resource)
-    trace_provider.add_span_processor(BatchSpanProcessor(jaeger_exporter))
+    trace_provider.add_span_processor(span_processor)
     trace.set_tracer_provider(trace_provider)
 
     return JaegerTracer()

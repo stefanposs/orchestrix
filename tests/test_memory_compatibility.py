@@ -11,15 +11,15 @@ from orchestrix.core.message import Event, Command
 
 
 @dataclass(frozen=True, kw_only=True)
-class TestEvent(Event):
-    """Test event."""
+class MockEvent(Event):
+    """Mock event for testing."""
 
     value: str = "test"
 
 
 @dataclass(frozen=True, kw_only=True)
-class TestCommand(Command):
-    """Test command."""
+class MockCommand(Command):
+    """Mock command for testing."""
 
     value: str = "test"
 
@@ -31,7 +31,7 @@ class TestMemoryEventStore:
     async def test_save_async_alias(self):
         """Test save_async method works."""
         store = InMemoryEventStore()
-        event = TestEvent()
+        event = MockEvent()
 
         # Should work with async alias
         await store.save_async("agg-1", [event])
@@ -44,7 +44,7 @@ class TestMemoryEventStore:
     async def test_load_async_alias(self):
         """Test load_async method works."""
         store = InMemoryEventStore()
-        event = TestEvent()
+        event = MockEvent()
 
         # save is also async
         await store.save("agg-2", [event])
@@ -109,7 +109,7 @@ class TestMemoryMessageBus:
     async def test_publish_async_alias(self):
         """Test publish_async method works."""
         bus = InMemoryMessageBus()
-        message = TestCommand()
+        message = MockCommand()
 
         # Register a handler to catch the message
         called = []
@@ -117,7 +117,7 @@ class TestMemoryMessageBus:
         async def handler(msg):
             called.append(msg)
 
-        bus.subscribe(TestCommand, handler)
+        bus.subscribe(MockCommand, handler)
 
         # Should work with async alias
         await bus.publish_async(message)
@@ -128,14 +128,14 @@ class TestMemoryMessageBus:
     async def test_subscribe_still_works(self):
         """Test subscribe method still works."""
         bus = InMemoryMessageBus()
-        message = TestCommand()
+        message = MockCommand()
 
         received = []
 
         async def handler(msg):
             received.append(msg)
 
-        bus.subscribe(TestCommand, handler)
+        bus.subscribe(MockCommand, handler)
 
         await bus.publish_async(message)
 
@@ -145,7 +145,7 @@ class TestMemoryMessageBus:
     async def test_multiple_subscribers(self):
         """Test multiple subscribers work."""
         bus = InMemoryMessageBus()
-        message = TestEvent()
+        message = MockEvent()
 
         calls_1 = []
         calls_2 = []
@@ -156,8 +156,8 @@ class TestMemoryMessageBus:
         async def handler2(msg):
             calls_2.append(msg)
 
-        bus.subscribe(TestEvent, handler1)
-        bus.subscribe(TestEvent, handler2)
+        bus.subscribe(MockEvent, handler1)
+        bus.subscribe(MockEvent, handler2)
 
         await bus.publish_async(message)
 
