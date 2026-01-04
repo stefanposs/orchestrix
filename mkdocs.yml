@@ -62,6 +62,11 @@ nav:
       - Banking: examples/banking.md
       - E-Commerce: examples/ecommerce.md
       - Notifications: examples/notifications.md
+      - Sagas: examples/sagas.md
+      - Projections: examples/projections.md
+      - Tracing: examples/tracing.md
+      - Metrics: examples/metrics.md
+      - Versioning: examples/versioning.md
       - Lakehouse Platform:
           - GDPR Compliance: examples/lakehouse-gdpr.md
   - API Reference:

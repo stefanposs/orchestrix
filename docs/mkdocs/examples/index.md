@@ -62,6 +62,76 @@ Resilient notification system with:
 
 ---
 
+### 🔄 [Sagas](sagas.md)
+Long-running business processes with compensation:
+
+- Distributed transaction coordination
+- Automatic rollback on failure
+- State management and recovery
+- Multi-aggregate workflows
+
+**Key Concepts:** Saga Pattern, Compensation, Process Managers  
+**Source:** [`examples/sagas/`](https://github.com/stefanposs/orchestrix/tree/main/examples/sagas)  
+**Run:** `uv run python examples/sagas/example.py`
+
+---
+
+### 📊 [Projections](projections.md)
+Building optimized read models:
+
+- Event-driven projections
+- Multiple backend support (InMemory, PostgreSQL)
+- Automatic updates from event streams
+- Query optimization
+
+**Key Concepts:** CQRS, Read Models, Denormalization  
+**Source:** [`examples/projections/`](https://github.com/stefanposs/orchestrix/tree/main/examples/projections)  
+**Run:** `uv run python examples/projections/example.py`
+
+---
+
+### 🔍 [Distributed Tracing](tracing.md)
+OpenTelemetry integration with Jaeger:
+
+- Automatic span creation
+- Trace context propagation
+- Service dependency mapping
+- Performance analysis
+
+**Key Concepts:** Observability, OpenTelemetry, Jaeger  
+**Source:** [`examples/tracing/`](https://github.com/stefanposs/orchestrix/tree/main/examples/tracing)  
+**Run:** `uv run python examples/tracing/example.py`
+
+---
+
+### 📈 [Prometheus Metrics](metrics.md)
+Production metrics collection:
+
+- Message throughput tracking
+- Handler latency histograms
+- Error rate monitoring
+- Event store performance
+
+**Key Concepts:** Metrics, Monitoring, Prometheus  
+**Source:** [`examples/prometheus/`](https://github.com/stefanposs/orchestrix/tree/main/examples/prometheus)  
+**Run:** `uv run python examples/prometheus/example.py`
+
+---
+
+### 🔢 [Event Versioning](versioning.md)
+Schema evolution with upcasters:
+
+- Event schema migration
+- Backward compatibility
+- Chained version transforms
+- Type-safe versioning
+
+**Key Concepts:** Schema Evolution, Upcasters, Backward Compatibility  
+**Source:** [`examples/versioning/`](https://github.com/stefanposs/orchestrix/tree/main/examples/versioning)  
+**Run:** `uv run python examples/versioning/example.py`
+
+---
+
 ## Running Examples
 
 All examples are located in the `examples/` directory and can be run directly:

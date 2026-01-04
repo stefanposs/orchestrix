@@ -14,18 +14,29 @@
 ## Features
 
 - 🎯 **Modular Design** - Encapsulate domain logic in independent modules
-- 📦 **Event Sourcing** - First-class support for event-sourced aggregates
+- 📦 **Event Sourcing** - First-class support for event-sourced aggregates with optimistic locking
 - ☁️ **CloudEvents Compatible** - Immutable, metadata-rich messages
 - 🔌 **Pluggable Infrastructure** - Swap bus/store implementations easily
 - 🧪 **Type-Safe** - Full type annotations with `py.typed`
 - 🚀 **Simple API** - Minimal boilerplate, maximum productivity
+- 🔄 **Sagas** - Long-running business processes with compensation logic
+- 📊 **Projections** - Build read models from event streams
+- 📈 **Observability** - Built-in Prometheus metrics and OpenTelemetry tracing
+- 🔢 **Event Versioning** - Upcasters for evolving event schemas
 
 ## Quick Start
 
 ### Installation
 
 ```bash
+# Basic installation
 pip install orchestrix
+
+# With PostgreSQL support
+pip install orchestrix[postgres]
+
+# With observability (Prometheus + Tracing)
+pip install orchestrix[observability]
 ```
 
 Or with [uv](https://docs.astral.sh/uv/):

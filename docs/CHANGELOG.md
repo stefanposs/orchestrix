@@ -8,18 +8,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Initial release of Orchestrix framework
-- Core message abstractions (Message, Command, Event)
-- Module system for encapsulating domain logic
-- InMemoryMessageBus for synchronous message routing
-- InMemoryEventStore for event persistence
-- Full type annotations with py.typed
-- CloudEvents-compatible message structure
-- Comprehensive test suite with 100% coverage
-- CI/CD pipeline with GitHub Actions
-- Documentation with MkDocs Material
-- Pre-commit hooks for code quality
-- Contributing guidelines and Code of Conduct
+- Optimistic locking for event stores (ConcurrencyError)
+- Saga pattern implementation with compensation logic
+- Projection engine with multiple backend support (InMemory, PostgreSQL)
+- OpenTelemetry distributed tracing with Jaeger integration
+- Prometheus metrics collection (message throughput, handler latency)
+- Event versioning with upcasters for schema evolution
+- PostgreSQL connection pooling for production workloads
+- Comprehensive integration tests for PostgreSQL store
+- Examples for sagas, projections, tracing, metrics, and versioning
+
+### Changed
+- EventStore protocol now supports `expected_version` parameter
+- All store implementations (InMemory, PostgreSQL) support optimistic locking
+- Async stores now have consistent API with sync stores
+
+### Fixed
+- InMemoryAsyncEventStore now properly supports expected_version parameter
+- Memory compatibility layer passes through expected_version correctly
 
 ## [0.1.0] - 2026-01-03
 

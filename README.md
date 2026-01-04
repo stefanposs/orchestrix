@@ -11,17 +11,30 @@ A modular, event-driven architecture framework for Python with CloudEvents-compa
 ## Features
 
 - 🎯 **Modular Design** - Encapsulate domain logic in independent modules
-- 📦 **Event Sourcing** - First-class support for event-sourced aggregates
+- 📦 **Event Sourcing** - First-class support for event-sourced aggregates with optimistic locking
 - ☁️ **CloudEvents Compatible** - Immutable, metadata-rich messages
 - 🔌 **Pluggable Infrastructure** - Swap bus/store implementations easily
 - 🧪 **Type-Safe** - Full type annotations with `py.typed`
 - 🚀 **Simple API** - Minimal boilerplate, maximum productivity
+- 🔄 **Sagas** - Long-running business processes with compensation logic
+- 📊 **Projections** - Build read models from event streams
+- 📈 **Observability** - Built-in Prometheus metrics and OpenTelemetry tracing
+- 🔢 **Event Versioning** - Upcasters for evolving event schemas
 
 ## Quick Start
 
 ### Installation
 
 ```bash
+# Basic installation
+pip install orchestrix
+
+# With PostgreSQL support
+pip install orchestrix[postgres]
+
+# With observability (Prometheus + Tracing)
+pip install orchestrix[observability]
+
 # Development mode
 pip install -e .
 ```
@@ -48,14 +61,26 @@ bus.publish(CreateOrder(
 ))
 ```
 
-### Run Example
+### Run Examples
 
 ```bash
-# With uv
-uv run examples/run_order_example.py
+# Basic order example
+uv run examples/ecommerce/order_example.py
 
-# Or using just
-just example
+# Sagas (distributed transactions)
+uv run examples/sagas/example.py
+
+# Projections (read models)
+uv run examples/projections/example.py
+
+# Tracing with Jaeger
+uv run examples/tracing/example.py
+
+# Prometheus metrics
+uv run examples/prometheus/example.py
+
+# Event versioning
+uv run examples/versioning/example.py
 ```
 
 ## Architecture
@@ -124,25 +149,19 @@ orchestrix/
 
 ## Roadmap & Future Plans
 
-### In Progress
-- ✅ **Native Validation** - Dataclass validation without external dependencies (v1.0)
-- ✅ **Async Support** - Concurrent message handling with asyncio (v1.0)
-- ✅ **Enterprise Features** - Snapshots, retry policies, dead letter queue (v1.0)
+### ✅ Completed (v1.0)
+- ✅ **Native Validation** - Dataclass validation without external dependencies
+- ✅ **Async Support** - Concurrent message handling with asyncio
+- ✅ **Enterprise Features** - Snapshots, retry policies, dead letter queue
+- ✅ **Optimistic Locking** - Concurrency control for event stores
+- ✅ **Sagas** - Long-running business processes with compensation
+- ✅ **Projections** - Read model engine with multiple backends
+- ✅ **OpenTelemetry Tracing** - Distributed tracing with Jaeger integration
+- ✅ **Prometheus Metrics** - Production-grade metrics collection
+- ✅ **Event Versioning** - Upcasters for schema evolution
+- ✅ **Connection Pooling** - PostgreSQL connection management
 
 ### Planned Features
-
-#### Observability (Optional Dependencies)
-- **OpenTelemetry Integration** - Distributed tracing for message flows
-  - Automatic span creation for command/event handling
-  - Trace context propagation via CloudEvents metadata
-  - Integration with Jaeger, Zipkin, or cloud-native tracing
-  - Optional dependency: `pip install orchestrix[tracing]`
-  
-- **Prometheus Metrics** - Production-grade metrics collection
-  - Message throughput (commands/events per second)
-  - Handler execution latency (p50, p95, p99)
-  - Event store performance (read/write operations)
-  - Optional dependency: `pip install orchestrix[metrics]`
 
 #### Production Event Store Backends
 
@@ -205,10 +224,11 @@ orchestrix/
 ### Contributions Welcome
 
 We're actively looking for contributors interested in:
-- Implementing EventSourcingDB backend (`src/orchestrix/infrastructure/eventsourcingdb_store.py`)
-- Adding OpenTelemetry tracing decorators
-- Building Prometheus metrics exporters
+- Enhancing EventSourcingDB backend with advanced features
+- Adding more projection backends (Redis, Elasticsearch)
+- Building advanced saga patterns (parallel execution, timeouts)
 - Creating real-world example applications
+- Performance optimizations and benchmarks
 
 See [Contributing](.github/CONTRIBUTING.md) for details.
 
