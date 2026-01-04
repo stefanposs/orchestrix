@@ -1,0 +1,57 @@
+version: 2
+updates:
+  # Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    assignees:
+      - "stefanposs"
+    labels:
+      - "dependencies"
+      - "python"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+    groups:
+      # Group OpenTelemetry updates
+      opentelemetry:
+        patterns:
+          - "opentelemetry*"
+      # Group test dependencies
+      test-dependencies:
+        patterns:
+          - "pytest*"
+          - "coverage"
+          - "hypothesis"
+      # Group type checking
+      type-checking:
+        patterns:
+          - "mypy"
+          - "ty"
+          - "types-*"
+      # Group linting/formatting
+      code-quality:
+        patterns:
+          - "ruff"
+          - "black"
+          - "isort"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    assignees:
+      - "stefanposs"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"

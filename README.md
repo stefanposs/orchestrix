@@ -221,6 +221,35 @@ orchestrix/
 - Concurrent publish/subscribe benchmarks
 - Memory profiling for large event streams
 
+### Under Consideration
+
+#### Cloud & Integration Services (Decision Pending)
+We're evaluating whether to provide built-in integrations for:
+- **Monitoring**: Sentry (error tracking, performance monitoring)
+- **Data Services**: Google BigQuery (analytics), Cloud Storage (snapshots), Cloud SQL (managed PostgreSQL)
+- **Messaging**: Google Pub/Sub (event streaming, external integrations)
+- **Communication**: SendGrid (email notifications, transactional emails)
+
+**Philosophy Question**: Should Orchestrix be "batteries included" with cloud integrations, or stay minimal and let users build adapters?
+
+See [TODO.md](TODO.md) for full list of ideas and discussion points.
+
+#### DevOps Automation
+- **Dependabot**: Automated dependency updates and security scanning
+- **Enhanced CI/CD**: Matrix testing (Python 3.11-3.13, multiple OS), coverage reporting
+- **PyPI Publishing**: Automated releases on git tags with changelog generation
+- **Documentation CD**: Auto-deploy docs with PR previews
+
+#### Future Enhancements
+- **Event Replay System**: Time-travel debugging and event filtering
+- **Multi-Tenant Support**: Isolated event streams per tenant
+- **Event Encryption**: At-rest encryption with KMS integration
+- **Schema Registry**: Avro/Protobuf serialization with version compatibility
+- **Additional Backends**: MongoDB, DynamoDB, Cosmos DB, Kafka, Redis, Elasticsearch
+- **Saga Improvements**: Parallel steps, timeouts, visual orchestration UI
+- **Developer Tools**: CLI tool, admin dashboard, VS Code extension
+- **Advanced Testing**: Contract testing, chaos engineering, load testing framework
+
 ### Contributions Welcome
 
 We're actively looking for contributors interested in:
@@ -229,6 +258,8 @@ We're actively looking for contributors interested in:
 - Building advanced saga patterns (parallel execution, timeouts)
 - Creating real-world example applications
 - Performance optimizations and benchmarks
+- Cloud service integrations (see TODO.md)
+- DevOps automation (GitHub Actions, CI/CD)
 
 See [Contributing](.github/CONTRIBUTING.md) for details.
 
