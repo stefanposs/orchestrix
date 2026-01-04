@@ -1,0 +1,20 @@
+[project]
+name = "ecommerce-demo"
+version = "0.1.0"
+description = "E-commerce demo application"
+requires-python = ">=3.12"
+dependencies = [
+    "orchestrix-core",
+    "orchestrix-infrastructure",
+]
+
+[tool.uv.sources]
+orchestrix-core = { workspace = true }
+orchestrix-infrastructure = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["../../bases/orchestrix/ecommerce"]

@@ -4,6 +4,8 @@ This package provides the core abstractions for building event-sourced applicati
 with CloudEvents-compatible messages.
 """
 
+__path__ = __import__("pkgutil").extend_path(__path__, __name__)
+
 from orchestrix.core.aggregate import AggregateRepository, AggregateRoot
 from orchestrix.core.command_handler import CommandHandler
 from orchestrix.core.event_store import EventStore
