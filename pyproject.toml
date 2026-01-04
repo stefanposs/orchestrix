@@ -5,18 +5,17 @@ requires-python = ">=3.12"
 dependencies = []
 
 [tool.uv.workspace]
-members = ["components/*", "projects/*"]
+members = ["projects/*"]
 
 [tool.uv.sources]
 orchestrix = { workspace = true }
-orchestrix-core = { workspace = true }
-orchestrix-infrastructure = { workspace = true }
+
+[tool.polylith]
+namespace = "orchestrix"
 
 [dependency-groups]
 dev = [
     "orchestrix",
-    "orchestrix-core",
-    "orchestrix-infrastructure",
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0",
     "pytest-asyncio>=0.21.0",
@@ -26,7 +25,12 @@ dev = [
     "black>=23.11.0",
     "isort>=5.12.0",
     "pre-commit>=3.5.0",
+    "polylith-cli>=1.41.1",
 ]
+
+[tool.hatch.build]
+dev-mode-dirs = ["components", "bases", "development", "."]
+dist-dir = "output/dist"
 
 # ============================================================================
 # Code Quality Tools Configuration
@@ -46,9 +50,13 @@ addopts = [
     "--cov-report=html:output/htmlcov",
     "--cov-report=xml:output/coverage.xml",
 ]
+asyncio_mode = "auto"
+markers = [
+    "integration: mark test as an integration test",
+]
 
 [tool.coverage.run]
-source = ["components/core", "components/infrastructure", "projects/orchestrix"]
+source = ["components/orchestrix/core", "components/orchestrix/infrastructure", "projects/orchestrix"]
 omit = ["tests/*", "examples/*"]
 
 [tool.coverage.report]
@@ -78,7 +86,7 @@ warn_unused_ignores = true
 warn_no_return = true
 follow_imports = "normal"
 ignore_missing_imports = false
-mypy_path = "components/core:components/infrastructure:projects/orchestrix"
+mypy_path = "components/orchestrix/core:components/orchestrix/infrastructure:projects/orchestrix"
 
 [[tool.mypy.overrides]]
 module = "tests.*"

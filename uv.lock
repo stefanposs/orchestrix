@@ -13,8 +13,6 @@ members = [
     "lakehouse-demo",
     "notifications-demo",
     "orchestrix",
-    "orchestrix-core",
-    "orchestrix-infrastructure",
     "orchestrix-workspace",
 ]
 
@@ -177,17 +175,13 @@ wheels = [
 [[package]]
 name = "banking-demo"
 version = "0.1.0"
-source = { editable = "projects/banking-demo" }
+source = { editable = "projects/banking_demo" }
 dependencies = [
-    { name = "orchestrix-core" },
-    { name = "orchestrix-infrastructure" },
+    { name = "orchestrix" },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "orchestrix-core", editable = "components/core" },
-    { name = "orchestrix-infrastructure", editable = "components/infrastructure" },
-]
+requires-dist = [{ name = "orchestrix", editable = "projects/orchestrix_lib" }]
 
 [[package]]
 name = "black"
@@ -223,11 +217,11 @@ wheels = [
 
 [[package]]
 name = "certifi"
-version = "2025.11.12"
+version = "2026.1.4"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/a2/8c/58f469717fa48465e4a50c014a0400602d3c437d7c0c468e17ada824da3a/certifi-2025.11.12.tar.gz", hash = "sha256:d8ab5478f2ecd78af242878415affce761ca6bc54a22a27e026d7c25357c3316", size = 160538, upload-time = "2025-11-12T02:54:51.517Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e0/2d/a891ca51311197f6ad14a7ef42e2399f36cf2f9bd44752b3dc4eab60fdc5/certifi-2026.1.4.tar.gz", hash = "sha256:ac726dd470482006e014ad384921ed6438c457018f4b3d204aea4281258b2120", size = 154268, upload-time = "2026-01-04T02:42:41.825Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/70/7d/9bc192684cea499815ff478dfcdc13835ddf401365057044fb721ec6bddb/certifi-2025.11.12-py3-none-any.whl", hash = "sha256:97de8790030bbd5c2d96b7ec782fc2f7820ef8dba6db909ccf95449f2d062d4b", size = 159438, upload-time = "2025-11-12T02:54:49.735Z" },
+    { url = "https://files.pythonhosted.org/packages/e6/ad/3cc14f097111b4de0040c83a525973216457bbeeb63739ef1ed275c1c021/certifi-2026.1.4-py3-none-any.whl", hash = "sha256:9943707519e4add1115f44c2bc244f782c0249876bf51b6599fee1ffbedd685c", size = 152900, upload-time = "2026-01-04T02:42:40.15Z" },
 ]
 
 [[package]]
@@ -530,17 +524,13 @@ wheels = [
 [[package]]
 name = "ecommerce-demo"
 version = "0.1.0"
-source = { editable = "projects/ecommerce-demo" }
+source = { editable = "projects/ecommerce_demo" }
 dependencies = [
-    { name = "orchestrix-core" },
-    { name = "orchestrix-infrastructure" },
+    { name = "orchestrix" },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "orchestrix-core", editable = "components/core" },
-    { name = "orchestrix-infrastructure", editable = "components/infrastructure" },
-]
+requires-dist = [{ name = "orchestrix", editable = "projects/orchestrix_lib" }]
 
 [[package]]
 name = "eventsourcingdb"
@@ -758,17 +748,13 @@ wheels = [
 [[package]]
 name = "lakehouse-demo"
 version = "0.1.0"
-source = { editable = "projects/lakehouse-demo" }
+source = { editable = "projects/lakehouse_demo" }
 dependencies = [
-    { name = "orchestrix-core" },
-    { name = "orchestrix-infrastructure" },
+    { name = "orchestrix" },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "orchestrix-core", editable = "components/core" },
-    { name = "orchestrix-infrastructure", editable = "components/infrastructure" },
-]
+requires-dist = [{ name = "orchestrix", editable = "projects/orchestrix_lib" }]
 
 [[package]]
 name = "librt"
@@ -820,6 +806,27 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/41/61/33063e271949787a2f8dd33c5260357e3d512a114fc82ca7890b65a76e2d/librt-0.7.7-cp314-cp314t-win32.whl", hash = "sha256:5e419e0db70991b6ba037b70c1d5bbe92b20ddf82f31ad01d77a347ed9781398", size = 40277, upload-time = "2026-01-01T23:52:07.625Z" },
     { url = "https://files.pythonhosted.org/packages/06/21/1abd972349f83a696ea73159ac964e63e2d14086fdd9bc7ca878c25fced4/librt-0.7.7-cp314-cp314t-win_amd64.whl", hash = "sha256:d6b7d93657332c817b8d674ef6bf1ab7796b4f7ce05e420fd45bd258a72ac804", size = 46765, upload-time = "2026-01-01T23:52:08.647Z" },
     { url = "https://files.pythonhosted.org/packages/51/0e/b756c7708143a63fca65a51ca07990fa647db2cc8fcd65177b9e96680255/librt-0.7.7-cp314-cp314t-win_arm64.whl", hash = "sha256:142c2cd91794b79fd0ce113bd658993b7ede0fe93057668c2f98a45ca00b7e91", size = 39724, upload-time = "2026-01-01T23:52:09.745Z" },
+]
+
+[[package]]
+name = "markdown-it-py"
+version = "4.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "mdurl" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/5b/f5/4ec618ed16cc4f8fb3b701563655a69816155e79e24a17b651541804721d/markdown_it_py-4.0.0.tar.gz", hash = "sha256:cb0a2b4aa34f932c007117b194e945bd74e0ec24133ceb5bac59009cda1cb9f3", size = 73070, upload-time = "2025-08-11T12:57:52.854Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/94/54/e7d793b573f298e1c9013b8c4dade17d481164aa517d1d7148619c2cedbf/markdown_it_py-4.0.0-py3-none-any.whl", hash = "sha256:87327c59b172c5011896038353a81343b6754500a08cd7a4973bb48c6d578147", size = 87321, upload-time = "2025-08-11T12:57:51.923Z" },
+]
+
+[[package]]
+name = "mdurl"
+version = "0.1.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d6/54/cfe61301667036ec958cb99bd3efefba235e65cdeb9c84d24a8293ba1d90/mdurl-0.1.2.tar.gz", hash = "sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba", size = 8729, upload-time = "2022-08-14T12:40:10.846Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b3/38/89ba8ad64ae25be8de66a6d463314cf1eb366222074cfda9ee839c56a4b4/mdurl-0.1.2-py3-none-any.whl", hash = "sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8", size = 9979, upload-time = "2022-08-14T12:40:09.779Z" },
 ]
 
 [[package]]
@@ -975,17 +982,13 @@ wheels = [
 [[package]]
 name = "notifications-demo"
 version = "0.1.0"
-source = { editable = "projects/notifications-demo" }
+source = { editable = "projects/notifications_demo" }
 dependencies = [
-    { name = "orchestrix-core" },
-    { name = "orchestrix-infrastructure" },
+    { name = "orchestrix" },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "orchestrix-core", editable = "components/core" },
-    { name = "orchestrix-infrastructure", editable = "components/infrastructure" },
-]
+requires-dist = [{ name = "orchestrix", editable = "projects/orchestrix_lib" }]
 
 [[package]]
 name = "opentelemetry-api"
@@ -1072,34 +1075,13 @@ wheels = [
 [[package]]
 name = "orchestrix"
 version = "0.1.0"
-source = { editable = "projects/orchestrix" }
-dependencies = [
-    { name = "orchestrix-core" },
-    { name = "orchestrix-infrastructure" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "orchestrix-core", editable = "components/core" },
-    { name = "orchestrix-infrastructure", editable = "components/infrastructure" },
-]
-
-[[package]]
-name = "orchestrix-core"
-version = "0.1.0"
-source = { editable = "components/core" }
-
-[[package]]
-name = "orchestrix-infrastructure"
-version = "0.1.0"
-source = { editable = "components/infrastructure" }
+source = { editable = "projects/orchestrix_lib" }
 dependencies = [
     { name = "asyncpg" },
     { name = "eventsourcingdb" },
     { name = "opentelemetry-api" },
     { name = "opentelemetry-exporter-otlp-proto-grpc" },
     { name = "opentelemetry-sdk" },
-    { name = "orchestrix-core" },
     { name = "prometheus-client" },
 ]
 
@@ -1110,7 +1092,6 @@ requires-dist = [
     { name = "opentelemetry-api", specifier = ">=1.20.0" },
     { name = "opentelemetry-exporter-otlp-proto-grpc", specifier = ">=1.20.0" },
     { name = "opentelemetry-sdk", specifier = ">=1.20.0" },
-    { name = "orchestrix-core", editable = "components/core" },
     { name = "prometheus-client", specifier = ">=0.19.0" },
 ]
 
@@ -1125,8 +1106,7 @@ dev = [
     { name = "isort" },
     { name = "mypy" },
     { name = "orchestrix" },
-    { name = "orchestrix-core" },
-    { name = "orchestrix-infrastructure" },
+    { name = "polylith-cli" },
     { name = "pre-commit" },
     { name = "pytest" },
     { name = "pytest-asyncio" },
@@ -1142,9 +1122,8 @@ dev = [
     { name = "black", specifier = ">=23.11.0" },
     { name = "isort", specifier = ">=5.12.0" },
     { name = "mypy", specifier = ">=1.7.0" },
-    { name = "orchestrix", editable = "projects/orchestrix" },
-    { name = "orchestrix-core", editable = "components/core" },
-    { name = "orchestrix-infrastructure", editable = "components/infrastructure" },
+    { name = "orchestrix", editable = "projects/orchestrix_lib" },
+    { name = "polylith-cli", specifier = ">=1.41.1" },
     { name = "pre-commit", specifier = ">=3.5.0" },
     { name = "pytest", specifier = ">=7.4.0" },
     { name = "pytest-asyncio", specifier = ">=0.21.0" },
@@ -1187,6 +1166,21 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/f9/e2/3e91f31a7d2b083fe6ef3fa267035b518369d9511ffab804f839851d2779/pluggy-1.6.0.tar.gz", hash = "sha256:7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3", size = 69412, upload-time = "2025-05-15T12:30:07.975Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl", hash = "sha256:e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746", size = 20538, upload-time = "2025-05-15T12:30:06.134Z" },
+]
+
+[[package]]
+name = "polylith-cli"
+version = "1.41.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyyaml" },
+    { name = "rich" },
+    { name = "tomlkit" },
+    { name = "typer" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/30/50/1024f7c7423e29d7160285f90c3bbc9457f7f4b470e233aadbd725cc9545/polylith_cli-1.41.1.tar.gz", hash = "sha256:c302d8c34a72bd5112ae25d76a78fdea118c3b8175f8dbd3bda78fc5f06da479", size = 36498, upload-time = "2025-12-26T16:55:26.027Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a4/b6/cc7d4b4406cad21b5354eab0d347af0fd069329f9ff33473d4f0753e0681/polylith_cli-1.41.1-py3-none-any.whl", hash = "sha256:4f82a3f12ffcd1b1297e5273fea976a243d4d161efeb41758d5f3f323133d3ec", size = 67047, upload-time = "2025-12-26T16:55:24.751Z" },
 ]
 
 [[package]]
@@ -1492,6 +1486,19 @@ wheels = [
 ]
 
 [[package]]
+name = "rich"
+version = "14.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "markdown-it-py" },
+    { name = "pygments" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/fb/d2/8920e102050a0de7bfabeb4c4614a49248cf8d5d7a8d01885fbb24dc767a/rich-14.2.0.tar.gz", hash = "sha256:73ff50c7c0c1c77c8243079283f4edb376f0f6442433aecb8ce7e6d0b92d1fe4", size = 219990, upload-time = "2025-10-09T14:16:53.064Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/25/7a/b0178788f8dc6cafce37a212c99565fa1fe7872c70c6c9c1e1a372d9d88f/rich-14.2.0-py3-none-any.whl", hash = "sha256:76bc51fe2e57d2b1be1f96c524b890b816e334ab4c1e45888799bfaab0021edd", size = 243393, upload-time = "2025-10-09T14:16:51.245Z" },
+]
+
+[[package]]
 name = "ruff"
 version = "0.14.10"
 source = { registry = "https://pypi.org/simple" }
@@ -1518,6 +1525,15 @@ wheels = [
 ]
 
 [[package]]
+name = "shellingham"
+version = "1.5.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/58/15/8b3609fd3830ef7b27b655beb4b4e9c62313a4e8da8c676e142cc210d58e/shellingham-1.5.4.tar.gz", hash = "sha256:8dbca0739d487e5bd35ab3ca4b36e11c4078f3a234bfce294b0a0291363404de", size = 10310, upload-time = "2023-10-24T04:13:40.426Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e0/f9/0595336914c5619e5f28a1fb793285925a8cd4b432c9da0a987836c7f822/shellingham-1.5.4-py2.py3-none-any.whl", hash = "sha256:7ecfff8f2fd72616f7481040475a65b2bf8af90a56c89140852d1120324e8686", size = 9755, upload-time = "2023-10-24T04:13:38.866Z" },
+]
+
+[[package]]
 name = "testcontainers"
 version = "4.13.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1531,6 +1547,30 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/18/51/edac83edab339d8b4dce9a7b659163afb1ea7e011bfed1d5573d495a4485/testcontainers-4.13.2.tar.gz", hash = "sha256:2315f1e21b059427a9d11e8921f85fef322fbe0d50749bcca4eaa11271708ba4", size = 78692, upload-time = "2025-10-07T21:53:07.531Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/2a/5e/73aa94770f1df0595364aed526f31d54440db5492911e2857318ed326e51/testcontainers-4.13.2-py3-none-any.whl", hash = "sha256:0209baf8f4274b568cde95bef2cadf7b1d33b375321f793790462e235cd684ee", size = 124771, upload-time = "2025-10-07T21:53:05.937Z" },
+]
+
+[[package]]
+name = "tomlkit"
+version = "0.13.3"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/cc/18/0bbf3884e9eaa38819ebe46a7bd25dcd56b67434402b66a58c4b8e552575/tomlkit-0.13.3.tar.gz", hash = "sha256:430cf247ee57df2b94ee3fbe588e71d362a941ebb545dec29b53961d61add2a1", size = 185207, upload-time = "2025-06-05T07:13:44.947Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bd/75/8539d011f6be8e29f339c42e633aae3cb73bffa95dd0f9adec09b9c58e85/tomlkit-0.13.3-py3-none-any.whl", hash = "sha256:c89c649d79ee40629a9fda55f8ace8c6a1b42deb912b2a8fd8d942ddadb606b0", size = 38901, upload-time = "2025-06-05T07:13:43.546Z" },
+]
+
+[[package]]
+name = "typer"
+version = "0.21.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "click" },
+    { name = "rich" },
+    { name = "shellingham" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/85/30/ff9ede605e3bd086b4dd842499814e128500621f7951ca1e5ce84bbf61b1/typer-0.21.0.tar.gz", hash = "sha256:c87c0d2b6eee3b49c5c64649ec92425492c14488096dfbc8a0c2799b2f6f9c53", size = 106781, upload-time = "2025-12-25T09:54:53.651Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e1/e4/5ebc1899d31d2b1601b32d21cfb4bba022ae6fce323d365f0448031b1660/typer-0.21.0-py3-none-any.whl", hash = "sha256:c79c01ca6b30af9fd48284058a7056ba0d3bf5cf10d0ff3d0c5b11b68c258ac6", size = 47109, upload-time = "2025-12-25T09:54:51.918Z" },
 ]
 
 [[package]]

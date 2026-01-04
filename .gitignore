@@ -32,6 +32,7 @@ env.bak/
 venv.bak/
 
 # Testing
+.benchmarks
 .pytest_cache/
 .coverage
 .coverage.*

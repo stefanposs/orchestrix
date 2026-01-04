@@ -102,9 +102,9 @@ class TestPostgreSQLStoreBasics:
         loaded = await store.load_async("order-001")
         
         assert len(loaded) == 1
-        assert loaded[0].order_id == "order-001"
-        assert loaded[0].customer_id == "cust-001"
-        assert loaded[0].amount == Decimal("99.99")
+        assert loaded[0].data["order_id"] == "order-001"
+        assert loaded[0].data["customer_id"] == "cust-001"
+        assert Decimal(loaded[0].data["amount"]) == Decimal("99.99")
 
     async def test_save_and_load_multiple_events(self, store):
         """Test saving and loading multiple events."""
@@ -129,9 +129,9 @@ class TestPostgreSQLStoreBasics:
         loaded = await store.load_async("order-002")
         
         assert len(loaded) == 3
-        assert isinstance(loaded[0], OrderCreated)
-        assert isinstance(loaded[1], ItemAdded)
-        assert isinstance(loaded[2], OrderUpdated)
+        assert loaded[0].type == "OrderCreated"
+        assert loaded[1].type == "ItemAdded"
+        assert loaded[2].type == "OrderUpdated"
 
     async def test_load_nonexistent_aggregate(self, store):
         """Test loading events for non-existent aggregate."""
@@ -159,8 +159,8 @@ class TestPostgreSQLStoreBasics:
         
         assert len(loaded1) == 1
         assert len(loaded2) == 1
-        assert loaded1[0].order_id == "order-010"
-        assert loaded2[0].order_id == "order-020"
+        assert loaded1[0].data["order_id"] == "order-010"
+        assert loaded2[0].data["order_id"] == "order-020"
 
     async def test_event_ordering_preserved(self, store):
         """Test that event order is preserved."""
@@ -178,7 +178,7 @@ class TestPostgreSQLStoreBasics:
         
         assert len(loaded) == 100
         for i, event in enumerate(loaded):
-            assert event.amount == Decimal(str(i))
+            assert Decimal(event.data["amount"]) == Decimal(str(i))
 
 
 @pytest.mark.asyncio
@@ -345,7 +345,12 @@ class TestConcurrency:
                     item_id=f"item-{i}",
                     quantity=i,
                 )
-                await store.save_async("order-600", [event])
+                while True:
+                    try:
+                        await store.save_async("order-600", [event])
+                        break
+                    except ConcurrencyError:
+                        await asyncio.sleep(0.01)  # Retry
                 await asyncio.sleep(0.01)
         
         async def read():
@@ -512,4 +517,4 @@ class TestEdgeCases:
         )
         await store.save_async("unicode", [event])
         loaded = await store.load_async("unicode")
-        assert loaded[0].customer_id == "客户-123-🎉"
+        assert loaded[0].data["customer_id"] == "客户-123-🎉"

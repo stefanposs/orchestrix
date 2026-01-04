@@ -8,11 +8,11 @@ from dataclasses import dataclass
 
 import pytest
 
-from orchestrix.infrastructure import InMemoryMessageBus
-from orchestrix.message import Message
+from orchestrix.infrastructure.async_inmemory_bus import InMemoryAsyncMessageBus
+from orchestrix.core.message import Message
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, kw_only=True)
 class BenchmarkCommand(Message):
     """Simple command for benchmarking."""
 
@@ -20,7 +20,7 @@ class BenchmarkCommand(Message):
     payload: str
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, kw_only=True)
 class BenchmarkEvent(Message):
     """Simple event for benchmarking."""
 
@@ -36,7 +36,7 @@ class BenchmarkEvent(Message):
 @pytest.mark.benchmark(group="message-bus")
 def test_publish_single_command(benchmark):
     """Benchmark publishing a single command."""
-    bus = InMemoryMessageBus()
+    bus = InMemoryAsyncMessageBus()
     command = BenchmarkCommand(command_id="bench-1", payload="test data")
 
     # Handler that does nothing
@@ -46,7 +46,7 @@ def test_publish_single_command(benchmark):
     bus.subscribe(BenchmarkCommand, noop_handler)
 
     async def publish():
-        await bus.publish_async(command)
+        await bus.publish(command)
 
     benchmark(lambda: asyncio.run(publish()))
 
@@ -54,7 +54,7 @@ def test_publish_single_command(benchmark):
 @pytest.mark.benchmark(group="message-bus")
 def test_publish_single_event(benchmark):
     """Benchmark publishing a single event."""
-    bus = InMemoryMessageBus()
+    bus = InMemoryAsyncMessageBus()
     event = BenchmarkEvent(event_id="bench-1", data={"key": "value"})
 
     async def noop_handler(_msg):
@@ -63,7 +63,7 @@ def test_publish_single_event(benchmark):
     bus.subscribe(BenchmarkEvent, noop_handler)
 
     async def publish():
-        await bus.publish_async(event)
+        await bus.publish(event)
 
     benchmark(lambda: asyncio.run(publish()))
 
@@ -76,7 +76,7 @@ def test_publish_single_event(benchmark):
 @pytest.mark.benchmark(group="message-bus")
 def test_publish_100_messages(benchmark):
     """Benchmark publishing 100 messages."""
-    bus = InMemoryMessageBus()
+    bus = InMemoryAsyncMessageBus()
     messages = [
         BenchmarkCommand(command_id=f"bench-{i}", payload=f"data-{i}")
         for i in range(100)
@@ -89,7 +89,7 @@ def test_publish_100_messages(benchmark):
 
     async def publish_batch():
         for msg in messages:
-            await bus.publish_async(msg)
+            await bus.publish(msg)
 
     benchmark(lambda: asyncio.run(publish_batch()))
 
@@ -97,7 +97,7 @@ def test_publish_100_messages(benchmark):
 @pytest.mark.benchmark(group="message-bus")
 def test_publish_1000_messages(benchmark):
     """Benchmark publishing 1,000 messages (throughput test)."""
-    bus = InMemoryMessageBus()
+    bus = InMemoryAsyncMessageBus()
     messages = [
         BenchmarkCommand(command_id=f"bench-{i}", payload=f"data-{i}")
         for i in range(1000)
@@ -110,7 +110,7 @@ def test_publish_1000_messages(benchmark):
 
     async def publish_batch():
         for msg in messages:
-            await bus.publish_async(msg)
+            await bus.publish(msg)
 
     benchmark(lambda: asyncio.run(publish_batch()))
 
@@ -123,7 +123,7 @@ def test_publish_1000_messages(benchmark):
 @pytest.mark.benchmark(group="message-bus")
 def test_publish_with_5_handlers(benchmark):
     """Benchmark message with 5 concurrent handlers."""
-    bus = InMemoryMessageBus()
+    bus = InMemoryAsyncMessageBus()
     command = BenchmarkCommand(command_id="bench-1", payload="test")
 
     # Register 5 handlers
@@ -135,7 +135,7 @@ def test_publish_with_5_handlers(benchmark):
         bus.subscribe(BenchmarkCommand, handler)
 
     async def publish():
-        await bus.publish_async(command)
+        await bus.publish(command)
 
     benchmark(lambda: asyncio.run(publish()))
 
@@ -143,7 +143,7 @@ def test_publish_with_5_handlers(benchmark):
 @pytest.mark.benchmark(group="message-bus")
 def test_publish_with_10_handlers(benchmark):
     """Benchmark message with 10 concurrent handlers."""
-    bus = InMemoryMessageBus()
+    bus = InMemoryAsyncMessageBus()
     command = BenchmarkCommand(command_id="bench-1", payload="test")
 
     # Register 10 handlers
@@ -155,7 +155,7 @@ def test_publish_with_10_handlers(benchmark):
         bus.subscribe(BenchmarkCommand, handler)
 
     async def publish():
-        await bus.publish_async(command)
+        await bus.publish(command)
 
     benchmark(lambda: asyncio.run(publish()))
 
@@ -168,7 +168,7 @@ def test_publish_with_10_handlers(benchmark):
 @pytest.mark.benchmark(group="message-bus")
 def test_publish_small_payload(benchmark):
     """Benchmark message with small payload (<1KB)."""
-    bus = InMemoryMessageBus()
+    bus = InMemoryAsyncMessageBus()
     command = BenchmarkCommand(command_id="bench-1", payload="x" * 100)
 
     async def noop_handler(_msg):
@@ -177,7 +177,7 @@ def test_publish_small_payload(benchmark):
     bus.subscribe(BenchmarkCommand, noop_handler)
 
     async def publish():
-        await bus.publish_async(command)
+        await bus.publish(command)
 
     benchmark(lambda: asyncio.run(publish()))
 
@@ -185,7 +185,7 @@ def test_publish_small_payload(benchmark):
 @pytest.mark.benchmark(group="message-bus")
 def test_publish_medium_payload(benchmark):
     """Benchmark message with medium payload (~10KB)."""
-    bus = InMemoryMessageBus()
+    bus = InMemoryAsyncMessageBus()
     command = BenchmarkCommand(command_id="bench-1", payload="x" * 10000)
 
     async def noop_handler(_msg):
@@ -194,7 +194,7 @@ def test_publish_medium_payload(benchmark):
     bus.subscribe(BenchmarkCommand, noop_handler)
 
     async def publish():
-        await bus.publish_async(command)
+        await bus.publish(command)
 
     benchmark(lambda: asyncio.run(publish()))
 
@@ -202,7 +202,7 @@ def test_publish_medium_payload(benchmark):
 @pytest.mark.benchmark(group="message-bus")
 def test_publish_large_payload(benchmark):
     """Benchmark message with large payload (~100KB)."""
-    bus = InMemoryMessageBus()
+    bus = InMemoryAsyncMessageBus()
     command = BenchmarkCommand(command_id="bench-1", payload="x" * 100000)
 
     async def noop_handler(_msg):
@@ -211,7 +211,7 @@ def test_publish_large_payload(benchmark):
     bus.subscribe(BenchmarkCommand, noop_handler)
 
     async def publish():
-        await bus.publish_async(command)
+        await bus.publish(command)
 
     benchmark(lambda: asyncio.run(publish()))
 
@@ -224,7 +224,7 @@ def test_publish_large_payload(benchmark):
 @pytest.mark.benchmark(group="message-bus")
 def test_concurrent_publish_10_messages(benchmark):
     """Benchmark 10 concurrent publishes."""
-    bus = InMemoryMessageBus()
+    bus = InMemoryAsyncMessageBus()
 
     async def noop_handler(_msg):
         pass
@@ -233,7 +233,7 @@ def test_concurrent_publish_10_messages(benchmark):
 
     async def concurrent_publish():
         tasks = [
-            bus.publish_async(
+            bus.publish(
                 BenchmarkCommand(command_id=f"bench-{i}", payload=f"data-{i}")
             )
             for i in range(10)
@@ -246,7 +246,7 @@ def test_concurrent_publish_10_messages(benchmark):
 @pytest.mark.benchmark(group="message-bus")
 def test_concurrent_publish_100_messages(benchmark):
     """Benchmark 100 concurrent publishes."""
-    bus = InMemoryMessageBus()
+    bus = InMemoryAsyncMessageBus()
 
     async def noop_handler(_msg):
         pass
@@ -255,7 +255,7 @@ def test_concurrent_publish_100_messages(benchmark):
 
     async def concurrent_publish():
         tasks = [
-            bus.publish_async(
+            bus.publish(
                 BenchmarkCommand(command_id=f"bench-{i}", payload=f"data-{i}")
             )
             for i in range(100)

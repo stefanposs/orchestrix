@@ -29,6 +29,7 @@ class Message:
     """
 
     id: str = field(default_factory=lambda: str(uuid4()))
+    specversion: str = field(default="1.0")
     type: str = field(default="")
     source: str = field(default="orchestrix")
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))

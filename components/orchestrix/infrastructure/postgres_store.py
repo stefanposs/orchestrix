@@ -20,13 +20,26 @@ Usage:
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, is_dataclass, asdict
 from typing import Any
+from decimal import Decimal
+from datetime import datetime
+from uuid import UUID
 
 from orchestrix.core.event_store import EventStore
 from orchestrix.core.exceptions import ConcurrencyError
 from orchestrix.core.message import Event
 from orchestrix.core.snapshot import Snapshot
+
+class OrchestrixJSONEncoder(json.JSONEncoder):
+    def default(self, o: Any) -> Any:
+        if isinstance(o, Decimal):
+            return str(o)
+        if isinstance(o, (datetime, UUID)):
+            return str(o)
+        if is_dataclass(o):
+            return asdict(o)
+        return super().default(o)
 
 try:
     import asyncpg
@@ -203,31 +216,42 @@ class PostgreSQLEventStore(EventStore):
                 )
 
             # Insert events with incremental versions
-            for idx, event in enumerate(events):
-                version = current_version + idx + 1
-                await conn.execute(
-                    """
-                    INSERT INTO events (
-                        aggregate_id, version, event_id, event_type,
-                        event_source, event_subject, event_data, event_time,
-                        spec_version, data_content_type, data_schema,
-                        correlation_id, causation_id
-                    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-                    """,
-                    aggregate_id,
-                    version,
-                    event.id,
-                    event.type,
-                    event.source,
-                    event.subject,
-                    json.dumps(self._event_to_dict(event)),
-                    event.timestamp,
-                    event.specversion,
-                    event.datacontenttype,
-                    event.dataschema,
-                    event.correlation_id,
-                    event.causation_id,
-                )
+            try:
+                for idx, event in enumerate(events):
+                    version = current_version + idx + 1
+                    await conn.execute(
+                        """
+                        INSERT INTO events (
+                            aggregate_id, version, event_id, event_type,
+                            event_source, event_subject, event_data, event_time,
+                            spec_version, data_content_type, data_schema,
+                            correlation_id, causation_id
+                        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+                        """,
+                        aggregate_id,
+                        version,
+                        event.id,
+                        event.type,
+                        event.source,
+                        event.subject,
+                        json.dumps(self._event_to_dict(event), cls=OrchestrixJSONEncoder),
+                        event.timestamp,
+                        event.specversion,
+                        event.datacontenttype,
+                        event.dataschema,
+                        event.correlation_id,
+                        event.causation_id,
+                    )
+            except asyncpg.exceptions.UniqueViolationError as e:
+                if "events_aggregate_version_unique" in str(e):
+                    raise ConcurrencyError(
+                        aggregate_id=aggregate_id,
+                        expected_version=expected_version
+                        if expected_version is not None
+                        else current_version,
+                        actual_version=current_version + 1,  # Approximate
+                    ) from e
+                raise
 
     async def load_async(
         self, aggregate_id: str, from_version: int | None = None
@@ -342,7 +366,8 @@ class PostgreSQLEventStore(EventStore):
         Returns:
             True if connection is healthy
         """
-        assert self._pool is not None
+        if self._pool is None:
+            return False
         try:
             async with self._pool.acquire() as conn:
                 await conn.fetchval("SELECT 1")
@@ -351,11 +376,11 @@ class PostgreSQLEventStore(EventStore):
         else:
             return True
 
-    def _event_to_dict(self, event: Event) -> dict[str, Any]:
+    def _event_to_dict(self, event: Event) -> Any:
         """Convert Event to dictionary for JSON storage."""
         # Store all event fields except the CloudEvents metadata
         # which is stored in separate columns
-        return {
+        result = {
             key: value
             for key, value in vars(event).items()
             if key
@@ -370,8 +395,24 @@ class PostgreSQLEventStore(EventStore):
                 "dataschema",
                 "correlation_id",
                 "causation_id",
+                "data",
             }
         }
+
+        # If event.data is present, handle it
+        if event.data is not None:
+            if not result:
+                # If no other fields, return data directly (avoids nesting)
+                return event.data
+            elif isinstance(event.data, dict):
+                # If data is a dict and we have other fields, merge them
+                result.update(event.data)
+            else:
+                # If data is not a dict but we have other fields,
+                # we must store it as 'data' key to preserve other fields
+                result["data"] = event.data
+
+        return result
 
     def _row_to_event(self, row: asyncpg.Record) -> Event:
         """Convert database row to Event object."""
@@ -388,5 +429,5 @@ class PostgreSQLEventStore(EventStore):
             dataschema=row["data_schema"],
             correlation_id=row["correlation_id"],
             causation_id=row["causation_id"],
-            **data,
+            data=data,
         )

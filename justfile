@@ -80,19 +80,19 @@ format:
 
 # Run mypy type checker
 typecheck:
-    uv run mypy src/orchestrix
+    uv run mypy .
 
 # Run type checker with verbose output
 typecheck-verbose:
-    uv run mypy src/orchestrix --verbose
+    uv run mypy . --verbose
 
 # Run ty type checker (Astral)
 ty:
-    uv run ty check src/orchestrix
+    uv run ty check .
 
 # Run ty with verbose output
 ty-verbose:
-    uv run ty check src/orchestrix --verbose
+    uv run ty check . --verbose
 
 # ============================================================================
 # Combined Workflows
@@ -116,7 +116,7 @@ check: format lint typecheck ty test
 
 # Clean build artifacts
 clean:
-    rm -rf dist/ build/ *.egg-info .pytest_cache .mypy_cache .ruff_cache htmlcov
+    rm -rf output/dist/ build/ *.egg-info .pytest_cache .mypy_cache .ruff_cache htmlcov
     find . -type d -name __pycache__ -exec rm -rf {} +
     @echo "✅ Cleaned build artifacts"
 
@@ -149,9 +149,9 @@ docs-deploy:
 # Running Examples
 # ============================================================================
 
-# Run the order example
+# Run the banking demo
 example:
-    uv run examples/run_order_example.py
+    uv run python bases/orchestrix/banking/main.py
 
 # Run specific example file
 run-example FILE:
@@ -221,8 +221,8 @@ info:
 # Count lines of code
 loc:
     @echo "Source code:"
-    @find src -name '*.py' | xargs wc -l | tail -1
+    @find components bases projects -name '*.py' | xargs wc -l | tail -1
     @echo "Tests:"
     @find tests -name '*.py' | xargs wc -l | tail -1
     @echo "Total:"
-    @find src tests -name '*.py' | xargs wc -l | tail -1
+    @find components bases projects tests -name '*.py' | xargs wc -l | tail -1

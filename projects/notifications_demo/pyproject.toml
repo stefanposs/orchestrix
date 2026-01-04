@@ -1,16 +1,14 @@
 [project]
-name = "notifications-demo"
+name = "notifications_demo"
 version = "0.1.0"
 description = "Notifications demo application"
 requires-python = ">=3.12"
 dependencies = [
-    "orchestrix-core",
-    "orchestrix-infrastructure",
+    "orchestrix",
 ]
 
 [tool.uv.sources]
-orchestrix-core = { workspace = true }
-orchestrix-infrastructure = { workspace = true }
+orchestrix = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]
@@ -18,3 +16,7 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["../../bases/orchestrix/notifications"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"../../components/orchestrix/core" = "orchestrix/core"
+"../../components/orchestrix/infrastructure" = "orchestrix/infrastructure"

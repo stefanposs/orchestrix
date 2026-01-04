@@ -166,6 +166,9 @@ class EventSourcingDBStore(EventStore):
             event = self._deserialize_cloudevents(cloud_event, aggregate_id)
             events.append(event)
 
+        if not events:
+            raise ValueError(f"Aggregate {aggregate_id} not found")
+
         # Filter by version if requested
         if from_version is not None and events:
             # Version is implicit from order (1-based)

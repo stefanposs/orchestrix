@@ -77,13 +77,13 @@ orchestrix-workspace/
 │       └── src/orchestrix/cli/...
 │
 └── projects/                  # THE ARTIFACTS (Deployables)
-    ├── orchestrix/            # Das Haupt-PyPI Package
+    ├── orchestrix_lib/        # Das Haupt-PyPI Package
     │   └── pyproject.toml     # Bündelt: core, infra_mem (als default)
     │
-    ├── orchestrix-full/       # "Batteries Included" Package
+    ├── orchestrix_full/       # "Batteries Included" Package
     │   └── pyproject.toml     # Bündelt: core, infra_*, observability
     │
-    └── banking-demo/          # Deploybarer Service
+    └── banking_demo/          # Deploybarer Service
         └── pyproject.toml     # Bündelt: examples_banking, core, infra_pg
 ```
 
@@ -152,7 +152,7 @@ Da Orchestrix bereits v0.1.0 (Production Ready) ist, sollte die Migration schrit
 
 ### Phase 2: Extraktion "Core"
 1.  Verschieben von `src/orchestrix/core` nach `components/core`.
-2.  Erstellen eines `projects/orchestrix`, das vorerst noch den Rest als "Legacy" enthält, aber `core` als Komponente einbindet.
+2.  Erstellen eines `projects/orchestrix_lib`, das vorerst noch den Rest als "Legacy" enthält, aber `core` als Komponente einbindet.
 3.  Anpassen der CI-Pipeline.
 
 ### Phase 3: Extraktion "Infrastructure"

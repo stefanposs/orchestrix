@@ -10,9 +10,9 @@ from datetime import datetime, timezone
 
 import pytest
 
-from orchestrix.infrastructure import InMemoryEventStore
-from orchestrix.message import Event
-from orchestrix.snapshot import Snapshot
+from orchestrix.infrastructure.async_inmemory_store import InMemoryAsyncEventStore
+from orchestrix.core.message import Event
+from orchestrix.core.snapshot import Snapshot
 
 
 @dataclass(frozen=True)
@@ -30,7 +30,7 @@ class BenchmarkEvent:
 @pytest.mark.benchmark(group="event-store")
 def test_save_single_event(benchmark):
     """Benchmark saving a single event."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
     aggregate_id = f"agg-{uuid.uuid4()}"
     event = Event(
         id=str(uuid.uuid4()),
@@ -42,7 +42,7 @@ def test_save_single_event(benchmark):
     )
 
     async def save():
-        await store.save_async(aggregate_id, [event])
+        await store.save(aggregate_id, [event])
 
     benchmark(lambda: asyncio.run(save()))
 
@@ -50,7 +50,7 @@ def test_save_single_event(benchmark):
 @pytest.mark.benchmark(group="event-store")
 def test_load_single_event(benchmark):
     """Benchmark loading a single event."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
     aggregate_id = f"agg-{uuid.uuid4()}"
     event = Event(
         id=str(uuid.uuid4()),
@@ -62,10 +62,10 @@ def test_load_single_event(benchmark):
     )
 
     # Pre-populate store
-    asyncio.run(store.save_async(aggregate_id, [event]))
+    asyncio.run(store.save(aggregate_id, [event]))
 
     async def load():
-        return await store.load_async(aggregate_id)
+        return await store.load(aggregate_id)
 
     benchmark(lambda: asyncio.run(load()))
 
@@ -78,7 +78,7 @@ def test_load_single_event(benchmark):
 @pytest.mark.benchmark(group="event-store")
 def test_save_100_events(benchmark):
     """Benchmark saving 100 events."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
     aggregate_id = f"agg-{uuid.uuid4()}"
     events = [
         Event(
@@ -93,7 +93,7 @@ def test_save_100_events(benchmark):
     ]
 
     async def save():
-        await store.save_async(aggregate_id, events)
+        await store.save(aggregate_id, events)
 
     benchmark(lambda: asyncio.run(save()))
 
@@ -101,7 +101,7 @@ def test_save_100_events(benchmark):
 @pytest.mark.benchmark(group="event-store")
 def test_load_100_events(benchmark):
     """Benchmark loading 100 events."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
     aggregate_id = f"agg-{uuid.uuid4()}"
     events = [
         Event(
@@ -116,10 +116,10 @@ def test_load_100_events(benchmark):
     ]
 
     # Pre-populate store
-    asyncio.run(store.save_async(aggregate_id, events))
+    asyncio.run(store.save(aggregate_id, events))
 
     async def load():
-        return await store.load_async(aggregate_id)
+        return await store.load(aggregate_id)
 
     benchmark(lambda: asyncio.run(load()))
 
@@ -127,7 +127,7 @@ def test_load_100_events(benchmark):
 @pytest.mark.benchmark(group="event-store")
 def test_save_1000_events(benchmark):
     """Benchmark saving 1,000 events."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
     aggregate_id = f"agg-{uuid.uuid4()}"
     events = [
         Event(
@@ -142,7 +142,7 @@ def test_save_1000_events(benchmark):
     ]
 
     async def save():
-        await store.save_async(aggregate_id, events)
+        await store.save(aggregate_id, events)
 
     benchmark(lambda: asyncio.run(save()))
 
@@ -150,7 +150,7 @@ def test_save_1000_events(benchmark):
 @pytest.mark.benchmark(group="event-store")
 def test_load_1000_events(benchmark):
     """Benchmark loading 1,000 events."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
     aggregate_id = f"agg-{uuid.uuid4()}"
     events = [
         Event(
@@ -165,10 +165,10 @@ def test_load_1000_events(benchmark):
     ]
 
     # Pre-populate store
-    asyncio.run(store.save_async(aggregate_id, events))
+    asyncio.run(store.save(aggregate_id, events))
 
     async def load():
-        return await store.load_async(aggregate_id)
+        return await store.load(aggregate_id)
 
     benchmark(lambda: asyncio.run(load()))
 
@@ -181,7 +181,7 @@ def test_load_1000_events(benchmark):
 @pytest.mark.benchmark(group="event-store")
 def test_save_10000_events(benchmark):
     """Benchmark saving 10,000 events (throughput test)."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
     aggregate_id = f"agg-{uuid.uuid4()}"
     events = [
         Event(
@@ -196,7 +196,7 @@ def test_save_10000_events(benchmark):
     ]
 
     async def save():
-        await store.save_async(aggregate_id, events)
+        await store.save(aggregate_id, events)
 
     benchmark(lambda: asyncio.run(save()))
 
@@ -204,7 +204,7 @@ def test_save_10000_events(benchmark):
 @pytest.mark.benchmark(group="event-store")
 def test_load_10000_events(benchmark):
     """Benchmark loading 10,000 events."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
     aggregate_id = f"agg-{uuid.uuid4()}"
     events = [
         Event(
@@ -219,10 +219,10 @@ def test_load_10000_events(benchmark):
     ]
 
     # Pre-populate store
-    asyncio.run(store.save_async(aggregate_id, events))
+    asyncio.run(store.save(aggregate_id, events))
 
     async def load():
-        return await store.load_async(aggregate_id)
+        return await store.load(aggregate_id)
 
     benchmark(lambda: asyncio.run(load()))
 
@@ -235,7 +235,7 @@ def test_load_10000_events(benchmark):
 @pytest.mark.benchmark(group="event-store")
 def test_load_from_version_100(benchmark):
     """Benchmark loading from version 100 onwards."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
     aggregate_id = f"agg-{uuid.uuid4()}"
     events = [
         Event(
@@ -250,10 +250,10 @@ def test_load_from_version_100(benchmark):
     ]
 
     # Pre-populate store
-    asyncio.run(store.save_async(aggregate_id, events))
+    asyncio.run(store.save(aggregate_id, events))
 
     async def load():
-        return await store.load_async(aggregate_id, from_version=100)
+        return await store.load(aggregate_id, from_version=100)
 
     benchmark(lambda: asyncio.run(load()))
 
@@ -266,14 +266,14 @@ def test_load_from_version_100(benchmark):
 @pytest.mark.benchmark(group="event-store")
 def test_save_snapshot(benchmark):
     """Benchmark saving a snapshot."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
     aggregate_id = f"agg-{uuid.uuid4()}"
     snapshot = Snapshot(
-        aggregate_id=aggregate_id, version=100, state={"counter": 100}
+        aggregate_id=aggregate_id, aggregate_type="BenchmarkAggregate", version=100, state={"counter": 100}
     )
 
     async def save():
-        await store.save_snapshot_async(snapshot)
+        await store.save_snapshot(snapshot)
 
     benchmark(lambda: asyncio.run(save()))
 
@@ -281,17 +281,17 @@ def test_save_snapshot(benchmark):
 @pytest.mark.benchmark(group="event-store")
 def test_load_snapshot(benchmark):
     """Benchmark loading a snapshot."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
     aggregate_id = f"agg-{uuid.uuid4()}"
     snapshot = Snapshot(
-        aggregate_id=aggregate_id, version=100, state={"counter": 100}
+        aggregate_id=aggregate_id, aggregate_type="BenchmarkAggregate", version=100, state={"counter": 100}
     )
 
     # Pre-populate store
-    asyncio.run(store.save_snapshot_async(snapshot))
+    asyncio.run(store.save_snapshot(snapshot))
 
     async def load():
-        return await store.load_snapshot_async(aggregate_id)
+        return await store.load_snapshot(aggregate_id)
 
     benchmark(lambda: asyncio.run(load()))
 
@@ -304,7 +304,7 @@ def test_load_snapshot(benchmark):
 @pytest.mark.benchmark(group="event-store")
 def test_save_100_aggregates(benchmark):
     """Benchmark saving events to 100 different aggregates."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
 
     async def save_many():
         for i in range(100):
@@ -317,7 +317,7 @@ def test_save_100_aggregates(benchmark):
                 data=BenchmarkEvent(value=i),
                 timestamp=datetime.now(timezone.utc),
             )
-            await store.save_async(aggregate_id, [event])
+            await store.save(aggregate_id, [event])
 
     benchmark(lambda: asyncio.run(save_many()))
 
@@ -325,7 +325,7 @@ def test_save_100_aggregates(benchmark):
 @pytest.mark.benchmark(group="event-store")
 def test_load_100_aggregates(benchmark):
     """Benchmark loading events from 100 different aggregates."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
 
     # Pre-populate store with 100 aggregates
     async def populate():
@@ -339,14 +339,14 @@ def test_load_100_aggregates(benchmark):
                 data=BenchmarkEvent(value=i),
                 timestamp=datetime.now(timezone.utc),
             )
-            await store.save_async(aggregate_id, [event])
+            await store.save(aggregate_id, [event])
 
     asyncio.run(populate())
 
     async def load_many():
         for i in range(100):
             aggregate_id = f"agg-{i}"
-            await store.load_async(aggregate_id)
+            await store.load(aggregate_id)
 
     benchmark(lambda: asyncio.run(load_many()))
 
@@ -359,7 +359,7 @@ def test_load_100_aggregates(benchmark):
 @pytest.mark.benchmark(group="event-store")
 def test_concurrent_save_10_aggregates(benchmark):
     """Benchmark concurrent saves to 10 aggregates."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
 
     async def concurrent_save():
         tasks = []
@@ -373,7 +373,7 @@ def test_concurrent_save_10_aggregates(benchmark):
                 data=BenchmarkEvent(value=i),
                 timestamp=datetime.now(timezone.utc),
             )
-            tasks.append(store.save_async(aggregate_id, [event]))
+            tasks.append(store.save(aggregate_id, [event]))
         await asyncio.gather(*tasks)
 
     benchmark(lambda: asyncio.run(concurrent_save()))
@@ -382,7 +382,7 @@ def test_concurrent_save_10_aggregates(benchmark):
 @pytest.mark.benchmark(group="event-store")
 def test_concurrent_load_10_aggregates(benchmark):
     """Benchmark concurrent loads from 10 aggregates."""
-    store = InMemoryEventStore()
+    store = InMemoryAsyncEventStore()
 
     # Pre-populate store
     async def populate():
@@ -396,12 +396,12 @@ def test_concurrent_load_10_aggregates(benchmark):
                 data=BenchmarkEvent(value=i),
                 timestamp=datetime.now(timezone.utc),
             )
-            await store.save_async(aggregate_id, [event])
+            await store.save(aggregate_id, [event])
 
     asyncio.run(populate())
 
     async def concurrent_load():
-        tasks = [store.load_async(f"agg-{i}") for i in range(10)]
+        tasks = [store.load(f"agg-{i}") for i in range(10)]
         await asyncio.gather(*tasks)
 
     benchmark(lambda: asyncio.run(concurrent_load()))

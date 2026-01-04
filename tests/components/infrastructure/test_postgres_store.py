@@ -4,6 +4,7 @@ Uses pytest-asyncio for async tests and testcontainers for isolated PostgreSQL i
 """
 
 import contextlib
+import json
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -19,8 +20,8 @@ from orchestrix.core.snapshot import Snapshot
 from orchestrix.infrastructure.postgres_store import PostgreSQLEventStore
 
 
-@dataclass(frozen=True)
-class OrderCreated:
+@dataclass(frozen=True, kw_only=True)
+class OrderCreated(Event):
     """Test event: Order created."""
 
     order_id: str
@@ -28,8 +29,8 @@ class OrderCreated:
     total: float
 
 
-@dataclass(frozen=True)
-class OrderShipped:
+@dataclass(frozen=True, kw_only=True)
+class OrderShipped(Event):
     """Test event: Order shipped."""
 
     order_id: str
@@ -141,8 +142,8 @@ async def test_load_events_from_version(store, aggregate_id, sample_events):
     )
     await store.save_async(aggregate_id, [third_event])
 
-    # Load from version 2
-    loaded = await store.load_async(aggregate_id, from_version=2)
+    # Load from version 0 (should return events 1 and 2)
+    loaded = await store.load_async(aggregate_id, from_version=0)
 
     assert len(loaded) == 2
     assert loaded[0].type == "OrderShipped"
@@ -188,12 +189,12 @@ async def test_optimistic_concurrency_conflict(store, aggregate_id, sample_event
                 ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
                 """,
                 aggregate_id,
-                1,  # Duplicate version
+                0,  # Duplicate version
                 duplicate_event.id,
                 duplicate_event.type,
                 duplicate_event.source,
                 duplicate_event.subject,
-                {},
+                json.dumps({}),
                 duplicate_event.timestamp,
             )
 
@@ -208,8 +209,24 @@ async def test_concurrent_saves_different_aggregates(store, sample_events):
     aggregate_2 = f"order-{uuid.uuid4()}"
 
     # Save to both aggregates concurrently
-    await store.save_async(aggregate_1, [sample_events[0]])
-    await store.save_async(aggregate_2, [sample_events[1]])
+    event1 = Event(
+        id=str(uuid.uuid4()),
+        type="OrderCreated",
+        source="/orders/service",
+        subject=aggregate_1,
+        data={"order_id": aggregate_1},
+        timestamp=datetime.now(timezone.utc),
+    )
+    event2 = Event(
+        id=str(uuid.uuid4()),
+        type="OrderCreated",
+        source="/orders/service",
+        subject=aggregate_2,
+        data={"order_id": aggregate_2},
+        timestamp=datetime.now(timezone.utc),
+    )
+    await store.save_async(aggregate_1, [event1])
+    await store.save_async(aggregate_2, [event2])
 
     # Both should succeed
     events_1 = await store.load_async(aggregate_1)
@@ -230,7 +247,10 @@ async def test_concurrent_saves_different_aggregates(store, sample_events):
 async def test_save_and_load_snapshot(store, aggregate_id):
     """Test saving and loading snapshots."""
     snapshot = Snapshot(
-        aggregate_id=aggregate_id, version=5, state={"order_status": "shipped"}
+        aggregate_id=aggregate_id,
+        aggregate_type="Order",
+        version=5,
+        state={"order_status": "shipped"},
     )
 
     # Save snapshot
@@ -241,6 +261,7 @@ async def test_save_and_load_snapshot(store, aggregate_id):
 
     assert loaded is not None
     assert loaded.aggregate_id == aggregate_id
+    assert loaded.aggregate_type == "Order"
     assert loaded.version == 5
     assert loaded.state == {"order_status": "shipped"}
 
@@ -250,13 +271,19 @@ async def test_snapshot_upsert(store, aggregate_id):
     """Test that saving snapshot twice updates existing record."""
     # Save first snapshot
     snapshot_1 = Snapshot(
-        aggregate_id=aggregate_id, version=3, state={"status": "pending"}
+        aggregate_id=aggregate_id,
+        aggregate_type="Order",
+        version=3,
+        state={"status": "pending"},
     )
     await store.save_snapshot_async(snapshot_1)
 
     # Update snapshot
     snapshot_2 = Snapshot(
-        aggregate_id=aggregate_id, version=7, state={"status": "completed"}
+        aggregate_id=aggregate_id,
+        aggregate_type="Order",
+        version=7,
+        state={"status": "completed"},
     )
     await store.save_snapshot_async(snapshot_2)
 
@@ -290,9 +317,9 @@ async def test_event_metadata_preserved(store, aggregate_id):
         subject=aggregate_id,
         data={"order_id": aggregate_id},
         timestamp=datetime.now(timezone.utc),
-        spec_version="1.0",
-        data_content_type="application/json",
-        data_schema="https://example.com/schema",
+        specversion="1.0",
+        datacontenttype="application/json",
+        dataschema="https://example.com/schema",
         correlation_id="corr-123",
         causation_id="cause-456",
     )
@@ -305,9 +332,9 @@ async def test_event_metadata_preserved(store, aggregate_id):
     assert saved_event.id == event.id
     assert saved_event.type == event.type
     assert saved_event.source == event.source
-    assert saved_event.spec_version == event.spec_version
-    assert saved_event.data_content_type == event.data_content_type
-    assert saved_event.data_schema == event.data_schema
+    assert saved_event.specversion == event.specversion
+    assert saved_event.datacontenttype == event.datacontenttype
+    assert saved_event.dataschema == event.dataschema
     assert saved_event.correlation_id == event.correlation_id
     assert saved_event.causation_id == event.causation_id
 
