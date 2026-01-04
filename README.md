@@ -8,6 +8,38 @@ A modular, event-driven architecture framework for Python with CloudEvents-compa
 [![Python Versions](https://img.shields.io/pypi/pyversions/orchestrix.svg)](https://pypi.org/project/orchestrix/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## What Problem Does Orchestrix Solve?
+
+Traditional CRUD applications struggle with:
+- **Lost Business Context** - Database updates don't capture *why* changes happened
+- **Difficult Auditing** - No automatic audit trail of state changes
+- **Complex Workflows** - Hard to coordinate multi-step business processes across services
+- **Scalability Limits** - Tight coupling makes it hard to scale components independently
+- **Debugging Nightmares** - Hard to reproduce production issues without event history
+
+**Orchestrix provides:**
+- **Event Sourcing** - Store every state change as an immutable event, never lose context
+- **CQRS** - Separate read and write models for optimal performance
+- **Sagas** - Reliable distributed transactions with automatic compensation
+- **Time-Travel Debugging** - Replay events to any point in time
+- **Built-in Observability** - Metrics, tracing, and audit logs out of the box
+
+## When to Use Orchestrix
+
+**✅ Perfect for:**
+- Financial systems requiring full audit trails (banking, payments, trading)
+- E-commerce with complex order workflows (inventory, payments, shipping)
+- Collaborative applications needing conflict resolution (booking systems, reservations)
+- Domain-Driven Design implementations with rich domain logic
+- Microservices architectures requiring event-driven communication
+- Systems where understanding *how* you got to current state matters
+
+**⚠️ Consider alternatives if:**
+- Simple CRUD with no complex business logic
+- Performance is critical and eventual consistency is unacceptable
+- Team lacks experience with event-driven patterns
+- Small projects where event sourcing overhead isn't justified
+
 ## Features
 
 - 🎯 **Modular Design** - Encapsulate domain logic in independent modules
