@@ -44,8 +44,12 @@ def _check_jaeger_available() -> bool:
     """Check if Jaeger/OpenTelemetry is available."""
     try:
         import opentelemetry.trace  # noqa: F401
-        import opentelemetry.exporter.jaeger.thrift  # noqa: F401
         import opentelemetry.sdk.trace  # noqa: F401
+        # Try modern OTLP first, fallback to legacy Jaeger
+        try:
+            import opentelemetry.exporter.otlp.proto.grpc.trace_exporter  # noqa: F401
+        except ImportError:
+            pass  # OTLP not available, will try Jaeger later
         return True
     except ImportError:
         return False
@@ -393,7 +397,18 @@ def init_tracing(
         )
 
     from opentelemetry import trace
-    from opentelemetry.exporter.jaeger.thrift import JaegerExporter
+    try:
+        from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+        exporter = OTLPSpanExporter(
+            endpoint=f"{config.jaeger_agent_host}:{config.jaeger_agent_port}",
+        )
+    except ImportError:
+        from opentelemetry.exporter.jaeger.thrift import JaegerExporter  # type: ignore[import-not-found]
+        exporter = JaegerExporter(
+            agent_host_name=config.jaeger_agent_host,
+            agent_port=config.jaeger_agent_port,
+        )
+    
     from opentelemetry.sdk.resources import SERVICE_NAME, Resource
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
@@ -408,25 +423,8 @@ def init_tracing(
     # Create resource with service name
     resource = Resource.create({SERVICE_NAME: config.service_name})
 
-    # Create OTLP exporter (Jaeger native OTLP support since v1.35)
-    # Note: Requires Jaeger v1.35+ with OTLP receiver enabled
-    # For older Jaeger, use JaegerExporter (deprecated)
-    try:
-        from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
-        
-        # Use OTLP exporter (recommended for Jaeger v1.35+)
-        otlp_exporter = OTLPSpanExporter(
-            endpoint=f"http://{config.jaeger_agent_host}:4317",  # Jaeger OTLP gRPC port
-            insecure=True
-        )
-        span_processor = BatchSpanProcessor(otlp_exporter)
-    except ImportError:
-        # Fallback to Jaeger exporter if OTLP not available
-        jaeger_exporter = JaegerExporter(
-            agent_host_name=config.jaeger_agent_host,
-            agent_port=config.jaeger_agent_port,
-        )
-        span_processor = BatchSpanProcessor(jaeger_exporter)
+    # Create span processor with exporter
+    span_processor = BatchSpanProcessor(exporter)
 
     # Create and set trace provider
     trace_provider = TracerProvider(resource=resource)

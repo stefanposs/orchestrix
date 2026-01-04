@@ -13,8 +13,8 @@ import pytest
 # Conditional import for PostgreSQL support
 pytest.importorskip("asyncpg", reason="asyncpg not installed - skip postgres tests")
 
-from orchestrix.domain.event import Event
-from orchestrix.domain.snapshot import Snapshot
+from orchestrix.core.message import Event
+from orchestrix.core.snapshot import Snapshot
 
 from orchestrix.infrastructure.postgres_store import PostgreSQLEventStore
 

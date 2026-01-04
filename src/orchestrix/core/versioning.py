@@ -88,6 +88,9 @@ class EventUpcaster(Generic[SourceEvent, TargetEvent]):
         TargetEvent: Target event type/version
     """
 
+    source_version: int
+    target_version: int
+
     def __init__(self, source_version: int, target_version: int) -> None:
         """Initialize upcaster with version information.
 
@@ -196,7 +199,7 @@ class UpcasterRegistry:
         if not isinstance(upcaster, EventUpcaster):
             raise ValueError("upcaster must be instance of EventUpcaster")
 
-        key = (event_type, upcaster.source_version, upcaster.target_version)
+        key: tuple[str, int, int] = (event_type, upcaster.source_version, upcaster.target_version)
         if key in self._upcasters:
             raise ValueError(
                 f"Upcaster already registered for {event_type} "

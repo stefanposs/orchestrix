@@ -34,6 +34,7 @@ from __future__ import annotations
 import contextlib
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from typing import Any
 
 from orchestrix.core.event_store import EventStore
 from orchestrix.core.message import Event
@@ -63,6 +64,7 @@ class EventSourcingDBStore(EventStore):
 
     base_url: str
     api_token: str
+    _client: Client | None = None  # type: ignore[misc]
 
     def __post_init__(self) -> None:
         """Initialize client placeholder."""
@@ -81,7 +83,7 @@ class EventSourcingDBStore(EventStore):
         # SDK client doesn't require explicit cleanup
         object.__setattr__(self, "_client", None)
 
-    def save(self, aggregate_id: str, events: list[Event]) -> None:
+    def save(self, aggregate_id: str, events: list[Event], expected_version: int | None = None) -> None:
         """Synchronous save not supported - use async version."""
         msg = "EventSourcingDBStore requires async usage. Use await store.save_async(...)"
         raise NotImplementedError(msg)
@@ -93,7 +95,7 @@ class EventSourcingDBStore(EventStore):
         msg = "EventSourcingDBStore requires async usage. Use await store.load_async(...)"
         raise NotImplementedError(msg)
 
-    async def save_async(self, aggregate_id: str, events: list[Event]) -> None:
+    async def save_async(self, aggregate_id: str, events: list[Event], expected_version: int | None = None) -> None:
         """Save events to EventSourcingDB.
 
         Args:
@@ -123,17 +125,17 @@ class EventSourcingDBStore(EventStore):
                 cloud_event["id"] = event.id
             if event.timestamp:
                 cloud_event["time"] = event.timestamp.isoformat()
-            if event.spec_version:
-                cloud_event["specversion"] = event.spec_version
-            if event.data_content_type:
-                cloud_event["datacontenttype"] = event.data_content_type
-            if event.data_schema:
-                cloud_event["dataschema"] = event.data_schema
+            # CloudEvents spec_version (not part of base Event class)
+            cloud_event["specversion"] = "1.0"
+            if event.datacontenttype:
+                cloud_event["datacontenttype"] = event.datacontenttype
+            if event.dataschema:
+                cloud_event["dataschema"] = event.dataschema
 
             event_dicts.append(cloud_event)
 
         # Write events using SDK
-        await self._client.write_events(events=event_dicts)
+        await self._client.write_events(event_candidates=event_dicts)
 
     async def load_async(
         self, aggregate_id: str, from_version: int | None = None
@@ -182,7 +184,7 @@ class EventSourcingDBStore(EventStore):
             await self.initialize()
 
         # Create snapshot event
-        snapshot_event = {
+        snapshot_event: dict[str, Any] = {
             "source": "/snapshots",
             "subject": snapshot.aggregate_id,
             "type": f"{snapshot.aggregate_id}.snapshot",
@@ -195,7 +197,7 @@ class EventSourcingDBStore(EventStore):
         }
 
         # Write snapshot using SDK
-        await self._client.write_events(events=[snapshot_event])
+        await self._client.write_events(event_candidates=[snapshot_event])  # type: ignore[arg-type]
 
     async def load_snapshot_async(self, aggregate_id: str) -> Snapshot | None:
         """Load latest snapshot from EventSourcingDB.
@@ -228,6 +230,7 @@ class EventSourcingDBStore(EventStore):
                 data = row.get("data", {})
                 return Snapshot(
                     aggregate_id=data.get("aggregate_id", aggregate_id),
+                    aggregate_type="",  # Not stored in EventQL result
                     version=data.get("version", 0),
                     state=data.get("state", {}),
                 )
@@ -273,21 +276,27 @@ class EventSourcingDBStore(EventStore):
         """Convert EventSourcingDB CloudEvent to Orchestrix Event.
 
         Args:
-            cloud_event: CloudEvent from SDK
+            cloud_event: CloudEvent from SDK (object or dict)
             aggregate_id: Aggregate identifier for fallback
 
         Returns:
             Orchestrix Event
         """
-        # SDK returns event objects with attributes
-        event_id = getattr(cloud_event, "id", "")
-        event_type = getattr(cloud_event, "type", "")
-        source = getattr(cloud_event, "source", "")
-        subject = getattr(cloud_event, "subject", aggregate_id)
-        data = getattr(cloud_event, "data", {})
+        # SDK may return event objects or dicts - handle both
+        def get_value(obj: Any, key: str, default: Any = None) -> Any:
+            """Get value from dict or object attribute."""
+            if isinstance(obj, dict):
+                return obj.get(key, default)
+            return getattr(obj, key, default)
+        
+        event_id = get_value(cloud_event, "id", "")
+        event_type = get_value(cloud_event, "type", "")
+        source = get_value(cloud_event, "source", "")
+        subject = get_value(cloud_event, "subject", aggregate_id)
+        data = get_value(cloud_event, "data", {})
 
         # Parse timestamp
-        time_str = getattr(cloud_event, "time", None)
+        time_str = get_value(cloud_event, "time")
         if time_str:
             # Handle ISO format with Z or timezone
             timestamp = datetime.fromisoformat(time_str.replace("Z", "+00:00"))
@@ -301,9 +310,8 @@ class EventSourcingDBStore(EventStore):
             subject=subject,
             data=data,
             timestamp=timestamp,
-            spec_version=getattr(cloud_event, "specversion", "1.0"),
-            data_content_type=getattr(cloud_event, "datacontenttype", None),
-            data_schema=getattr(cloud_event, "dataschema", None),
+            datacontenttype=get_value(cloud_event, "datacontenttype"),
+            dataschema=get_value(cloud_event, "dataschema"),
             correlation_id=None,  # Not in CloudEvents standard
             causation_id=None,  # Not in CloudEvents standard
         )

@@ -5,7 +5,7 @@ Messages are immutable, CloudEvents-compatible data structures.
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Any, Optional
 from uuid import uuid4
 
 
@@ -21,6 +21,7 @@ class Message:
     - source: Context in which the event occurred
     - timestamp: When the event occurred (ISO 8601)
     - subject: The subject of the event in context of the source (optional)
+    - data: The event payload (optional)
     - datacontenttype: Content type of the data (optional)
     - dataschema: Schema that data adheres to (optional)
     - correlation_id: For tracing related events across services (extension)
@@ -32,6 +33,7 @@ class Message:
     source: str = field(default="orchestrix")
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     subject: Optional[str] = field(default=None)
+    data: Any = field(default=None)
     datacontenttype: Optional[str] = field(default=None)
     dataschema: Optional[str] = field(default=None)
     correlation_id: Optional[str] = field(default=None)

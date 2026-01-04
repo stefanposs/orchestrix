@@ -197,8 +197,11 @@ class ConnectionPool:
             conn = await self._pool.acquire(timeout=self.config.timeout)
             self._metrics.acquire_count += 1
             return conn
-        except asyncpg.TooManyClientsError:
-            self._metrics.acquire_timeout_count += 1
+        except Exception as e:
+            # Handle various timeout/connection limit errors
+            error_msg = str(e).lower()
+            if "too many" in error_msg or "timeout" in error_msg or "connection" in error_msg:
+                self._metrics.acquire_timeout_count += 1
             raise
 
     def release(self, conn: Any) -> None:

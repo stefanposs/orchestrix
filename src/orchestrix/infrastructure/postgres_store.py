@@ -56,6 +56,7 @@ class PostgreSQLEventStore(EventStore):
     pool_min_size: int = 10
     pool_max_size: int = 50
     pool_timeout: float = 30.0
+    _pool: asyncpg.Pool | None = None  # type: ignore[misc]
 
     def __post_init__(self) -> None:
         """Initialize connection pool placeholder."""
@@ -151,7 +152,7 @@ class PostgreSQLEventStore(EventStore):
                 """
             )
 
-    def save(self, aggregate_id: str, events: list[Event]) -> None:
+    def save(self, aggregate_id: str, events: list[Event], expected_version: int | None = None) -> None:
         """Synchronous save not supported - use async version."""
         msg = "PostgreSQLEventStore requires async usage. Use await store.save(...)"
         raise NotImplementedError(msg)
@@ -377,7 +378,6 @@ class PostgreSQLEventStore(EventStore):
             source=row["event_source"],
             subject=row["event_subject"],
             timestamp=row["event_time"],
-            specversion=row["spec_version"],
             datacontenttype=row["data_content_type"],
             dataschema=row["data_schema"],
             correlation_id=row["correlation_id"],

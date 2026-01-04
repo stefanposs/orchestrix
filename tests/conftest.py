@@ -36,13 +36,14 @@ class FakeEventSourcingDBClient:
         self._events: dict[str, list[dict[str, Any]]] = {}  # subject -> events
         self._snapshots: dict[str, dict[str, Any]] = {}  # subject -> snapshot
 
-    async def write_events(self, events: list[dict[str, Any]]) -> None:
+    async def write_events(self, event_candidates: list[dict[str, Any]], **kwargs: Any) -> None:
         """Write events to in-memory store.
         
         Args:
-            events: List of event dictionaries with CloudEvents fields
+            event_candidates: List of event dictionaries with CloudEvents fields
+            **kwargs: Additional arguments (preconditions, etc.)
         """
-        for event_dict in events:
+        for event_dict in event_candidates:
             subject = event_dict.get("subject", "")
             if subject not in self._events:
                 self._events[subject] = []
@@ -50,6 +51,7 @@ class FakeEventSourcingDBClient:
 
     async def read_events(
         self,
+        subject: str | None = None,
         subject_filter: str | None = None,
         from_event_id: str | None = None,
         **kwargs: Any,
@@ -57,15 +59,19 @@ class FakeEventSourcingDBClient:
         """Read events from in-memory store.
         
         Args:
-            subject_filter: Filter by subject (aggregate ID)
+            subject: Subject/aggregate ID to filter by (primary param name)
+            subject_filter: Alternative param name for subject filter
             from_event_id: Read from specific event ID onwards
             **kwargs: Additional options (ignored)
             
         Yields:
             Event dictionaries matching filter
         """
-        if subject_filter and subject_filter in self._events:
-            events = self._events[subject_filter]
+        # Support both parameter names
+        filter_subject = subject or subject_filter
+        
+        if filter_subject and filter_subject in self._events:
+            events = self._events[filter_subject]
         else:
             events = []
             

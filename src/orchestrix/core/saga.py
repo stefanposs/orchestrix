@@ -233,6 +233,7 @@ class Saga:
         object.__setattr__(
             self._state, "started_at", datetime.now(timezone.utc)
         )
+        assert self._state is not None
         await self.state_store.save_state(self._state)
 
         try:
@@ -246,8 +247,8 @@ class Saga:
             object.__setattr__(
                 self._state, "completed_at", datetime.now(timezone.utc)
             )
-            if self._state is not None:
-                await self.state_store.save_state(self._state)
+            assert self._state is not None
+            await self.state_store.save_state(self._state)
 
             return result
 
@@ -277,6 +278,7 @@ class Saga:
         object.__setattr__(
             step_status, "started_at", datetime.now(timezone.utc)
         )
+        assert self._state is not None
         step_statuses = dict(self._state.step_statuses)
         step_statuses[step.name] = step_status
         object.__setattr__(self._state, "step_statuses", step_statuses)
@@ -291,6 +293,7 @@ class Saga:
             object.__setattr__(
                 step_status, "completed_at", datetime.now(timezone.utc)
             )
+            assert self._state is not None
             await self.state_store.save_state(self._state)
 
             return result
@@ -302,6 +305,7 @@ class Saga:
             object.__setattr__(
                 step_status, "completed_at", datetime.now(timezone.utc)
             )
+            assert self._state is not None
             await self.state_store.save_state(self._state)
             raise
 
@@ -313,6 +317,7 @@ class Saga:
         """
         object.__setattr__(self._state, "status", SagaStatus.COMPENSATING)
         object.__setattr__(self._state, "error", reason)
+        assert self._state is not None
         await self.state_store.save_state(self._state)
 
         # Compensate in reverse order
@@ -327,6 +332,7 @@ class Saga:
                 # No compensation for this step
                 continue
 
+            assert self._state is not None
             step_statuses = dict(self._state.step_statuses)
             step_status = step_statuses.get(
                 step.name, SagaStepStatus(step_name=step.name)
@@ -365,12 +371,14 @@ class Saga:
             object.__setattr__(self._state, "step_statuses", step_statuses)
 
         # Final state
+        assert self._state is not None
         if self._state.status == SagaStatus.COMPENSATING:
             object.__setattr__(self._state, "status", SagaStatus.FAILED)
 
         object.__setattr__(
             self._state, "completed_at", datetime.now(timezone.utc)
         )
+        assert self._state is not None
         await self.state_store.save_state(self._state)
 
     async def _call_handler(
