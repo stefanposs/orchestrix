@@ -135,6 +135,7 @@ class EventSourcingDBStore(EventStore):
             event_dicts.append(cloud_event)
 
         # Write events using SDK
+        assert self._client is not None
         await self._client.write_events(event_candidates=event_dicts)
 
     async def load_async(
@@ -158,6 +159,7 @@ class EventSourcingDBStore(EventStore):
 
         # Note: EventSourcingDB doesn't have built-in version filtering
         # We load all events and filter client-side if needed
+        assert self._client is not None
         async for cloud_event in self._client.read_events(
             subject=aggregate_id, options=options
         ):
@@ -224,6 +226,7 @@ class EventSourcingDBStore(EventStore):
         """
 
         # Execute EventQL query using SDK
+        assert self._client is not None
         with contextlib.suppress(Exception):
             async for row in self._client.run_eventql_query(query=query):
                 # Row is the projected event

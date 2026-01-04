@@ -86,6 +86,7 @@ class PostgreSQLEventStore(EventStore):
 
     async def _ensure_schema(self) -> None:
         """Create tables and indexes if they don't exist."""
+        assert self._pool is not None
         async with self._pool.acquire() as conn:
             # Events table
             await conn.execute(
@@ -181,6 +182,7 @@ class PostgreSQLEventStore(EventStore):
         if not events:
             return
 
+        assert self._pool is not None
         async with self._pool.acquire() as conn, conn.transaction():
             # Get current version
             current_version = await conn.fetchval(
@@ -239,6 +241,7 @@ class PostgreSQLEventStore(EventStore):
         Returns:
             List of events in chronological order
         """
+        assert self._pool is not None
         async with self._pool.acquire() as conn:
             if from_version is None:
                 rows = await conn.fetch(
@@ -284,6 +287,7 @@ class PostgreSQLEventStore(EventStore):
         Args:
             snapshot: Snapshot to save
         """
+        assert self._pool is not None
         async with self._pool.acquire() as conn:
             await conn.execute(
                 """
@@ -311,6 +315,7 @@ class PostgreSQLEventStore(EventStore):
         Returns:
             Latest snapshot if exists, None otherwise
         """
+        assert self._pool is not None
         async with self._pool.acquire() as conn:
             row = await conn.fetchrow(
                 """
@@ -337,6 +342,7 @@ class PostgreSQLEventStore(EventStore):
         Returns:
             True if connection is healthy
         """
+        assert self._pool is not None
         try:
             async with self._pool.acquire() as conn:
                 await conn.fetchval("SELECT 1")

@@ -397,6 +397,7 @@ def init_tracing(
         )
 
     from opentelemetry import trace
+    assert config is not None
     try:
         from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
         exporter = OTLPSpanExporter(
