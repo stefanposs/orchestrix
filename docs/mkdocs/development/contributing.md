@@ -1,3 +1,32 @@
+## Integration Tests with testcontainers
+
+Integration tests for PostgreSQL and EventSourcingDB use [testcontainers-python](https://testcontainers.com/). This ensures tests run in isolated, real containers for reproducibility and reliability.
+
+### Container Version Management
+
+- Container image versions are defined centrally in `.container-versions.json` at the repo root.
+- Example:
+
+    ```json
+    {
+        "postgres": "16-alpine",
+        "eventsourcingdb": "latest"
+    }
+    ```
+
+- Test fixtures read this file to determine which image version to use.
+
+### Dependency Monitoring
+
+- [Dependabot](https://github.com/dependabot) is configured to monitor `.container-versions.json` for new container image versions and will open PRs for updates.
+- Python and GitHub Actions dependencies are also monitored.
+
+### How to update container versions
+
+1. Edit `.container-versions.json` and set the desired image tag.
+2. Run the tests locally to verify compatibility.
+3. Commit and push your changes.
+4. Dependabot will propose updates automatically when new versions are available.
 # Contributing
 
 Beiträge zu Orchestrix sind willkommen! Hier erfährst du, wie du mitmachen kannst.

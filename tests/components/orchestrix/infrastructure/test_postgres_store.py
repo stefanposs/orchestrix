@@ -10,6 +10,9 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 
 import pytest
+import json as _json
+from pathlib import Path
+from testcontainers.postgres import PostgresContainer
 
 # Conditional import for PostgreSQL support
 pytest.importorskip("asyncpg", reason="asyncpg not installed - skip postgres tests")
@@ -36,27 +39,28 @@ class OrderShipped(Event):
     tracking_number: str
 
 
+
+# Use testcontainers for isolated Postgres
+@pytest.fixture(scope="session")
+def postgres_version():
+    """Read Postgres version from .container-versions.json."""
+    config_path = Path(__file__).parent.parent.parent.parent / ".container-versions.json"
+    with config_path.open() as f:
+        return _json.load(f)["postgres"]
+
+
+@pytest.fixture(scope="session")
+def postgres_container(postgres_version):
+    """Start a Postgres container for the test session."""
+    with PostgresContainer(f"postgres:{postgres_version}") as container:
+        container.start()
+        yield container.get_connection_url()
+
+
 @pytest.fixture
-def postgres_url():
-    """PostgreSQL connection URL for tests.
-
-    In production tests, use testcontainers-python:
-    ```
-    from testcontainers.postgres import PostgresContainer
-    with PostgresContainer("postgres:16-alpine") as postgres:
-        yield postgres.get_connection_url()
-    ```
-
-    For local development, ensure PostgreSQL is running:
-    docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=test postgres:16-alpine
-    """
-    return "postgresql://postgres:changethis@localhost:5432/app"
-
-
-@pytest.fixture
-async def store(postgres_url):
-    """Create and initialize PostgreSQL event store."""
-    store = PostgreSQLEventStore(connection_string=postgres_url, pool_min_size=2, pool_max_size=5)
+async def store(postgres_container):
+    """Create and initialize PostgreSQL event store (using testcontainer)."""
+    store = PostgreSQLEventStore(connection_string=postgres_container, pool_min_size=2, pool_max_size=5)
     await store.initialize()
 
     # Clean up tables before each test

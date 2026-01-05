@@ -1,0 +1,4 @@
+{
+  "postgres": "16-alpine",
+  "eventsourcingdb": "latest"
+}
