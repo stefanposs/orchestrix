@@ -18,8 +18,8 @@ async def run_example() -> None:
     print("=" * 60)
 
     # Setup infrastructure
-    event_store = InMemoryEventStore()
     message_bus = InMemoryMessageBus()
+    event_store = InMemoryEventStore()
     repository = AggregateRepository[Order](event_store)
 
     # Register handlers and saga
@@ -74,7 +74,7 @@ async def run_example() -> None:
     await asyncio.sleep(0.2)
 
     # Load order to check final state
-    order = await repository.load_async(Order, order_id)
+    order: Order = await repository.load_async(Order, order_id)
 
     print("\n" + "=" * 60)
     print("📊 Final Order State:")
