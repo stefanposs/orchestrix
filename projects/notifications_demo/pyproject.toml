@@ -8,7 +8,7 @@ dependencies = [
 ]
 
 [project.scripts]
-notifications-demo = "orchestrix.notifications.main:main"
+notifications-demo = "orchestrix.notifications_demo.main:main"
 
 [tool.uv.sources]
 orchestrix = { workspace = true }
@@ -29,4 +29,4 @@ build-backend = "hatchling.build"
 "../../components/orchestrix/infrastructure/observability" = "orchestrix/infrastructure/observability"
 "../../components/orchestrix/infrastructure/postgres" = "orchestrix/infrastructure/postgres"
 # Bases
-"../../bases/orchestrix/notifications" = "orchestrix/notifications"
+"../../bases/orchestrix/notifications_demo" = "orchestrix/notifications_demo"

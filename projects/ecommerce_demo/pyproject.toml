@@ -7,6 +7,9 @@ dependencies = [
     "orchestrix",
 ]
 
+[project.scripts]
+ecommerce-demo = "orchestrix.ecommerce.main:main"
+
 [tool.uv.sources]
 orchestrix = { workspace = true }
 
@@ -14,9 +17,19 @@ orchestrix = { workspace = true }
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.hatch.build.targets.wheel]
-packages = ["../../bases/orchestrix/ecommerce"]
-
 [tool.hatch.build.targets.wheel.force-include]
-"../../components/orchestrix/core" = "orchestrix/core"
-"../../components/orchestrix/infrastructure" = "orchestrix/infrastructure"
+# Core modules
+"../../components/orchestrix/core/common" = "orchestrix/core/common"
+"../../components/orchestrix/core/eventsourcing" = "orchestrix/core/eventsourcing"
+"../../components/orchestrix/core/execution" = "orchestrix/core/execution"
+"../../components/orchestrix/core/messaging" = "orchestrix/core/messaging"
+# Infrastructure modules
+"../../components/orchestrix/infrastructure/eventsourcingdb" = "orchestrix/infrastructure/eventsourcingdb"
+"../../components/orchestrix/infrastructure/memory" = "orchestrix/infrastructure/memory"
+"../../components/orchestrix/infrastructure/observability" = "orchestrix/infrastructure/observability"
+"../../components/orchestrix/infrastructure/postgres" = "orchestrix/infrastructure/postgres"
+# Bases
+"../../bases/orchestrix/ecommerce" = "orchestrix/ecommerce"
+"../../bases/orchestrix/banking" = "orchestrix/banking"
+"../../bases/orchestrix/lakehouse" = "orchestrix/lakehouse"
+"../../bases/orchestrix/notifications" = "orchestrix/notifications"
