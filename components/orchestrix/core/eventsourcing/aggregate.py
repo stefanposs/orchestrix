@@ -7,12 +7,9 @@ This module provides the core abstractions for event-sourced aggregates:
 
 import inspect
 from dataclasses import dataclass, field
-from typing import TypeVar
 
 from orchestrix.core.eventsourcing.event_store import AsyncEventStore, EventStore
 from orchestrix.core.messaging.message import Event
-
-T = TypeVar("T", bound="AggregateRoot")
 
 
 @dataclass
@@ -103,7 +100,7 @@ class AggregateRoot:
 
 
 @dataclass
-class AggregateRepository[T: AggregateRoot]:
+class AggregateRepository[T: "AggregateRoot"]:
     """Repository for loading and saving event-sourced aggregates.
 
     Provides:

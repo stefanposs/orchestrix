@@ -2,16 +2,15 @@
 
 Uses pytest-asyncio for async tests with FakeEventSourcingDBClient.
 This eliminates the need for mocking SDK internals.
+"""
 
-
-# For integration tests with real EventSourcingDB, use testcontainers.
 import json as _json
 from pathlib import Path
+
 try:
     from testcontainers.core.container import DockerContainer
 except ImportError:
-    DockerContainer = None
-"""
+    DockerContainer: type | None = None
 
 import uuid
 from datetime import UTC, datetime
@@ -64,25 +63,19 @@ def sample_events(aggregate_id):
     ]
 
 
-
 # Example fixture for real EventSourcingDB integration (disabled by default)
 @pytest.fixture(scope="session")
 def esdb_version():
     """Read EventSourcingDB version from .container-versions.json."""
-    config_path = Path(__file__).parent.parent.parent.parent / ".container-versions.json"
+    root = Path(__file__).resolve().parents[4]
+    config_path = root / ".container-versions.json"
     with config_path.open() as f:
         return _json.load(f)["eventsourcingdb"]
 
+
 # Uncomment and adapt for real integration tests
 # @pytest.fixture(scope="session")
-# def esdb_container(esdb_version):
-#     if DockerContainer is None:
-#         pytest.skip("testcontainers not installed")
-#     with DockerContainer(f"eventsourcingdb:{esdb_version}") as container:
-#         container.with_exposed_ports(2113)
-#         container.start()
-#         # Build connection string as needed
-#         yield "http://localhost:2113"
+
 
 # Tests
 

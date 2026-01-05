@@ -5,13 +5,13 @@ Uses pytest-asyncio for async tests and testcontainers for isolated PostgreSQL i
 
 import contextlib
 import json
+import json as _json
 import uuid
 from dataclasses import dataclass
 from datetime import UTC, datetime
+from pathlib import Path
 
 import pytest
-import json as _json
-from pathlib import Path
 from testcontainers.postgres import PostgresContainer
 
 # Conditional import for PostgreSQL support
@@ -39,28 +39,40 @@ class OrderShipped(Event):
     tracking_number: str
 
 
-
 # Use testcontainers for isolated Postgres
-@pytest.fixture(scope="session")
-def postgres_version():
-    """Read Postgres version from .container-versions.json."""
-    config_path = Path(__file__).parent.parent.parent.parent / ".container-versions.json"
+
+
+# Parametrize over all Postgres versions in .container-versions.json
+def _get_postgres_versions():
+    # Suche das Projekt-Root relativ zu dieser Datei
+    root = Path(__file__).resolve().parents[4]
+    config_path = root / ".container-versions.json"
     with config_path.open() as f:
         return _json.load(f)["postgres"]
 
 
-@pytest.fixture(scope="session")
-def postgres_container(postgres_version):
-    """Start a Postgres container for the test session."""
-    with PostgresContainer(f"postgres:{postgres_version}") as container:
+import pytest
+
+
+@pytest.fixture(params=_get_postgres_versions())
+def postgres_container(request):
+    """Start a Postgres container for each version in the list."""
+    version = request.param
+    with PostgresContainer(f"postgres:{version}") as container:
         container.start()
-        yield container.get_connection_url()
+        dsn = container.get_connection_url()
+        # testcontainers liefert postgresql+psycopg2://..., asyncpg braucht postgresql://
+        if dsn.startswith("postgresql+psycopg2://"):
+            dsn = dsn.replace("postgresql+psycopg2://", "postgresql://", 1)
+        yield dsn
 
 
 @pytest.fixture
 async def store(postgres_container):
     """Create and initialize PostgreSQL event store (using testcontainer)."""
-    store = PostgreSQLEventStore(connection_string=postgres_container, pool_min_size=2, pool_max_size=5)
+    store = PostgreSQLEventStore(
+        connection_string=postgres_container, pool_min_size=2, pool_max_size=5
+    )
     await store.initialize()
 
     # Clean up tables before each test

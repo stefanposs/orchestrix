@@ -2,7 +2,7 @@
 name = "orchestrix"
 version = "0.1.0"
 description = "A modular event-driven architecture framework"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.12,<3.14"
 dependencies = [
     "asyncpg>=0.29.0",
     "eventsourcingdb>=1.9.0",

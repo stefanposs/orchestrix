@@ -123,3 +123,25 @@ We need structured observability from day one, including:
 - Integrated Prometheus for metrics collection.
 - Structured logging with correlation IDs (Trace IDs) to link logs to traces.
 - Added `test_observability.py` to ensure these features work correctly.
+
+---
+
+## 8. Python-Version und Generics-Syntax (2026-01-05)
+
+**Context (Ausgangslage)**
+Ursprünglich unterstützte orchestrix Python >=3.11,<3.14. Die neue Generics-Syntax (PEP 695, z.B. `class Foo[T]: ...`) ist jedoch erst ab Python 3.12 verfügbar. Für Python 3.11 musste das klassische Muster mit `TypeVar` und `Generic[T]` verwendet werden, was zu Linter-Fehlalarmen und doppeltem Code führte.
+
+**Insight (Erkenntnis)**
+Ab Januar 2026 unterstützen wir offiziell nur noch Python >=3.12,<3.14. Damit können wir im gesamten Code die moderne PEP 695-Syntax für Generics verwenden. Das klassische Muster entfällt. Vorteile:
+- Einheitliche, moderne Syntax
+- Weniger Boilerplate, bessere Lesbarkeit
+- Keine Linter-Fehlalarme mehr (Ruff, Ty)
+- Zukunftssicherheit für kommende Python-Versionen
+
+**Consequence (Konsequenz)**
+- Alle pyproject.toml und CI-Workflows setzen jetzt Python >=3.12 voraus
+- Migration aller Generics auf PEP 695-Syntax
+- Dokumentation und Beispiele werden entsprechend angepasst
+
+**Siehe auch:**
+- docs/adr/2026-01-05-python312-generics-adr.md

@@ -1,4 +1,4 @@
 {
-  "postgres": "16-alpine",
-  "eventsourcingdb": "latest"
+  "postgres": ["15-alpine", "16-alpine"],
+  "eventsourcingdb": ["latest"]
 }
