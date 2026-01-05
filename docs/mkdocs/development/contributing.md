@@ -171,7 +171,7 @@ git checkout -b feature/my-awesome-feature
 
 ```bash
 # Edit files (example)
-vim components/orchestrix/core/message_bus.py
+vim components/orchestrix.core.messaging.message_bus.py
 
 # Run tests continuously
 just test-watch

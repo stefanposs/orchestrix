@@ -20,5 +20,11 @@ build-backend = "hatchling.build"
 packages = ["orchestrix"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"../../components/orchestrix/core" = "orchestrix/core"
-"../../components/orchestrix/infrastructure" = "orchestrix/infrastructure"
+"../../components/orchestrix/core/common" = "orchestrix/core/common"
+"../../components/orchestrix/core/eventsourcing" = "orchestrix/core/eventsourcing"
+"../../components/orchestrix/core/execution" = "orchestrix/core/execution"
+"../../components/orchestrix/core/messaging" = "orchestrix/core/messaging"
+"../../components/orchestrix/infrastructure/eventsourcingdb" = "orchestrix/infrastructure/eventsourcingdb"
+"../../components/orchestrix/infrastructure/memory" = "orchestrix/infrastructure/memory"
+"../../components/orchestrix/infrastructure/observability" = "orchestrix/infrastructure/observability"
+"../../components/orchestrix/infrastructure/postgres" = "orchestrix/infrastructure/postgres"

@@ -1,9 +1,11 @@
 """Domain models for lakehouse data anonymization."""
+
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
+from typing import Any
 
-from orchestrix.core.message import Command, Event
+from orchestrix.core.messaging.message import Command, Event
 
 
 class AnonymizationStrategy(str, Enum):
@@ -79,8 +81,8 @@ class DryRunResult:
     affected_columns: list[str]
     estimated_duration_seconds: float
     warnings: list[str]
-    sample_before: dict[str, list]  # Sample data before
-    sample_after: dict[str, list]  # Sample data after (preview)
+    sample_before: dict[str, list[Any]]  # Sample data before
+    sample_after: dict[str, list[Any]]  # Sample data after (preview)
 
 
 # Events

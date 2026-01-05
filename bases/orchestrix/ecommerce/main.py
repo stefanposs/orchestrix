@@ -1,9 +1,10 @@
 """Complete e-commerce order processing example."""
+
 import asyncio
 from decimal import Decimal
 
-from orchestrix.core.aggregate import AggregateRepository
-from orchestrix.infrastructure.memory import InMemoryEventStore, InMemoryMessageBus
+from orchestrix.core.eventsourcing.aggregate import AggregateRepository
+from orchestrix.infrastructure.memory.utils import InMemoryEventStore, InMemoryMessageBus
 
 from .aggregate import Order
 from .handlers import register_handlers
@@ -19,7 +20,7 @@ async def run_example() -> None:
     # Setup infrastructure
     event_store = InMemoryEventStore()
     message_bus = InMemoryMessageBus()
-    repository = AggregateRepository(event_store)
+    repository = AggregateRepository[Order](event_store)
 
     # Register handlers and saga
     handlers = register_handlers(message_bus, repository)

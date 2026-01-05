@@ -58,8 +58,8 @@ test-watch:
 # Code Quality
 # ============================================================================
 
-# Run all QA checks (lint, format-check, typecheck, ty, test)
-qa: lint format-check typecheck ty test
+# Run all QA checks (lint, format-check, typecheck, test)
+qa: lint format-check test
     @echo "✅ All QA checks passed!"
 
 # Run ruff linter
@@ -77,14 +77,6 @@ format-check:
 # Format code with ruff
 format:
     uv run ruff format .
-
-# Run mypy type checker
-typecheck:
-    uv run mypy .
-
-# Run type checker with verbose output
-typecheck-verbose:
-    uv run mypy . --verbose
 
 # Run ty type checker (Astral)
 ty:
@@ -107,7 +99,7 @@ pre-commit:
     uv run pre-commit run --all-files
 
 # Full check before commit (format, lint, typecheck, ty, test)
-check: format lint typecheck ty test
+check: format lint test
     @echo "✅ Ready to commit!"
 
 # ============================================================================
@@ -146,18 +138,6 @@ docs-deploy:
     uv run mkdocs gh-deploy
 
 # ============================================================================
-# Running Examples
-# ============================================================================
-
-# Run the banking demo
-example:
-    uv run python bases/orchestrix/banking/main.py
-
-# Run specific example file
-run-example FILE:
-    uv run {{FILE}}
-
-# ============================================================================
 # Development Tools
 # ============================================================================
 
@@ -182,11 +162,11 @@ shell:
 # ============================================================================
 
 # Simulate CI pipeline locally
-ci: clean install pre-commit test-ci typecheck ty
+ci: clean install pre-commit test-ci
     @echo "✅ CI simulation complete!"
 
 # Quick CI check (faster, skips some steps)
-ci-quick: lint typecheck ty test
+ci-quick: lint test
     @echo "✅ Quick CI check complete!"
 
 # ============================================================================

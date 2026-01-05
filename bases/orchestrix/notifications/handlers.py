@@ -1,10 +1,11 @@
 """Notification handlers with retry logic and dead letter queue."""
+
 import asyncio
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
-from orchestrix.core.message import Event
-from orchestrix.core.messaging import MessageBus
+from orchestrix.core.messaging import AsyncMessageBus
+from orchestrix.core.messaging.message import Event
 
 from .models import (
     NotificationChannel,
@@ -66,7 +67,7 @@ class NotificationService:
 class NotificationHandler:
     """Handler for notification events with retry logic."""
 
-    message_bus: MessageBus
+    message_bus: AsyncMessageBus
     notification_service: NotificationService
     retry_config: RetryConfig = field(default_factory=RetryConfig)
     retry_attempts: dict[str, int] = field(default_factory=dict)
@@ -75,8 +76,8 @@ class NotificationHandler:
     async def handle_user_registered(self, event: UserRegistered) -> None:
         """Send welcome email when user registers."""
         # Create notification request
-        now = datetime.now(timezone.utc)
-        await self.message_bus.publish_async(
+        now = datetime.now(UTC)
+        await self.message_bus.publish(
             NotificationRequested(
                 notification_id=f"welcome-{event.user_id}",
                 channel=NotificationChannel.EMAIL,
@@ -90,8 +91,8 @@ class NotificationHandler:
 
     async def handle_order_placed(self, event: OrderPlaced) -> None:
         """Send order confirmation when order is placed."""
-        now = datetime.now(timezone.utc)
-        await self.message_bus.publish_async(
+        now = datetime.now(UTC)
+        await self.message_bus.publish(
             NotificationRequested(
                 notification_id=f"order-{event.order_id}",
                 channel=NotificationChannel.EMAIL,
@@ -105,8 +106,8 @@ class NotificationHandler:
 
     async def handle_payment_received(self, event: PaymentReceived) -> None:
         """Send payment receipt when payment is received."""
-        now = datetime.now(timezone.utc)
-        await self.message_bus.publish_async(
+        now = datetime.now(UTC)
+        await self.message_bus.publish(
             NotificationRequested(
                 notification_id=f"payment-{event.payment_id}",
                 channel=NotificationChannel.SMS,
@@ -144,8 +145,8 @@ class NotificationHandler:
                 )
 
             # Success!
-            now = datetime.now(timezone.utc)
-            await self.message_bus.publish_async(
+            now = datetime.now(UTC)
+            await self.message_bus.publish(
                 NotificationSent(
                     notification_id=notification_id,
                     channel=command.channel,
@@ -158,7 +159,7 @@ class NotificationHandler:
             self.retry_attempts.pop(notification_id, None)
 
         except Exception as e:
-            now = datetime.now(timezone.utc)
+            now = datetime.now(UTC)
 
             # Check if we should retry
             if attempt < self.retry_config.max_attempts:
@@ -172,7 +173,7 @@ class NotificationHandler:
                 next_retry = now + timedelta(seconds=delay)
 
                 # Publish retry event
-                await self.message_bus.publish_async(
+                await self.message_bus.publish(
                     NotificationRetrying(
                         notification_id=notification_id,
                         attempt=attempt,
@@ -181,7 +182,7 @@ class NotificationHandler:
                 )
 
                 # Publish failed event
-                await self.message_bus.publish_async(
+                await self.message_bus.publish(
                     NotificationFailed(
                         notification_id=notification_id,
                         channel=command.channel,
@@ -194,11 +195,11 @@ class NotificationHandler:
 
                 # Schedule retry
                 await asyncio.sleep(delay)
-                await self.message_bus.publish_async(command)
+                await self.message_bus.publish(command)
 
             else:
                 # Max retries exceeded - move to dead letter queue
-                await self.message_bus.publish_async(
+                await self.message_bus.publish(
                     NotificationMovedToDeadLetter(
                         notification_id=notification_id,
                         channel=command.channel,
@@ -211,8 +212,8 @@ class NotificationHandler:
 
                 # Store in dead letter queue for manual intervention
                 self.dead_letter_queue.append(
-                    Event.create(
-                        event_type="DeadLetterNotification",
+                    Event(
+                        type="DeadLetterNotification",
                         source="/notifications",
                         data={
                             "notification_id": notification_id,
@@ -229,7 +230,7 @@ class NotificationHandler:
 
 
 def register_handlers(
-    message_bus: MessageBus,
+    message_bus: AsyncMessageBus,
     notification_service: NotificationService,
     retry_config: RetryConfig | None = None,
 ) -> NotificationHandler:

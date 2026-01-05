@@ -1,16 +1,18 @@
 """Anonymization job aggregate."""
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
 
-from orchestrix.core.aggregate import AggregateRoot
+from dataclasses import dataclass, field
+from datetime import UTC, datetime
+
+from orchestrix.core.eventsourcing.aggregate import AggregateRoot
 
 from .models import (
     AnonymizationCompleted,
     AnonymizationFailed,
     AnonymizationJobCreated,
-    AnonymizationRule,
     AnonymizationRolledBack,
+    AnonymizationRule,
     AnonymizationStarted,
+    AnonymizationStrategy,
     ColumnAnonymized,
     DryRunCompleted,
     DryRunFailed,
@@ -54,7 +56,7 @@ class AnonymizationJob(AggregateRoot):
             msg = "At least one anonymization rule required"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             AnonymizationJobCreated(
                 job_id=job_id,
@@ -72,7 +74,11 @@ class AnonymizationJob(AggregateRoot):
             msg = f"Cannot start dry-run in status: {self.status}"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        if not self.table_schema:
+            msg = "Table schema required for dry-run"
+            raise ValueError(msg)
+
+        now = datetime.now(UTC)
         self._apply_event(
             DryRunStarted(
                 job_id=self.aggregate_id,
@@ -87,11 +93,9 @@ class AnonymizationJob(AggregateRoot):
             msg = f"Cannot complete dry-run in status: {self.status}"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
-            DryRunCompleted(
-                job_id=self.aggregate_id, result=result, completed_at=now
-            )
+            DryRunCompleted(job_id=self.aggregate_id, result=result, completed_at=now)
         )
 
     def fail_dry_run(self, reason: str) -> None:
@@ -100,10 +104,8 @@ class AnonymizationJob(AggregateRoot):
             msg = f"Cannot fail dry-run in status: {self.status}"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
-        self._apply_event(
-            DryRunFailed(job_id=self.aggregate_id, reason=reason, failed_at=now)
-        )
+        now = datetime.now(UTC)
+        self._apply_event(DryRunFailed(job_id=self.aggregate_id, reason=reason, failed_at=now))
 
     def approve(self, approver: str) -> None:
         """Approve job after successful dry-run."""
@@ -111,11 +113,9 @@ class AnonymizationJob(AggregateRoot):
             msg = f"Cannot approve job in status: {self.status}"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
-            ValidationPassed(
-                job_id=self.aggregate_id, approved_by=approver, approved_at=now
-            )
+            ValidationPassed(job_id=self.aggregate_id, approved_by=approver, approved_at=now)
         )
 
     def start_anonymization(self, backup_location: str) -> None:
@@ -124,7 +124,7 @@ class AnonymizationJob(AggregateRoot):
             msg = f"Cannot start anonymization in status: {self.status}"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             AnonymizationStarted(
                 job_id=self.aggregate_id,
@@ -133,34 +133,30 @@ class AnonymizationJob(AggregateRoot):
             )
         )
 
-    def anonymize_column(
-        self, column_name: str, strategy: str, rows_affected: int
-    ) -> None:
+    def anonymize_column(self, column_name: str, strategy: str, rows_affected: int) -> None:
         """Record column anonymization."""
         if self.status != JobStatus.ANONYMIZATION_STARTED:
             msg = f"Cannot anonymize column in status: {self.status}"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             ColumnAnonymized(
                 job_id=self.aggregate_id,
                 column_name=column_name,
-                strategy=strategy,
+                strategy=AnonymizationStrategy(strategy),
                 rows_affected=rows_affected,
                 anonymized_at=now,
             )
         )
 
-    def complete_anonymization(
-        self, total_rows: int, total_columns: int, duration: float
-    ) -> None:
+    def complete_anonymization(self, total_rows: int, total_columns: int, duration: float) -> None:
         """Complete anonymization successfully."""
         if self.status != JobStatus.ANONYMIZATION_STARTED:
             msg = f"Cannot complete anonymization in status: {self.status}"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             AnonymizationCompleted(
                 job_id=self.aggregate_id,
@@ -177,7 +173,7 @@ class AnonymizationJob(AggregateRoot):
             msg = f"Cannot fail anonymization in status: {self.status}"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             AnonymizationFailed(
                 job_id=self.aggregate_id,
@@ -196,7 +192,7 @@ class AnonymizationJob(AggregateRoot):
             msg = f"Cannot rollback in status: {self.status}"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             AnonymizationRolledBack(
                 job_id=self.aggregate_id,

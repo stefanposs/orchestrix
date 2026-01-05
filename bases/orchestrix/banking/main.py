@@ -1,10 +1,11 @@
 """Complete banking transfer example with compensation."""
+
 import asyncio
 from contextlib import suppress
 from decimal import Decimal
 
-from orchestrix.core.aggregate import AggregateRepository
-from orchestrix.infrastructure.memory import InMemoryEventStore, InMemoryMessageBus
+from orchestrix.core.eventsourcing.aggregate import AggregateRepository
+from orchestrix.infrastructure.memory.utils import InMemoryEventStore, InMemoryMessageBus
 
 from .aggregate import Account
 from .handlers import register_handlers
@@ -20,7 +21,7 @@ async def run_example() -> None:
     # Setup infrastructure
     event_store = InMemoryEventStore()
     message_bus = InMemoryMessageBus()
-    repository = AggregateRepository(event_store)
+    repository = AggregateRepository[Account](event_store)
 
     # Register handlers and saga
     handlers = register_handlers(message_bus, repository)
@@ -34,7 +35,7 @@ async def run_example() -> None:
 
     # Open Alice's account
     print("\n💰 Opening Alice's account...")
-    await message_bus.publish_async(
+    await message_bus.publish(
         OpenAccount(
             account_id="alice-123",
             owner_name="Alice Johnson",
@@ -44,7 +45,7 @@ async def run_example() -> None:
 
     # Open Bob's account
     print("💰 Opening Bob's account...")
-    await message_bus.publish_async(
+    await message_bus.publish(
         OpenAccount(
             account_id="bob-456",
             owner_name="Bob Smith",
@@ -70,7 +71,7 @@ async def run_example() -> None:
     print(f"\n💸 Transferring ${transfer_amount} from Alice to Bob...")
     print("   Description: Payment for services")
 
-    await message_bus.publish_async(
+    await message_bus.publish(
         TransferMoney(
             transfer_id="transfer-789",
             from_account_id="alice-123",
@@ -99,7 +100,7 @@ async def run_example() -> None:
     print(f"✅ Bob credited:  ${bob_final.balance - bob.balance}")
 
     # Show Alice's transaction history
-    alice_events = await event_store.load_async("alice-123")
+    alice_events = await event_store.load("alice-123")
     print(f"\n📜 Alice's Transaction History ({len(alice_events)} events):")
     print("=" * 70)
     for i, event in enumerate(alice_events, 1):
@@ -110,7 +111,7 @@ async def run_example() -> None:
             print(f"   Description: {event.description}")
 
     # Show Bob's transaction history
-    bob_events = await event_store.load_async("bob-456")
+    bob_events = await event_store.load("bob-456")
     print(f"\n📜 Bob's Transaction History ({len(bob_events)} events):")
     print("=" * 70)
     for i, event in enumerate(bob_events, 1):
@@ -128,7 +129,7 @@ async def run_example() -> None:
 
     with suppress(Exception):
         # Expected to fail - saga will handle compensation
-        await message_bus.publish_async(
+        await message_bus.publish(
             TransferMoney(
                 transfer_id="transfer-999",
                 from_account_id="bob-456",

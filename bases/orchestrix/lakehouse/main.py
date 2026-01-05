@@ -1,9 +1,11 @@
 """Complete lakehouse anonymization example."""
+
 import asyncio
 
-from orchestrix.core.aggregate import AggregateRepository
-from orchestrix.infrastructure.memory import InMemoryEventStore, InMemoryMessageBus
+from orchestrix.core.eventsourcing.aggregate import AggregateRepository
+from orchestrix.infrastructure.memory.utils import InMemoryEventStore, InMemoryMessageBus
 
+from .aggregate import AnonymizationJob
 from .engine import AnonymizationEngine, LakehouseTable
 from .handlers import register_handlers
 from .models import (
@@ -25,7 +27,7 @@ async def run_example() -> None:
     # Setup infrastructure
     event_store = InMemoryEventStore()
     message_bus = InMemoryMessageBus()
-    repository = AggregateRepository(event_store)
+    repository = AggregateRepository[AnonymizationJob](event_store)
     engine = AnonymizationEngine(seed=42)
 
     # Create sample lakehouse table
@@ -94,9 +96,7 @@ async def run_example() -> None:
     )
 
     # Store table in simulated lakehouse
-    lakehouse_tables = {
-        "analytics_db.customer_data.customers": customer_table
-    }
+    lakehouse_tables = {"analytics_db.customer_data.customers": customer_table}
 
     print(f"   Database: {customer_table.database}")
     print(f"   Schema: {customer_table.schema_name}")

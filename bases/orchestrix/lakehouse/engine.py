@@ -1,8 +1,10 @@
 """Anonymization strategies implementation."""
+
 import hashlib
 import random
 import string
 from dataclasses import dataclass
+from typing import Any
 
 
 @dataclass
@@ -22,7 +24,7 @@ class AnonymizationEngine:
                 local, domain = value.split("@", 1)
                 domain_parts = domain.split(".")
                 return f"{local[0]}***@{domain_parts[0][0]}{'*' * (len(domain_parts[0]) - 1)}.{domain_parts[-1]}"
-            elif "-" in value:  # Phone with dashes
+            if "-" in value:  # Phone with dashes
                 parts = value.split("-")
                 return "-".join("*" * len(part) for part in parts)
 
@@ -42,9 +44,7 @@ class AnonymizationEngine:
         if not value:
             return value
         token_length = length or len(value)
-        return "".join(
-            random.choices(string.ascii_uppercase + string.digits, k=token_length)
-        )
+        return "".join(random.choices(string.ascii_uppercase + string.digits, k=token_length))
 
     def generalization(self, value: str | int | float, value_type: str) -> str:
         """Reduce precision/specificity."""
@@ -66,7 +66,7 @@ class AnonymizationEngine:
                 return "50-59"
             return "60+"
 
-        elif value_type == "salary":
+        if value_type == "salary":
             # Salary ranges
             salary = float(value)
             if salary < 30000:
@@ -81,13 +81,13 @@ class AnonymizationEngine:
                 return "100k-150k"
             return "150k+"
 
-        elif value_type == "date":
+        if value_type == "date":
             # Only keep year
             if isinstance(value, str):
                 return value[:4]
             return str(value)
 
-        elif value_type == "zipcode":
+        if value_type == "zipcode":
             # Keep only first 3 digits
             return str(value)[:3] + "**"
 
@@ -95,7 +95,7 @@ class AnonymizationEngine:
 
     def suppression(self, value: str) -> None:
         """Delete value entirely."""
-        return None
+        return
 
     def pseudonymization(self, value: str, value_type: str) -> str:
         """Replace with consistent fake data."""
@@ -115,7 +115,7 @@ class AnonymizationEngine:
             tld = random.choice(tlds)
             return f"{name}{random.randint(1, 999)}@{domain}.{tld}"
 
-        elif value_type == "name":
+        if value_type == "name":
             first_names = [
                 "John",
                 "Jane",
@@ -137,10 +137,10 @@ class AnonymizationEngine:
             ]
             return f"{random.choice(first_names)} {random.choice(last_names)}"
 
-        elif value_type == "phone":
+        if value_type == "phone":
             return f"+1-{random.randint(200, 999)}-{random.randint(200, 999)}-{random.randint(1000, 9999)}"
 
-        elif value_type == "address":
+        if value_type == "address":
             streets = ["Main St", "Oak Ave", "Elm St", "Maple Dr", "Pine Rd"]
             cities = ["Springfield", "Franklin", "Clinton", "Georgetown", "Salem"]
             states = ["CA", "NY", "TX", "FL", "IL"]
@@ -149,7 +149,7 @@ class AnonymizationEngine:
         # Generic pseudonymization
         return self.tokenization(value)
 
-    def aggregation(self, values: list, bucket_size: int = 5) -> str:
+    def aggregation(self, values: list[Any], bucket_size: int = 5) -> str | None:
         """Aggregate into buckets."""
         if not values:
             return None
@@ -175,13 +175,15 @@ class LakehouseTable:
     database: str
     schema_name: str
     table_name: str
-    data: list[dict]
-    _backup: list[dict] | None = None
+    data: list[dict[str, Any]]
+    _backup: list[dict[str, Any]] | None = None
 
     def backup(self) -> str:
         """Create backup before anonymization."""
         self._backup = [row.copy() for row in self.data]
-        backup_location = f"s3://backups/{self.database}/{self.schema_name}/{self.table_name}/backup.parquet"
+        backup_location = (
+            f"s3://backups/{self.database}/{self.schema_name}/{self.table_name}/backup.parquet"
+        )
         return backup_location
 
     def restore(self) -> None:
@@ -197,7 +199,7 @@ class LakehouseTable:
         strategy_name: str,
         preserve_format: bool = False,
         preserve_null: bool = True,
-        **kwargs,
+        **kwargs: Any,
     ) -> int:
         """Anonymize a specific column."""
         rows_affected = 0
@@ -222,9 +224,11 @@ class LakehouseTable:
             elif strategy_name == "generalization":
                 row[column_name] = engine.generalization(value, kwargs.get("value_type", "generic"))
             elif strategy_name == "suppression":
-                row[column_name] = engine.suppression(value)
+                row[column_name] = None
             elif strategy_name == "pseudonymization":
-                row[column_name] = engine.pseudonymization(str(value), kwargs.get("value_type", "generic"))
+                row[column_name] = engine.pseudonymization(
+                    str(value), kwargs.get("value_type", "generic")
+                )
             elif strategy_name == "noise":
                 row[column_name] = engine.noise(float(value), kwargs.get("noise_percent", 10.0))
 
@@ -232,6 +236,6 @@ class LakehouseTable:
 
         return rows_affected
 
-    def get_sample(self, limit: int = 5) -> list[dict]:
+    def get_sample(self, limit: int = 5) -> list[dict[str, Any]]:
         """Get sample rows."""
         return self.data[:limit]

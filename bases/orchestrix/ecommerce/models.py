@@ -1,10 +1,11 @@
 """Domain models for the e-commerce example."""
+
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
 from enum import Enum
 
-from orchestrix.core.message import Event
+from orchestrix.core.messaging.message import Command, Event
 
 
 class OrderStatus(str, Enum):
@@ -180,7 +181,7 @@ class PaymentRefunded(Event):
 
 
 @dataclass(frozen=True)
-class CreateOrder:
+class CreateOrder(Command):
     """Create a new order."""
 
     order_id: str
@@ -190,7 +191,7 @@ class CreateOrder:
 
 
 @dataclass(frozen=True)
-class ProcessPayment:
+class ProcessPayment(Command):
     """Process payment for an order."""
 
     order_id: str
@@ -200,7 +201,7 @@ class ProcessPayment:
 
 
 @dataclass(frozen=True)
-class ReserveInventory:
+class ReserveInventory(Command):
     """Reserve inventory for an order."""
 
     order_id: str
@@ -208,14 +209,14 @@ class ReserveInventory:
 
 
 @dataclass(frozen=True)
-class ConfirmOrder:
+class ConfirmOrder(Command):
     """Confirm an order after payment and inventory reservation."""
 
     order_id: str
 
 
 @dataclass(frozen=True)
-class CancelOrder:
+class CancelOrder(Command):
     """Cancel an order."""
 
     order_id: str
@@ -223,7 +224,7 @@ class CancelOrder:
 
 
 @dataclass(frozen=True)
-class ReleaseInventory:
+class ReleaseInventory(Command):
     """Release inventory reservation (compensation)."""
 
     order_id: str
@@ -231,7 +232,7 @@ class ReleaseInventory:
 
 
 @dataclass(frozen=True)
-class RefundPayment:
+class RefundPayment(Command):
     """Refund a payment (compensation)."""
 
     order_id: str

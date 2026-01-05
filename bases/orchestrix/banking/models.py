@@ -1,10 +1,11 @@
 """Domain models for the banking example."""
+
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
 from enum import Enum
 
-from orchestrix.core.message import Command, Event
+from orchestrix.core.messaging.message import Command, Event
 
 
 class AccountStatus(str, Enum):

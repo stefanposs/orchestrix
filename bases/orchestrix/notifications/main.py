@@ -1,8 +1,9 @@
 """Complete notifications example with retry logic and dead letter queue."""
-import asyncio
-from datetime import datetime, timezone
 
-from orchestrix.infrastructure.memory import InMemoryMessageBus
+import asyncio
+from datetime import UTC, datetime
+
+from orchestrix.infrastructure.memory.utils import InMemoryMessageBus
 
 from .handlers import NotificationService, RetryConfig, register_handlers
 from .models import OrderPlaced, PaymentReceived, UserRegistered
@@ -39,12 +40,12 @@ async def run_example() -> None:
     print("Example 1: User Registration Notification (Email)")
     print("=" * 70)
 
-    await message_bus.publish_async(
+    await message_bus.publish(
         UserRegistered(
             user_id="user-123",
             email="alice@example.com",
             name="Alice Johnson",
-            registered_at=datetime.now(timezone.utc),
+            registered_at=datetime.now(UTC),
         )
     )
 
@@ -57,12 +58,12 @@ async def run_example() -> None:
     print("Example 2: Order Confirmation (Email)")
     print("=" * 70)
 
-    await message_bus.publish_async(
+    await message_bus.publish(
         OrderPlaced(
             order_id="order-456",
             user_id="user-123",
             total_amount=149.99,
-            placed_at=datetime.now(timezone.utc),
+            placed_at=datetime.now(UTC),
         )
     )
 
@@ -75,12 +76,12 @@ async def run_example() -> None:
     print("Example 3: Payment Receipt (SMS)")
     print("=" * 70)
 
-    await message_bus.publish_async(
+    await message_bus.publish(
         PaymentReceived(
             payment_id="pay-789",
             order_id="order-456",
             amount=149.99,
-            received_at=datetime.now(timezone.utc),
+            received_at=datetime.now(UTC),
         )
     )
 
@@ -97,12 +98,12 @@ async def run_example() -> None:
 
     # Send 5 more notifications
     for i in range(5):
-        await message_bus.publish_async(
+        await message_bus.publish(
             UserRegistered(
                 user_id=f"user-{200 + i}",
                 email=f"user{200 + i}@example.com",
                 name=f"User {200 + i}",
-                registered_at=datetime.now(timezone.utc),
+                registered_at=datetime.now(UTC),
             )
         )
 
@@ -130,11 +131,11 @@ async def run_example() -> None:
     if handler.dead_letter_queue:
         print("\n💀 Dead Letter Queue Contents:")
         for event in handler.dead_letter_queue:
-            print(f"  - {event.notification_id}")
-            print(f"    Channel: {event.channel}")
-            print(f"    Recipient: {event.recipient}")
-            print(f"    Reason: {event.final_reason}")
-            print(f"    Attempts: {event.attempts}")
+            print(f"  - {event.data['notification_id']}")
+            print(f"    Channel: {event.data['channel']}")
+            print(f"    Recipient: {event.data['recipient']}")
+            print(f"    Reason: {event.data['final_reason']}")
+            print(f"    Attempts: {event.data['attempts']}")
 
     # Show retry configuration
     print("\n" + "=" * 70)

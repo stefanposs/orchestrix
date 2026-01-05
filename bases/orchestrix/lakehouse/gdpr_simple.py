@@ -1,18 +1,18 @@
 """Simplified GDPR Lakehouse Example - Demonstrates key concepts."""
 
-from orchestrix.core.message import Event
-from orchestrix.infrastructure.inmemory_store import InMemoryEventStore
-from orchestrix.core.snapshot import Snapshot
+from orchestrix.core.eventsourcing.snapshot import Snapshot
+from orchestrix.core.messaging.message import Event
+from orchestrix.infrastructure.memory.store import InMemoryEventStore
 
 
 # Simple demonstration - shows core event sourcing concepts
-def main():
+def main() -> None:
     """Demonstrate GDPR-compliant lakehouse with event sourcing."""
     print("🏗️  Advanced Lakehouse Platform with GDPR Compliance\n")
 
     # Setup
     event_store = InMemoryEventStore()
-    
+
     # 1. Create data lake
     print("1️⃣  Creating GDPR-compliant data lake...")
     lake_created = Event(type="DataLakeCreated")
@@ -21,7 +21,7 @@ def main():
     # 2. Ingest datasets
     print("2️⃣  Ingesting datasets...")
     dataset1 = Event(type="DatasetIngested")
-    dataset2 = Event(type="DatasetIngested") 
+    dataset2 = Event(type="DatasetIngested")
     print("   ✅ 2 datasets ingested")
     print("   📊 Total records: 130,000")
     print("   🔒 PII datasets detected and tracked\n")
@@ -64,8 +64,8 @@ def main():
             "compliance_level": "gdpr",
             "dataset_count": 2,
             "deletion_requests": 1,
-            "access_events": 2
-        }
+            "access_events": 2,
+        },
     )
     event_store.save_snapshot(snapshot)
     print(f"   ✅ Snapshot created at version {snapshot.version}\n")

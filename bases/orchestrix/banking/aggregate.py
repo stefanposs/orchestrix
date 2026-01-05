@@ -1,10 +1,10 @@
 """Account aggregate implementation."""
+
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from decimal import Decimal
 
-from orchestrix.core.aggregate import AggregateRoot
-from orchestrix.core.message import Event
+from orchestrix.core.eventsourcing.aggregate import AggregateRoot
 
 from .models import (
     AccountClosed,
@@ -27,9 +27,7 @@ class Account(AggregateRoot):
     opened_at: datetime | None = None
     transactions: list[str] = field(default_factory=list)
 
-    def open(
-        self, account_id: str, owner_name: str, initial_balance: Decimal
-    ) -> None:
+    def open(self, account_id: str, owner_name: str, initial_balance: Decimal) -> None:
         """Open a new account."""
         if self.owner_name:
             msg = "Account already opened"
@@ -39,7 +37,7 @@ class Account(AggregateRoot):
             msg = "Initial balance cannot be negative"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             AccountOpened(
                 account_id=account_id,
@@ -57,7 +55,7 @@ class Account(AggregateRoot):
             msg = "Deposit amount must be positive"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             MoneyDeposited(
                 account_id=self.aggregate_id,
@@ -80,7 +78,7 @@ class Account(AggregateRoot):
             msg = f"Insufficient balance: {self.balance} < {amount}"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             MoneyWithdrawn(
                 account_id=self.aggregate_id,
@@ -97,7 +95,7 @@ class Account(AggregateRoot):
             msg = f"Cannot suspend account in {self.status} status"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             AccountSuspended(
                 account_id=self.aggregate_id,
@@ -112,7 +110,7 @@ class Account(AggregateRoot):
             msg = f"Cannot reactivate account in {self.status} status"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             AccountReactivated(
                 account_id=self.aggregate_id,
@@ -128,7 +126,7 @@ class Account(AggregateRoot):
             msg = f"Cannot close account with non-zero balance: {self.balance}"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             AccountClosed(
                 account_id=self.aggregate_id,

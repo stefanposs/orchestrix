@@ -5,13 +5,14 @@ This saga implements the two-phase commit pattern:
 2. Credit to destination account
 3. If step 2 fails, reverse step 1 (compensation)
 """
+
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
-from orchestrix.core.aggregate import AggregateRepository
-from orchestrix.core.message import Event
-from orchestrix.core.messaging import MessageBus
+from orchestrix.core.eventsourcing.aggregate import AggregateRepository
+from orchestrix.core.messaging import AsyncMessageBus
 
+from .aggregate import Account
 from .models import (
     DepositMoney,
     TransferCompleted,
@@ -27,14 +28,14 @@ from .models import (
 class TransferSaga:
     """Saga coordinating money transfers with compensation."""
 
-    message_bus: MessageBus
-    repository: AggregateRepository
+    message_bus: AsyncMessageBus
+    repository: AggregateRepository[Account]
 
     async def handle_transfer_initiated(self, event: TransferInitiated) -> None:
         """Start transfer by debiting source account."""
         try:
             # Withdraw from source account
-            await self.message_bus.publish_async(
+            await self.message_bus.publish(
                 WithdrawMoney(
                     account_id=event.from_account_id,
                     amount=event.amount,
@@ -43,8 +44,8 @@ class TransferSaga:
             )
 
             # Record debit
-            now = datetime.now(timezone.utc)
-            await self.message_bus.publish_async(
+            now = datetime.now(UTC)
+            await self.message_bus.publish(
                 TransferDebited(
                     transfer_id=event.transfer_id,
                     from_account_id=event.from_account_id,
@@ -54,8 +55,8 @@ class TransferSaga:
             )
         except Exception as e:
             # Withdrawal failed (insufficient funds, suspended account, etc.)
-            now = datetime.now(timezone.utc)
-            await self.message_bus.publish_async(
+            now = datetime.now(UTC)
+            await self.message_bus.publish(
                 TransferFailed(
                     transfer_id=event.transfer_id,
                     from_account_id=event.from_account_id,
@@ -72,9 +73,9 @@ class TransferSaga:
         # In production, you'd store transfer state or query from event store
         # For this example, we'll get it from the context
         transfer_event = None
-        events = await self.repository.event_store.load_async(
-            f"transfer-{event.transfer_id}"
-        )
+        # Note: accessing event_store directly and assuming async capability
+        # In a real app, we'd use a proper interface
+        events = await self.repository.event_store.load(f"transfer-{event.transfer_id}")  # type: ignore
         for evt in events:
             if evt.type == "TransferInitiated":
                 transfer_event = evt
@@ -87,7 +88,7 @@ class TransferSaga:
 
         try:
             # Deposit to destination account
-            await self.message_bus.publish_async(
+            await self.message_bus.publish(
                 DepositMoney(
                     account_id=transfer_data.to_account_id,
                     amount=event.amount,
@@ -96,8 +97,8 @@ class TransferSaga:
             )
 
             # Mark transfer as completed
-            now = datetime.now(timezone.utc)
-            await self.message_bus.publish_async(
+            now = datetime.now(UTC)
+            await self.message_bus.publish(
                 TransferCompleted(
                     transfer_id=event.transfer_id,
                     from_account_id=event.from_account_id,
@@ -109,7 +110,7 @@ class TransferSaga:
         except Exception as e:
             # Deposit failed - need to compensate by reversing withdrawal
             # Re-deposit to source account
-            await self.message_bus.publish_async(
+            await self.message_bus.publish(
                 DepositMoney(
                     account_id=event.from_account_id,
                     amount=event.amount,
@@ -118,8 +119,8 @@ class TransferSaga:
             )
 
             # Mark transfer as reversed
-            now = datetime.now(timezone.utc)
-            await self.message_bus.publish_async(
+            now = datetime.now(UTC)
+            await self.message_bus.publish(
                 TransferReversed(
                     transfer_id=event.transfer_id,
                     from_account_id=event.from_account_id,
@@ -129,7 +130,7 @@ class TransferSaga:
             )
 
             # Also mark as failed
-            await self.message_bus.publish_async(
+            await self.message_bus.publish(
                 TransferFailed(
                     transfer_id=event.transfer_id,
                     from_account_id=event.from_account_id,
@@ -142,7 +143,7 @@ class TransferSaga:
 
 
 def register_saga(
-    message_bus: MessageBus, repository: AggregateRepository
+    message_bus: AsyncMessageBus, repository: AggregateRepository[Account]
 ) -> TransferSaga:
     """Register saga event handlers with the message bus."""
     saga = TransferSaga(message_bus=message_bus, repository=repository)

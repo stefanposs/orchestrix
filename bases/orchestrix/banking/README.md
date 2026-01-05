@@ -38,7 +38,7 @@ TransferFailed Event
 import asyncio
 from decimal import Decimal
 
-from orchestrix.core.aggregate import AggregateRepository
+from orchestrix.core.eventsourcing.aggregate import AggregateRepository
 from orchestrix.infrastructure.memory import InMemoryEventStore, InMemoryMessageBus
 
 from examples.banking.aggregate import Account

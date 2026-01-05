@@ -1,9 +1,10 @@
 """Anonymization saga coordinating dry-run and actual anonymization."""
+
 import time
 from dataclasses import dataclass
 
-from orchestrix.core.aggregate import AggregateRepository
-from orchestrix.core.messaging import MessageBus
+from orchestrix.core.eventsourcing.aggregate import AggregateRepository
+from orchestrix.core.messaging import AsyncMessageBus
 
 from .aggregate import AnonymizationJob
 from .engine import AnonymizationEngine, LakehouseTable
@@ -24,21 +25,23 @@ from .models import (
 class AnonymizationSaga:
     """Saga coordinating the anonymization workflow."""
 
-    message_bus: MessageBus
-    repository: AggregateRepository
+    message_bus: AsyncMessageBus
+    repository: AggregateRepository[AnonymizationJob]
     lakehouse_tables: dict[str, LakehouseTable]
     engine: AnonymizationEngine
 
     async def handle_job_created(self, event: AnonymizationJobCreated) -> None:
         """Automatically start dry-run when job is created."""
         print(f"\n📋 Job created: {event.job_id}")
-        print(f"   Table: {event.table_schema.database}.{event.table_schema.schema_name}.{event.table_schema.table_name}")
+        print(
+            f"   Table: {event.table_schema.database}.{event.table_schema.schema_name}.{event.table_schema.table_name}"
+        )
         print(f"   Rules: {len(event.rules)} anonymization rules")
         print(f"   Requester: {event.requester}")
         print(f"   Reason: {event.reason}")
 
         # Automatically start dry-run
-        await self.message_bus.publish_async(StartDryRun(job_id=event.job_id))
+        await self.message_bus.publish(StartDryRun(job_id=event.job_id))
 
     async def handle_start_dry_run(self, command: StartDryRun) -> None:
         """Execute dry-run validation."""
@@ -49,12 +52,14 @@ class AnonymizationSaga:
 
         # Publish events
         for evt in job.uncommitted_events:
-            await self.message_bus.publish_async(evt.data)
+            await self.message_bus.publish(evt.data)
 
         print(f"\n🧪 Dry-run started for job {command.job_id}")
 
         # Execute dry-run (simulated)
         try:
+            if not job.table_schema:
+                raise ValueError("Table schema missing")
             table_key = f"{job.table_schema.database}.{job.table_schema.schema_name}.{job.table_schema.table_name}"
             table = self.lakehouse_tables.get(table_key)
 
@@ -125,9 +130,9 @@ class AnonymizationSaga:
 
             # Publish events
             for evt in job.uncommitted_events:
-                await self.message_bus.publish_async(evt)
+                await self.message_bus.publish(evt)
 
-            print(f"✅ Dry-run completed")
+            print("✅ Dry-run completed")
             print(f"   Affected rows: {result.affected_rows}")
             print(f"   Affected columns: {len(result.affected_columns)}")
             if warnings:
@@ -141,23 +146,23 @@ class AnonymizationSaga:
 
             # Publish events
             for evt in job.uncommitted_events:
-                await self.message_bus.publish_async(evt)
+                await self.message_bus.publish(evt)
 
             print(f"❌ Dry-run failed: {e}")
 
     async def handle_dry_run_completed(self, event: DryRunCompleted) -> None:
         """Show dry-run results and wait for approval."""
-        print(f"\n📊 Dry-Run Results:")
+        print("\n📊 Dry-Run Results:")
         print(f"   Estimated duration: {event.result.estimated_duration_seconds:.2f}s")
         print(f"   Affected rows: {event.result.affected_rows}")
         print(f"   Affected columns: {', '.join(event.result.affected_columns)}")
 
         if event.result.warnings:
-            print(f"\n   ⚠️  Warnings:")
+            print("\n   ⚠️  Warnings:")
             for warning in event.result.warnings:
                 print(f"      - {warning}")
 
-        print(f"\n   Sample Preview:")
+        print("\n   Sample Preview:")
         for col in list(event.result.sample_before.keys())[:3]:
             before = event.result.sample_before[col]
             after = event.result.sample_after[col]
@@ -165,12 +170,10 @@ class AnonymizationSaga:
             print(f"      Before: {before[:3]}")
             print(f"      After:  {after[:3]}")
 
-        print(f"\n✅ Dry-run passed! Ready for approval.")
+        print("\n✅ Dry-run passed! Ready for approval.")
 
         # Auto-approve for demo (in production, wait for manual approval)
-        await self.message_bus.publish_async(
-            ApproveJob(job_id=event.job_id, approver="system")
-        )
+        await self.message_bus.publish(ApproveJob(job_id=event.job_id, approver="system"))
 
     async def handle_approve_job(self, command: ApproveJob) -> None:
         """Approve job and start anonymization."""
@@ -181,12 +184,12 @@ class AnonymizationSaga:
 
         # Publish events
         for evt in job.uncommitted_events:
-            await self.message_bus.publish_async(evt)
+            await self.message_bus.publish(evt)
 
         print(f"\n✓ Job approved by {command.approver}")
 
         # Automatically start anonymization
-        await self.message_bus.publish_async(StartAnonymization(job_id=command.job_id))
+        await self.message_bus.publish(StartAnonymization(job_id=command.job_id))
 
     async def handle_validation_passed(self, event: ValidationPassed) -> None:
         """Log validation passed."""
@@ -198,6 +201,8 @@ class AnonymizationSaga:
         job = await self.repository.load_async(AnonymizationJob, command.job_id)
 
         # Get table
+        if not job.table_schema:
+            raise ValueError("Table schema missing")
         table_key = f"{job.table_schema.database}.{job.table_schema.schema_name}.{job.table_schema.table_name}"
         table = self.lakehouse_tables.get(table_key)
 
@@ -212,9 +217,9 @@ class AnonymizationSaga:
 
         # Publish events
         for evt in job.uncommitted_events:
-            await self.message_bus.publish_async(evt)
+            await self.message_bus.publish(evt)
 
-        print(f"\n🔒 Anonymization started")
+        print("\n🔒 Anonymization started")
         print(f"   Backup created: {backup_location}")
 
         # Execute anonymization
@@ -234,9 +239,7 @@ class AnonymizationSaga:
                 )
 
                 # Record column anonymization
-                job = await self.repository.load_async(
-                    AnonymizationJob, command.job_id
-                )
+                job = await self.repository.load_async(AnonymizationJob, command.job_id)
                 job.anonymize_column(
                     column_name=rule.column_name,
                     strategy=rule.strategy.value,
@@ -246,7 +249,7 @@ class AnonymizationSaga:
 
                 # Publish events
                 for evt in job.uncommitted_events:
-                    await self.message_bus.publish_async(evt)
+                    await self.message_bus.publish(evt)
 
             duration = time.time() - start_time
 
@@ -261,9 +264,9 @@ class AnonymizationSaga:
 
             # Publish events
             for evt in job.uncommitted_events:
-                await self.message_bus.publish_async(evt)
+                await self.message_bus.publish(evt)
 
-            print(f"\n✅ Anonymization completed successfully!")
+            print("\n✅ Anonymization completed successfully!")
             print(f"   Duration: {duration:.2f}s")
             print(f"   Total rows affected: {job.rows_affected}")
             print(f"   Total columns affected: {job.columns_affected}")
@@ -276,15 +279,13 @@ class AnonymizationSaga:
 
             # Publish events
             for evt in job.uncommitted_events:
-                await self.message_bus.publish_async(evt)
+                await self.message_bus.publish(evt)
 
             print(f"\n❌ Anonymization failed: {e}")
-            print(f"   Initiating rollback...")
+            print("   Initiating rollback...")
 
             # Trigger rollback
-            await self.message_bus.publish_async(
-                RollbackAnonymization(job_id=command.job_id)
-            )
+            await self.message_bus.publish(RollbackAnonymization(job_id=command.job_id))
 
     async def handle_anonymization_failed(self, event: AnonymizationFailed) -> None:
         """Handle anonymization failure."""
@@ -299,6 +300,8 @@ class AnonymizationSaga:
         job = await self.repository.load_async(AnonymizationJob, command.job_id)
 
         # Get table
+        if not job.table_schema:
+            raise ValueError("Table schema missing")
         table_key = f"{job.table_schema.database}.{job.table_schema.schema_name}.{job.table_schema.table_name}"
         table = self.lakehouse_tables.get(table_key)
 
@@ -313,14 +316,14 @@ class AnonymizationSaga:
 
             # Publish events
             for evt in job.uncommitted_events:
-                await self.message_bus.publish_async(evt)
+                await self.message_bus.publish(evt)
 
-            print(f"✅ Rollback completed")
+            print("✅ Rollback completed")
 
 
 def register_saga(
-    message_bus: MessageBus,
-    repository: AggregateRepository,
+    message_bus: AsyncMessageBus,
+    repository: AggregateRepository[AnonymizationJob],
     lakehouse_tables: dict[str, LakehouseTable],
     engine: AnonymizationEngine,
 ) -> AnonymizationSaga:

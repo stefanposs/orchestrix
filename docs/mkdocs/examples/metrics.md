@@ -18,7 +18,7 @@ Orchestrix automatically collects metrics for message throughput, handler latenc
 ```python
 from orchestrix.infrastructure.prometheus_metrics import init_metrics, MetricsConfig
 from orchestrix.infrastructure import InMemoryMessageBus
-from orchestrix.core.message import Command, Event
+from orchestrix.core.messaging.message import Command, Event
 from dataclasses import dataclass
 import time
 

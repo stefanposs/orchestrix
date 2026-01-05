@@ -1,4 +1,4 @@
 # Benchmark-specific ruff configuration
 # Benchmarks use pytest fixtures without type annotations (standard pattern)
-[tool.ruff]
+[tool.ruff.lint]
 extend-ignore = ["ANN001", "ANN201"]  # Missing type annotations in benchmark tests

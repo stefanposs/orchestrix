@@ -159,34 +159,27 @@ orchestrix/
 ├── components/
 │   └── orchestrix/
 │       ├── core/                    # Core framework (Interfaces, Message, Aggregate)
-│       └── infrastructure/          # Infrastructure adapters (In-Memory, etc.)
+│       │   ├── common/              # Shared utilities (Logging, Validation, Retry)
+│       │   ├── eventsourcing/       # Event sourcing logic (Aggregate, Store, Projection)
+│       │   ├── execution/           # Execution patterns (Saga)
+│       │   └── messaging/           # Messaging patterns (Bus, CommandHandler)
+│       └── infrastructure/          # Infrastructure adapters
+│           ├── eventsourcingdb/     # EventSourcingDB adapter
+│           ├── memory/              # In-Memory adapters (Sync/Async)
+│           ├── observability/       # Observability adapters (Prometheus, Jaeger)
+│           └── postgres/            # PostgreSQL adapter
 ├── bases/
 │   └── orchestrix/
-│       └── banking/                 # Banking Demo App
+│       ├── banking/                 # Banking Demo App
+│       ├── ecommerce/               # E-commerce Demo App
+│       ├── lakehouse/               # Lakehouse Demo App
+│       └── notifications/           # Notifications Demo App
 ├── projects/
 │   ├── orchestrix_lib/              # PyPI Package
-│   └── banking_demo/                # Deployable Service
-│   │   ├── module.py                # Module protocol
-│   │   ├── observability.py         # ObservabilityHooks protocol
-│   │   ├── projection.py            # Projection & ProjectionEngine
-│   │   ├── retry.py                 # RetryPolicy & RetryableError
-│   │   ├── saga.py                  # Saga orchestration
-│   │   ├── snapshot.py              # Snapshot protocol & strategies
-│   │   ├── validation.py            # Message validation
-│   │   ├── versioning.py            # Event upcasters
-│   │   └── py.typed                 # Type marker
-│   └── infrastructure/              # Implementations
-│       ├── __init__.py              # Infrastructure exports
-│       ├── async_inmemory_bus.py    # Async message bus
-│       ├── async_inmemory_store.py  # Async event store
-│       ├── connection_pool.py       # PostgreSQL connection pooling
-│       ├── eventsourcingdb_store.py # EventSourcingDB backend
-│       ├── inmemory_bus.py          # Sync message bus
-│       ├── inmemory_store.py        # Sync event store
-│       ├── memory.py                # Shared memory utilities
-│       ├── postgres_store.py        # PostgreSQL backend
-│       ├── prometheus_metrics.py    # Prometheus metrics
-│       └── tracing.py               # OpenTelemetry tracing
+│   ├── banking_demo/                # Deployable Service
+│   ├── ecommerce_demo/              # Deployable Service
+│   ├── lakehouse_demo/              # Deployable Service
+│   └── notifications_demo/          # Deployable Service
 ├── examples/                        # Production-ready examples
 │   ├── banking/                     # Banking domain (accounts, transfers)
 │   ├── ecommerce/                   # E-commerce (orders, inventory, shipping)
@@ -195,9 +188,9 @@ orchestrix/
 │   ├── tracing/                     # Observability examples
 │   └── versioning/                  # Event schema evolution
 └── tests/                           # 404+ tests, 84% coverage
-    ├── unit/                        # Unit tests
-    ├── integration/                 # Integration tests
-    └── conftest.py                  # Shared fixtures
+    ├── components/                  # Component tests
+    ├── projects/                    # Integration tests
+    └── benchmarks/                  # Performance benchmarks
 ```
 
 ## Documentation
@@ -206,7 +199,8 @@ orchestrix/
 - [Contributing](.github/CONTRIBUTING.md)
 - [Security Policy](.github/SECURITY.md)
 - [Code of Conduct](.github/CODE_OF_CONDUCT.md)
-- [Deployment Guide](docs/DEPLOYMENT.md)
+- [Library Publishing Guide](docs/LIBRARY_PUBLISHING.md)
+- [Application Deployment Guide](docs/deployment/APPLICATION_DEPLOYMENT.md)
 
 ## Roadmap & Future Plans
 

@@ -1,9 +1,11 @@
 """Domain models for the notifications example."""
+
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
+from typing import Any
 
-from orchestrix.core.message import Command, Event
+from orchestrix.core.messaging.message import Command, Event
 
 
 class NotificationChannel(str, Enum):
@@ -68,7 +70,7 @@ class NotificationRequested(Event):
     recipient: str
     subject: str
     message: str
-    metadata: dict
+    metadata: dict[str, Any]
     requested_at: datetime
 
 
@@ -127,4 +129,4 @@ class SendNotification(Command):
     recipient: str
     subject: str
     message: str
-    metadata: dict | None = None
+    metadata: dict[str, Any] | None = None

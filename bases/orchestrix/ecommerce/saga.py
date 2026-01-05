@@ -7,11 +7,13 @@ If any step fails, compensation actions are triggered:
 - Payment failed → Cancel Order
 - Inventory failed → Refund Payment → Cancel Order
 """
+
 from dataclasses import dataclass
+from decimal import Decimal
 from uuid import uuid4
 
-from orchestrix.core.aggregate import AggregateRepository
-from orchestrix.core.messaging import MessageBus
+from orchestrix.core.eventsourcing.aggregate import AggregateRepository
+from orchestrix.core.messaging import AsyncMessageBus
 
 from .aggregate import Order
 from .models import (
@@ -34,18 +36,17 @@ from .models import (
 class OrderSaga:
     """Saga coordinating the order processing workflow."""
 
-    message_bus: MessageBus
-    repository: AggregateRepository
+    message_bus: AsyncMessageBus
+    repository: AggregateRepository[Order]
 
     async def handle_order_created(self, event: OrderCreated) -> None:
         """Start saga when order is created."""
-
         # Calculate total amount
-        total = sum(item.total_price for item in event.items)
+        total = sum((item.total_price for item in event.items), start=Decimal("0"))
 
         # Initiate payment
         payment_id = str(uuid4())
-        await self.message_bus.publish_async(
+        await self.message_bus.publish(
             ProcessPayment(
                 order_id=event.order_id,
                 payment_id=payment_id,
@@ -56,12 +57,11 @@ class OrderSaga:
 
     async def handle_payment_completed(self, event: PaymentCompleted) -> None:
         """Continue saga after payment succeeds."""
-
         # Load order to get items
         order = await self.repository.load_async(Order, event.order_id)
 
         # Reserve inventory
-        await self.message_bus.publish_async(
+        await self.message_bus.publish(
             ReserveInventory(
                 order_id=event.order_id,
                 items=order.items,
@@ -70,9 +70,8 @@ class OrderSaga:
 
     async def handle_payment_failed(self, event: PaymentFailed) -> None:
         """Compensate when payment fails."""
-
         # Cancel the order
-        await self.message_bus.publish_async(
+        await self.message_bus.publish(
             CancelOrder(
                 order_id=event.order_id,
                 reason=f"Payment failed: {event.reason}",
@@ -81,24 +80,20 @@ class OrderSaga:
 
     async def handle_inventory_reserved(self, event: InventoryReserved) -> None:
         """Complete saga when inventory is reserved."""
-
         # Confirm the order
-        await self.message_bus.publish_async(
-            ConfirmOrder(order_id=event.order_id)
-        )
+        await self.message_bus.publish(ConfirmOrder(order_id=event.order_id))
 
     async def handle_inventory_reservation_failed(self, event: InventoryReservationFailed) -> None:
         """Compensate when inventory reservation fails."""
-
         # Load order to get payment info
         order = await self.repository.load_async(Order, event.order_id)
 
         if order.payment_id:
             # Calculate refund amount
-            total = sum(item.total_price for item in event.items)
+            total = sum((item.total_price for item in event.items), start=Decimal("0"))
 
             # Refund payment
-            await self.message_bus.publish_async(
+            await self.message_bus.publish(
                 RefundPayment(
                     order_id=event.order_id,
                     payment_id=order.payment_id,
@@ -107,7 +102,7 @@ class OrderSaga:
             )
 
         # Cancel order
-        await self.message_bus.publish_async(
+        await self.message_bus.publish(
             CancelOrder(
                 order_id=event.order_id,
                 reason=f"Inventory reservation failed: {event.reason}",
@@ -116,13 +111,12 @@ class OrderSaga:
 
     async def handle_order_cancelled(self, event: OrderCancelled) -> None:
         """Clean up when order is cancelled."""
-
         # Load order to check what needs cleanup
         order = await self.repository.load_async(Order, event.order_id)
 
         # Release inventory if it was reserved
         if order.reservation_id:
-            await self.message_bus.publish_async(
+            await self.message_bus.publish(
                 ReleaseInventory(
                     order_id=event.order_id,
                     reservation_id=order.reservation_id,
@@ -133,7 +127,7 @@ class OrderSaga:
 
 
 def register_saga(
-    message_bus: MessageBus, repository: AggregateRepository
+    message_bus: AsyncMessageBus, repository: AggregateRepository[Order]
 ) -> OrderSaga:
     """Register saga event handlers with the message bus."""
     saga = OrderSaga(message_bus=message_bus, repository=repository)
@@ -143,9 +137,7 @@ def register_saga(
     message_bus.subscribe(PaymentCompleted, saga.handle_payment_completed)
     message_bus.subscribe(PaymentFailed, saga.handle_payment_failed)
     message_bus.subscribe(InventoryReserved, saga.handle_inventory_reserved)
-    message_bus.subscribe(
-        InventoryReservationFailed, saga.handle_inventory_reservation_failed
-    )
+    message_bus.subscribe(InventoryReservationFailed, saga.handle_inventory_reservation_failed)
     message_bus.subscribe(OrderCancelled, saga.handle_order_cancelled)
 
     return saga

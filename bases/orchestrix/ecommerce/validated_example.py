@@ -6,14 +6,14 @@ without external dependencies.
 
 from dataclasses import dataclass
 
-from orchestrix.core.message import Command, Event
-from orchestrix.core.validation import (
+from orchestrix.core.common.validation import (
     ValidationError,
     validate_in_range,
     validate_not_empty,
     validate_one_of,
     validate_positive,
 )
+from orchestrix.core.messaging.message import Command, Event
 
 
 @dataclass(frozen=True)

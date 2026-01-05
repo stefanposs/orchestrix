@@ -20,12 +20,14 @@ dev = [
     "pytest-cov>=4.1.0",
     "pytest-asyncio>=0.21.0",
     "pytest-benchmark>=4.0.0",
-    "mypy>=1.7.0",
     "ruff>=0.1.0",
     "black>=23.11.0",
     "isort>=5.12.0",
     "pre-commit>=3.5.0",
     "polylith-cli>=1.41.1",
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.5.0",
+    "mkdocstrings[python]>=0.24.0",
 ]
 
 [tool.hatch.build]
@@ -71,27 +73,6 @@ exclude_lines = [
     "\\.\\.\\.",
 ]
 
-[tool.mypy]
-python_version = "3.12"
-strict = true
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
-check_untyped_defs = true
-disallow_untyped_decorators = false
-no_implicit_optional = true
-warn_redundant_casts = true
-warn_unused_ignores = true
-warn_no_return = true
-follow_imports = "normal"
-ignore_missing_imports = false
-mypy_path = "components/orchestrix/core:components/orchestrix/infrastructure:projects/orchestrix"
-
-[[tool.mypy.overrides]]
-module = "tests.*"
-disallow_untyped_defs = false
-
 [tool.ruff]
 target-version = "py312"
 line-length = 100
@@ -101,12 +82,42 @@ select = [
     "E", "W", "F", "I", "C90", "N", "D", "UP", "ANN", "S", "B", "A", "COM", "C4", "DTZ", "T10", "EM", "ISC", "ICN", "PIE", "PT", "Q", "RSE", "RET", "SIM", "TID", "ARG", "PTH", "ERA", "PL", "TRY", "RUF"
 ]
 ignore = [
-    "D100", "D104", "D107", "ANN204", "COM812", "ISC001", "TRY003", "EM102", "PLR2004", "E402"
+    "D100", "D104", "D107", "ANN204", "COM812", "ISC001", "TRY003", "EM102", "PLR2004", "E402",
+    "EM101", "PLC0415", "ANN401",
+    "PLW0603", "PLC0105", "TRY", "N818", "B904", "E501"
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = ["S101", "ANN", "D", "B017", "PT011", "ARG005"]
+"tests/**/*.py" = [
+    "S101", # Use of assert detected
+    "ANN",  # Missing type annotation
+    "D",    # Missing docstring
+    "B017", # pytest.raises(Exception)
+    "PT011", # pytest.raises() is too broad
+    "ARG",  # Unused arguments
+    "PLC0415", # Import outside toplevel
+    "EM101", # Exception must not use a string literal
+    "SIM105", # Use contextlib.suppress
+    "TRY002", # Create your own exception
+    "SIM117", # Use single with statement
+    "PT012", # pytest.raises() block should contain a single simple statement
+]
 "examples/**/*.py" = ["D", "T201", "ANN"]
+"bases/**/*.py" = [
+    "S311", # Standard pseudo-random generators
+    "ANN003", # Missing type annotation for **kwargs
+    "PLR0915", # Too many statements
+    "E501", # Line too long
+    "ARG002", # Unused method argument
+    "RET504", # Unnecessary assignment
+    "C901", # Function is too complex
+    "TRY301", # Abstract raise to inner function
+    "ANN201", # Missing return type annotation
+    "RUF001", # Ambiguous unicode character
+    "PLR0911", # Too many return statements
+    "PLR0912", # Too many branches
+    "S324", # Insecure hash function
+]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

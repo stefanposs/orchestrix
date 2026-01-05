@@ -271,7 +271,7 @@ async def on_inventory_failed(self, event: InventoryReservationFailed):
 import asyncio
 from decimal import Decimal
 
-from orchestrix.core.aggregate import AggregateRepository
+from orchestrix.core.eventsourcing.aggregate import AggregateRepository
 from orchestrix.infrastructure.memory import InMemoryEventStore, InMemoryMessageBus
 
 from examples.ecommerce.aggregate import Order

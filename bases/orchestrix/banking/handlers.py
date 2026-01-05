@@ -1,10 +1,11 @@
 """Command handlers for banking operations."""
+
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from uuid import uuid4
 
-from orchestrix.core.aggregate import AggregateRepository
-from orchestrix.core.messaging import MessageBus
+from orchestrix.core.eventsourcing.aggregate import AggregateRepository
+from orchestrix.core.messaging import AsyncMessageBus
 
 from .aggregate import Account
 from .models import (
@@ -23,8 +24,8 @@ from .models import (
 class BankingCommandHandlers:
     """Handlers for banking commands."""
 
-    repository: AggregateRepository
-    message_bus: MessageBus
+    repository: AggregateRepository[Account]
+    message_bus: AsyncMessageBus
 
     async def handle_open_account(self, command: OpenAccount) -> None:
         """Open a new account."""
@@ -39,7 +40,7 @@ class BankingCommandHandlers:
 
         # Publish events
         for event in account.uncommitted_events:
-            await self.message_bus.publish_async(event)
+            await self.message_bus.publish(event)
 
     async def handle_deposit_money(self, command: DepositMoney) -> None:
         """Deposit money into an account."""
@@ -56,7 +57,7 @@ class BankingCommandHandlers:
 
         # Publish events
         for event in account.uncommitted_events:
-            await self.message_bus.publish_async(event)
+            await self.message_bus.publish(event)
 
     async def handle_withdraw_money(self, command: WithdrawMoney) -> None:
         """Withdraw money from an account."""
@@ -73,14 +74,14 @@ class BankingCommandHandlers:
 
         # Publish events
         for event in account.uncommitted_events:
-            await self.message_bus.publish_async(event)
+            await self.message_bus.publish(event)
 
     async def handle_transfer_money(self, command: TransferMoney) -> None:
         """Initiate a money transfer (saga will handle the workflow)."""
         # Just publish the TransferInitiated event
         # The saga will coordinate the actual transfer
-        now = datetime.now(timezone.utc)
-        await self.message_bus.publish_async(
+        now = datetime.now(UTC)
+        await self.message_bus.publish(
             TransferInitiated(
                 transfer_id=command.transfer_id,
                 from_account_id=command.from_account_id,
@@ -101,7 +102,7 @@ class BankingCommandHandlers:
 
         # Publish events
         for event in account.uncommitted_events:
-            await self.message_bus.publish_async(event.data)
+            await self.message_bus.publish(event.data)
 
     async def handle_reactivate_account(self, command: ReactivateAccount) -> None:
         """Reactivate a suspended account."""
@@ -113,7 +114,7 @@ class BankingCommandHandlers:
 
         # Publish events
         for event in account.uncommitted_events:
-            await self.message_bus.publish_async(event.data)
+            await self.message_bus.publish(event.data)
 
     async def handle_close_account(self, command: CloseAccount) -> None:
         """Close an account."""
@@ -125,11 +126,11 @@ class BankingCommandHandlers:
 
         # Publish events
         for event in account.uncommitted_events:
-            await self.message_bus.publish_async(event.data)
+            await self.message_bus.publish(event.data)
 
 
 def register_handlers(
-    message_bus: MessageBus, repository: AggregateRepository
+    message_bus: AsyncMessageBus, repository: AggregateRepository[Account]
 ) -> BankingCommandHandlers:
     """Register command handlers with the message bus."""
     handlers = BankingCommandHandlers(repository=repository, message_bus=message_bus)

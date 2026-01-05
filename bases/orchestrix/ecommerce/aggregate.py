@@ -1,8 +1,10 @@
 """Order aggregate implementation."""
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
 
-from orchestrix.core.aggregate import AggregateRoot
+from dataclasses import dataclass, field
+from datetime import UTC, datetime
+from decimal import Decimal
+
+from orchestrix.core.eventsourcing.aggregate import AggregateRoot
 
 from .models import (
     Address,
@@ -51,7 +53,7 @@ class Order(AggregateRoot):
             msg = "Order must have at least one item"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             OrderCreated(
                 order_id=order_id,
@@ -62,13 +64,13 @@ class Order(AggregateRoot):
             )
         )
 
-    def initiate_payment(self, payment_id: str, amount: float, method: str) -> None:
+    def initiate_payment(self, payment_id: str, amount: Decimal, method: str) -> None:
         """Start payment processing."""
         if self.status != OrderStatus.PENDING:
             msg = f"Cannot initiate payment for order in {self.status} status"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             PaymentInitiated(
                 order_id=self.aggregate_id,
@@ -79,13 +81,13 @@ class Order(AggregateRoot):
             )
         )
 
-    def complete_payment(self, payment_id: str, transaction_id: str, amount: float) -> None:
+    def complete_payment(self, payment_id: str, transaction_id: str, amount: Decimal) -> None:
         """Mark payment as completed."""
         if self.status != OrderStatus.PAYMENT_PROCESSING:
             msg = f"Cannot complete payment for order in {self.status} status"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             PaymentCompleted(
                 order_id=self.aggregate_id,
@@ -102,7 +104,7 @@ class Order(AggregateRoot):
             msg = f"Cannot fail payment for order in {self.status} status"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             PaymentFailed(
                 order_id=self.aggregate_id,
@@ -118,7 +120,7 @@ class Order(AggregateRoot):
             msg = f"Cannot reserve inventory for order in {self.status} status"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             InventoryReserved(
                 order_id=self.aggregate_id,
@@ -134,7 +136,7 @@ class Order(AggregateRoot):
             msg = f"Cannot fail inventory reservation for order in {self.status} status"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             InventoryReservationFailed(
                 order_id=self.aggregate_id,
@@ -150,10 +152,8 @@ class Order(AggregateRoot):
             msg = f"Cannot confirm order in {self.status} status"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
-        self._apply_event(
-            OrderConfirmed(order_id=self.aggregate_id, confirmed_at=now)
-        )
+        now = datetime.now(UTC)
+        self._apply_event(OrderConfirmed(order_id=self.aggregate_id, confirmed_at=now))
 
     def cancel(self, reason: str) -> None:
         """Cancel the order."""
@@ -165,7 +165,7 @@ class Order(AggregateRoot):
             msg = f"Cannot cancel order in {self.status} status"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             OrderCancelled(order_id=self.aggregate_id, reason=reason, cancelled_at=now)
         )
@@ -176,14 +176,12 @@ class Order(AggregateRoot):
             msg = f"Cannot complete order in {self.status} status"
             raise ValueError(msg)
 
-        now = datetime.now(timezone.utc)
-        self._apply_event(
-            OrderCompleted(order_id=self.aggregate_id, completed_at=now)
-        )
+        now = datetime.now(UTC)
+        self._apply_event(OrderCompleted(order_id=self.aggregate_id, completed_at=now))
 
     def release_inventory(self, reservation_id: str) -> None:
         """Release inventory reservation (compensation)."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             InventoryReleased(
                 order_id=self.aggregate_id,
@@ -192,9 +190,9 @@ class Order(AggregateRoot):
             )
         )
 
-    def refund_payment(self, payment_id: str, refund_id: str, amount: float) -> None:
+    def refund_payment(self, payment_id: str, refund_id: str, amount: Decimal) -> None:
         """Refund payment (compensation)."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         self._apply_event(
             PaymentRefunded(
                 order_id=self.aggregate_id,
