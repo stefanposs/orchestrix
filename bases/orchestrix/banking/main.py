@@ -151,5 +151,12 @@ async def run_example() -> None:
     print("\n✅ Example completed successfully!\n")
 
 
+def main():
+    """Entry point for the banking_demo: runs the async example."""
+    import asyncio
+
+    asyncio.run(run_example())
+
+
 if __name__ == "__main__":
     asyncio.run(run_example())

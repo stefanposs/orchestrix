@@ -117,5 +117,12 @@ async def run_example() -> None:
     print("\n✅ Example completed successfully!\n")
 
 
-if __name__ == "__main__":
+def main():
+    """Entry point for the e-commerce demo: runs the async example."""
+    import asyncio
+
     asyncio.run(run_example())
+
+
+if __name__ == "__main__":
+    main()
