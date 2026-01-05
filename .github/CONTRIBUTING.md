@@ -42,7 +42,7 @@ uv run pytest
 uv run ruff check . && uv run ruff format .
 
 # Run type checker
-uv run mypy src/orchestrix
+uv run mypy components bases
 ```
 
 ## Development Setup

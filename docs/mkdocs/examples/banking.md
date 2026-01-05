@@ -3,9 +3,9 @@
 This example demonstrates money transfers between accounts with automatic compensation when transfers fail, showcasing the Saga pattern and event sourcing.
 
 > **📂 Source Code:**  
-> Complete Example: [`examples/banking/`](https://github.com/stefanposs/orchestrix/tree/main/examples/banking)  
-> Main Demo: [`examples/banking/example.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/banking/example.py)  
-> Domain Models: [`examples/banking/models.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/banking/models.py)
+> Complete Example: [`bases/orchestrix/banking/`](https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/banking)  
+> Main Demo: [`bases/orchestrix/banking/main.py`](https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/banking/main.py)  
+> Domain Models: [`bases/orchestrix/banking/models.py`](https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/banking/models.py)
 
 ## Overview
 
@@ -483,9 +483,9 @@ metrics["avg_transfer_duration"].observe(time.time() - start)
 
 ## Source Code
 
-- [`aggregate.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/banking/aggregate.py) - Account aggregate
-- [`saga.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/banking/saga.py) - Transfer saga coordinator
-- [`handlers.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/banking/handlers.py) - Command handlers
-- [`models.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/banking/models.py) - Commands and events
+- [`aggregate.py`](https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/banking/aggregate.py) - Account aggregate
+- [`saga.py`](https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/banking/saga.py) - Transfer saga coordinator
+- [`handlers.py`](https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/banking/handlers.py) - Command handlers
+- [`models.py`](https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/banking/models.py) - Commands and events
 
-[**Browse Complete Example →**](https://github.com/stefanposs/orchestrix/tree/main/examples/banking)
+[**Browse Complete Example →**](https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/banking)

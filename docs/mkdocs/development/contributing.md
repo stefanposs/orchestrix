@@ -170,8 +170,8 @@ git checkout -b feature/my-awesome-feature
 ### 2. Make Changes
 
 ```bash
-# Edit files
-vim src/orchestrix/my_feature.py
+# Edit files (example)
+vim components/orchestrix/core/message_bus.py
 
 # Run tests continuously
 just test-watch

@@ -47,7 +47,7 @@ This document outlines the design for adding async/await support to Orchestrix w
 ### Protocol Definition
 
 ```python
-# src/orchestrix/async_message_bus.py
+# components/orchestrix/infrastructure/async_inmemory_bus.py
 from typing import Callable, Protocol
 
 AsyncMessageHandler = Callable[["Message"], Coroutine[Any, Any, None]]
@@ -287,8 +287,8 @@ Future v2.0 might unify APIs, but users will have deprecation warnings.
 
 ### Task 8: AsyncMessageBus (4-6 hours)
 ```
-src/orchestrix/infrastructure/async_inmemory_bus.py  # Protocol + InMemory impl
-tests/test_async_bus.py                              # Concurrent handler tests
+components/orchestrix/infrastructure/async_inmemory_bus.py  # Protocol + InMemory impl
+tests/components/infrastructure/test_async_bus.py           # Concurrent handler tests
 ```
 
 **Tests to cover:**
@@ -301,8 +301,8 @@ tests/test_async_bus.py                              # Concurrent handler tests
 
 ### Task 9: AsyncEventStore (2-3 hours)
 ```
-src/orchestrix/async_inmemory_store.py    # Protocol + InMemory impl
-tests/test_async_store.py             # Concurrent persistence tests
+components/orchestrix/infrastructure/async_inmemory_store.py    # Protocol + InMemory impl
+tests/components/infrastructure/test_async_store.py             # Concurrent persistence tests
 ```
 
 **Tests to cover:**

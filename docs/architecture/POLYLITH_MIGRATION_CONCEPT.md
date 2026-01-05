@@ -53,38 +53,28 @@ orchestrix-workspace/
 ├── pyproject.toml             # Shared Dev-Dependencies (Ruff, Mypy, Pytest)
 │
 ├── components/                # THE BRICKS (Wiederverwendbare Logik)
-│   ├── core/                  # Das Herzstück (Interfaces, Message, Aggregate)
-│   │   ├── src/orchestrix/core/...
-│   │   └── pyproject.toml     # Keine externen Deps!
-│   │
-│   ├── infrastructure_pg/     # Postgres Adapter
-│   │   ├── src/orchestrix/infra/postgres/...
-│   │   └── pyproject.toml     # Dep: asyncpg, component: core
-│   │
-│   ├── infrastructure_mem/    # InMemory Adapter
-│   │   ├── src/orchestrix/infra/memory/...
-│   │   └── pyproject.toml     # Dep: component: core
-│   │
-│   └── observability/         # Tracing/Metrics
-│       ├── src/orchestrix/observability/...
-│       └── pyproject.toml     # Dep: opentelemetry, component: core
+│   ├── orchestrix/
+│   │   ├── core/              # Das Herzstück (Interfaces, Message, Aggregate)
+│   │   │   ├── ...
+│   │   │   └── pyproject.toml
+│   │   │
+│   │   └── infrastructure/    # Persistence & Messaging Adapters
+│   │       ├── ...
+│   │       └── pyproject.toml
 │
 ├── bases/                     # THE GLUE (Einstiegspunkte)
-│   ├── examples_banking/      # Banking Demo App
-│   │   └── src/examples/banking/...
-│   │
-│   └── cli/                   # Orchestrix CLI Tool (Zukunftsmusik)
-│       └── src/orchestrix/cli/...
+│   ├── orchestrix/
+│   │   ├── banking/           # Banking Demo App
+│   │   │   └── ...
+│   │   │
+│   │   └── ...
 │
 └── projects/                  # THE ARTIFACTS (Deployables)
     ├── orchestrix_lib/        # Das Haupt-PyPI Package
-    │   └── pyproject.toml     # Bündelt: core, infra_mem (als default)
-    │
-    ├── orchestrix_full/       # "Batteries Included" Package
-    │   └── pyproject.toml     # Bündelt: core, infra_*, observability
+    │   └── pyproject.toml     # Bündelt: core, infrastructure
     │
     └── banking_demo/          # Deploybarer Service
-        └── pyproject.toml     # Bündelt: examples_banking, core, infra_pg
+        └── pyproject.toml     # Bündelt: banking base, core, infrastructure
 ```
 
 ### 3.2 Die Vorteile dieser Struktur
@@ -137,7 +127,7 @@ orchestrix-postgres = { workspace = true }
 **Wie es funktioniert:**
 1.  **Workspace Definition:** `tool.uv.workspace.members` sagt `uv`, in welchen Ordnern es nach Paketen suchen soll.
 2.  **Development:** Wenn du `uv sync` im Root ausführst, installiert `uv` alle Components und Bases im "Editable Mode".
-3.  **Imports:** Du kannst in deinem Code `import orchestrix.core` schreiben, und `uv` sorgt dafür, dass Python die Dateien in `components/core/src/orchestrix/core` findet.
+3.  **Imports:** Du kannst in deinem Code `import orchestrix.core` schreiben, und `uv` sorgt dafür, dass Python die Dateien in `components/orchestrix/core` findet.
 
 ---
 
@@ -151,12 +141,12 @@ Da Orchestrix bereits v0.1.0 (Production Ready) ist, sollte die Migration schrit
 3.  **Config:** Root `pyproject.toml` auf Workspace-Modus umstellen (siehe oben).
 
 ### Phase 2: Extraktion "Core"
-1.  Verschieben von `src/orchestrix/core` nach `components/core`.
+1.  Verschieben von `src/orchestrix/core` nach `components/orchestrix/core`.
 2.  Erstellen eines `projects/orchestrix_lib`, das vorerst noch den Rest als "Legacy" enthält, aber `core` als Komponente einbindet.
 3.  Anpassen der CI-Pipeline.
 
 ### Phase 3: Extraktion "Infrastructure"
-1.  Zerlegen von `src/orchestrix/infrastructure` in `components/infrastructure_postgres`, `components/infrastructure_memory`, etc.
+1.  Verschieben von `src/orchestrix/infrastructure` nach `components/orchestrix/infrastructure`.
 2.  Jede Komponente bekommt ihre eigenen Tests.
 
 ### Phase 4: Cleanup

@@ -156,18 +156,16 @@ Rules:
 
 ```
 orchestrix/
-├── src/orchestrix/
-│   ├── core/                        # Core framework
-│   │   ├── __init__.py              # Public API exports
-│   │   ├── aggregate.py             # AggregateRoot & AggregateRepository
-│   │   ├── command_handler.py       # CommandHandler protocol
-│   │   ├── dead_letter_queue.py     # Failed message handling
-│   │   ├── event_store.py           # EventStore protocol
-│   │   ├── exceptions.py            # Framework exceptions
-│   │   ├── logging.py               # Structured logging
-│   │   ├── message.py               # Message, Command, Event base classes
-│   │   ├── message_bus.py           # MessageBus protocol
-│   │   ├── messaging.py             # Message metadata helpers
+├── components/
+│   └── orchestrix/
+│       ├── core/                    # Core framework (Interfaces, Message, Aggregate)
+│       └── infrastructure/          # Infrastructure adapters (In-Memory, etc.)
+├── bases/
+│   └── orchestrix/
+│       └── banking/                 # Banking Demo App
+├── projects/
+│   ├── orchestrix_lib/              # PyPI Package
+│   └── banking_demo/                # Deployable Service
 │   │   ├── module.py                # Module protocol
 │   │   ├── observability.py         # ObservabilityHooks protocol
 │   │   ├── projection.py            # Projection & ProjectionEngine

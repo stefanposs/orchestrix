@@ -13,8 +13,8 @@ Account management system with event sourcing, including:
 - Domain-driven design patterns
 
 **Key Concepts:** Event Sourcing, Aggregates, Domain Events  
-**Source:** [`examples/banking/`](https://github.com/stefanposs/orchestrix/tree/main/examples/banking)  
-**Run:** `uv run python -m examples.banking.example`
+**Source:** [`bases/orchestrix/banking/`](https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/banking)  
+**Run:** `uv run python -m orchestrix.banking.main`
 
 ---
 

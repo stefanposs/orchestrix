@@ -427,9 +427,9 @@ async def generate_monthly_report():
 
 ## Related Examples
 
-- **Data Anonymization** - Anonymize PII in datasets (see `examples/lakehouse/example.py`)
-- **E-Commerce** - Order processing with sagas (see `examples/ecommerce/`)
-- **Banking** - Account management basics (see `examples/banking/`)
+- **Data Anonymization** - Anonymize PII in datasets (see `bases/orchestrix/lakehouse/main.py`)
+- **E-Commerce** - Order processing with sagas (see `bases/orchestrix/ecommerce/`)
+- **Banking** - Account management basics (see `bases/orchestrix/banking/`)
 
 ## Learn More
 
