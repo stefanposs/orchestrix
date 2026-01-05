@@ -47,7 +47,7 @@ from __future__ import annotations
 
 from abc import abstractmethod
 from dataclasses import dataclass
-from typing import Protocol, TypeVar
+from typing import Any, Protocol, TypeVar, cast
 
 from orchestrix.core.messaging.message import Event
 
@@ -237,7 +237,7 @@ class UpcasterRegistry:
         if not hasattr(event, "version"):
             raise UpcasterException(f"Event {event} missing version attribute for upcasting")
 
-        current_version: int = event.version
+        current_version: int = cast(Any, event).version
 
         if current_version == target_version:
             return event

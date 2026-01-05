@@ -72,16 +72,18 @@ async def store():
         pytest.skip(f"PostgreSQL not available: {e}")
 
     # Clean up before test
-    async with store._pool.acquire() as conn:
-        await conn.execute("DELETE FROM events")
-        await conn.execute("DELETE FROM snapshots")
+    if store._pool:
+        async with store._pool.acquire() as conn:
+            await conn.execute("DELETE FROM events")
+            await conn.execute("DELETE FROM snapshots")
 
     yield store
 
     # Clean up after test
-    async with store._pool.acquire() as conn:
-        await conn.execute("DELETE FROM events")
-        await conn.execute("DELETE FROM snapshots")
+    if store._pool:
+        async with store._pool.acquire() as conn:
+            await conn.execute("DELETE FROM events")
+            await conn.execute("DELETE FROM snapshots")
 
     await store.close()
 

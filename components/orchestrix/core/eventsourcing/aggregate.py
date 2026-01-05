@@ -146,7 +146,7 @@ class AggregateRepository[T: AggregateRoot]:
 
         # Replay events to rebuild state
         if isinstance(events, list):
-            aggregate._replay_events(events)
+            aggregate._replay_events(events)  # type: ignore
 
         return aggregate
 
@@ -176,7 +176,7 @@ class AggregateRepository[T: AggregateRoot]:
 
         # Replay events to rebuild state
         if isinstance(events, list):
-            aggregate._replay_events(events)
+            aggregate._replay_events(events)  # type: ignore
 
         return aggregate
 

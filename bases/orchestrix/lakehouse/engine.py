@@ -46,7 +46,7 @@ class AnonymizationEngine:
         token_length = length or len(value)
         return "".join(random.choices(string.ascii_uppercase + string.digits, k=token_length))
 
-    def generalization(self, value: str | int | float, value_type: str) -> str:
+    def generalization(self, value: str | int | float | None, value_type: str) -> str | None:
         """Reduce precision/specificity."""
         if value is None:
             return None
@@ -156,7 +156,7 @@ class AnonymizationEngine:
         avg = sum(float(v) for v in values if v is not None) / len(values)
         return f"~{avg:.0f}"
 
-    def noise(self, value: float, noise_percent: float = 10.0) -> float:
+    def noise(self, value: float | None, noise_percent: float = 10.0) -> float | None:
         """Add random noise to numeric values."""
         if value is None:
             return None

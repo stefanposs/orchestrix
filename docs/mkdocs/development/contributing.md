@@ -68,7 +68,6 @@ just ci                 # Full CI pipeline
 Wir verwenden moderne Tools für hohe Code-Qualität:
 
 - **ruff** - Linting & Formatting (replaces black, isort, flake8, pylint)
-- **mypy** - Static Type Checking (strict mode)
 - **pytest** - Testing Framework
 - **pytest-cov** - Code Coverage (100% required)
 
@@ -223,7 +222,6 @@ Unsere GitHub Actions Pipeline testet:
 - ✅ Tests auf Python 3.9-3.13
 - ✅ Tests auf Linux, macOS, Windows
 - ✅ Ruff Linting
-- ✅ Mypy Type Checking
 - ✅ 100% Code Coverage
 
 ## Architecture Decisions

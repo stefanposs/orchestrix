@@ -27,12 +27,6 @@ updates:
           - "pytest*"
           - "coverage"
           - "hypothesis"
-      # Group type checking
-      type-checking:
-        patterns:
-          - "mypy"
-          - "ty"
-          - "types-*"
       # Group linting/formatting
       code-quality:
         patterns:

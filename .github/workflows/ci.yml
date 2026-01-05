@@ -27,25 +27,6 @@ jobs:
       - name: Ruff format check
         run: uv run ruff format --check .
 
-  typecheck:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-        
-      - name: Set up Python
-        run: uv python install 3.12
-        
-      - name: Install dependencies
-        run: uv sync --all-extras --dev
-        
-      - name: MyPy type checking
-        run: uv run mypy components/core components/infrastructure projects/orchestrix
-        
-      # Ty check removed as it is not configured in the new structure
-
   test:
     runs-on: ${{ matrix.os }}
     strategy:

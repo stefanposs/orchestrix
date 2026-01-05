@@ -59,7 +59,7 @@ test-watch:
 # ============================================================================
 
 # Run all QA checks (lint, format-check, typecheck, test)
-qa: lint format-check test
+qa: lint format-check ty test
     @echo "✅ All QA checks passed!"
 
 # Run ruff linter
@@ -99,7 +99,7 @@ pre-commit:
     uv run pre-commit run --all-files
 
 # Full check before commit (format, lint, typecheck, ty, test)
-check: format lint test
+check: format lint ty test
     @echo "✅ Ready to commit!"
 
 # ============================================================================
@@ -108,7 +108,7 @@ check: format lint test
 
 # Clean build artifacts
 clean:
-    rm -rf output/dist/ build/ *.egg-info .pytest_cache .mypy_cache .ruff_cache htmlcov
+    rm -rf output/dist/ build/ *.egg-info .pytest_cache .ruff_cache htmlcov
     find . -type d -name __pycache__ -exec rm -rf {} +
     @echo "✅ Cleaned build artifacts"
 

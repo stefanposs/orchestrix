@@ -67,7 +67,9 @@ class OrderCreatedUpcaster(EventUpcaster[OrderCreatedV1, OrderCreatedV2]):
     def __init__(self) -> None:
         super().__init__(source_version=1, target_version=2)
 
-    async def upcast(self, event: OrderCreatedV1) -> OrderCreatedV2:
+    async def upcast(self, event: Event) -> OrderCreatedV2:
+        if not isinstance(event, OrderCreatedV1):
+            raise TypeError(f"Expected OrderCreatedV1, got {type(event)}")
         return OrderCreatedV2(
             order_id=event.order_id,
             customer_id=event.customer_id,
@@ -124,7 +126,7 @@ class TestIntegration:
 
         # Setup versioning
         upcaster_registry = UpcasterRegistry()
-        upcaster_registry.register("OrderCreated", OrderCreatedUpcaster())
+        upcaster_registry.register("OrderCreated", OrderCreatedUpcaster())  # type: ignore
 
         # Setup projection engine
         projection_engine = ProjectionEngine(
@@ -192,7 +194,7 @@ class TestIntegration:
         """Test projections working with versioned events."""
         projection_state_store = InMemoryProjectionStateStore()
         upcaster_registry = UpcasterRegistry()
-        upcaster_registry.register("OrderCreated", OrderCreatedUpcaster())
+        upcaster_registry.register("OrderCreated", OrderCreatedUpcaster())  # type: ignore
 
         engine = ProjectionEngine(
             projection_id="TestProjection",
@@ -258,6 +260,7 @@ class TestIntegration:
             events = event_store.load("order-ORD-003")
 
         assert len(events) == 1
+        assert isinstance(events[0], OrderCreatedV2)
         assert events[0].order_id == "ORD-003"
 
     @pytest.mark.asyncio

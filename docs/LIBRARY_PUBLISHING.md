@@ -13,7 +13,6 @@ Orchestrix v0.1.0 ist jetzt **production-ready** und bereit für die Veröffentl
 - ✅ Core Framework mit CloudEvents-kompatiblen Messages
 - ✅ InMemory Infrastructure (Bus & Store)
 - ✅ 100% Test Coverage (17 Tests)
-- ✅ Type-Safe mit mypy strict mode
 - ✅ Linting mit ruff (0 Errors)
 - ✅ Code Formatting mit ruff
 - ✅ Enterprise-ready Packaging
@@ -146,7 +145,6 @@ just ci       # Clean + Sync + Pre-commit + QA + Build
 - **Python**: 3.9-3.13
 - **Dependencies**: Keine (pure Python)
 - **Test Coverage**: 100%
-- **Type Coverage**: 100% (mypy strict)
 - **Lines of Code**: ~71 statements (core)
 
 ## 🎯 Nächste Features (für v0.2.0)

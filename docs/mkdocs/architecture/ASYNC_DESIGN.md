@@ -39,7 +39,6 @@ This document outlines the design for adding async/await support to Orchestrix w
    - Uses `typing.Protocol` for abstraction
 
 4. **Type Safe:** Full type hints for both sync and async
-   - `mypy` strict mode compatible
    - Clear distinction between sync and async paths
 
 ## Async Message Bus Design
@@ -393,7 +392,6 @@ await bus.publish(command)  # Non-blocking
 - ✅ Async integration test shows concurrent execution
 - ✅ Performance benchmark shows >10x improvement for I/O workloads
 - ✅ No sync API changes (100% backward compatible)
-- ✅ mypy strict mode passes for async code
 - ✅ Documentation updated with async examples
 
 ## Timeline

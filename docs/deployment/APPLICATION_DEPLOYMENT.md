@@ -20,7 +20,6 @@ This guide covers deploying Orchestrix applications in production environments, 
 
 - [ ] Python 3.12+ installed
 - [ ] All tests passing (`pytest tests/`)
-- [ ] Type checking clean (`mypy src/`)
 - [ ] Code quality checks passing (`ruff check`)
 - [ ] Production event store selected (PostgreSQL or EventSourcingDB)
 - [ ] Monitoring/logging infrastructure ready
