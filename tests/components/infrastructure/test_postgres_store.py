@@ -51,7 +51,7 @@ def postgres_url():
     For local development, ensure PostgreSQL is running:
     docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=test postgres:16-alpine
     """
-    return "postgresql://postgres:test@localhost:5432/orchestrix_test"
+    return "postgresql://postgres:changethis@localhost:5432/app"
 
 
 @pytest.fixture
