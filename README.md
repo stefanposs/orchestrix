@@ -25,14 +25,31 @@ Traditional CRUD applications struggle with:
 - **Built-in Observability** - Metrics, tracing, and audit logs out of the box
 
 ## When to Use Orchestrix
+**✅ When is Orchestrix a good fit?**
 
-**✅ Perfect for:**
-- Financial systems requiring full audit trails (banking, payments, trading)
-- E-commerce with complex order workflows (inventory, payments, shipping)
-- Collaborative applications needing conflict resolution (booking systems, reservations)
-- Domain-Driven Design implementations with rich domain logic
-- Microservices architectures requiring event-driven communication
-- Systems where understanding *how* you got to current state matters
+| Use Case                                 | Why Orchestrix?                                   |
+|-------------------------------------------|---------------------------------------------------|
+| **Finance**<br>(Banking, Payments)        | Full audit trails, compliance, traceability       |
+| **E-Commerce**<br>(Orders, Inventory)     | Complex workflows, state tracking, integrations   |
+| **Collaboration**<br>(Bookings, Scheduling)| Conflict handling, parallel edits, consistency    |
+| **Domain-Driven Design**                  | Clear logic separation, semantic events           |
+| **Microservices & Event-Driven**          | Decoupled, scalable, easy service integration     |
+| **Analytics & AI/ML**                     | Complete event history, reproducible data         |
+
+---
+
+**Why Orchestrix?**
+
+- **Data lineage:** Every change is an event—perfect for audit and analytics
+- **Semantic events:** Capture *why*, not just *what* happened
+- **Immutable history:** Reliable, append-only event streams
+- **AI/ML ready:** Rich, consistent training data
+- **Easy integration:** Stream events to data lakes or dashboards
+- **Traceability:** Built-in audit and governance
+
+> **Orchestrix makes your data traceable, reliable, and ready for analytics or AI.**
+
+
 
 **⚠️ Consider alternatives if:**
 - Simple CRUD with no complex business logic
@@ -52,126 +69,6 @@ Traditional CRUD applications struggle with:
 - 📊 **Projections** - Build read models from event streams
 - 📈 **Observability** - Built-in Prometheus metrics and OpenTelemetry tracing
 - 🔢 **Event Versioning** - Upcasters for evolving event schemas
-
-## Quick Start
-
-### Installation
-
-```bash
-# Basic installation
-pip install orchestrix
-
-# With PostgreSQL support
-pip install orchestrix[postgres]
-
-# With observability (Prometheus + Tracing)
-pip install orchestrix[observability]
-
-# Development mode
-pip install -e .
-```
-
-### Basic Usage
-
-```python
-from orchestrix.infrastructure import InMemoryMessageBus, InMemoryEventStore
-from examples.order_module import OrderModule, CreateOrder
-
-# Setup infrastructure
-bus = InMemoryMessageBus()
-store = InMemoryEventStore()
-
-# Register module
-module = OrderModule()
-module.register(bus, store)
-
-# Execute command
-bus.publish(CreateOrder(
-    order_id="ORD-001",
-    customer_name="Alice",
-    total_amount=149.99
-))
-```
-
-### Run Demos
-
-```bash
-# Run Demos (see projects/ folder)
-
-# Basic order demo
-uv run projects/ecommerce_demo/main.py
-
-# Sagas (distributed transactions)
-uv run projects/ecommerce_demo/sagas_demo.py
-
-# Projections (read models)
-uv run projects/ecommerce_demo/projections_demo.py
-
-# Tracing with Jaeger
-uv run projects/ecommerce_demo/tracing_demo.py
-
-# Prometheus metrics
-uv run projects/ecommerce_demo/prometheus_demo.py
-
-# Event versioning
-uv run projects/ecommerce_demo/versioning_demo.py
-```
-
-## Architecture
-
-### Core Concepts
-
-- **Message**: Immutable CloudEvents-compatible base class
-- **Command**: Intent to perform an action
-- **Event**: Fact that has occurred
-- **Aggregate**: Domain entity that raises events
-- **Module**: Encapsulates domain logic and registration
-
-### Infrastructure
-
-- **MessageBus**: Routes commands/events to handlers
-- **EventStore**: Persists and retrieves event streams
-
-## Project Structure
-
-```
-orchestrix/
-├── components/
-│   └── orchestrix/
-│       ├── core/                    # Core framework (Interfaces, Message, Aggregate)
-│       │   ├── common/              # Shared utilities (Logging, Validation, Retry)
-│       │   ├── eventsourcing/       # Event sourcing logic (Aggregate, Store, Projection)
-│       │   ├── execution/           # Execution patterns (Saga)
-│       │   └── messaging/           # Messaging patterns (Bus, CommandHandler)
-│       └── infrastructure/          # Infrastructure adapters
-│           ├── eventsourcingdb/     # EventSourcingDB adapter
-│           ├── memory/              # In-Memory adapters (Sync/Async)
-│           ├── observability/       # Observability adapters (Prometheus, Jaeger)
-│           └── postgres/            # PostgreSQL adapter
-├── bases/
-│   └── orchestrix/
-│       ├── banking/                 # Banking Demo App
-│       ├── ecommerce/               # E-commerce Demo App
-│       ├── lakehouse/               # Lakehouse Demo App
-│       └── notifications/           # Notifications Demo App
-├── projects/
-│   ├── orchestrix_lib/              # PyPI Package
-│   ├── banking_demo/                # Deployable Service
-│   ├── ecommerce_demo/              # Deployable Service
-│   ├── lakehouse_demo/              # Deployable Service
-│   └── notifications_demo/          # Deployable Service
-├── examples/                        # Production-ready examples
-│   ├── banking/                     # Banking domain (accounts, transfers)
-│   ├── ecommerce/                   # E-commerce (orders, inventory, shipping)
-│   ├── projections/                 # Read model patterns
-│   ├── sagas/                       # Distributed transaction examples
-│   ├── tracing/                     # Observability examples
-│   └── versioning/                  # Event schema evolution
-└── tests/                           # 404+ tests, 84% coverage
-    ├── components/                  # Component tests
-    ├── projects/                    # Integration tests
-    └── benchmarks/                  # Performance benchmarks
-```
 
 ## Documentation
 

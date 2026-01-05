@@ -1,4 +1,4 @@
-"""Banking Transfer Example with Compensation
+# Banking Demo
 
 This example demonstrates money transfers between accounts with automatic
 compensation when transfers fail.

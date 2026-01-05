@@ -41,7 +41,7 @@ class AnonymizationSaga:
         print(f"   Reason: {event.reason}")
 
         # Automatically start dry-run
-        await self.message_bus.publish(StartDryRun(job_id=event.job_id))
+        await self.message_bus.publish(StartDryRun(job_id=event.job_id, params={}))
 
     async def handle_start_dry_run(self, command: StartDryRun) -> None:
         """Execute dry-run validation."""
@@ -115,6 +115,7 @@ class AnonymizationSaga:
             estimated_duration = len(job.rules) * 0.1  # 0.1s per rule
 
             result = DryRunResult(
+                job_id=command.job_id,
                 affected_rows=total_affected_rows,
                 affected_columns=affected_columns,
                 estimated_duration_seconds=estimated_duration,
@@ -189,7 +190,9 @@ class AnonymizationSaga:
         print(f"\n✓ Job approved by {command.approver}")
 
         # Automatically start anonymization
-        await self.message_bus.publish(StartAnonymization(job_id=command.job_id))
+        await self.message_bus.publish(
+            StartAnonymization(job_id=command.job_id, columns=[r.column_name for r in job.rules])
+        )
 
     async def handle_validation_passed(self, event: ValidationPassed) -> None:
         """Log validation passed."""
@@ -242,7 +245,9 @@ class AnonymizationSaga:
                 job = await self.repository.load_async(AnonymizationJob, command.job_id)
                 job.anonymize_column(
                     column_name=rule.column_name,
-                    strategy=rule.strategy.value,
+                    strategy=rule.strategy.value
+                    if hasattr(rule.strategy, "value")
+                    else str(rule.strategy),
                     rows_affected=rows_affected,
                 )
                 await self.repository.save_async(job)
@@ -285,7 +290,9 @@ class AnonymizationSaga:
             print("   Initiating rollback...")
 
             # Trigger rollback
-            await self.message_bus.publish(RollbackAnonymization(job_id=command.job_id))
+            await self.message_bus.publish(
+                RollbackAnonymization(job_id=command.job_id, reason=str(e))
+            )
 
     async def handle_anonymization_failed(self, event: AnonymizationFailed) -> None:
         """Handle anonymization failure."""

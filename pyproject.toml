@@ -59,7 +59,7 @@ markers = [
 ]
 
 [tool.coverage.run]
-source = ["components/orchestrix/core", "components/orchestrix/infrastructure", "projects/orchestrix"]
+source = ["components/orchestrix/core", "components/orchestrix/infrastructure", "projects"]
 omit = ["tests/*", "examples/*"]
 
 [tool.coverage.report]

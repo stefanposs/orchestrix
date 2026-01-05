@@ -1,23 +1,28 @@
+[build-system]
+requires = ["hatchling", "hatch-polylith-bricks"]
+build-backend = "hatchling.build"
+
 [project]
-name = "lakehouse_demo"
+name = "lakehouse_fastapi_demo"
 version = "0.1.0"
-description = "Lakehouse demo application"
-requires-python = ">=3.12,<3.14"
+description = "Polylith demo for a self-service Lakehouse platform."
+requires-python = ">=3.12, <3.14"
 dependencies = [
-    "orchestrix",
+    "fastapi",
+    "uvicorn[standard]",
 ]
 
 [project.scripts]
-lakehouse-demo = "orchestrix.lakehouse.main:main"
+lakehouse-fastapi-demo = "orchestrix.lakehouse_fastapi_demo.main:start"
 
-[tool.uv.sources]
-orchestrix = { workspace = true }
+# This section is needed for the Hatchling build backend, to activate the polylith build hook.
+[tool.hatch.build.hooks.polylith-bricks]
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+# This section is needed for building
+[tool.hatch.build.targets.wheel]
+packages = ["orchestrix"]
 
-[tool.hatch.build.targets.wheel.force-include]
+[tool.polylith.bricks]
 # Core modules
 "../../components/orchestrix/core/common" = "orchestrix/core/common"
 "../../components/orchestrix/core/eventsourcing" = "orchestrix/core/eventsourcing"
@@ -29,4 +34,7 @@ build-backend = "hatchling.build"
 "../../components/orchestrix/infrastructure/observability" = "orchestrix/infrastructure/observability"
 "../../components/orchestrix/infrastructure/postgres" = "orchestrix/infrastructure/postgres"
 # Bases
-"../../bases/orchestrix/lakehouse" = "orchestrix/lakehouse"
+"../../bases/orchestrix/lakehouse_fastapi_demo" = "orchestrix/lakehouse_fastapi_demo"
+
+[tool.ruff]
+line-length = 100

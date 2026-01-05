@@ -1,4 +1,4 @@
-"""Notifications Example with Retry Logic and Dead Letter Queue
+# Notifications Demo
 
 This example demonstrates async event handlers with robust error handling,
 retry logic, and dead letter queue pattern.

@@ -1,4 +1,4 @@
-"""E-Commerce Order Processing Example
+# E-Commerce Demo
 
 This example demonstrates a complete order processing workflow using Orchestrix:
 
