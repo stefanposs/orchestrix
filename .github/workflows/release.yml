@@ -112,6 +112,14 @@ jobs:
         working-directory: projects/orchestrix_lib
         run: uv build --package orchestrix
 
+      # Debug: Zeige Inhalt von dist-Verzeichnissen
+      - name: List dist folders
+        run: |
+          echo "==> Workspace dist/"
+          ls -l dist || echo "(not found)"
+          echo "==> projects/orchestrix_lib/dist/"
+          ls -l projects/orchestrix_lib/dist || echo "(not found)"
+
       # Upload the dist/ folder as an artifact for later jobs
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
