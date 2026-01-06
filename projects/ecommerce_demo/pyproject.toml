@@ -11,7 +11,7 @@ dependencies = [
 ]
 
 [project.scripts]
-ecommerce-demo = "orchestrix.ecommerce_demo.main:main"
+ecommerce-demo = "orchestrix.ecommerce_demo.main:start"
 
 # This section is needed for the Hatchling build backend, to activate the polylith build hook.
 [tool.hatch.build.hooks.polylith-bricks]

@@ -36,55 +36,84 @@ uv run main:start
 
 ---
 
-### 2. Register a Dataset
+
+## End-to-End Process Example (API Calls)
+
+### 1. Register Dataset
 ```bash
 curl -X POST http://localhost:8000/datasets \
-
-## Process Overview
+	-H "Content-Type: application/json" \
+	-d '{"name": "sales", "schema": {"id": "int", "amount": "float"}}'
 ```
 
-### 3. Register a Contract
+### 2. Register Contract
 ```bash
 curl -X POST http://localhost:8000/contracts \
-
-1. **Register Dataset** (`POST /datasets`): Create a new dataset with schema.
+	-H "Content-Type: application/json" \
+	-d '{"dataset": "sales", "retention_days": 365}'
 ```
 
-### 4. Get a Signed Upload URL for CSV
+### 3. Get Signed Upload URL
 ```bash
-curl -X POST http://localhost:8000/datasets/sales/upload-url \
-2. **Register Contract** (`POST /contracts`): Define retention and compliance for a dataset.
-3. **Upload Data** (`POST /upload-url`): Get a signed URL for file upload.
-# Response: { "url": "https://...signed-upload-url..." }
+curl -X POST http://localhost:8000/upload-url \
+	-H "Content-Type: application/json" \
+	-d '{"filename": "sales_2024_01.csv"}'
+# Response: { "upload_url": "https://..." }
 ```
 
-### 5. Upload Data as CSV (to signed URL)
+### 4. Upload Data as CSV (to signed URL)
 ```bash
-# Example CSV file:
 echo "id,amount\n1,100.0\n2,200.0" > sales_2024_01.csv
-
-# Upload to signed URL (replace <SIGNED_URL> with the value from previous step)
-curl -X PUT "<SIGNED_URL>" \
-4. **Replay** (`POST /replay`): Trigger a replay of all batches for a dataset.
-
+curl -X PUT "<UPLOAD_URL_FROM_STEP_3>" --data-binary @sales_2024_01.csv
 ```
 
-### 6. (Optional) Replay Data Processing
+### 5. Append Batch
+```bash
+curl -X POST http://localhost:8000/append-batch \
+	-H "Content-Type: application/json" \
+	-d '{"dataset": "sales", "contract_id": "contract1", "batch_id": "batch1", "file_url": "sales_2024_01.csv"}'
+```
+
+### 6. (Optional) Quarantine Batch
+```bash
+curl -X POST http://localhost:8000/quarantine-batch \
+	-H "Content-Type: application/json" \
+	-d '{"batch_id": "batch1", "reason": "DQ failed"}'
+```
+
+### 7. Run Data Quality Check
+```bash
+curl -X POST http://localhost:8000/run-dq \
+	-H "Content-Type: application/json" \
+	-d '{"batch_id": "batch1", "quality_rules": {"amount": ">0"}}'
+```
+
+### 8. Run Privacy Check
+```bash
+curl -X POST http://localhost:8000/run-privacy \
+	-H "Content-Type: application/json" \
+	-d '{"batch_id": "batch1", "privacy_rules": {"id": "mask"}}'
+```
+
+### 9. Publish Batch
+```bash
+curl -X POST http://localhost:8000/publish-batch \
+	-H "Content-Type: application/json" \
+	-d '{"batch_id": "batch1"}'
+```
+
+### 10. Consume Batch
+```bash
+curl -X POST http://localhost:8000/consume-batch \
+	-H "Content-Type: application/json" \
+	-d '{"batch_id": "batch1", "consumer": "alice"}'
+```
+
+### 11. (Optional) Replay
 ```bash
 curl -X POST http://localhost:8000/replay \
-### How it works
-
-```
-
-### 7. Consume Data as CSV (Download via signed URL)
-```bash
-curl -X POST http://localhost:8000/datasets/sales/download-url \
-- All business logic is in `bases/orchestrix/lakehouse_demo_fastapi/`.
-- The FastAPI app exposes endpoints for all core processes.
-# Response: { "url": "https://...signed-download-url..." }
-
-# Download the CSV file
-curl -L "<SIGNED_DOWNLOAD_URL>" -o downloaded_sales.csv
+	-H "Content-Type: application/json" \
+	-d '{"dataset": "sales"}'
 ```
 
 ---

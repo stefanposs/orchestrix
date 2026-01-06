@@ -1,13 +1,28 @@
 
+
 ## LAKEHOUSE FASTAPI DEMO
 
-Start the server:
+### Start the server (recommended):
 
 ```bash
-uv run lakehouse_fastapi_demo
+uv run uvicorn orchestrix.lakehouse_fastapi_demo.app:app --reload
 ```
 
-Example requests:
+**Alternative:**
+
+With Bash script (e.g. for demo/onboarding):
+```bash
+bash run_fastapi.sh
+```
+
+The script uses the recommended start parameters and works from anywhere in the workspace.
+
+### Example requests & demos
+
+See all HTTP demo scripts and example requests in the folder:
+`http_requests/`
+
+Some examples:
 
 - **Register dataset:**
 	```bash
@@ -26,18 +41,21 @@ Example requests:
 	curl -X POST http://localhost:8000/replay -H "Content-Type: application/json" -d '{"dataset": "sales"}'
 	```
 
+More demo workflows and sample CSV files can be found in `http_requests/`.
+
+---
 
 # lakehouse_fastapi_demo Project (Polylith Example)
 
 This project demonstrates a self-service Lakehouse platform in Polylith style with Orchestrix.
 
 - **FastAPI app:** REST API for dataset registration, contracts, data uploads (signed URL), replay
-- **Shell scripts:** curl demos for API
-- **Dependency injection:** Components are injected in the project
+- **Demo HTTP scripts:** Example requests & workflows in `http_requests/`
+- **Dependency injection:** Components are injected
 
 ## Quickstart
-- `main.py`: FastAPI server
-- `scripts/`: curl demos
+- `app.py`: FastAPI server definition
+- `http_requests/`: HTTP demo scripts and example requests
 
 ## Architecture
 - Domain logic & protocols: `bases/orchestrix/lakehouse_fastapi_demo/`
@@ -50,4 +68,4 @@ This project demonstrates a self-service Lakehouse platform in Polylith style wi
 - Testability & extensibility
 - Readable, traceable architecture
 
-See the README in the base for details on domain and protocols.
+See the README in the base folder for details on domain and protocols.
