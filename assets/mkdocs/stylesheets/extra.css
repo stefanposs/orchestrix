@@ -1,0 +1,55 @@
+/* Custom colors for stefanposs.com branding */
+
+:root {
+  /* Primary color - #122E53 (stefanposs.com) */
+  --md-primary-fg-color: #122E53 !important;
+  --md-primary-fg-color--light: #1a3d6b !important;
+  --md-primary-fg-color--dark: #0d1f38 !important;
+  --md-primary-bg-color: #122E53 !important;
+  
+  /* Accent color */
+  --md-accent-fg-color: #2196f3 !important;
+  --md-accent-fg-color--transparent: rgba(33, 150, 243, 0.1) !important;
+}
+
+/* Header/Navigation bar */
+.md-header {
+  background-color: #122E53 !important;
+}
+
+.md-tabs {
+  background-color: #122E53 !important;
+}
+
+/* Links */
+.md-typeset a {
+  color: #122E53 !important;
+}
+
+.md-typeset a:hover {
+  color: #1a3d6b !important;
+}
+
+/* Active navigation items */
+.md-nav__link--active {
+  color: #122E53 !important;
+}
+
+.md-nav__link:hover {
+  color: #122E53 !important;
+}
+
+/* Dark mode adjustments */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #1a3d6b !important;
+  --md-primary-fg-color--light: #2a4d7b !important;
+  --md-primary-fg-color--dark: #122E53 !important;
+}
+
+[data-md-color-scheme="slate"] .md-header {
+  background-color: #1a3d6b !important;
+}
+
+[data-md-color-scheme="slate"] .md-tabs {
+  background-color: #1a3d6b !important;
+}

@@ -72,12 +72,12 @@ Traditional CRUD applications struggle with:
 
 ## Documentation
 
-- [Changelog](docs/CHANGELOG.md)
+- [Changelog](assets/CHANGELOG.md)
 - [Contributing](.github/CONTRIBUTING.md)
 - [Security Policy](.github/SECURITY.md)
 - [Code of Conduct](.github/CODE_OF_CONDUCT.md)
-- [Library Publishing Guide](docs/LIBRARY_PUBLISHING.md)
-- [Application Deployment Guide](docs/deployment/APPLICATION_DEPLOYMENT.md)
+- [Library Publishing Guide](assets/LIBRARY_PUBLISHING.md)
+- [Application Deployment Guide](assets/deployment/APPLICATION_DEPLOYMENT.md)
 
 ## Roadmap & Future Plans
 

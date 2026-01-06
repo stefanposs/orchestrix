@@ -57,9 +57,6 @@ dmypy.json
 *~
 .DS_Store
 
-# Documentation
-docs/_build/
-docs/.doctrees/
 # Distribution
 *.whl
 

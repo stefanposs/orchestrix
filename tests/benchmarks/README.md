@@ -191,5 +191,5 @@ pytest benchmarks/ --benchmark-only --benchmark-compare=baseline \
 ## Related Documentation
 
 - [pytest-benchmark](https://pytest-benchmark.readthedocs.io/)
-- [Performance Guide](../docs/performance.md)
-- [Optimization Tips](../docs/optimization.md)
+- [Performance Guide](../assets/performance.md)
+- [Optimization Tips](../assets/optimization.md)
