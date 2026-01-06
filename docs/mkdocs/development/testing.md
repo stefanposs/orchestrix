@@ -385,7 +385,7 @@ Orchestrix requires **100% code coverage**:
 
 ```toml
 [tool.pytest.ini_options]
-addopts = "--cov=src/orchestrix --cov-report=term --cov-report=html --cov-report=xml --cov-fail-under=100"
+addopts = "--cov=orchestrix --cov-report=term --cov-report=html --cov-report=xml --cov-fail-under=100"
 ```
 
 ### Exclude from Coverage

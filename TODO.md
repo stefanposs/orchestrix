@@ -64,7 +64,6 @@ Should Orchestrix provide technical implementations for the following services?
   - OS matrix (Ubuntu, macOS, Windows)
   - Coverage reporting to Codecov
   - Performance regression detection
-  - Type checking (mypy + ty)
 
 - [ ] **PyPI Publishing Automation**
   - Automated releases on git tags

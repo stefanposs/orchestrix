@@ -7,7 +7,7 @@ repo_name: stefanposs/orchestrix
 repo_url: https://github.com/stefanposs/orchestrix
 
 docs_dir: docs/mkdocs
-site_dir: site
+site_dir: output/site
 
 theme:
   name: material

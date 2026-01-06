@@ -1,5 +1,25 @@
 version: 2
 updates:
+  # Docker container versions (for testcontainers)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    assignees:
+      - "stefanposs"
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "deps"
+    groups:
+      testcontainers:
+        patterns:
+          - "postgres"
+          - "eventsourcingdb"
   # Python dependencies
   - package-ecosystem: "pip"
     directory: "/"
@@ -27,12 +47,6 @@ updates:
           - "pytest*"
           - "coverage"
           - "hypothesis"
-      # Group type checking
-      type-checking:
-        patterns:
-          - "mypy"
-          - "ty"
-          - "types-*"
       # Group linting/formatting
       code-quality:
         patterns:

@@ -60,7 +60,7 @@ jobs:
     - name: Run Bandit security scan
       run: |
         uv pip install bandit[toml]
-        uv run bandit -r src/ -f json -o bandit-report.json || true
+        uv run bandit -r components/ projects/ -f json -o bandit-report.json || true
     
     - name: Upload Bandit results
       uses: actions/upload-artifact@v4

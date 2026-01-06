@@ -19,7 +19,7 @@ As your application evolves, event structures change. Event versioning with upca
 
 ```python
 from dataclasses import dataclass
-from orchestrix.core.message import Event
+from orchestrix.core.messaging.message import Event
 
 @dataclass(frozen=True, kw_only=True)
 class OrderCreatedV1(Event):
@@ -47,7 +47,7 @@ class OrderCreatedV2(Event):
 ### Upcaster
 
 ```python
-from orchestrix.core.versioning import Upcaster, VersionRegistry
+from orchestrix.core.eventsourcing.versioning import Upcaster, VersionRegistry
 
 class OrderCreatedV1ToV2(Upcaster):
     """Upcasts V1 events to V2 format."""

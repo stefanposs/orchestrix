@@ -16,8 +16,8 @@ A saga is a sequence of local transactions where each transaction updates data w
 ## Basic Example
 
 ```python
-from orchestrix.core.saga import Saga, SagaStep
-from orchestrix.core.message import Event
+from orchestrix.core.execution.saga import Saga, SagaStep
+from orchestrix.core.messaging.message import Event
 from dataclasses import dataclass
 
 @dataclass(frozen=True)

@@ -32,6 +32,7 @@ env.bak/
 venv.bak/
 
 # Testing
+.benchmarks
 .pytest_cache/
 .coverage
 .coverage.*
@@ -66,3 +67,7 @@ site/
 
 # Ruff
 .ruff_cache/
+output/
+
+# Ignore blog drafts
+blog/

@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling", "hatch-polylith-bricks"]
+build-backend = "hatchling.build"
+
+[project]
+name = "banking_demo"
+version = "0.1.0"
+description = "Banking demo application"
+requires-python = ">=3.12, <3.14"
+dependencies = [
+]
+
+[project.scripts]
+banking-demo = "orchestrix.banking.main:main"
+
+# This section is needed for the Hatchling build backend, to activate the polylith build hook.
+[tool.hatch.build.hooks.polylith-bricks]
+
+# This section is needed for building
+[tool.hatch.build.targets.wheel]
+packages = ["orchestrix"]
+
+[tool.polylith.bricks]
+# Core modules
+"../../components/orchestrix/core/common" = "orchestrix/core/common"
+"../../components/orchestrix/core/eventsourcing" = "orchestrix/core/eventsourcing"
+"../../components/orchestrix/core/execution" = "orchestrix/core/execution"
+"../../components/orchestrix/core/messaging" = "orchestrix/core/messaging"
+# Infrastructure modules
+"../../components/orchestrix/infrastructure/eventsourcingdb" = "orchestrix/infrastructure/eventsourcingdb"
+"../../components/orchestrix/infrastructure/memory" = "orchestrix/infrastructure/memory"
+"../../components/orchestrix/infrastructure/observability" = "orchestrix/infrastructure/observability"
+"../../components/orchestrix/infrastructure/postgres" = "orchestrix/infrastructure/postgres"
+# Bases
+"../../bases/orchestrix/banking_demo" = "orchestrix/banking_demo"

@@ -39,7 +39,6 @@ This document outlines the design for adding async/await support to Orchestrix w
    - Uses `typing.Protocol` for abstraction
 
 4. **Type Safe:** Full type hints for both sync and async
-   - `mypy` strict mode compatible
    - Clear distinction between sync and async paths
 
 ## Async Message Bus Design
@@ -47,7 +46,7 @@ This document outlines the design for adding async/await support to Orchestrix w
 ### Protocol Definition
 
 ```python
-# src/orchestrix/async_message_bus.py
+# components/orchestrix/infrastructure/async_inmemory_bus.py
 from typing import Callable, Protocol
 
 AsyncMessageHandler = Callable[["Message"], Coroutine[Any, Any, None]]
@@ -287,8 +286,8 @@ Future v2.0 might unify APIs, but users will have deprecation warnings.
 
 ### Task 8: AsyncMessageBus (4-6 hours)
 ```
-src/orchestrix/infrastructure/async_inmemory_bus.py  # Protocol + InMemory impl
-tests/test_async_bus.py                              # Concurrent handler tests
+components/orchestrix/infrastructure/async_inmemory_bus.py  # Protocol + InMemory impl
+tests/components/infrastructure/test_async_bus.py           # Concurrent handler tests
 ```
 
 **Tests to cover:**
@@ -301,8 +300,8 @@ tests/test_async_bus.py                              # Concurrent handler tests
 
 ### Task 9: AsyncEventStore (2-3 hours)
 ```
-src/orchestrix/async_inmemory_store.py    # Protocol + InMemory impl
-tests/test_async_store.py             # Concurrent persistence tests
+components/orchestrix/infrastructure/async_inmemory_store.py    # Protocol + InMemory impl
+tests/components/infrastructure/test_async_store.py             # Concurrent persistence tests
 ```
 
 **Tests to cover:**
@@ -393,7 +392,6 @@ await bus.publish(command)  # Non-blocking
 - ✅ Async integration test shows concurrent execution
 - ✅ Performance benchmark shows >10x improvement for I/O workloads
 - ✅ No sync API changes (100% backward compatible)
-- ✅ mypy strict mode passes for async code
 - ✅ Documentation updated with async examples
 
 ## Timeline

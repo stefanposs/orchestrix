@@ -18,7 +18,7 @@ Orchestrix integrates with OpenTelemetry to automatically create spans for comma
 ```python
 from orchestrix.infrastructure.tracing import init_tracing, TraceConfig
 from orchestrix.infrastructure import InMemoryMessageBus
-from orchestrix.core.message import Command, Event
+from orchestrix.core.messaging.message import Command, Event
 from dataclasses import dataclass
 
 # Initialize tracing

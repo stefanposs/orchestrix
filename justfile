@@ -58,8 +58,8 @@ test-watch:
 # Code Quality
 # ============================================================================
 
-# Run all QA checks (lint, format-check, typecheck, ty, test)
-qa: lint format-check typecheck ty test
+# Run all QA checks (lint, format-check, typecheck, test)
+qa: lint format-check ty test
     @echo "✅ All QA checks passed!"
 
 # Run ruff linter
@@ -78,21 +78,13 @@ format-check:
 format:
     uv run ruff format .
 
-# Run mypy type checker
-typecheck:
-    uv run mypy src/orchestrix
-
-# Run type checker with verbose output
-typecheck-verbose:
-    uv run mypy src/orchestrix --verbose
-
 # Run ty type checker (Astral)
 ty:
-    uv run ty check src/orchestrix
+    uv run ty check .
 
 # Run ty with verbose output
 ty-verbose:
-    uv run ty check src/orchestrix --verbose
+    uv run ty check . --verbose
 
 # ============================================================================
 # Combined Workflows
@@ -107,7 +99,7 @@ pre-commit:
     uv run pre-commit run --all-files
 
 # Full check before commit (format, lint, typecheck, ty, test)
-check: format lint typecheck ty test
+check: format lint ty test
     @echo "✅ Ready to commit!"
 
 # ============================================================================
@@ -116,7 +108,7 @@ check: format lint typecheck ty test
 
 # Clean build artifacts
 clean:
-    rm -rf dist/ build/ *.egg-info .pytest_cache .mypy_cache .ruff_cache htmlcov
+    rm -rf output/dist/ build/ *.egg-info .pytest_cache .ruff_cache htmlcov
     find . -type d -name __pycache__ -exec rm -rf {} +
     @echo "✅ Cleaned build artifacts"
 
@@ -146,18 +138,6 @@ docs-deploy:
     uv run mkdocs gh-deploy
 
 # ============================================================================
-# Running Examples
-# ============================================================================
-
-# Run the order example
-example:
-    uv run examples/run_order_example.py
-
-# Run specific example file
-run-example FILE:
-    uv run {{FILE}}
-
-# ============================================================================
 # Development Tools
 # ============================================================================
 
@@ -182,11 +162,11 @@ shell:
 # ============================================================================
 
 # Simulate CI pipeline locally
-ci: clean install pre-commit test-ci typecheck ty
+ci: clean install pre-commit test-ci
     @echo "✅ CI simulation complete!"
 
 # Quick CI check (faster, skips some steps)
-ci-quick: lint typecheck ty test
+ci-quick: lint test
     @echo "✅ Quick CI check complete!"
 
 # ============================================================================
@@ -221,8 +201,8 @@ info:
 # Count lines of code
 loc:
     @echo "Source code:"
-    @find src -name '*.py' | xargs wc -l | tail -1
+    @find components bases projects -name '*.py' | xargs wc -l | tail -1
     @echo "Tests:"
     @find tests -name '*.py' | xargs wc -l | tail -1
     @echo "Total:"
-    @find src tests -name '*.py' | xargs wc -l | tail -1
+    @find components bases projects tests -name '*.py' | xargs wc -l | tail -1

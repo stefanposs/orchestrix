@@ -42,7 +42,7 @@ uv run pytest
 uv run ruff check . && uv run ruff format .
 
 # Run type checker
-uv run mypy src/orchestrix
+uv run ty check
 ```
 
 ## Development Setup
@@ -90,7 +90,7 @@ We provide a `justfile` with common development commands:
 just
 
 # Common workflows
-just check      # Format, lint, typecheck, test before commit
+just check      # Format, lint, test before commit
 just fix        # Auto-fix formatting and linting issues
 just qa         # Run all quality checks
 just ci         # Simulate CI pipeline locally
@@ -101,7 +101,7 @@ just ci         # Simulate CI pipeline locally
 We use the following tools to maintain code quality:
 
 - **Ruff** for linting and formatting
-- **MyPy** for static type checking
+- **Ty** for static type checking
 - **Pytest** for testing
 
 ### Style Guidelines

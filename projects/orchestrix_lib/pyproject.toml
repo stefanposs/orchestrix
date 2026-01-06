@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "orchestrix"
+version = "0.1.0"
+description = "A modular, event-driven event sourcing library for Python. Orchestrix helps you build scalable, maintainable, and testable systems by combining event sourcing, CQRS, and asynchronous messaging in a architecture. Ideal for complex business domains, microservices, and distributed workflows."
+authors = [
+    { name = "Stefan Poss", email = "sp@stefanposs.com" }
+]
+readme = "README.md"
+requires-python = ">=3.12, <3.14"
+license = { file = "LICENSE" }
+dependencies = [
+    "eventsourcingdb==1.9.0",      # EventSourcingDB SDK
+    "prometheus_client>=0.17.0,<1.0.0",   # Prometheus metrics
+    "jaeger-client>=4.8.0,<5.0.0",        # Jaeger tracing
+    "psycopg[binary]>=3.1.0,<4.0.0",      # PostgreSQL driver
+    "pydantic>=2.0.0,<3.0.0",             # Data validation
+    "fastapi>=0.110.0,<1.0.0",            # (falls API-Komponenten enthalten sind)
+    "httpx>=0.25.0,<1.0.0",               # Async HTTP client (z.B. für EventSourcingDB)
+    "typing-extensions>=4.8.0,<5.0.0",    # Für neuere Typen
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["orchestrix"]

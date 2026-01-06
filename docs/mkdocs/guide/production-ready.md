@@ -203,7 +203,7 @@ repository = AggregateRepository(
 Orchestrix uses Python's standard logging with structured context:
 
 ```python
-from orchestrix.core.logging import get_logger
+from orchestrix.core.common.logging import get_logger
 
 logger = get_logger(__name__)
 
@@ -233,7 +233,7 @@ logging.basicConfig(
 Orchestrix provides extensible observability hooks:
 
 ```python
-from orchestrix.core.observability import init_observability
+from orchestrix.core.common.observability import init_observability
 
 # Initialize with custom providers (e.g., Prometheus, Jaeger)
 observability = init_observability(
@@ -253,7 +253,7 @@ observability = init_observability(
 
 ```python
 from prometheus_client import Counter, Histogram
-from orchestrix.core.observability import MetricsProvider
+from orchestrix.core.common.observability import MetricsProvider
 
 class PrometheusMetrics(MetricsProvider):
     def __init__(self):
@@ -348,7 +348,7 @@ Solutions:
 Use the observability hooks to track errors:
 
 ```python
-from orchestrix.core.observability import get_observability
+from orchestrix.core.common.observability import get_observability
 
 observability = get_observability()
 

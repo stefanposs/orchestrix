@@ -16,7 +16,7 @@ Projections listen to events and build denormalized views optimized for specific
 ## Basic Example
 
 ```python
-from orchestrix.core.projection import Projection, ProjectionEngine
+from orchestrix.core.eventsourcing.projection import Projection, ProjectionEngine
 from orchestrix.infrastructure import InMemoryMessageBus
 from dataclasses import dataclass
 
@@ -72,7 +72,7 @@ all_orders = projection.get_all_orders()
 ## PostgreSQL Backend
 
 ```python
-from orchestrix.core.projection import PostgreSQLProjectionStore
+from orchestrix.core.eventsourcing.projection import PostgreSQLProjectionStore
 
 class OrderProjection(Projection):
     def __init__(self, store: PostgreSQLProjectionStore):
