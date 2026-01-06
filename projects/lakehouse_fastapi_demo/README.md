@@ -1,5 +1,3 @@
-
-
 ## LAKEHOUSE FASTAPI DEMO
 
 ### Start the server (recommended):
