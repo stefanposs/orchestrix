@@ -1,183 +1,184 @@
-# Lakehouse: GDPR Compliance
+---
+# Lakehouse FastAPI Demo: GDPR Compliance & Event Sourcing
 
-This example demonstrates a complete GDPR-compliant data lakehouse platform built with event sourcing.
+Dieses Beispiel zeigt eine moderne, GDPR-konforme Lakehouse-Plattform mit Event Sourcing, FastAPI und vollständigem Audit-Trail.
 
-> **📂 Source Code:**  
-> Simple Demo: [`examples/lakehouse/gdpr_simple.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/lakehouse/gdpr_simple.py)  
-> Full Implementation: [`examples/lakehouse/gdpr.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/lakehouse/gdpr.py)  
-> Domain Models: [`examples/lakehouse/models.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/lakehouse/models.py)
+**Source:**
+- [Demo-Base: bases/orchestrix/lakehouse_fastapi_demo/](https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/lakehouse_fastapi_demo)
+- [Code: gdpr.py](https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/lakehouse_fastapi_demo/gdpr.py)
 
-## Overview
+## Features & Prozesse
 
-The GDPR compliance example shows how to implement:
+- Dataset- und Contract-Registrierung
+- Append-only Ingestion, Replay, Quarantine, Data Quality, Privacy, Publish, Consumption
+- Event Sourcing: Jeder Schritt erzeugt Events, volle Auditierbarkeit
+- GDPR-Deletion mit 30-Tage-Deadline
+- Modular: Aggregates für Dataset, Contract, Batch, Lake
+- FastAPI-Entrypoints für alle Kernprozesse
+- Snapshots für Performance
 
-- ✅ **Right-to-be-Forgotten** - 30-day deletion deadlines
-- ✅ **PII Tracking** - Identify and track personal data
-- ✅ **Compliance Levels** - Standard, GDPR, Strict modes
-- ✅ **Access Auditing** - Full audit trail for compliance
-- ✅ **Event Sourcing** - Immutable event log for accountability
+## End-to-End API-Demo
 
-## Quick Start
-
+### 1. Server starten
 ```bash
-# Run the simple demo
-uv run python examples/lakehouse/gdpr_simple.py
-
-# Study the full implementation
-cat examples/lakehouse/gdpr.py
+uv run main:start
 ```
 
-## Example Output
+### 2. Beispiel-Requests
+```bash
+# Dataset registrieren
+curl -X POST http://localhost:8000/datasets \
+  -H "Content-Type: application/json" \
+  -d '{"name": "sales", "schema": {"id": "int", "amount": "float"}}'
 
+# Contract registrieren
+curl -X POST http://localhost:8000/contracts \
+  -H "Content-Type: application/json" \
+  -d '{"dataset": "sales", "retention_days": 365}'
+
+# Upload-URL holen
+curl -X POST http://localhost:8000/upload-url \
+  -H "Content-Type: application/json" \
+  -d '{"filename": "sales_2024_01.csv"}'
+
+# Daten hochladen
+echo "id,amount\n1,100.0\n2,200.0" > sales_2024_01.csv
+curl -X PUT "<UPLOAD_URL>" --data-binary @sales_2024_01.csv
+
+# Batch anhängen
+curl -X POST http://localhost:8000/append-batch \
+  -H "Content-Type: application/json" \
+  -d '{"dataset": "sales", "contract_id": "contract1", "batch_id": "batch1", "file_url": "sales_2024_01.csv"}'
+
+# GDPR-Deletion anstoßen
+curl -X POST http://localhost:8000/run-privacy \
+  -H "Content-Type: application/json" \
+  -d '{"batch_id": "batch1", "privacy_rules": {"id": "mask"}}'
 ```
-🏗️  Advanced Lakehouse Platform with GDPR Compliance
 
-1️⃣  Creating GDPR-compliant data lake...
-   ✅ Lake created: EU Customer Analytics (compliance: gdpr)
+---
 
-2️⃣  Ingesting datasets...
-   ✅ 2 datasets ingested
-   📊 Total records: 130,000
-   🔒 PII datasets: ['sales-2024']
-
-3️⃣  Auditing data access...
-   ✅ 2 access events logged
-
-4️⃣  Processing GDPR deletion request...
-   ✅ Deletion request created
-   ⏰ Deadline: 30 days from request
-   📝 Status: pending
-
-5️⃣  Persisting events to event store...
-   ✅ 6 events saved
-
-✅ GDPR-compliant lakehouse operational!
-```
-
-## Architecture
+## Architektur
 
 ```
 ┌──────────────┐
-│   Commands   │  CreateDataLake, IngestDataset,
-│              │  RequestGDPRDeletion, AuditAccess
+│   FastAPI    │  REST-API für alle Prozesse
 └──────┬───────┘
        ↓
 ┌──────────────────┐
-│ DataLakeAggregate│  Validates business rules
-│                  │  Enforces compliance
+│ Aggregates       │  Lake, Dataset, Contract, Batch
 └──────┬───────────┘
        ↓
 ┌──────────────┐
-│    Events    │  DataLakeCreated, DatasetIngested,
-│              │  GDPRDeletionRequested, AccessAudited
+│    Events    │  Audit, GDPR, Ingestion, DQ, Privacy
 └──────┬───────┘
        ↓
 ┌──────────────┐
-│  Event Store │  Immutable audit log
+│  Event Store │  Vollständiger Audit-Trail
+└──────────────┘
+       ↓
+┌──────────────┐
+│  Snapshots   │  Performance-Optimierung
 └──────────────┘
 ```
 
-## Domain Model
-
-### Compliance Levels
+## Domain Model (Auszug)
 
 ```python
 class ComplianceLevel(str, Enum):
-    STANDARD = "standard"  # Basic compliance
-    GDPR = "gdpr"          # GDPR/DSGVO compliance
-    STRICT = "strict"      # Enhanced compliance
-```
+    STANDARD = "standard"
+    GDPR = "gdpr"
+    STRICT = "strict"
 
-### Commands
-
-#### CreateDataLake
-```python
 @dataclass(frozen=True)
 class CreateDataLakeCommand(Command):
     lake_id: str
     name: str
+    owner_id: str
     region: str
-    compliance_level: str  # "standard", "gdpr", "strict"
-```
+    compliance_level: str
 
-#### IngestDataset
-```python
 @dataclass(frozen=True)
 class IngestDatasetCommand(Command):
     lake_id: str
     dataset_id: str
-    source: str
+    data_source: str
     record_count: int
-    contains_pii: bool  # Track personal data
-```
+    contains_pii: bool
 
-#### RequestGDPRDeletion
-```python
 @dataclass(frozen=True)
 class RequestGDPRDeletionCommand(Command):
     lake_id: str
-    subject_id: str  # Customer/user ID
+    subject_id: str
     reason: str
     requested_by: str
-```
 
-#### AuditAccess
-```python
 @dataclass(frozen=True)
 class AuditAccessCommand(Command):
     lake_id: str
     accessor_id: str
     dataset_id: str
-    action: str  # "query", "export", "modify"
+    action: str
     purpose: str
 ```
 
-### Events
-
-All events are immutable facts that have happened:
-
-- `DataLakeCreated` - Lake created with compliance level
-- `DatasetIngested` - Dataset added, PII flag recorded
-- `GDPRDeletionRequested` - Deletion request with 30-day deadline
-- `AccessAudited` - Access logged for compliance
-
 ## Key Features
 
-### 1. Right-to-be-Forgotten
-
-GDPR Article 17 implementation with automatic deadline calculation:
+### GDPR-Deletion mit Deadline
 
 ```python
-# Request deletion
 lake.handle_gdpr_deletion(RequestGDPRDeletionCommand(
-    lake_id="lake-001",
+    lake_id="lake-eu-prod-001",
     subject_id="customer-42",
     reason="User requested right to be forgotten",
-    requested_by="support-agent"
+    requested_by="support-agent-12"
 ))
-
-# Automatic 30-day deadline
-deadline = datetime.now() + timedelta(days=30)
+# Deadline automatisch: 30 Tage ab Request
 ```
 
-### 2. PII Tracking
-
-Track which datasets contain personal data:
+### PII-Tracking & Audit
 
 ```python
 lake.handle_ingest_dataset(IngestDatasetCommand(
-    lake_id="lake-001",
-    dataset_id="customer-data",
-    source="crm_export",
-    record_count=50000,
-    contains_pii=True  # ← Mark as PII
+    lake_id="lake-eu-prod-001",
+    dataset_id="sales-2024",
+    data_source="salesforce_sync",
+    record_count=125000,
+    contains_pii=True
 ))
 
-# Query PII datasets
-pii_datasets = [ds for ds in lake.datasets if ds.contains_pii]
+lake.handle_audit_access(AuditAccessCommand(
+    lake_id="lake-eu-prod-001",
+    accessor_id="analyst-456",
+    dataset_id="sales-2024",
+    action="query",
+    purpose="Q4 revenue analysis"
+))
 ```
 
-### 3. Compliance Validation
+### Event Sourcing & Snapshots
+
+```python
+event_store.save(lake_id, lake.uncommitted_events)
+snapshot = Snapshot(
+    aggregate_id=lake_id,
+    version=len(events),
+    aggregate_type="DataLakeAggregate",
+    state={...}
+)
+event_store.save_snapshot(snapshot)
+```
+
+## Erweiterbarkeit & Storage
+
+- Upload/Download über signierte URLs, Storage-Backend austauschbar (Local, S3, Azure, GCS)
+- Alle Logik in bases/, keine Python-Logik in projects/
+- Demo-Architektur: Einfach erweiterbar für neue Compliance- oder Storage-Anforderungen
+
+---
+
+**Hinweis:**
+Die Demo-Base ist modular, prozessgetrieben und für Präsentation/Tests optimiert. Alle Kernprozesse sind als API und Event-Sourcing implementiert. Erweiterungen (z.B. neue Privacy-Strategien, Storage-Backends) sind mit minimalem Aufwand möglich.
 
 Different rules based on compliance level:
 
