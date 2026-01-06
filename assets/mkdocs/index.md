@@ -2,8 +2,6 @@
 
 **A modular, event-driven architecture framework for Python with CloudEvents-compatible messages.**
 
-> 🎉 **Live-Demo!** Diese Seite wird automatisch aktualisiert wenn du sie bearbeitest.
-
 [![CI](https://github.com/stefanposs/orchestrix/workflows/CI/badge.svg)](https://github.com/stefanposs/orchestrix/actions)
 [![codecov](https://codecov.io/gh/stefanposs/orchestrix/branch/main/graph/badge.svg)](https://codecov.io/gh/stefanposs/orchestrix)
 [![PyPI version](https://badge.fury.io/py/orchestrix.svg)](https://badge.fury.io/py/orchestrix)
