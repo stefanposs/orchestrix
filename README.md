@@ -119,5 +119,4 @@ We're actively looking for contributors interested in:
 See [Contributing](.github/CONTRIBUTING.md) for details.
 
 ## License
-
 MIT
