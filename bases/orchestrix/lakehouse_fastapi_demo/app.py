@@ -13,7 +13,7 @@ tags_metadata = [
 app: FastAPI = FastAPI(
     title="Lakehouse Demo API",
     servers=[{"url": "http://0.0.0.0:8000", "description": "Default local dev server"}],
-    openapi_tags=tags_metadata
+    openapi_tags=tags_metadata,
 )
 app.include_router(datasets_router)
 app.include_router(contracts_router)
