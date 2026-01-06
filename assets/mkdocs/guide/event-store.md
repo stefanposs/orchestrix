@@ -1,15 +1,15 @@
 # Event Store
 
-Der Event Store speichert alle Events eines Aggregates - die "Source of Truth" für Event Sourcing.
+The Event Store saves all events of an aggregate—the "source of truth" for event sourcing.
 
-## Was ist ein Event Store?
+## What is an Event Store?
 
-Ein **Event Store**:
+An **Event Store**:
 
-- Speichert Events pro Aggregate
-- Lädt Events in chronologischer Reihenfolge
-- Ermöglicht Aggregate Reconstruction
-- Ist **append-only** (keine Updates/Deletes!)
+- Stores events per aggregate
+- Loads events in chronological order
+- Enables aggregate reconstruction
+- Is **append-only** (no updates/deletes!)
 
 ## Basic Usage
 
@@ -34,7 +34,7 @@ all_events = store.load("ORD-001")
 
 ## InMemoryEventStore
 
-Die Standard-Implementierung für Development & Testing:
+The standard implementation for development & testing:
 
 ```python
 from collections import defaultdict
@@ -57,16 +57,16 @@ class InMemoryEventStore(EventStore):
 
 ### Features
 
-- ✅ **Append-only** - Events werden nur hinzugefügt
-- ✅ **Chronologisch** - Events in Reihenfolge
-- ✅ **Einfach** - Keine Dependencies
-- ⚠️ **In-Memory** - Daten gehen bei Restart verloren
+- ✅ **Append-only** - Events are only added
+- ✅ **Chronological** - Events in order
+- ✅ **Simple** - No dependencies
+- ⚠️ **In-memory** - Data is lost on restart
 
 ## Event Sourcing Pattern
 
 ### 1. Command → Events
 
-Command Handler erstellt Aggregate und sammelt Events:
+Command handler creates aggregate and collects events:
 
 ```python
 class CreateOrderHandler(CommandHandler[CreateOrder]):
@@ -92,7 +92,7 @@ class CreateOrderHandler(CommandHandler[CreateOrder]):
 
 ### 2. Aggregate Reconstruction
 
-Lade Aggregate aus Event Stream:
+Load aggregate from event stream:
 
 ```python
 class CancelOrderHandler(CommandHandler[CancelOrder]):
@@ -205,7 +205,7 @@ class Order:
 ### 1. Complete Audit Trail
 
 ```python
-# Jedes Event ist dokumentiert
+# Every event is documented
 events = store.load("ORD-001")
 for event in events:
     print(f"{event.timestamp}: {event.type}")
@@ -222,7 +222,7 @@ for event in events:
 
 ```python
 def get_order_at_time(order_id: str, timestamp: str) -> Order:
-    """Get order state at specific point in time."""
+    """Get order state at a specific point in time."""
     events = store.load(order_id)
     
     # Filter events up to timestamp
@@ -233,7 +233,7 @@ def get_order_at_time(order_id: str, timestamp: str) -> Order:
     
     return Order.from_events(past_events)
 
-# Was the state at 10:03?
+# What was the state at 10:03?
 order = get_order_at_time("ORD-001", "2026-01-03T10:03:00")
 print(order.status)  # → "pending" (before payment)
 ```
@@ -396,20 +396,20 @@ class PostgreSQLEventStore(EventStore):
 
 ### ✅ DO
 
-- **Append-Only** - Niemals Events löschen oder ändern
-- **Immutable Events** - Events sind unveränderlich
-- **Versionierung** - Track Event Version für Optimistic Locking
-- **Snapshots** - Für lange Event Streams (>1000 Events)
+- **Append-only** - Never delete or change events
+- **Immutable events** - Events are immutable
+- **Versioning** - Track event version for optimistic locking
+- **Snapshots** - For long event streams (>1000 events)
 
 ### ❌ DON'T
 
-- **Keine Updates** - Events werden nie geändert
-- **Keine Deletes** - Events werden nie gelöscht
-- **Keine Sensitive Data** - PII gehört nicht in Events
-- **Keine großen Payloads** - Referenzen statt große Objekte
+- **No updates** - Events are never changed
+- **No deletes** - Events are never deleted
+- **No sensitive data** - PII does not belong in events
+- **No large payloads** - Use references instead of large objects
 
 ## Next Steps
 
-- [Best Practices](best-practices.md) - Production Guidelines
-- [Testing](../development/testing.md) - Test Strategies
-- [Architecture](../development/architecture.md) - System Design
+- [Best Practices](best-practices.md) - Production guidelines
+- [Testing](../development/testing.md) - Test strategies
+- [Architecture](../development/architecture.md) - System design

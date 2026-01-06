@@ -1,12 +1,12 @@
 # Creating Modules
 
-Modules sind das Herzstück von Orchestrix. Sie kapseln Domain-Logik und registrieren Handler beim Message Bus.
+Modules are the heart of Orchestrix. They encapsulate domain logic and register handlers with the message bus.
 
-## Was ist ein Module?
+## What is a Module?
 
-Ein **Module** ist eine Sammlung von:
+A **Module** is a collection of:
 
-- Commands und Events (Domain Messages)
+- Commands and Events (Domain Messages)
 - Aggregates (Domain Models)
 - Command Handlers (Business Logic)
 - Event Handlers (Projections, Side Effects)
@@ -48,7 +48,7 @@ class OrderModule(Module):
 
 ### 1. File Structure
 
-Empfohlene Struktur für größere Projekte:
+Recommended structure for larger projects:
 
 ```
 my_app/
@@ -120,17 +120,17 @@ class OrderModule(Module):
 
 ## Cross-Module Communication
 
-Module kommunizieren nur über Events (nie direkt):
+Modules communicate only via events (never directly):
 
 ```python
-# ✅ Gut: Event-basierte Kommunikation
+# ✅ Good: Event-based communication
 class OrderModule(Module):
     def register(self, bus: MessageBus, store: EventStore) -> None:
         bus.subscribe(OrderCreated, CreateOrderHandler(bus, store))
 
 class InventoryModule(Module):
     def register(self, bus: MessageBus, store: EventStore) -> None:
-        # Reagiert auf OrderCreated Event
+        # Reacts to OrderCreated event
         bus.subscribe(OrderCreated, self._reserve_inventory)
     
     def _reserve_inventory(self, event: OrderCreated) -> None:
@@ -139,7 +139,7 @@ class InventoryModule(Module):
 
 class ShippingModule(Module):
     def register(self, bus: MessageBus, store: EventStore) -> None:
-        # Reagiert auch auf OrderCreated Event
+        # Also reacts to OrderCreated event
         bus.subscribe(OrderCreated, self._calculate_shipping)
     
     def _calculate_shipping(self, event: OrderCreated) -> None:
@@ -177,17 +177,17 @@ def test_order_module():
 
 ### ✅ DO
 
-- **Kleine, fokussierte Module** - Ein Module = Eine Domain
-- **Event-basierte Kommunikation** - Module wissen nichts voneinander
-- **Klare Grenzen** - Jedes Module hat eigene Messages
-- **Unabhängige Tests** - Module einzeln testbar
+- **Small, focused modules** - One module = one domain
+- **Event-based communication** - Modules know nothing about each other
+- **Clear boundaries** - Each module has its own messages
+- **Independent tests** - Modules can be tested individually
 
 ### ❌ DON'T
 
-- **Keine direkten Abhängigkeiten** zwischen Modules
-- **Keine geteilten Aggregates** zwischen Modules
-- **Keine Commands zwischen Modules** - nur Events
-- **Keine zirkulären Imports** zwischen Modules
+- **No direct dependencies** between modules
+- **No shared aggregates** between modules
+- **No commands between modules** - only events
+- **No circular imports** between modules
 
 ## Module Lifecycle
 
@@ -196,7 +196,7 @@ def test_order_module():
 bus = InMemoryMessageBus()
 store = InMemoryEventStore()
 
-# 2. Register modules (Reihenfolge egal!)
+# 2. Register modules (order does not matter!)
 OrderModule().register(bus, store)
 InventoryModule().register(bus, store)
 ShippingModule().register(bus, store)
@@ -208,7 +208,7 @@ bus.publish(CreateOrder(...))
 
 ## Advanced: Module Dependencies
 
-Wenn ein Module externe Services braucht:
+If a module needs external services:
 
 ```python
 class NotificationModule(Module):
@@ -231,6 +231,6 @@ NotificationModule(email_service, sms_service).register(bus, store)
 
 ## Next Steps
 
-- [Commands & Events](commands-events.md) - Message Design Guidelines
-- [Message Bus](message-bus.md) - Bus Patterns
-- [Best Practices](best-practices.md) - Production Tips
+- [Commands & Events](commands-events.md) - Message design guidelines
+- [Message Bus](message-bus.md) - Bus patterns
+- [Best Practices](best-practices.md) - Production tips

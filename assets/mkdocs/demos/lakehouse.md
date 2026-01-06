@@ -1,59 +1,60 @@
 ---
-# Lakehouse FastAPI Demo: GDPR Compliance & Event Sourcing
 
-Dieses Beispiel zeigt eine moderne, GDPR-konforme Lakehouse-Plattform mit Event Sourcing, FastAPI und vollständigem Audit-Trail.
+# Lakehouse FastAPI Demo: Self-Service Platform
+
+This demo shows a modern, GDPR-compliant Lakehouse platform with event sourcing, FastAPI, and a full audit trail. It is designed for both business users and developers, covering all relevant processes, dependencies, and extensibility.
 
 **Source:**
-- [Demo-Base: bases/orchestrix/lakehouse_fastapi_demo/](https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/lakehouse_fastapi_demo)
+- [Demo Base: bases/orchestrix/lakehouse_fastapi_demo/](https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/lakehouse_fastapi_demo)
 - [Code: gdpr.py](https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/lakehouse_fastapi_demo/gdpr.py)
 
-## Features & Prozesse
+## Features & Processes
 
-- Dataset- und Contract-Registrierung
-- Append-only Ingestion, Replay, Quarantine, Data Quality, Privacy, Publish, Consumption
-- Event Sourcing: Jeder Schritt erzeugt Events, volle Auditierbarkeit
-- GDPR-Deletion mit 30-Tage-Deadline
-- Modular: Aggregates für Dataset, Contract, Batch, Lake
-- FastAPI-Entrypoints für alle Kernprozesse
-- Snapshots für Performance
+- Dataset and contract registration
+- Append-only ingestion, replay, quarantine, data quality, privacy, publish, consumption
+- Event sourcing: every step emits events, full auditability
+- GDPR deletion with 30-day deadline
+- Modular: Aggregates for dataset, contract, batch, lake
+- FastAPI entrypoints for all core processes
+- Snapshots for performance
 
-## End-to-End API-Demo
+## End-to-End API Demo
 
-### 1. Server starten
+### 1. Start the FastAPI server
 ```bash
 uv run main:start
 ```
 
-### 2. Beispiel-Requests
+### 2. Example requests
 ```bash
-# Dataset registrieren
+# Register dataset
 curl -X POST http://localhost:8000/datasets \
-  -H "Content-Type: application/json" \
-  -d '{"name": "sales", "schema": {"id": "int", "amount": "float"}}'
+    -H "Content-Type: application/json" \
+    -d '{"name": "sales", "schema": {"id": "int", "amount": "float"}}'
 
-# Contract registrieren
+# Register contract
 curl -X POST http://localhost:8000/contracts \
-  -H "Content-Type: application/json" \
-  -d '{"dataset": "sales", "retention_days": 365}'
+    -H "Content-Type: application/json" \
+    -d '{"dataset": "sales", "retention_days": 365}'
 
-# Upload-URL holen
+# Get upload URL
 curl -X POST http://localhost:8000/upload-url \
-  -H "Content-Type: application/json" \
-  -d '{"filename": "sales_2024_01.csv"}'
+    -H "Content-Type: application/json" \
+    -d '{"filename": "sales_2024_01.csv"}'
 
-# Daten hochladen
+# Upload data
 echo "id,amount\n1,100.0\n2,200.0" > sales_2024_01.csv
 curl -X PUT "<UPLOAD_URL>" --data-binary @sales_2024_01.csv
 
-# Batch anhängen
+# Append batch
 curl -X POST http://localhost:8000/append-batch \
-  -H "Content-Type: application/json" \
-  -d '{"dataset": "sales", "contract_id": "contract1", "batch_id": "batch1", "file_url": "sales_2024_01.csv"}'
+    -H "Content-Type: application/json" \
+    -d '{"dataset": "sales", "contract_id": "contract1", "batch_id": "batch1", "file_url": "sales_2024_01.csv"}'
 
-# GDPR-Deletion anstoßen
+# Trigger privacy (GDPR deletion)
 curl -X POST http://localhost:8000/run-privacy \
-  -H "Content-Type: application/json" \
-  -d '{"batch_id": "batch1", "privacy_rules": {"id": "mask"}}'
+    -H "Content-Type: application/json" \
+    -d '{"batch_id": "batch1", "privacy_rules": {"id": "mask"}}'
 ```
 
 ---
