@@ -12,10 +12,10 @@
         <meta name="author" content="Stefan Poss">
       
       
-        <link rel="canonical" href="https://orchestrix.readthedocs.io/examples/lakehouse-gdpr/">
+        <link rel="canonical" href="https://orchestrix.readthedocs.io/demos/lakehouse/">
       
       
-        <link rel="prev" href="../versioning/">
+        <link rel="prev" href="../notifications/">
       
       
         <link rel="next" href="../../api/core/">
@@ -29,7 +29,7 @@
     
     
       
-        <title>GDPR Compliance - Orchestrix Documentation</title>
+        <title>Lakehouse Platform - Orchestrix Documentation</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#lakehouse-fastapi-demo-gdpr-compliance-event-sourcing" class="md-skip">
+        <a href="#lakehouse-fastapi-demo-self-service-platform" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              GDPR Compliance
+              Lakehouse Platform
             
           </span>
         </div>
@@ -155,53 +155,6 @@
       <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
     
-    
-      
-      
-        <label class="md-header__button md-icon" for="__search">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-        </label>
-        <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
-            
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
-          </a>
-        
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-        </button>
-      </nav>
-      
-        <div class="md-search__suggest" data-md-component="search-suggest"></div>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list" role="presentation"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-      
     
     
       <div class="md-header__source">
@@ -303,7 +256,7 @@
           
   
   
-  Examples
+  Demos
 
         </a>
       </li>
@@ -324,26 +277,6 @@
   
   
   API Reference
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../development/contributing/" class="md-tabs__link">
-          
-  
-  
-  Development
 
         </a>
       </li>
@@ -888,7 +821,7 @@
   <span class="md-ellipsis">
     
   
-    Examples
+    Demos
   
 
     
@@ -904,7 +837,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Examples
+    Demos
   
 
           </label>
@@ -1026,203 +959,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../sagas/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Sagas
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../projections/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Projections
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../tracing/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Tracing
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../metrics/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Metrics
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../versioning/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Versioning
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-          
-          
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_10" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_4_10" id="__nav_4_10_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Lakehouse Platform
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_10_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4_10">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Lakehouse Platform
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
     
   
   
@@ -1242,7 +978,7 @@
   <span class="md-ellipsis">
     
   
-    GDPR Compliance
+    Lakehouse Platform
   
 
     
@@ -1260,7 +996,7 @@
   <span class="md-ellipsis">
     
   
-    GDPR Compliance
+    Lakehouse Platform
   
 
     
@@ -1286,10 +1022,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#features-prozesse" class="md-nav__link">
+  <a href="#features-processes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Features &amp; Prozesse
+        Features &amp; Processes
       
     </span>
   </a>
@@ -1300,19 +1036,19 @@
   <a href="#end-to-end-api-demo" class="md-nav__link">
     <span class="md-ellipsis">
       
-        End-to-End API-Demo
+        End-to-End API Demo
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="End-to-End API-Demo">
+    <nav class="md-nav" aria-label="End-to-End API Demo">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-server-starten" class="md-nav__link">
+  <a href="#1-start-the-fastapi-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Server starten
+        1. Start the FastAPI server
       
     </span>
   </a>
@@ -1320,10 +1056,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-beispiel-requests" class="md-nav__link">
+  <a href="#2-example-requests" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Beispiel-Requests
+        2. Example requests
       
     </span>
   </a>
@@ -1694,14 +1430,6 @@
     </li>
   
 
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
     
       
       
@@ -1820,151 +1548,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Development
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Development
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../development/contributing/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Contributing
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../development/testing/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Testing
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../development/architecture/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Architecture
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -1992,10 +1575,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#features-prozesse" class="md-nav__link">
+  <a href="#features-processes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Features &amp; Prozesse
+        Features &amp; Processes
       
     </span>
   </a>
@@ -2006,19 +1589,19 @@
   <a href="#end-to-end-api-demo" class="md-nav__link">
     <span class="md-ellipsis">
       
-        End-to-End API-Demo
+        End-to-End API Demo
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="End-to-End API-Demo">
+    <nav class="md-nav" aria-label="End-to-End API Demo">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-server-starten" class="md-nav__link">
+  <a href="#1-start-the-fastapi-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Server starten
+        1. Start the FastAPI server
       
     </span>
   </a>
@@ -2026,10 +1609,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-beispiel-requests" class="md-nav__link">
+  <a href="#2-example-requests" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Beispiel-Requests
+        2. Example requests
       
     </span>
   </a>
@@ -2406,54 +1989,54 @@
 
 
 <hr />
-<h1 id="lakehouse-fastapi-demo-gdpr-compliance-event-sourcing">Lakehouse FastAPI Demo: GDPR Compliance &amp; Event Sourcing</h1>
-<p>Dieses Beispiel zeigt eine moderne, GDPR-konforme Lakehouse-Plattform mit Event Sourcing, FastAPI und vollständigem Audit-Trail.</p>
+<h1 id="lakehouse-fastapi-demo-self-service-platform">Lakehouse FastAPI Demo: Self-Service Platform</h1>
+<p>This demo shows a modern, GDPR-compliant Lakehouse platform with event sourcing, FastAPI, and a full audit trail. It is designed for both business users and developers, covering all relevant processes, dependencies, and extensibility.</p>
 <p><strong>Source:</strong>
-- <a href="https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/lakehouse_fastapi_demo">Demo-Base: bases/orchestrix/lakehouse_fastapi_demo/</a>
+- <a href="https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/lakehouse_fastapi_demo">Demo Base: bases/orchestrix/lakehouse_fastapi_demo/</a>
 - <a href="https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/lakehouse_fastapi_demo/gdpr.py">Code: gdpr.py</a></p>
-<h2 id="features-prozesse">Features &amp; Prozesse</h2>
+<h2 id="features-processes">Features &amp; Processes</h2>
 <ul>
-<li>Dataset- und Contract-Registrierung</li>
-<li>Append-only Ingestion, Replay, Quarantine, Data Quality, Privacy, Publish, Consumption</li>
-<li>Event Sourcing: Jeder Schritt erzeugt Events, volle Auditierbarkeit</li>
-<li>GDPR-Deletion mit 30-Tage-Deadline</li>
-<li>Modular: Aggregates für Dataset, Contract, Batch, Lake</li>
-<li>FastAPI-Entrypoints für alle Kernprozesse</li>
-<li>Snapshots für Performance</li>
+<li>Dataset and contract registration</li>
+<li>Append-only ingestion, replay, quarantine, data quality, privacy, publish, consumption</li>
+<li>Event sourcing: every step emits events, full auditability</li>
+<li>GDPR deletion with 30-day deadline</li>
+<li>Modular: Aggregates for dataset, contract, batch, lake</li>
+<li>FastAPI entrypoints for all core processes</li>
+<li>Snapshots for performance</li>
 </ul>
-<h2 id="end-to-end-api-demo">End-to-End API-Demo</h2>
-<h3 id="1-server-starten">1. Server starten</h3>
+<h2 id="end-to-end-api-demo">End-to-End API Demo</h2>
+<h3 id="1-start-the-fastapi-server">1. Start the FastAPI server</h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uv<span class="w"> </span>run<span class="w"> </span>main:start
 </code></pre></div>
-<h3 id="2-beispiel-requests">2. Beispiel-Requests</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Dataset registrieren</span>
+<h3 id="2-example-requests">2. Example requests</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Register dataset</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/datasets<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;: &quot;sales&quot;, &quot;schema&quot;: {&quot;id&quot;: &quot;int&quot;, &quot;amount&quot;: &quot;float&quot;}}&#39;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;: &quot;sales&quot;, &quot;schema&quot;: {&quot;id&quot;: &quot;int&quot;, &quot;amount&quot;: &quot;float&quot;}}&#39;</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Contract registrieren</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Register contract</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/contracts<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;dataset&quot;: &quot;sales&quot;, &quot;retention_days&quot;: 365}&#39;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;dataset&quot;: &quot;sales&quot;, &quot;retention_days&quot;: 365}&#39;</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># Upload-URL holen</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># Get upload URL</span>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/upload-url<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;filename&quot;: &quot;sales_2024_01.csv&quot;}&#39;</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;filename&quot;: &quot;sales_2024_01.csv&quot;}&#39;</span>
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="c1"># Daten hochladen</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="c1"># Upload data</span>
 <a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;id,amount\n1,100.0\n2,200.0&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>sales_2024_01.csv
 <a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;&lt;UPLOAD_URL&gt;&quot;</span><span class="w"> </span>--data-binary<span class="w"> </span>@sales_2024_01.csv
 <a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="c1"># Batch anhängen</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="c1"># Append batch</span>
 <a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/append-batch<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;dataset&quot;: &quot;sales&quot;, &quot;contract_id&quot;: &quot;contract1&quot;, &quot;batch_id&quot;: &quot;batch1&quot;, &quot;file_url&quot;: &quot;sales_2024_01.csv&quot;}&#39;</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">    </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;dataset&quot;: &quot;sales&quot;, &quot;contract_id&quot;: &quot;contract1&quot;, &quot;batch_id&quot;: &quot;batch1&quot;, &quot;file_url&quot;: &quot;sales_2024_01.csv&quot;}&#39;</span>
 <a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
-<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="c1"># GDPR-Deletion anstoßen</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="c1"># Trigger privacy (GDPR deletion)</span>
 <a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/run-privacy<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;batch_id&quot;: &quot;batch1&quot;, &quot;privacy_rules&quot;: {&quot;id&quot;: &quot;mask&quot;}}&#39;</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">    </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">    </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;batch_id&quot;: &quot;batch1&quot;, &quot;privacy_rules&quot;: {&quot;id&quot;: &quot;mask&quot;}}&#39;</span>
 </code></pre></div>
 <hr />
 <h2 id="architektur">Architektur</h2>
