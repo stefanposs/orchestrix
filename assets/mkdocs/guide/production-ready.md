@@ -660,7 +660,7 @@ aggregate = await repository.load_at_version(
 
 ## Support & Resources
 
-- **Documentation**: See docs/ folder for API and architecture details
+- **Documentation**: See assets/ folder for API and architecture details
 - **Examples**: See examples/ for complete working applications
 - **Issues**: Report bugs and feature requests on GitHub
 - **Community**: Discussions and best practices

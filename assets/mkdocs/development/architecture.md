@@ -469,7 +469,7 @@ store = InMemoryEventStore()
 
 ## Architecture Decisions
 
-See ADR (Architecture Decision Records) in `/docs/adr/`:
+See ADR (Architecture Decision Records) in `/assets/adr/`:
 
 - ADR-001: Use Protocols over ABC
 - ADR-002: Immutable Messages with Dataclasses

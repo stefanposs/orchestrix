@@ -23,10 +23,10 @@ jobs:
           pip install mkdocs mkdocs-material mkdocstrings[python]
 
       - name: Build documentation
-        run: mkdocs build --config-file mkdocs.yml --site-dir site
+        run: mkdocs build --config-file mkdocs.yml --site-dir docs
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: site
+          publish_dir: docs
