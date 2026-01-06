@@ -20,8 +20,8 @@ The banking example demonstrates:
 ## Quick Start
 
 ```bash
-# Run the banking example
-uv run python -m examples.banking.example
+# Run the banking demo
+uv run python bases/orchestrix/banking/main.py
 ```
 
 ## Architecture

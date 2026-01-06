@@ -20,8 +20,8 @@ The e-commerce example demonstrates:
 ## Quick Start
 
 ```bash
-# Run the e-commerce example
-uv run python -m examples.ecommerce.example
+# Run the e-commerce demo
+uv run python bases/orchestrix/ecommerce/example.py
 ```
 
 ## Architecture

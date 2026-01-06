@@ -60,28 +60,16 @@ nav:
       - Production Deployment: guide/production-deployment.md
       - Production Readiness: guide/production-ready.md
       - Best Practices: guide/best-practices.md
-  - Examples:
-      - Overview: examples/index.md
-      - Banking: examples/banking.md
-      - E-Commerce: examples/ecommerce.md
-      - Notifications: examples/notifications.md
-      - Sagas: examples/sagas.md
-      - Projections: examples/projections.md
-      - Tracing: examples/tracing.md
-      - Metrics: examples/metrics.md
-      - Versioning: examples/versioning.md
-      - Lakehouse Platform:
-          - GDPR Compliance: examples/lakehouse-gdpr.md
+  - Demos:
+      - Overview: demos/index.md
+      - Banking: demos/banking.md
+      - E-Commerce: demos/ecommerce.md
+      - Notifications: demos/notifications.md
+      - Lakehouse Platform: demos/lakehouse.md
   - API Reference:
       - Core: api/core.md
       - Infrastructure: api/infrastructure.md
-  - Development:
-      - Contributing: development/contributing.md
-      - Testing: development/testing.md
-      - Architecture: development/architecture.md
-
 plugins:
-  - search
   - mkdocstrings:
       handlers:
         python:

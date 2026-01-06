@@ -20,8 +20,8 @@ The notifications example demonstrates:
 ## Quick Start
 
 ```bash
-# Run the notifications example
-uv run python -m examples.notifications.example
+# Run the notifications demo
+uv run python bases/orchestrix/notifications/example.py
 ```
 
 ## Architecture

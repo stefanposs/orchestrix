@@ -83,7 +83,7 @@ uv add orchestrix
 
 ```python
 from orchestrix.infrastructure import InMemoryMessageBus, InMemoryEventStore
-from examples.order_module import OrderModule, CreateOrder
+from .order_module import OrderModule, CreateOrder
 
 # Setup infrastructure
 bus = InMemoryMessageBus()

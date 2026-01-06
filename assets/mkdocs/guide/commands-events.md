@@ -1,22 +1,22 @@
 # Commands & Events
 
-Commands und Events sind die beiden Haupt-Message-Typen in Orchestrix. Verstehe den Unterschied!
+Commands and events are the two main message types in Orchestrix. Understand the difference!
 
 ## Commands vs Events
 
-| Aspekt | Command | Event |
+| Aspect | Command | Event |
 |--------|---------|-------|
-| **Bedeutung** | Intention (was soll passieren) | Fakt (was ist passiert) |
-| **Zeitform** | Imperativ (CreateOrder) | Vergangenheit (OrderCreated) |
-| **Handler** | Genau 1 Handler | 0 bis N Handler |
-| **Validierung** | Kann rejected werden | Ist bereits passiert |
-| **Quelle** | Application/User | Domain Logic |
+| **Meaning** | Intention (what should happen) | Fact (what has happened) |
+| **Tense** | Imperative (CreateOrder) | Past (OrderCreated) |
+| **Handler** | Exactly 1 handler | 0 to N handlers |
+| **Validation** | Can be rejected | Has already happened |
+| **Source** | Application/User | Domain Logic |
 
 ## Commands
 
 ### Definition
 
-Ein **Command** repräsentiert eine **Intention, State zu ändern**.
+**A Command** represents an **intention to change state**.
 
 ```python
 from dataclasses import dataclass
@@ -33,20 +33,20 @@ class CreateOrder(Command):
 
 ### Naming Convention
 
-- **Imperativ**: CreateX, UpdateX, DeleteX, CancelX
-- **Spezifisch**: Was genau soll passieren?
-- **Domain Language**: Begriffe aus der Business-Domäne
+- **Imperative**: CreateX, UpdateX, DeleteX, CancelX
+- **Specific**: What exactly should happen?
+- **Domain Language**: Terms from the business domain
 
 ```python
-# ✅ Gut
+# ✅ Good
 class PlaceOrder(Command): pass
 class CancelSubscription(Command): pass
 class ApproveInvoice(Command): pass
 
-# ❌ Schlecht
-class OrderCommand(Command): pass  # Zu generisch
-class DoSomething(Command): pass   # Nicht aussagekräftig
-class Process(Command): pass       # Was wird processed?
+# ❌ Bad
+class OrderCommand(Command): pass  # Too generic
+class DoSomething(Command): pass   # Not meaningful
+class Process(Command): pass       # What is processed?
 ```
 
 ### Command Design
@@ -79,7 +79,7 @@ class RegisterUser(Command):
 
 ### Definition
 
-Ein **Event** repräsentiert einen **Fakt, der bereits passiert ist**.
+**An Event** represents a **fact that has already happened**.
 
 ```python
 from dataclasses import dataclass
@@ -96,26 +96,26 @@ class OrderCreated(Event):
 
 ### Naming Convention
 
-- **Vergangenheit**: XCreated, XUpdated, XDeleted, XCancelled
-- **Fakt**: Was ist tatsächlich passiert?
-- **Domain Events**: Business-relevante Ereignisse
+- **Past tense**: XCreated, XUpdated, XDeleted, XCancelled
+- **Fact**: What actually happened?
+- **Domain Events**: Business-relevant events
 
 ```python
-# ✅ Gut
+# ✅ Good
 class OrderPlaced(Event): pass
 class SubscriptionCancelled(Event): pass
 class InvoiceApproved(Event): pass
 class PaymentReceived(Event): pass
 
-# ❌ Schlecht
-class OrderEvent(Event): pass     # Zu generisch
-class OrderChange(Event): pass    # Was hat sich geändert?
-class Updated(Event): pass        # Was wurde updated?
+# ❌ Bad
+class OrderEvent(Event): pass     # Too generic
+class OrderChange(Event): pass    # What changed?
+class Updated(Event): pass        # What was updated?
 ```
 
 ### Event Design
 
-Events sollten **immutable** und **serializable** sein:
+Events should be **immutable** and **serializable**:
 
 ```python
 @dataclass(frozen=True, kw_only=True)
@@ -133,11 +133,11 @@ class UserRegistered(Event):
     registered_at: str
     referral_code: str | None = None
     
-    # ❌ Keine mutable Objects!
-    # settings: dict  # Besser: Eigenes dataclass
+    # ❌ No mutable objects!
+    # settings: dict  # Better: own dataclass
     
     # ✅ Immutable data
-    # settings: UserSettings  # Eigenes frozen dataclass
+    # settings: UserSettings  # Own frozen dataclass
 ```
 
 ## Message Flow
@@ -146,34 +146,34 @@ class UserRegistered(Event):
 ┌─────────────┐
 │   Client    │
 └──────┬──────┘
-       │
-       │ publish(Command)
-       ▼
+    │
+    │ publish(Command)
+    ▼
 ┌──────────────────┐
 │   MessageBus     │
 └──────┬───────────┘
-       │
-       │ route to handler
-       ▼
+    │
+    │ route to handler
+    ▼
 ┌──────────────────┐      ┌─────────────┐
 │ CommandHandler   │─────▶│  Aggregate  │
 └──────┬───────────┘      └──────┬──────┘
-       │                         │
-       │                         │ emit Events
-       │                         ▼
-       │                  ┌──────────────┐
-       │                  │ OrderCreated │
-       │                  │ ItemAdded    │
-       │                  └──────┬───────┘
-       │                         │
-       │ save & publish          │
-       ▼                         │
+    │                         │
+    │                         │ emit Events
+    │                         ▼
+    │                  ┌──────────────┐
+    │                  │ OrderCreated │
+    │                  │ ItemAdded    │
+    │                  └──────┬───────┘
+    │                         │
+    │ save & publish          │
+    ▼                         │
 ┌──────────────────┐             │
 │   EventStore     │◀────────────┘
 └──────┬───────────┘
-       │
-       │ publish Events
-       ▼
+    │
+    │ publish Events
+    ▼
 ┌──────────────────────────┐
 │   Event Handlers         │
 │   - EmailService         │
@@ -187,14 +187,14 @@ class UserRegistered(Event):
 ### Commands
 
 ```python
-# ✅ Spezifisch und klar
+# ✅ Specific and clear
 @dataclass(frozen=True, kw_only=True)
 class CancelOrder(Command):
     order_id: str
     cancellation_reason: str
     refund_method: str
 
-# ✅ Validation im Command
+# ✅ Validation in the command
 @dataclass(frozen=True, kw_only=True)
 class UpdatePrice(Command):
     product_id: str
@@ -204,7 +204,7 @@ class UpdatePrice(Command):
         if self.new_price < 0:
             raise ValueError("Price cannot be negative")
 
-# ❌ Zu generisch
+# ❌ Too generic
 @dataclass(frozen=True, kw_only=True)
 class OrderCommand(Command):
     action: str  # "create" | "cancel" | "update"
@@ -214,7 +214,7 @@ class OrderCommand(Command):
 ### Events
 
 ```python
-# ✅ Reich an Information
+# ✅ Rich in information
 @dataclass(frozen=True, kw_only=True)
 class OrderShipped(Event):
     order_id: str
@@ -223,7 +223,7 @@ class OrderShipped(Event):
     estimated_delivery: str
     shipped_at: str
 
-# ✅ Mehrere kleine Events statt eines großen
+# ✅ Several small events instead of one big one
 @dataclass(frozen=True, kw_only=True)
 class OrderPlaced(Event):
     order_id: str
@@ -235,16 +235,16 @@ class PaymentReceived(Event):
     payment_id: str
     ...
 
-# ❌ Zu wenig Information
+# ❌ Too little information
 @dataclass(frozen=True, kw_only=True)
 class OrderUpdated(Event):
     order_id: str
-    # Was wurde updated? Wann? Von wem?
+    # What was updated? When? By whom?
 ```
 
 ## Event Versioning
 
-Events müssen **backward-compatible** bleiben:
+Events must remain **backward-compatible**:
 
 ```python
 # Version 1
@@ -258,14 +258,14 @@ class UserCreated(Event):
 class UserCreated(Event):
     user_id: str
     email: str
-    username: str = ""  # Default für alte Events
+    username: str = ""  # Default for old events
     created_at: str = ""
 
 # Version 2 - ❌ BREAKING CHANGE
 @dataclass(frozen=True, kw_only=True)
 class UserCreated(Event):
     user_id: str
-    username: str  # email entfernt - bricht alte Events!
+    username: str  # email removed - breaks old events!
 ```
 
 ## Practical Example
@@ -316,6 +316,6 @@ bus.publish(ShipOrder(...))   # → OrderShipped
 
 ## Next Steps
 
-- [Message Bus](message-bus.md) - Routing & Subscription
-- [Event Store](event-store.md) - Persistence Patterns
-- [Best Practices](best-practices.md) - Production Guidelines
+- [Message Bus](message-bus.md) - Routing & subscription
+- [Event Store](event-store.md) - Persistence patterns
+- [Best Practices](best-practices.md) - Production guidelines
