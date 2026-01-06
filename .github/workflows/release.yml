@@ -125,7 +125,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: projects/orchestrix_lib/dist/
+          path: dist/
 
 
   pypi_publish:
@@ -140,7 +140,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist
-          path: projects/orchestrix_lib/dist/
+          path: dist/
 
       # Publish the distribution to PyPI using trusted publishing
       - name: Publish distribution to PyPI
@@ -165,7 +165,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist
-          path: projects/orchestrix_lib/dist/
+          path: dist/
 
       # Create a GitHub Release with the built artifacts
       - name: Create GitHub Release
