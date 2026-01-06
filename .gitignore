@@ -60,8 +60,6 @@ dmypy.json
 # Documentation
 docs/_build/
 docs/.doctrees/
-site/
-
 # Distribution
 *.whl
 
