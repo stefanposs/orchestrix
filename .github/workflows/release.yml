@@ -110,7 +110,7 @@ jobs:
       # Build the package (sdist and wheel)
       - name: Build package
         working-directory: projects/orchestrix_lib
-        run: uv build --package orchestrix_lib
+        run: uv build --package orchestrix
 
       # Upload the dist/ folder as an artifact for later jobs
       - name: Upload artifacts
