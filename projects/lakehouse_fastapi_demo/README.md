@@ -1,4 +1,4 @@
-## LAKEHOUSE FASTAPI DEMO
+## Lakehouse Fastapi Demo
 
 ### Start the server (recommended):
 
@@ -40,30 +40,3 @@ Some examples:
 	```
 
 More demo workflows and sample CSV files can be found in `http_requests/`.
-
----
-
-# lakehouse_fastapi_demo Project (Polylith Example)
-
-This project demonstrates a self-service Lakehouse platform in Polylith style with Orchestrix.
-
-- **FastAPI app:** REST API for dataset registration, contracts, data uploads (signed URL), replay
-- **Demo HTTP scripts:** Example requests & workflows in `http_requests/`
-- **Dependency injection:** Components are injected
-
-## Quickstart
-- `app.py`: FastAPI server definition
-- `http_requests/`: HTTP demo scripts and example requests
-
-## Architecture
-- Domain logic & protocols: `bases/orchestrix/lakehouse_fastapi_demo/`
-- Infrastructure components: as Python modules in the project
-- No changes needed in `components/`!
-
-## Advantages (Orchestrix/Polylith)
-- Clear separation of domain, infrastructure, API & demo
-- Swappable components (e.g. EventStore, Storage)
-- Testability & extensibility
-- Readable, traceable architecture
-
-See the README in the base folder for details on domain and protocols.
