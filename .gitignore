@@ -65,6 +65,4 @@ dmypy.json
 output/
 
 # Ignore blog drafts
-blog/
-
-AI_CONTEXT
+blog

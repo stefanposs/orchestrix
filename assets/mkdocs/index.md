@@ -142,16 +142,16 @@ Learn more in the [Architecture Guide](development/architecture.md).
 
 ---
 
-## Examples
+## Demos
 
 Explore production-ready examples demonstrating real-world patterns:
 
-- 🏦 **[Banking](examples/banking.md)** - Account management with event sourcing
-- 🛒 **[E-Commerce](examples/ecommerce.md)** - Order processing with saga pattern
-- 🏢 **[Lakehouse Platform](examples/lakehouse-gdpr.md)** - GDPR-compliant data lake
-- 🔔 **[Notifications](examples/notifications.md)** - Resilient notification system
+- 🏦 **[Banking](demos/banking.md)** - Account management with event sourcing
+- 🛒 **[E-Commerce](demos/ecommerce.md)** - Order processing with saga pattern
+- 🏢 **[Lakehouse Platform](demos/lakehouse-gdpr.md)** - GDPR-compliant data lake
+- 🔔 **[Notifications](demos/notifications.md)** - Resilient notification system
 
-[**Browse All Examples →**](examples/index.md)
+[**Browse All Demos →**](demos/index.md)
 
 ---
 
