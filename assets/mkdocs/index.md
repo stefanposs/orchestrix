@@ -148,7 +148,7 @@ Explore production-ready examples demonstrating real-world patterns:
 
 - 🏦 **[Banking](demos/banking.md)** - Account management with event sourcing
 - 🛒 **[E-Commerce](demos/ecommerce.md)** - Order processing with saga pattern
-- 🏢 **[Lakehouse Platform](demos/lakehouse-gdpr.md)** - GDPR-compliant data lake
+- 🏢 **[Lakehouse Platform](demos/lakehouse.md)** - GDPR-compliant data lake
 - 🔔 **[Notifications](demos/notifications.md)** - Resilient notification system
 
 [**Browse All Demos →**](demos/index.md)

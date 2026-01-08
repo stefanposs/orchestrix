@@ -562,7 +562,7 @@ message = templates["welcome"]["body"].format(
 
 - **[E-Commerce](ecommerce.md)** - Trigger notifications from order events
 - **[Banking](banking.md)** - Send transaction notifications
-- **[Lakehouse GDPR](lakehouse-gdpr.md)** - Compliance notifications
+- **[Lakehouse Platform](lakehouse.md)** - Compliance notifications
 
 ## Learn More
 

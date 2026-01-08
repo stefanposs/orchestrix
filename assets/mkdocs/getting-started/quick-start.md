@@ -190,13 +190,13 @@ bus.publish(CompleteTask(task_id="TASK-001"))
 - [Event Store Guide](../guide/event-store.md) - Persist and replay events
 - [Best Practices](../guide/best-practices.md) - Production patterns
 
-**Explore Examples:**
+**Explore Demos:**
 
-- [Banking Example](../examples/banking.md) - Simple event sourcing with accounts
-- [E-Commerce Example](../examples/ecommerce.md) - Saga pattern for order processing  
-- [Notifications Example](../examples/notifications.md) - Retry logic and error handling
-- [GDPR Lakehouse](../examples/lakehouse-gdpr.md) - Complete compliance example
-- [All Examples](../examples/index.md) - Browse all production-ready samples
+- [Banking Example](../demos/banking.md) - Simple event sourcing with accounts
+- [E-Commerce Example](../demos/ecommerce.md) - Saga pattern for order processing  
+- [Notifications Example](../demos/notifications.md) - Retry logic and error handling
+- [GDPR Lakehouse](../demos/lakehouse.md) - Complete compliance example
+- [All Examples](../demos/index.md) - Browse all production-ready samples
 
 **API Reference:**
 

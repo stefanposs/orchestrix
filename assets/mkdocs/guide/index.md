@@ -109,21 +109,21 @@ Are you starting a new project?
 3. [Core Concepts](../getting-started/concepts.md)
 4. [Creating Modules](creating-modules.md)
 5. [Commands & Events](commands-events.md)
-6. [Examples](../examples/index.md)
+6. [Demos](../demos/index.md)
 
 ### Path 2: Production Launch
 1. [Production Deployment Guide](production-deployment.md) - Choose your scale
 2. [Production Readiness Guide](production-ready.md) - Complete checklist
 3. [Best Practices](best-practices.md) - Code quality review
 4. [Event Store Guide](event-store.md) - Storage configuration
-5. [Examples: Observability](../examples/metrics.md) - Monitoring setup
+5. [Demos: Observability](../demos/projection.md) - Monitoring setup
 
 ### Path 3: Scaling Existing Project
 1. [Production Deployment Guide](production-deployment.md) - Review migration paths
 2. [Event Store Guide](event-store.md) - Upgrade storage
 3. [Message Bus Guide](message-bus.md) - Consider async patterns
 4. [Best Practices](best-practices.md) - Refactoring guidance
-5. [Examples: Performance](../examples/projections.md) - Optimization techniques
+5. [Demos: Performance](../demos/projection.md) - Optimization techniques
 
 ### Path 4: Architecture Deep Dive
 1. [Core Concepts](../getting-started/concepts.md)
@@ -156,7 +156,7 @@ Are you starting a new project?
 
 ## 🔗 See Also
 
-- **[Examples](../examples/index.md)** - Working code samples
+- **[Demos](../demos/index.md)** - Working code samples
 - **[API Reference](../api/core.md)** - Detailed API documentation
 - **[Architecture](../development/architecture.md)** - Design decisions
 - **[Contributing](../development/contributing.md)** - Join development

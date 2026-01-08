@@ -1,134 +1,53 @@
-# Examples
 
-Orchestrix comes with production-ready examples demonstrating real-world patterns and best practices for event-driven architectures.
+# Demos
 
-## Available Examples
+Orchestrix comes with production-ready demos demonstrating real-world patterns and best practices for event-driven architectures.
+
+## Practical Demos (Real-World Use Cases)
 
 ### 🏦 [Banking](banking.md)
 Account management system with event sourcing, including:
-
 - Account creation and transactions
 - Event-driven balance updates
 - Transaction history and audit trail
 - Domain-driven design patterns
 
-**Key Concepts:** Event Sourcing, Aggregates, Domain Events  
-**Source:** [`bases/orchestrix/banking/`](https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/banking)  
-**Run:** `uv run python -m orchestrix.banking.main`
-
----
-
 ### 🛒 [E-Commerce](ecommerce.md)
 Complete order processing system with:
-
 - Order lifecycle management
 - Saga pattern for distributed transactions
 - Payment processing coordination
 - Inventory management integration
 
-**Key Concepts:** Sagas, Process Managers, Event Choreography  
-**Source:** [`examples/ecommerce/`](https://github.com/stefanposs/orchestrix/tree/main/examples/ecommerce)  
-**Run:** `uv run python -m examples.ecommerce.example`
-
----
-
-### 🏢 [Lakehouse Platform](lakehouse-gdpr.md)
-Data lakehouse with GDPR compliance featuring:
-
-- **[GDPR Compliance](lakehouse-gdpr.md)** - Right-to-be-forgotten implementation
-- Data Anonymization - 8 anonymization strategies
-- Event sourcing for audit trails
-- Snapshot optimization for large event streams
-
-**Key Concepts:** GDPR Compliance, Data Anonymization, Event Store, Snapshots  
-**Source:** [`examples/lakehouse/`](https://github.com/stefanposs/orchestrix/tree/main/examples/lakehouse)  
-**Quick Start:**
-- Anonymization: `uv run python -m examples.lakehouse.example`
-- GDPR Demo: `uv run python examples/lakehouse/gdpr_simple.py`
-
----
+### 🏢 [Lakehouse Platform](lakehouse.md)
+Self-service, event-sourced data platform with modular processes, compliance, and auditability.
 
 ### 🔔 [Notifications](notifications.md)
-Resilient notification system with:
+Resilient notification system with retries, dead letter queue, and multi-channel support.
 
-- Retry logic with exponential backoff
-- Dead letter queue for failed messages
-- Email, SMS, and push notification channels
-- Circuit breaker pattern
+### 📊 [Projections](projection.md)
+Optimized read models, CQRS, and query denormalization.
 
-**Key Concepts:** Resilience Patterns, Dead Letter Queue, Retries  
-**Source:** [`examples/notifications/`](https://github.com/stefanposs/orchestrix/tree/main/examples/notifications)  
-**Run:** `uv run python -m examples.notifications.example`
+### Banking, E-Commerce, Lakehouse, Notifications, Projections: These demos show business processes, compliance, and production patterns.
 
 ---
 
-### 🔄 [Sagas](sagas.md)
-Long-running business processes with compensation:
+## Simple Demos (Technical Patterns & Didactic)
 
-- Distributed transaction coordination
-- Automatic rollback on failure
-- State management and recovery
-- Multi-aggregate workflows
+### [Events & Commands](events_and_commands.md)
+Basic command/event separation and handler logic.
 
-**Key Concepts:** Saga Pattern, Compensation, Process Managers  
-**Source:** [`examples/sagas/`](https://github.com/stefanposs/orchestrix/tree/main/examples/sagas)  
-**Run:** `uv run python examples/sagas/example.py`
+### [Tracing](tracing.md)
+Distributed tracing, OpenTelemetry, Jaeger integration.
 
----
+### [Validation](validation.md)
+Input validation, error handling, simple process flows.
 
-### 📊 [Projections](projections.md)
-Building optimized read models:
+### [Versioning](versioning.md)
+Event schema evolution, upcasters, compatibility.
 
-- Event-driven projections
-- Multiple backend support (InMemory, PostgreSQL)
-- Automatic updates from event streams
-- Query optimization
-
-**Key Concepts:** CQRS, Read Models, Denormalization  
-**Source:** [`examples/projections/`](https://github.com/stefanposs/orchestrix/tree/main/examples/projections)  
-**Run:** `uv run python examples/projections/example.py`
-
----
-
-### 🔍 [Distributed Tracing](tracing.md)
-OpenTelemetry integration with Jaeger:
-
-- Automatic span creation
-- Trace context propagation
-- Service dependency mapping
-- Performance analysis
-
-**Key Concepts:** Observability, OpenTelemetry, Jaeger  
-**Source:** [`examples/tracing/`](https://github.com/stefanposs/orchestrix/tree/main/examples/tracing)  
-**Run:** `uv run python examples/tracing/example.py`
-
----
-
-### 📈 [Prometheus Metrics](metrics.md)
-Production metrics collection:
-
-- Message throughput tracking
-- Handler latency histograms
-- Error rate monitoring
-- Event store performance
-
-**Key Concepts:** Metrics, Monitoring, Prometheus  
-**Source:** [`examples/prometheus/`](https://github.com/stefanposs/orchestrix/tree/main/examples/prometheus)  
-**Run:** `uv run python examples/prometheus/example.py`
-
----
-
-### 🔢 [Event Versioning](versioning.md)
-Schema evolution with upcasters:
-
-- Event schema migration
-- Backward compatibility
-- Chained version transforms
-- Type-safe versioning
-
-**Key Concepts:** Schema Evolution, Upcasters, Backward Compatibility  
-**Source:** [`examples/versioning/`](https://github.com/stefanposs/orchestrix/tree/main/examples/versioning)  
-**Run:** `uv run python examples/versioning/example.py`
+### [Index](index.md)
+Overview and entry point for all demos.
 
 ---
 

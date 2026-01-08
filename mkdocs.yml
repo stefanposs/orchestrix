@@ -62,10 +62,17 @@ nav:
       - Best Practices: guide/best-practices.md
   - Demos:
       - Overview: demos/index.md
-      - Banking: demos/banking.md
-      - E-Commerce: demos/ecommerce.md
-      - Notifications: demos/notifications.md
-      - Lakehouse Platform: demos/lakehouse.md
+      - Practical Demos:
+          - Banking: demos/banking.md
+          - E-Commerce: demos/ecommerce.md
+          - Lakehouse Platform: demos/lakehouse.md
+          - Notifications: demos/notifications.md
+          - Projections: demos/projection.md
+      - Simple Demos:
+          - Events & Commands: demos/events_and_commands.md
+          - Tracing: demos/tracing.md
+          - Validation: demos/validation.md
+          - Versioning: demos/versioning.md
   - API Reference:
       - Core: api/core.md
       - Infrastructure: api/infrastructure.md
