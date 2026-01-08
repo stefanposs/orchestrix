@@ -65,4 +65,4 @@ dmypy.json
 output/
 
 # Ignore blog drafts
-blog/
+blog

@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-polylith-bricks"]
 build-backend = "hatchling.build"
 
 [project]
@@ -25,3 +25,23 @@ dependencies = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["orchestrix"]
+
+# This section is needed for the Hatchling build backend, to activate the polylith build hook.
+[tool.hatch.build.hooks.polylith-bricks]
+
+[tool.polylith.bricks]
+# Core modules
+"../../components/orchestrix/core/common" = "orchestrix/core/common"
+"../../components/orchestrix/core/eventsourcing" = "orchestrix/core/eventsourcing"
+"../../components/orchestrix/core/execution" = "orchestrix/core/execution"
+"../../components/orchestrix/core/messaging" = "orchestrix/core/messaging"
+# Infrastructure modules
+"../../components/orchestrix/infrastructure/eventsourcingdb" = "orchestrix/infrastructure/eventsourcingdb"
+"../../components/orchestrix/infrastructure/memory" = "orchestrix/infrastructure/memory"
+"../../components/orchestrix/infrastructure/observability" = "orchestrix/infrastructure/observability"
+"../../components/orchestrix/infrastructure/postgres" = "orchestrix/infrastructure/postgres"
+# Bases
+"../../bases/orchestrix/lakehouse_fastapi_demo" = "orchestrix/lakehouse_fastapi_demo"
+
+[tool.ruff]
+line-length = 100

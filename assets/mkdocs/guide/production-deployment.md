@@ -1085,5 +1085,4 @@ settings = Settings()
 
 - [Production Readiness Guide](production-ready.md) - Complete production checklist
 - [Best Practices](best-practices.md) - Domain modeling and error handling
-- [Tracing Examples](../examples/tracing.md) - Observability examples
-- [Metrics Examples](../examples/metrics.md) - Prometheus metrics setup
+- [Tracing Demos](../demos/tracing.md) - Observability demos

@@ -543,7 +543,7 @@ async def compensate_payment(self, order_id: str, attempt: int = 1):
 
 - **[Banking](banking.md)** - Saga pattern with money transfers
 - **[Notifications](notifications.md)** - Async event handlers
-- **[Lakehouse GDPR](lakehouse-gdpr.md)** - Event sourcing patterns
+- **[Lakehouse Platform](lakehouse.md)** - Event sourcing patterns
 
 ## Learn More
 

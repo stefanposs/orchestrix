@@ -1,0 +1,19 @@
+[project]
+
+name = "events_and_commands_demo"
+version = "0.1.0"
+description = "Demo project for Orchestrix events and commands"
+authors = [
+	{ name = "Stefan Poss", email = "stefan@poss.dev" }
+]
+requires-python = ">=3.9"
+
+[tool.poetry]
+packages = [{ include = "simple_module" }]
+
+[tool.setuptools.packages.find]
+where = ["simple_module"]
+
+[build-system]
+requires = ["hatchling", "hatch-polylith-bricks"]
+build-backend = "hatchling.build"

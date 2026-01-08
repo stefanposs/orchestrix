@@ -3,25 +3,19 @@ requires = ["hatchling", "hatch-polylith-bricks"]
 build-backend = "hatchling.build"
 
 [project]
-name = "notifications_demo"
+name = "projection_demo"
 version = "0.1.0"
-description = "Notifications demo application"
+description = "Demo project for Orchestrix projections"
 authors = [
-	{ name = "Stefan Poss", email = "stefan@poss.dev" }
+    { name = "Stefan Poss", email = "stefan@poss.dev" }
 ]
 requires-python = ">=3.12, <3.14"
-dependencies = [
-]
 
-[project.scripts]
-lakehouse-demo-fastapi = "orchestrix.notifications_demo.main"
+[tool.hatch.build.targets.wheel]
+packages = ["orchestrix"]
 
 # This section is needed for the Hatchling build backend, to activate the polylith build hook.
 [tool.hatch.build.hooks.polylith-bricks]
-
-# This section is needed for building
-[tool.hatch.build.targets.wheel]
-packages = ["orchestrix"]
 
 [tool.polylith.bricks]
 # Core modules
@@ -35,4 +29,7 @@ packages = ["orchestrix"]
 "../../components/orchestrix/infrastructure/observability" = "orchestrix/infrastructure/observability"
 "../../components/orchestrix/infrastructure/postgres" = "orchestrix/infrastructure/postgres"
 # Bases
-"../../bases/orchestrix/notifications_demo" = "orchestrix/notifications_demo"
+"../../bases/orchestrix/lakehouse_fastapi_demo" = "orchestrix/lakehouse_fastapi_demo"
+
+[tool.ruff]
+line-length = 100

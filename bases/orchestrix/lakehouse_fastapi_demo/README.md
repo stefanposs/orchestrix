@@ -22,7 +22,7 @@
 
 Start the FastAPI server:
 ```bash
-uv run main:start
+uv run app
 ```
 
 Example requests:
@@ -31,7 +31,7 @@ Example requests:
 
 ### 1. Start the FastAPI server
 ```bash
-uv run main:start
+uv run app
 ```
 
 ---

@@ -473,7 +473,7 @@ metrics["avg_transfer_duration"].observe(time.time() - start)
 
 - **[E-Commerce](ecommerce.md)** - Multi-aggregate sagas for order processing
 - **[Notifications](notifications.md)** - Retry logic and error handling
-- **[Lakehouse GDPR](lakehouse-gdpr.md)** - Event sourcing with compliance
+- **[Lakehouse Platform](lakehouse.md)** - Event sourcing with compliance
 
 ## Learn More
 

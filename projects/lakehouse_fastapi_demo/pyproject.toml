@@ -1,3 +1,4 @@
+
 [build-system]
 requires = ["hatchling", "hatch-polylith-bricks"]
 build-backend = "hatchling.build"
@@ -6,11 +7,17 @@ build-backend = "hatchling.build"
 name = "lakehouse_fastapi_demo"
 version = "0.1.0"
 description = "Polylith demo for a self-service Lakehouse platform."
+authors = [
+    { name = "Stefan Poss", email = "stefan@poss.dev" }
+]
 requires-python = ">=3.12, <3.14"
 dependencies = [
     "fastapi",
     "uvicorn[standard]",
 ]
+
+[project.scripts]
+lakehouse-demo-fastapi = "orchestrix.lakehouse_fastapi_demo.main"
 
 # This section is needed for the Hatchling build backend, to activate the polylith build hook.
 [tool.hatch.build.hooks.polylith-bricks]
