@@ -1,3 +1,4 @@
+
 [build-system]
 requires = ["hatchling", "hatch-polylith-bricks"]
 build-backend = "hatchling.build"

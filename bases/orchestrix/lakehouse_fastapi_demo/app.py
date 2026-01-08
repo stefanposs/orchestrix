@@ -1,5 +1,3 @@
-# ruff: noqa: I001
-
 from fastapi import FastAPI
 from .entry import datasets_router, contracts_router, batches_router, events_router, router
 

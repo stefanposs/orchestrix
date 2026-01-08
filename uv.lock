@@ -10,10 +10,15 @@ resolution-markers = [
 members = [
     "banking-demo",
     "ecommerce-demo",
+    "events-and-commands-demo",
     "lakehouse-fastapi-demo",
     "notifications-demo",
     "orchestrix",
     "orchestrix-workspace",
+    "projection-demo",
+    "tracing-demo",
+    "validation-demo",
+    "versioning-demo",
 ]
 
 [[package]]
@@ -450,6 +455,11 @@ wheels = [
 name = "ecommerce-demo"
 version = "0.1.0"
 source = { editable = "projects/ecommerce_demo" }
+
+[[package]]
+name = "events-and-commands-demo"
+version = "0.1.0"
+source = { editable = "projects/events_and_commands_demo" }
 
 [[package]]
 name = "eventsourcingdb"
@@ -1291,6 +1301,11 @@ wheels = [
 ]
 
 [[package]]
+name = "projection-demo"
+version = "0.1.0"
+source = { editable = "projects/projection_demo" }
+
+[[package]]
 name = "prometheus-client"
 version = "0.23.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1796,6 +1811,11 @@ wheels = [
 ]
 
 [[package]]
+name = "tracing-demo"
+version = "0.1.0"
+source = { editable = "projects/tracing_demo" }
+
+[[package]]
 name = "ty"
 version = "0.0.9"
 source = { registry = "https://pypi.org/simple" }
@@ -1917,6 +1937,16 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/d2/53/8369e5219a5855869bcee5f4d317f6da0e2c669aecf0ef7d371e3d084449/uvloop-0.22.1-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:bc5ef13bbc10b5335792360623cc378d52d7e62c2de64660616478c32cd0598e", size = 4119472, upload-time = "2025-10-16T22:16:41.694Z" },
     { url = "https://files.pythonhosted.org/packages/f8/ba/d69adbe699b768f6b29a5eec7b47dd610bd17a69de51b251126a801369ea/uvloop-0.22.1-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:1f38ec5e3f18c8a10ded09742f7fb8de0108796eb673f30ce7762ce1b8550cad", size = 4239051, upload-time = "2025-10-16T22:16:43.224Z" },
 ]
+
+[[package]]
+name = "validation-demo"
+version = "0.1.0"
+source = { editable = "projects/validation_demo" }
+
+[[package]]
+name = "versioning-demo"
+version = "0.1.0"
+source = { editable = "projects/versioning_demo" }
 
 [[package]]
 name = "virtualenv"

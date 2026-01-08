@@ -15,5 +15,5 @@ packages = [{ include = "simple_module" }]
 where = ["simple_module"]
 
 [build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling", "hatch-polylith-bricks"]
+build-backend = "hatchling.build"

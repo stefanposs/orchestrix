@@ -1,13 +1,17 @@
-from orchestrix import InMemoryMessageBus, Command, Event
 from dataclasses import dataclass
+from orchestrix.core.messaging import Command, Event
+from orchestrix.infrastructure.memory import InMemoryMessageBus
+
 
 @dataclass(frozen=True, kw_only=True)
 class MyCommand(Command):
     value: int
 
+
 @dataclass(frozen=True, kw_only=True)
 class MyEvent(Event):
     value: int
+
 
 bus = InMemoryMessageBus()
 
