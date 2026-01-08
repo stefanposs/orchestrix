@@ -6,6 +6,9 @@ build-backend = "hatchling.build"
 name = "banking_demo"
 version = "0.1.0"
 description = "Banking demo application"
+authors = [
+	{ name = "Stefan Poss", email = "stefan@poss.dev" }
+]
 requires-python = ">=3.12, <3.14"
 dependencies = [
 ]
