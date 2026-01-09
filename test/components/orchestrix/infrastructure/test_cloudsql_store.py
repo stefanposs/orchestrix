@@ -19,7 +19,7 @@ warnings.filterwarnings(
 
 pytest.importorskip("asyncpg", reason="asyncpg not installed - skip cloudsql tests")
 
-from orchestrix.infrastructure.cloudsql import CloudSQLEventStore
+from orchestrix.infrastructure.gcp_cloud_sql import GCPCloudSQLEventStore
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -74,7 +74,7 @@ def store(pg_container):
         await conn.close()
 
     asyncio.run(create_schema())
-    return CloudSQLEventStore()
+    return GCPCloudSQLEventStore()
 
 
 @pytest.mark.asyncio

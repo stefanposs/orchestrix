@@ -22,7 +22,7 @@ from collections.abc import AsyncIterator
 import asyncpg
 
 
-class CloudSQLEventStore:
+class CloudSQLStore:
     """Google Cloud SQL (PostgreSQL) implementation of the EventStore Protocol.
 
     Uses asyncpg for async database access.
@@ -33,12 +33,12 @@ class CloudSQLEventStore:
         self._pool = None
         self._dsn = self._build_dsn()
 
-    async def append(self: "CloudSQLEventStore", stream: str, event: dict) -> None:
+    async def append(self: "CloudSQLStore", stream: str, event: dict) -> None:
         """Append an event to a stream asynchronously."""
         await self._append_async(stream, event)
 
     async def load(
-        self: "CloudSQLEventStore", stream: str, from_position: int = 0
+        self: "CloudSQLStore", stream: str, from_position: int = 0
     ) -> AsyncIterator[dict]:
         """Async generator: Load events from a stream starting at a given position."""
         async for event in self._load_async(stream, from_position):
