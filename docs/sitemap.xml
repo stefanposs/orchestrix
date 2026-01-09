@@ -2,118 +2,122 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://orchestrix.readthedocs.io/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/markdown-demo/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/api/core/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/api/infrastructure/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/architecture/ASYNC_DESIGN/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/demos/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/demos/banking/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/demos/ecommerce/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/demos/events_and_commands/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
+    </url>
+    <url>
+         <loc>https://orchestrix.readthedocs.io/demos/gcp_demo/</loc>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/demos/lakehouse/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/demos/notifications/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/demos/projection/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/demos/tracing/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/demos/validation/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/demos/versioning/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/development/architecture/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/development/contributing/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/development/testing/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/getting-started/concepts/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/getting-started/installation/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/getting-started/quick-start/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/guide/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/guide/best-practices/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/guide/commands-events/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/guide/creating-modules/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/guide/event-store/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/guide/message-bus/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/guide/production-deployment/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
     <url>
          <loc>https://orchestrix.readthedocs.io/guide/production-ready/</loc>
-         <lastmod>2026-01-08</lastmod>
+         <lastmod>2026-01-09</lastmod>
     </url>
 </urlset>
