@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import RedirectResponse
-from pydantic import BaseModel
+from dataclasses import dataclass
 
 # --- In-memory stores (for demo only) ---
 DATASETS = {}
@@ -10,27 +10,31 @@ BATCHES = {}
 
 
 # --- API Models (Commands) ---
-class RegisterDatasetIn(BaseModel):
+@dataclass
+class RegisterDatasetIn:
     """Input model for registering a dataset."""
 
     name: str
     schema: dict[str, str]
 
 
-class CreateContractIn(BaseModel):
+@dataclass
+class CreateContractIn:
     """Input model for registering a contract."""
 
     dataset: str
     retention_days: int
 
 
-class UploadUrlIn(BaseModel):
+@dataclass
+class UploadUrlIn:
     """Input model for requesting an upload URL."""
 
     filename: str
 
 
-class AppendBatchIn(BaseModel):
+@dataclass
+class AppendBatchIn:
     """Input model for appending a batch."""
 
     dataset: str
@@ -39,41 +43,47 @@ class AppendBatchIn(BaseModel):
     file_url: str
 
 
-class QuarantineBatchIn(BaseModel):
+@dataclass
+class QuarantineBatchIn:
     """Input model for quarantining a batch."""
 
     batch_id: str
     reason: str
 
 
-class RunDQIn(BaseModel):
+@dataclass
+class RunDQIn:
     """Input model for running data quality checks."""
 
     batch_id: str
     quality_rules: dict[str, str]
 
 
-class RunPrivacyIn(BaseModel):
+@dataclass
+class RunPrivacyIn:
     """Input model for running privacy checks."""
 
     batch_id: str
     privacy_rules: dict[str, str]
 
 
-class PublishBatchIn(BaseModel):
+@dataclass
+class PublishBatchIn:
     """Input model for publishing a batch."""
 
     batch_id: str
 
 
-class ConsumeBatchIn(BaseModel):
+@dataclass
+class ConsumeBatchIn:
     """Input model for consuming a batch."""
 
     batch_id: str
     consumer: str
 
 
-class ReplayIn(BaseModel):
+@dataclass
+class ReplayIn:
     """Input model for replaying events for a dataset."""
 
     dataset: str

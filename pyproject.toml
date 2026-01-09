@@ -1,13 +1,26 @@
+
 [project]
 name = "orchestrix-workspace"
 version = "0.1.0"
+description = "Orchestrix Polylith Workspace"
+readme = "README.md"
 requires-python = ">=3.12,<3.14"
+license = "MIT"
+authors = [{ name = "Orchestrix Team" }]
 dependencies = [
     "asyncpg>=0.29.0,<1.0.0",
     "opentelemetry-api>=1.24.0,<2.0.0",
     "opentelemetry-exporter-jaeger>=1.21.0,<2.0.0",
     "deprecated>=1.2.0,<2.0.0"
-]
+    ]
+
+    [build-system]
+    requires = ["hatchling"]
+    build-backend = "hatchling.build"
+
+
+[tool.uv]
+managed = true
 
 [tool.uv.workspace]
 members = ["projects/*"]
@@ -20,7 +33,6 @@ namespace = "orchestrix"
 
 [dependency-groups]
 dev = [
-    "orchestrix",
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0",
     "pytest-asyncio>=0.21.0",
@@ -36,9 +48,34 @@ dev = [
     "ty>=0.0.9",
 ]
 
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
 [tool.hatch.build]
 dev-mode-dirs = ["components", "bases", "development", "."]
 dist-dir = "output/dist"
+
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["components/orchestrix"]
+
+# This section is needed for the Hatchling build backend, to activate the polylith build hook.
+
+[tool.polylith.bricks]
+# Core modules
+"components/orchestrix/core/common" = "orchestrix/core/common"
+"components/orchestrix/core/eventsourcing" = "orchestrix/core/eventsourcing"
+"components/orchestrix/core/execution" = "orchestrix/core/execution"
+"components/orchestrix/core/messaging" = "orchestrix/core/messaging"
+# Infrastructure modules
+"components/orchestrix/infrastructure/eventsourcingdb" = "orchestrix/infrastructure/eventsourcingdb"
+"components/orchestrix/infrastructure/memory" = "orchestrix/infrastructure/memory"
+"components/orchestrix/infrastructure/observability" = "orchestrix/infrastructure/observability"
+"components/orchestrix/infrastructure/postgres" = "orchestrix/infrastructure/postgres"
+# Bases
+
 
 # ============================================================================
 # Code Quality Tools Configuration
@@ -46,7 +83,7 @@ dist-dir = "output/dist"
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-testpaths = ["tests"]
+testpaths = ["test"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
@@ -65,7 +102,7 @@ markers = [
 
 [tool.coverage.run]
 source = ["components/orchestrix/core", "components/orchestrix/infrastructure", "projects"]
-omit = ["tests/*", "examples/*"]
+omit = ["test/*", "examples/*"]
 
 [tool.coverage.report]
 exclude_lines = [
@@ -95,7 +132,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = [
+"test/**/*.py" = [
     "S101", # Use of assert detected
     "ANN",  # Missing type annotation
     "D",    # Missing docstring
