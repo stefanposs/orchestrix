@@ -8,8 +8,8 @@ from orchestrix.core.common.validation import (
     validate_not_empty,
     validate_positive,
 )
-from orchestrix.core.messaging.message import Command
-from orchestrix.infrastructure.memory.bus import InMemoryMessageBus
+from orchestrix.core.messaging import Command
+from orchestrix.infrastructure.memory import InMemoryMessageBus
 
 
 @dataclass(frozen=True)
