@@ -1,6 +1,6 @@
 # Testing
 
-Comprehensive testing strategies für Orchestrix - von Unit bis Integration Tests.
+Comprehensive testing strategies for Orchestrix - from unit to integration tests.
 
 ## Test Setup
 

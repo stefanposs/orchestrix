@@ -6,7 +6,7 @@ Technical architecture and design decisions behind Orchestrix.
 
 ### 1. Protocol-based Design
 
-Orchestrix nutzt `typing.Protocol` statt Abstract Base Classes:
+Orchestrix uses `typing.Protocol` instead of Abstract Base Classes:
 
 ```python
 from typing import Protocol
@@ -18,16 +18,16 @@ class MessageBus(Protocol):
     def publish(self, message: Message) -> None: ...
 ```
 
-**Vorteile:**
+**Advantages:**
 
 - ✅ Duck Typing - Pythonic!
-- ✅ Keine Vererbung nötig
-- ✅ Bessere IDE-Unterstützung
-- ✅ Einfacher zu mocken in Tests
+- ✅ No inheritance required
+- ✅ Better IDE support
+- ✅ Easier to mock in tests
 
 ### 2. Immutable Messages
 
-Alle Messages sind `frozen` dataclasses:
+All messages are `frozen` dataclasses:
 
 ```python
 @dataclass(frozen=True, kw_only=True)
@@ -36,16 +36,16 @@ class CreateOrder(Command):
     customer_id: str
 ```
 
-**Vorteile:**
+**Advantages:**
 
 - ✅ Thread-safe
 - ✅ Hashable (can use in sets/dicts)
-- ✅ Verhindert unerwartete Mutations
-- ✅ CloudEvents-kompatibel
+- ✅ Prevents unexpected mutations
+- ✅ CloudEvents-compatible
 
 ### 3. Event Sourcing First
 
-Events sind die Single Source of Truth:
+Events are the single source of truth:
 
 ```python
 # State = fold(events)
@@ -56,12 +56,12 @@ def from_events(events: list[Event]) -> Order:
     return order
 ```
 
-**Vorteile:**
+**Advantages:**
 
-- ✅ Vollständige Audit Trail
-- ✅ Time Travel (State zu jedem Zeitpunkt)
-- ✅ Event Replay für Projections
-- ✅ Debugging & Fehleranalyse
+- ✅ Complete audit trail
+- ✅ Time travel (state at any point in time)
+- ✅ Event replay for projections
+- ✅ Debugging & error analysis
 
 ## Architecture Layers
 
