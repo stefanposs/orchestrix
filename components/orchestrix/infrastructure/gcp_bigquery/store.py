@@ -1,4 +1,3 @@
-
 """GCP BigQuery Event Store for Orchestrix. Uses google-cloud-bigquery for asynchronous event storage. All events are stored as JSON strings."""
 
 import os
@@ -18,7 +17,6 @@ import re
 
 
 class GCPBigQueryEventStore:
-
     """Asynchronous EventStore for Google BigQuery.
 
     Security: Dataset and table names are strictly validated against [a-zA-Z0-9_] to prevent SQL injection.
