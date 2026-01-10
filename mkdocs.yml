@@ -1,7 +1,5 @@
 site_name: Orchestrix Documentation
-site_description: A modular event-driven architecture framework for Python
-site_author: Stefan Poss
-site_url: https://orchestrix.readthedocs.io
+site_description: Event-sourcing framework for AI-driven, rapid-iteration, enterprise-grade process control. Your Processes. Your Data. Your Control.
 
 repo_name: stefanposs/orchestrix
 repo_url: https://github.com/stefanposs/orchestrix
@@ -44,38 +42,38 @@ theme:
 
 extra_css:
   - stylesheets/extra.css
-
+  
 nav:
   - Home: index.md
   - Getting Started:
-      - Installation: getting-started/installation.md
-      - Quick Start: getting-started/quick-start.md
-      - Core Concepts: getting-started/concepts.md
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quick-start.md
+    - Core Concepts: getting-started/concepts.md
   - User Guide:
-      - Overview: guide/index.md
-      - Creating Modules: guide/creating-modules.md
-      - Commands & Events: guide/commands-events.md
-      - Message Bus: guide/message-bus.md
-      - Event Store: guide/event-store.md
-      - Production Deployment: guide/production-deployment.md
-      - Production Readiness: guide/production-ready.md
-      - Best Practices: guide/best-practices.md
+    - Overview: guide/index.md
+    - Creating Modules: guide/creating-modules.md
+    - Commands & Events: guide/commands-events.md
+    - Message Bus: guide/message-bus.md
+    - Event Store: guide/event-store.md
+    - Production Deployment: guide/production-deployment.md
+    - Production Readiness: guide/production-ready.md
+    - Best Practices: guide/best-practices.md
   - Demos:
-      - Overview: demos/index.md
-      - Practical Demos:
-          - Banking: demos/banking.md
-          - E-Commerce: demos/ecommerce.md
-          - Lakehouse Platform: demos/lakehouse.md
-          - Notifications: demos/notifications.md
-          - Projections: demos/projection.md
-      - Simple Demos:
-          - Events & Commands: demos/events_and_commands.md
-          - Tracing: demos/tracing.md
-          - Validation: demos/validation.md
-          - Versioning: demos/versioning.md
+    - Overview: demos/index.md
+    - Practical Demos:
+      - Banking: demos/banking.md
+      - E-Commerce: demos/ecommerce.md
+      - Lakehouse Platform: demos/lakehouse.md
+      - Notifications: demos/notifications.md
+      - Projections: demos/projection.md
+    - Simple Demos:
+      - Events & Commands: demos/events_and_commands.md
+      - Tracing: demos/tracing.md
+      - Validation: demos/validation.md
+      - Versioning: demos/versioning.md
   - API Reference:
-      - Core: api/core.md
-      - Infrastructure: api/infrastructure.md
+    - Core: api/core.md
+    - Infrastructure: api/infrastructure.md
 plugins:
   - mkdocstrings:
       handlers:
