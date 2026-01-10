@@ -2274,13 +2274,6 @@ Domain Models: <a href="https://github.com/stefanposs/orchestrix/blob/main/examp
 </blockquote>
 <h2 id="overview">Overview</h2>
 <p>The notifications example demonstrates:</p>
-<ul>
-<li>✅ <strong>Retry Logic</strong> - Exponential backoff for transient failures</li>
-<li>✅ <strong>Dead Letter Queue</strong> - Handle permanent failures</li>
-<li>✅ <strong>Multiple Channels</strong> - Email, SMS, Push, Webhooks</li>
-<li>✅ <strong>Circuit Breaker</strong> - Protect against cascading failures</li>
-<li>✅ <strong>Async Event Handlers</strong> - Non-blocking notification processing</li>
-</ul>
 <h2 id="quick-start">Quick Start</h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Run the notifications demo</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>bases/orchestrix/notifications/example.py
@@ -2316,12 +2309,6 @@ Domain Models: <a href="https://github.com/stefanposs/orchestrix/blob/main/examp
 </code></pre></div>
 <h2 id="dead-letter-queue">Dead Letter Queue</h2>
 <p>Failed notifications after max retries are moved to DLQ for:</p>
-<ul>
-<li>🔍 <strong>Manual Investigation</strong> - Review failure reasons</li>
-<li>🚨 <strong>Alert Admins</strong> - Notify operations team</li>
-<li>🔄 <strong>Manual Retry</strong> - Retry with intervention</li>
-<li>📊 <strong>Audit Trail</strong> - Track all failures</li>
-</ul>
 <h2 id="domain-model">Domain Model</h2>
 <h3 id="commands">Commands</h3>
 <h4 id="sendnotification">SendNotification</h4>
@@ -2341,16 +2328,8 @@ Domain Models: <a href="https://github.com/stefanposs/orchestrix/blob/main/examp
 <a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    <span class="n">WEBHOOK</span> <span class="o">=</span> <span class="s2">&quot;webhook&quot;</span>
 </code></pre></div>
 <h3 id="events">Events</h3>
-<p><strong>Domain Events (trigger notifications):</strong>
-- <code>UserRegistered</code> - Welcome email
-- <code>OrderPlaced</code> - Order confirmation
-- <code>OrderShipped</code> - Shipping notification
-- <code>PaymentReceived</code> - Payment receipt</p>
-<p><strong>Notification Events:</strong>
-- <code>NotificationRequested</code> - Notification triggered
-- <code>NotificationSent</code> - Successfully delivered
-- <code>NotificationFailed</code> - Delivery failed (with retry info)
-- <code>NotificationMovedToDeadLetter</code> - Max retries exceeded</p>
+<p><strong>Domain Events (trigger notifications):</strong></p>
+<p><strong>Notification Events:</strong></p>
 <h2 id="key-patterns">Key Patterns</h2>
 <h3 id="1-retry-with-exponential-backoff">1. Retry with Exponential Backoff</h3>
 <p>Automatic retry with increasing delays to handle transient failures:</p>
@@ -2744,23 +2723,8 @@ Domain Models: <a href="https://github.com/stefanposs/orchestrix/blob/main/examp
 <a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="p">)</span>
 </code></pre></div>
 <h2 id="related-examples">Related Examples</h2>
-<ul>
-<li><strong><a href="../ecommerce/">E-Commerce</a></strong> - Trigger notifications from order events</li>
-<li><strong><a href="../banking/">Banking</a></strong> - Send transaction notifications</li>
-<li><strong><a href="../lakehouse/">Lakehouse Platform</a></strong> - Compliance notifications</li>
-</ul>
 <h2 id="learn-more">Learn More</h2>
-<ul>
-<li><a href="../../guide/message-bus/#async-handlers">Async Handlers Guide</a></li>
-<li><a href="../../guide/best-practices/#error-handling">Error Handling</a></li>
-<li><a href="../../development/testing/">Testing Async Code</a></li>
-</ul>
 <h2 id="source-code">Source Code</h2>
-<ul>
-<li><a href="https://github.com/stefanposs/orchestrix/blob/main/examples/notifications/handlers.py"><code>handlers.py</code></a> - Retry logic and DLQ implementation</li>
-<li><a href="https://github.com/stefanposs/orchestrix/blob/main/examples/notifications/models.py"><code>models.py</code></a> - Commands and events</li>
-<li><a href="https://github.com/stefanposs/orchestrix/blob/main/examples/notifications/example.py"><code>example.py</code></a> - Complete demo</li>
-</ul>
 <p><a href="https://github.com/stefanposs/orchestrix/tree/main/examples/notifications"><strong>Browse Complete Example →</strong></a></p>
 
 

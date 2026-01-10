@@ -1579,15 +1579,7 @@
 <h1 id="lakehouse-fastapi-demo-a-modern-data-platform-story">Lakehouse FastAPI Demo – A Modern Data Platform Story</h1>
 <p>Imagine you are a data engineer in a company that needs to process, validate, and audit large volumes of business data every day. You want a platform that empowers teams to register datasets, upload data, run compliance checks, and consume results—all with full transparency and modularity.</p>
 <p>This demo shows how to build a self-service, event-sourced lakehouse API using Orchestrix and FastAPI. Every process is modular, every action is auditable, and the architecture is cloud-agnostic.</p>
-<hr />
 <h2 id="why-lakehouse-why-event-sourcing">Why Lakehouse? Why Event Sourcing?</h2>
-<ul>
-<li><strong>Self-Service:</strong> Business teams can register datasets, upload batches, and consume data without IT bottlenecks.</li>
-<li><strong>Auditability:</strong> Every step emits events, so you can reconstruct the entire system state at any time.</li>
-<li><strong>Modularity:</strong> Add new checks, processes, or storage backends with minimal effort.</li>
-<li><strong>Cloud-Agnostic:</strong> Upload/download always via signed URLs—works with local, S3, Azure, GCS, etc.</li>
-</ul>
-<hr />
 <h2 id="core-processes-events">Core Processes &amp; Events</h2>
 <table>
 <thead>
@@ -1655,7 +1647,6 @@
 </tr>
 </tbody>
 </table>
-<hr />
 <h2 id="end-to-end-api-story">End-to-End API Story</h2>
 <ol>
 <li>
@@ -1741,39 +1732,18 @@
 </code></pre></div></p>
 </li>
 </ol>
-<hr />
 <h2 id="architecture-highlights">Architecture Highlights</h2>
-<ul>
-<li><strong>Event Sourcing:</strong> Every state change is an event. Full audit trail and system reconstruction.</li>
-<li><strong>Aggregates:</strong> Datasets, contracts, and batches are modeled as aggregates.</li>
-<li><strong>Process API:</strong> Each endpoint represents a business process.</li>
-<li><strong>Pluggable Storage:</strong> Easily switch between local, S3, Azure, etc.</li>
-<li><strong>Signed URLs:</strong> Secure, cloud-agnostic data transfer.</li>
-</ul>
-<hr />
 <h2 id="code-structure-process-flow">Code Structure &amp; Process Flow</h2>
-<p><strong>Modular Design:</strong>
-- <code>models.py</code>: Defines all commands (e.g., RegisterDataset) and events (e.g., DatasetRegistered) as dataclasses.
-- <code>aggregate.py</code>: Contains aggregates for Dataset, Contract, and Batch. Manages business logic and state.
-- <code>handlers.py</code>: Implements API endpoints and process logic. Each endpoint triggers the appropriate command/event.
-- <code>engine.py</code>, <code>gdpr.py</code>: Optional modules for advanced features like data quality, privacy, or compliance.</p>
+<p><strong>Modular Design:</strong></p>
 <p><strong>Typical Process Flow:</strong>
 1. A user sends an HTTP request (e.g., POST /datasets).
 2. The handler receives the request and creates a command (e.g., RegisterDataset).
 3. The aggregate processes the command, applies business rules, and emits an event (e.g., DatasetRegistered).
 4. The event is stored (event sourcing) and can trigger further processes (e.g., DQ, privacy checks).
 5. Every step is modular and easily extensible.</p>
-<p><strong>Event-Driven &amp; Auditable:</strong>
-- Every API call triggers at least one event.
-- All events are stored and can be used to reconstruct system state.
-- The architecture allows easy addition of new processes, checks, or storage backends.</p>
-<p><strong>Entrypoint:</strong>
-- The FastAPI app (<code>app.py</code> or <code>entry.py</code>) starts the server and registers all endpoints.
-- All business logic is in <code>bases/</code>, no Python code in <code>projects/</code>.</p>
-<p><strong>Extensibility:</strong>
-- New processes (e.g., checks, event types) can be added as new commands/events and handlers.
-- The storage backend is pluggable: local, S3, Azure, GCS—just swap the storage component.</p>
-<hr />
+<p><strong>Event-Driven &amp; Auditable:</strong></p>
+<p><strong>Entrypoint:</strong></p>
+<p><strong>Extensibility:</strong></p>
 <p><strong>Note:</strong> All business logic lives in <code>bases/</code>. No Python code in <code>projects/</code>. This demo is modular, process-driven, and ready for extension.</p>
 
 

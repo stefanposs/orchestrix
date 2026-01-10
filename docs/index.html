@@ -1757,15 +1757,12 @@
 <h1 id="orchestrix-your-processes-your-data-your-control">🔹 Orchestrix – Your Processes. Your Data. Your Control.</h1>
 <p><strong>Orchestrix is the event-sourcing framework for AI-driven, enterprise-grade, and rapidly evolving systems. Model, manage, and version your business processes, commands, and events—guaranteeing data quality, auditability, and governance.</strong></p>
 <p>In today’s world of AI, fast code iteration, and dynamic environments, a solid foundation is essential. Orchestrix keeps your processes, knowledge, and data consistent, versioned, and under your control—while your systems evolve at AI speed.</p>
-<hr />
 <p><strong>Get Started:</strong></p>
 <ul>
 <li><a href="getting-started/installation/">Minimal Service &amp; Installation</a> — Quick setup for new projects</li>
 <li><a href="getting-started/concepts/">Architecture &amp; Event-Sourcing Concepts</a> — Learn the core ideas</li>
 <li><a href="demos/lakehouse/">Demos: Lakehouse / Migration / Order Processing</a> — See Orchestrix in action</li>
 </ul>
-<hr />
-<hr />
 <h2 id="1-why-orchestrix">1️⃣ Why Orchestrix</h2>
 <p>Modern enterprises rarely operate a single system. Instead, they manage <strong>hundreds of applications and tools</strong>, each storing and interpreting data differently. Business knowledge often becomes <strong>fragmented</strong>, trapped in multiple tools, leaving organizations blind to their own data quality and process behavior.</p>
 <p>Traditional CRUD systems capture only the latest state. They <strong>lose history, decisions, and rationale</strong>. In contrast, Orchestrix:</p>
@@ -1777,7 +1774,6 @@
 </ul>
 <p>In times of AI-driven development, rapid prototyping, and evolving systems, <strong>having a clear, scalable, maintainable architecture is critical</strong>. Orchestrix ensures that your processes are <strong>not only digital assets, but also your stable foundation for innovation</strong>.</p>
 <p>Your processes are <strong>digital assets</strong>. Orchestrix ensures they remain so.</p>
-<hr />
 <h2 id="2-core-principles">2️⃣ Core Principles</h2>
 <ol>
 <li><strong>Process-Driven Systems</strong><ul>
@@ -1809,19 +1805,6 @@
 </ul>
 </li>
 </ol>
-<hr />
-<p>💡 <strong>Enterprise &amp; AI Positioning Zusatz:</strong></p>
-<blockquote>
-<p>In an era of AI-driven systems, rapid code iteration, and ever-evolving pipelines, <strong>the only reliable constant is your processes</strong>. Orchestrix ensures that your foundation is <strong>robust, auditable, and ready to scale</strong>, while giving your teams the flexibility to innovate fast without breaking business knowledge.</p>
-</blockquote>
-<hr />
-<ul>
-<li>Simple CRUD with no complex business logic</li>
-<li>Performance is critical and eventual consistency is unacceptable</li>
-<li>Team lacks experience with event-driven patterns</li>
-<li>Small projects where event sourcing overhead isn't justified</li>
-</ul>
-<hr />
 <h2 id="features">Features</h2>
 <ul>
 <li>🎯 <strong>Modular Design</strong> - Encapsulate domain logic in independent modules</li>
@@ -1837,6 +1820,7 @@
 </ul>
 <h2 id="quick-start">Quick Start</h2>
 <h3 id="installation">Installation</h3>
+<p>pip install orchestrix[observability]
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Basic installation</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pip<span class="w"> </span>install<span class="w"> </span>orchestrix
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
@@ -1845,7 +1829,7 @@
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># With observability (Prometheus + Tracing)</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>pip<span class="w"> </span>install<span class="w"> </span>orchestrix<span class="o">[</span>observability<span class="o">]</span>
-</code></pre></div>
+</code></pre></div></p>
 <p>Or with <a href="https://docs.astral.sh/uv/">uv</a>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uv<span class="w"> </span>add<span class="w"> </span>orchestrix
 </code></pre></div>
@@ -1899,7 +1883,6 @@
 <li><strong>Event Store</strong> persists event streams for reconstruction</li>
 </ul>
 <p>Learn more in the <a href="development/architecture/">Architecture Guide</a>.</p>
-<hr />
 <h2 id="demos">Demos</h2>
 <p>Explore production-ready examples demonstrating real-world patterns:</p>
 <ul>
@@ -1909,7 +1892,6 @@
 <li>🔔 <strong><a href="demos/notifications/">Notifications</a></strong> - Resilient notification system</li>
 </ul>
 <p><a href="demos/"><strong>Browse All Demos →</strong></a></p>
-<hr />
 <h2 id="contributing">Contributing</h2>
 <p>Contributions are welcome! Please read our <a href="https://github.com/stefanposs/orchestrix/blob/main/.github/CONTRIBUTING.md">Contributing Guide</a> for details.</p>
 <h2 id="license">License</h2>

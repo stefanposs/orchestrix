@@ -2090,17 +2090,9 @@
 <p>Orchestrix comes with production-ready demos demonstrating real-world patterns and best practices for event-driven architectures.</p>
 <h2 id="practical-demos-real-world-use-cases">Practical Demos (Real-World Use Cases)</h2>
 <h3 id="banking">🏦 <a href="banking/">Banking</a></h3>
-<p>Account management system with event sourcing, including:
-- Account creation and transactions
-- Event-driven balance updates
-- Transaction history and audit trail
-- Domain-driven design patterns</p>
+<p>Account management system with event sourcing, including:</p>
 <h3 id="e-commerce">🛒 <a href="ecommerce/">E-Commerce</a></h3>
-<p>Complete order processing system with:
-- Order lifecycle management
-- Saga pattern for distributed transactions
-- Payment processing coordination
-- Inventory management integration</p>
+<p>Complete order processing system with:</p>
 <h3 id="lakehouse-platform">🏢 <a href="lakehouse/">Lakehouse Platform</a></h3>
 <p>Self-service, event-sourced data platform with modular processes, compliance, and auditability.</p>
 <h3 id="notifications">🔔 <a href="notifications/">Notifications</a></h3>
@@ -2108,7 +2100,6 @@
 <h3 id="projections">📊 <a href="projection/">Projections</a></h3>
 <p>Optimized read models, CQRS, and query denormalization.</p>
 <h3 id="banking-e-commerce-lakehouse-notifications-projections-these-demos-show-business-processes-compliance-and-production-patterns">Banking, E-Commerce, Lakehouse, Notifications, Projections: These demos show business processes, compliance, and production patterns.</h3>
-<hr />
 <h2 id="simple-demos-technical-patterns-didactic">Simple Demos (Technical Patterns &amp; Didactic)</h2>
 <h3 id="events-commands"><a href="events_and_commands/">Events &amp; Commands</a></h3>
 <p>Basic command/event separation and handler logic.</p>
@@ -2120,7 +2111,6 @@
 <p>Event schema evolution, upcasters, compatibility.</p>
 <h3 id="index"><a href="./">Index</a></h3>
 <p>Overview and entry point for all demos.</p>
-<hr />
 <h2 id="running-examples">Running Examples</h2>
 <p>All examples are located in the <code>examples/</code> directory and can be run directly:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Banking example</span>
@@ -2194,23 +2184,9 @@
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="k">await</span> <span class="n">bus</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">ProcessPayment</span><span class="p">(</span><span class="n">order_id</span><span class="o">=</span><span class="n">event</span><span class="o">.</span><span class="n">order_id</span><span class="p">))</span>
 </code></pre></div>
 <h2 id="next-steps">Next Steps</h2>
-<ul>
-<li><strong><a href="../getting-started/quick-start/">Getting Started</a></strong> - Build your first module</li>
-<li><strong><a href="../getting-started/concepts/">Core Concepts</a></strong> - Understand the framework</li>
-<li><strong><a href="../api/core/">API Reference</a></strong> - Detailed API documentation</li>
-<li><strong><a href="../guide/best-practices/">Best Practices</a></strong> - Production guidelines</li>
-</ul>
 <h2 id="contributing-examples">Contributing Examples</h2>
 <p>Have a great example? Contributions are welcome! See our <a href="../development/contributing/">Contributing Guide</a>.</p>
 <p>Examples should:</p>
-<ul>
-<li>✅ Demonstrate a real-world use case</li>
-<li>✅ Follow consistent structure</li>
-<li>✅ Include comprehensive README</li>
-<li>✅ Be fully runnable</li>
-<li>✅ Show best practices</li>
-<li>✅ Include inline documentation</li>
-</ul>
 
 
 
