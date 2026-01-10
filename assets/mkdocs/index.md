@@ -1,43 +1,67 @@
-# Orchestrix
+---
 
-**A modular, event-driven architecture framework for Python with CloudEvents-compatible messages.**
 
-[![CI](https://github.com/stefanposs/orchestrix/workflows/CI/badge.svg)](https://github.com/stefanposs/orchestrix/actions)
-[![codecov](https://codecov.io/gh/stefanposs/orchestrix/branch/main/graph/badge.svg)](https://codecov.io/gh/stefanposs/orchestrix)
-[![PyPI version](https://badge.fury.io/py/orchestrix.svg)](https://badge.fury.io/py/orchestrix)
-[![Python Versions](https://img.shields.io/pypi/pyversions/orchestrix.svg)](https://pypi.org/project/orchestrix/)
+# 🔹 Orchestrix – Your Processes. Your Data. Your Control.
+
+**Orchestrix is the event-sourcing framework for AI-driven, enterprise-grade, and rapidly evolving systems. Model, manage, and version your business processes, commands, and events—guaranteeing data quality, auditability, and governance.**
+
+In today’s world of AI, fast code iteration, and dynamic environments, a solid foundation is essential. Orchestrix keeps your processes, knowledge, and data consistent, versioned, and under your control—while your systems evolve at AI speed.
 
 ---
 
-## What Problem Does Diese Seite wird automatisch aktualisiert wenn du sie bearbeitest.
+**Get Started:**
 
-Orchestrix Solve?
+- [Minimal Service & Installation](getting-started/installation.md) — Quick setup for new projects
+- [Architecture & Event-Sourcing Concepts](getting-started/concepts.md) — Learn the core ideas
+- [Demos: Lakehouse / Migration / Order Processing](demos/lakehouse.md) — See Orchestrix in action
 
-Traditional CRUD applications struggle with:
-- **Lost Business Context** - Database updates don't capture *why* changes happened
-- **Difficult Auditing** - No automatic audit trail of state changes
-- **Complex Workflows** - Hard to coordinate multi-step business processes across services
-- **Scalability Limits** - Tight coupling makes it hard to scale components independently
-- **Debugging Nightmares** - Hard to reproduce production issues without event history
+---
 
-**Orchestrix provides:**
-- **Event Sourcing** - Store every state change as an immutable event, never lose context
-- **CQRS** - Separate read and write models for optimal performance
-- **Sagas** - Reliable distributed transactions with automatic compensation
-- **Time-Travel Debugging** - Replay events to any point in time
-- **Built-in Observability** - Metrics, tracing, and audit logs out of the box
+---
 
-## When to Use Orchestrix
+## 1️⃣ Why Orchestrix
 
-**✅ Perfect for:**
-- Financial systems requiring full audit trails (banking, payments, trading)
-- E-commerce with complex order workflows (inventory, payments, shipping)
-- Collaborative applications needing conflict resolution (booking systems, reservations)
-- Domain-Driven Design implementations with rich domain logic
-- Microservices architectures requiring event-driven communication
-- Systems where understanding *how* you got to current state matters
+Modern enterprises rarely operate a single system. Instead, they manage **hundreds of applications and tools**, each storing and interpreting data differently. Business knowledge often becomes **fragmented**, trapped in multiple tools, leaving organizations blind to their own data quality and process behavior.
 
-**⚠️ Consider alternatives if:**
+Traditional CRUD systems capture only the latest state. They **lose history, decisions, and rationale**. In contrast, Orchestrix:
+
+- Models **business processes as first-class citizens**
+- Captures every change as a **versioned event**
+- Enforces **contracts** to ensure consistency, compliance, and data quality
+- Maintains **ownership of knowledge** in the organization
+
+In times of AI-driven development, rapid prototyping, and evolving systems, **having a clear, scalable, maintainable architecture is critical**. Orchestrix ensures that your processes are **not only digital assets, but also your stable foundation for innovation**.
+
+Your processes are **digital assets**. Orchestrix ensures they remain so.
+
+---
+
+## 2️⃣ Core Principles
+
+1. **Process-Driven Systems**
+    * Processes are modeled explicitly. Data and actions are secondary to the flow of business logic.
+2. **Event Sourcing**
+    * Every change is an event. History is preserved. Systems become **audit-ready and reproducible**.
+3. **Commands & Events**
+    * Commands trigger actions
+    * Events record changes
+    * Versioned contracts ensure backward compatibility and safe evolution
+4. **Infrastructure Abstraction**
+    * Event stores, buses, monitoring, and logging can be swapped without affecting core logic.
+5. **Ownership & Governance**
+    * Knowledge resides with your teams, not with third-party tools or ad-hoc scripts.
+6. **AI-Ready & Future-Proof**
+    * Framework is **readable, maintainable, scalable, extensible**
+    * Supports rapid iteration, modern tooling, and AI-enhanced workflows
+    * Ensures business processes remain **robust foundations**, even as tools, pipelines, and models evolve
+
+---
+
+💡 **Enterprise & AI Positioning Zusatz:**
+
+> In an era of AI-driven systems, rapid code iteration, and ever-evolving pipelines, **the only reliable constant is your processes**. Orchestrix ensures that your foundation is **robust, auditable, and ready to scale**, while giving your teams the flexibility to innovate fast without breaking business knowledge.
+
+---
 - Simple CRUD with no complex business logic
 - Performance is critical and eventual consistency is unacceptable
 - Team lacks experience with event-driven patterns
