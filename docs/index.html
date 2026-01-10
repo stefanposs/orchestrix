@@ -6,13 +6,9 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="A modular event-driven architecture framework for Python">
+        <meta name="description" content="Event-sourcing framework for AI-driven, rapid-iteration, enterprise-grade process control. Your Processes. Your Data. Your Control.">
       
       
-        <meta name="author" content="Stefan Poss">
-      
-      
-        <link rel="canonical" href="https://orchestrix.readthedocs.io/">
       
       
       
@@ -82,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#orchestrix" class="md-skip">
+        <a href="#orchestrix-your-processes-your-data-your-control" class="md-skip">
           Skip to content
         </a>
       
@@ -394,10 +390,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-problem-does-diese-seite-wird-automatisch-aktualisiert-wenn-du-sie-bearbeitest" class="md-nav__link">
+  <a href="#1-why-orchestrix" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What Problem Does Diese Seite wird automatisch aktualisiert wenn du sie bearbeitest.
+        1️⃣ Why Orchestrix
       
     </span>
   </a>
@@ -405,10 +401,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#when-to-use-orchestrix" class="md-nav__link">
+  <a href="#2-core-principles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        When to Use Orchestrix
+        2️⃣ Core Principles
       
     </span>
   </a>
@@ -1589,10 +1585,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-problem-does-diese-seite-wird-automatisch-aktualisiert-wenn-du-sie-bearbeitest" class="md-nav__link">
+  <a href="#1-why-orchestrix" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What Problem Does Diese Seite wird automatisch aktualisiert wenn du sie bearbeitest.
+        1️⃣ Why Orchestrix
       
     </span>
   </a>
@@ -1600,10 +1596,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#when-to-use-orchestrix" class="md-nav__link">
+  <a href="#2-core-principles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        When to Use Orchestrix
+        2️⃣ Core Principles
       
     </span>
   </a>
@@ -1757,40 +1753,74 @@
   
 
 
-<h1 id="orchestrix">Orchestrix</h1>
-<p><strong>A modular, event-driven architecture framework for Python with CloudEvents-compatible messages.</strong></p>
-<p><a href="https://github.com/stefanposs/orchestrix/actions"><img alt="CI" src="https://github.com/stefanposs/orchestrix/workflows/CI/badge.svg" /></a>
-<a href="https://codecov.io/gh/stefanposs/orchestrix"><img alt="codecov" src="https://codecov.io/gh/stefanposs/orchestrix/branch/main/graph/badge.svg" /></a>
-<a href="https://badge.fury.io/py/orchestrix"><img alt="PyPI version" src="https://badge.fury.io/py/orchestrix.svg" /></a>
-<a href="https://pypi.org/project/orchestrix/"><img alt="Python Versions" src="https://img.shields.io/pypi/pyversions/orchestrix.svg" /></a></p>
 <hr />
-<h2 id="what-problem-does-diese-seite-wird-automatisch-aktualisiert-wenn-du-sie-bearbeitest">What Problem Does Diese Seite wird automatisch aktualisiert wenn du sie bearbeitest.</h2>
-<p>Orchestrix Solve?</p>
-<p>Traditional CRUD applications struggle with:
-- <strong>Lost Business Context</strong> - Database updates don't capture <em>why</em> changes happened
-- <strong>Difficult Auditing</strong> - No automatic audit trail of state changes
-- <strong>Complex Workflows</strong> - Hard to coordinate multi-step business processes across services
-- <strong>Scalability Limits</strong> - Tight coupling makes it hard to scale components independently
-- <strong>Debugging Nightmares</strong> - Hard to reproduce production issues without event history</p>
-<p><strong>Orchestrix provides:</strong>
-- <strong>Event Sourcing</strong> - Store every state change as an immutable event, never lose context
-- <strong>CQRS</strong> - Separate read and write models for optimal performance
-- <strong>Sagas</strong> - Reliable distributed transactions with automatic compensation
-- <strong>Time-Travel Debugging</strong> - Replay events to any point in time
-- <strong>Built-in Observability</strong> - Metrics, tracing, and audit logs out of the box</p>
-<h2 id="when-to-use-orchestrix">When to Use Orchestrix</h2>
-<p><strong>✅ Perfect for:</strong>
-- Financial systems requiring full audit trails (banking, payments, trading)
-- E-commerce with complex order workflows (inventory, payments, shipping)
-- Collaborative applications needing conflict resolution (booking systems, reservations)
-- Domain-Driven Design implementations with rich domain logic
-- Microservices architectures requiring event-driven communication
-- Systems where understanding <em>how</em> you got to current state matters</p>
-<p><strong>⚠️ Consider alternatives if:</strong>
-- Simple CRUD with no complex business logic
-- Performance is critical and eventual consistency is unacceptable
-- Team lacks experience with event-driven patterns
-- Small projects where event sourcing overhead isn't justified</p>
+<h1 id="orchestrix-your-processes-your-data-your-control">🔹 Orchestrix – Your Processes. Your Data. Your Control.</h1>
+<p><strong>Orchestrix is the event-sourcing framework for AI-driven, enterprise-grade, and rapidly evolving systems. Model, manage, and version your business processes, commands, and events—guaranteeing data quality, auditability, and governance.</strong></p>
+<p>In today’s world of AI, fast code iteration, and dynamic environments, a solid foundation is essential. Orchestrix keeps your processes, knowledge, and data consistent, versioned, and under your control—while your systems evolve at AI speed.</p>
+<hr />
+<p><strong>Get Started:</strong></p>
+<ul>
+<li><a href="getting-started/installation/">Minimal Service &amp; Installation</a> — Quick setup for new projects</li>
+<li><a href="getting-started/concepts/">Architecture &amp; Event-Sourcing Concepts</a> — Learn the core ideas</li>
+<li><a href="demos/lakehouse/">Demos: Lakehouse / Migration / Order Processing</a> — See Orchestrix in action</li>
+</ul>
+<hr />
+<hr />
+<h2 id="1-why-orchestrix">1️⃣ Why Orchestrix</h2>
+<p>Modern enterprises rarely operate a single system. Instead, they manage <strong>hundreds of applications and tools</strong>, each storing and interpreting data differently. Business knowledge often becomes <strong>fragmented</strong>, trapped in multiple tools, leaving organizations blind to their own data quality and process behavior.</p>
+<p>Traditional CRUD systems capture only the latest state. They <strong>lose history, decisions, and rationale</strong>. In contrast, Orchestrix:</p>
+<ul>
+<li>Models <strong>business processes as first-class citizens</strong></li>
+<li>Captures every change as a <strong>versioned event</strong></li>
+<li>Enforces <strong>contracts</strong> to ensure consistency, compliance, and data quality</li>
+<li>Maintains <strong>ownership of knowledge</strong> in the organization</li>
+</ul>
+<p>In times of AI-driven development, rapid prototyping, and evolving systems, <strong>having a clear, scalable, maintainable architecture is critical</strong>. Orchestrix ensures that your processes are <strong>not only digital assets, but also your stable foundation for innovation</strong>.</p>
+<p>Your processes are <strong>digital assets</strong>. Orchestrix ensures they remain so.</p>
+<hr />
+<h2 id="2-core-principles">2️⃣ Core Principles</h2>
+<ol>
+<li><strong>Process-Driven Systems</strong><ul>
+<li>Processes are modeled explicitly. Data and actions are secondary to the flow of business logic.</li>
+</ul>
+</li>
+<li><strong>Event Sourcing</strong><ul>
+<li>Every change is an event. History is preserved. Systems become <strong>audit-ready and reproducible</strong>.</li>
+</ul>
+</li>
+<li><strong>Commands &amp; Events</strong><ul>
+<li>Commands trigger actions</li>
+<li>Events record changes</li>
+<li>Versioned contracts ensure backward compatibility and safe evolution</li>
+</ul>
+</li>
+<li><strong>Infrastructure Abstraction</strong><ul>
+<li>Event stores, buses, monitoring, and logging can be swapped without affecting core logic.</li>
+</ul>
+</li>
+<li><strong>Ownership &amp; Governance</strong><ul>
+<li>Knowledge resides with your teams, not with third-party tools or ad-hoc scripts.</li>
+</ul>
+</li>
+<li><strong>AI-Ready &amp; Future-Proof</strong><ul>
+<li>Framework is <strong>readable, maintainable, scalable, extensible</strong></li>
+<li>Supports rapid iteration, modern tooling, and AI-enhanced workflows</li>
+<li>Ensures business processes remain <strong>robust foundations</strong>, even as tools, pipelines, and models evolve</li>
+</ul>
+</li>
+</ol>
+<hr />
+<p>💡 <strong>Enterprise &amp; AI Positioning Zusatz:</strong></p>
+<blockquote>
+<p>In an era of AI-driven systems, rapid code iteration, and ever-evolving pipelines, <strong>the only reliable constant is your processes</strong>. Orchestrix ensures that your foundation is <strong>robust, auditable, and ready to scale</strong>, while giving your teams the flexibility to innovate fast without breaking business knowledge.</p>
+</blockquote>
+<hr />
+<ul>
+<li>Simple CRUD with no complex business logic</li>
+<li>Performance is critical and eventual consistency is unacceptable</li>
+<li>Team lacks experience with event-driven patterns</li>
+<li>Small projects where event sourcing overhead isn't justified</li>
+</ul>
 <hr />
 <h2 id="features">Features</h2>
 <ul>

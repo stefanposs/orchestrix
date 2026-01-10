@@ -6,13 +6,9 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="A modular event-driven architecture framework for Python">
+        <meta name="description" content="Event-sourcing framework for AI-driven, rapid-iteration, enterprise-grade process control. Your Processes. Your Data. Your Control.">
       
       
-        <meta name="author" content="Stefan Poss">
-      
-      
-        <link rel="canonical" href="https://orchestrix.readthedocs.io/demos/gcp_demo/">
       
       
       
@@ -1401,13 +1397,13 @@
 
 
 <h1 id="gcp-cloudsql-demo">GCP CloudSQL Demo</h1>
-<p>Dieses Beispiel zeigt, wie der CloudSQL EventStore von Orchestrix verwendet wird:</p>
+<p>This example shows how to use the CloudSQL EventStore in Orchestrix:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix.infrastructure.gcp_cloud_sql</span><span class="w"> </span><span class="kn">import</span> <span class="n">GCPCloudSQLEventStore</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">store</span> <span class="o">=</span> <span class="n">GCPCloudSQLEventStore</span><span class="p">()</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">await</span> <span class="n">store</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;demo-stream&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;DemoEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Hallo GCP!&quot;</span><span class="p">}})</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">await</span> <span class="n">store</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;demo-stream&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;DemoEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello GCP!&quot;</span><span class="p">}})</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">events</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">async</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">store</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;demo-stream&quot;</span><span class="p">)]</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Events in demo-stream:&quot;</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
@@ -1415,8 +1411,7 @@
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </code></pre></div>
 <blockquote>
-<p><strong>Hinweis:</strong> Die Umgebungsvariablen für die CloudSQL-Verbindung müssen gesetzt sein (siehe README im cloudsql-Ordner).
-<strong>Hinweis:</strong> Die Umgebungsvariablen für die CloudSQL-Verbindung müssen gesetzt sein (siehe README im gcp_cloud_sql-Ordner).</p>
+<p><strong>Note:</strong> You must set the environment variables for the CloudSQL connection (see README in the gcp_cloud_sql folder).</p>
 </blockquote>
 
 
