@@ -11,11 +11,6 @@ This example demonstrates async event handlers with robust error handling, retry
 
 The notifications example demonstrates:
 
-- ✅ **Retry Logic** - Exponential backoff for transient failures
-- ✅ **Dead Letter Queue** - Handle permanent failures
-- ✅ **Multiple Channels** - Email, SMS, Push, Webhooks
-- ✅ **Circuit Breaker** - Protect against cascading failures
-- ✅ **Async Event Handlers** - Non-blocking notification processing
 
 ## Quick Start
 
@@ -65,10 +60,6 @@ class RetryConfig:
 
 Failed notifications after max retries are moved to DLQ for:
 
-- 🔍 **Manual Investigation** - Review failure reasons
-- 🚨 **Alert Admins** - Notify operations team
-- 🔄 **Manual Retry** - Retry with intervention
-- 📊 **Audit Trail** - Track all failures
 
 ## Domain Model
 
@@ -95,16 +86,8 @@ class NotificationChannel(str, Enum):
 ### Events
 
 **Domain Events (trigger notifications):**
-- `UserRegistered` - Welcome email
-- `OrderPlaced` - Order confirmation
-- `OrderShipped` - Shipping notification
-- `PaymentReceived` - Payment receipt
 
 **Notification Events:**
-- `NotificationRequested` - Notification triggered
-- `NotificationSent` - Successfully delivered
-- `NotificationFailed` - Delivery failed (with retry info)
-- `NotificationMovedToDeadLetter` - Max retries exceeded
 
 ## Key Patterns
 
@@ -560,20 +543,11 @@ message = templates["welcome"]["body"].format(
 
 ## Related Examples
 
-- **[E-Commerce](ecommerce.md)** - Trigger notifications from order events
-- **[Banking](banking.md)** - Send transaction notifications
-- **[Lakehouse Platform](lakehouse.md)** - Compliance notifications
 
 ## Learn More
 
-- [Async Handlers Guide](../guide/message-bus.md#async-handlers)
-- [Error Handling](../guide/best-practices.md#error-handling)
-- [Testing Async Code](../development/testing.md)
 
 ## Source Code
 
-- [`handlers.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/notifications/handlers.py) - Retry logic and DLQ implementation
-- [`models.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/notifications/models.py) - Commands and events
-- [`example.py`](https://github.com/stefanposs/orchestrix/blob/main/examples/notifications/example.py) - Complete demo
 
 [**Browse Complete Example →**](https://github.com/stefanposs/orchestrix/tree/main/examples/notifications)

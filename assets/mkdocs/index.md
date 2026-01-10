@@ -7,7 +7,6 @@
 
 In today’s world of AI, fast code iteration, and dynamic environments, a solid foundation is essential. Orchestrix keeps your processes, knowledge, and data consistent, versioned, and under your control—while your systems evolve at AI speed.
 
----
 
 **Get Started:**
 
@@ -15,9 +14,7 @@ In today’s world of AI, fast code iteration, and dynamic environments, a solid
 - [Architecture & Event-Sourcing Concepts](getting-started/concepts.md) — Learn the core ideas
 - [Demos: Lakehouse / Migration / Order Processing](demos/lakehouse.md) — See Orchestrix in action
 
----
 
----
 
 ## 1️⃣ Why Orchestrix
 
@@ -34,7 +31,6 @@ In times of AI-driven development, rapid prototyping, and evolving systems, **ha
 
 Your processes are **digital assets**. Orchestrix ensures they remain so.
 
----
 
 ## 2️⃣ Core Principles
 
@@ -55,19 +51,6 @@ Your processes are **digital assets**. Orchestrix ensures they remain so.
     * Supports rapid iteration, modern tooling, and AI-enhanced workflows
     * Ensures business processes remain **robust foundations**, even as tools, pipelines, and models evolve
 
----
-
-💡 **Enterprise & AI Positioning Zusatz:**
-
-> In an era of AI-driven systems, rapid code iteration, and ever-evolving pipelines, **the only reliable constant is your processes**. Orchestrix ensures that your foundation is **robust, auditable, and ready to scale**, while giving your teams the flexibility to innovate fast without breaking business knowledge.
-
----
-- Simple CRUD with no complex business logic
-- Performance is critical and eventual consistency is unacceptable
-- Team lacks experience with event-driven patterns
-- Small projects where event sourcing overhead isn't justified
-
----
 
 ## Features
 
@@ -86,6 +69,7 @@ Your processes are **digital assets**. Orchestrix ensures they remain so.
 
 ### Installation
 
+pip install orchestrix[observability]
 ```bash
 # Basic installation
 pip install orchestrix
@@ -164,7 +148,6 @@ Orchestrix follows **Domain-Driven Design** and **CQRS/ES** principles:
 
 Learn more in the [Architecture Guide](development/architecture.md).
 
----
 
 ## Demos
 
@@ -177,7 +160,6 @@ Explore production-ready examples demonstrating real-world patterns:
 
 [**Browse All Demos →**](demos/index.md)
 
----
 
 ## Contributing
 

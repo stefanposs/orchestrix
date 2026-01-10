@@ -53,8 +53,6 @@ def handle_order(event: OrderCreated) -> None:
 
 bus.subscribe(OrderCreated, handle_order)
 
-# Class-based handler
-class CreateOrderHandler(CommandHandler[CreateOrder]):
     def handle(self, command: CreateOrder) -> None:
         # Implementation
         pass

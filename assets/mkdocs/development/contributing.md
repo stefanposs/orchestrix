@@ -29,11 +29,11 @@ Integration tests for PostgreSQL and EventSourcingDB use [testcontainers-python]
 4. Dependabot will propose updates automatically when new versions are available.
 # Contributing
 
-Beiträge zu Orchestrix sind willkommen! Hier erfährst du, wie du mitmachen kannst.
+Contributions to Orchestrix are welcome! Here is how you can get involved.
 
 ## Setup Development Environment
 
-### 1. Repository klonen
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/stefanposs/orchestrix.git
@@ -42,13 +42,13 @@ cd orchestrix
 
 ### 2. Development Setup
 
-Mit `just` (empfohlen):
+With `just` (recommended):
 
 ```bash
 just setup
 ```
 
-Oder manuell mit `uv`:
+Or manually with `uv`:
 
 ```bash
 uv sync --all-extras --dev
@@ -94,7 +94,7 @@ just ci                 # Full CI pipeline
 
 ### Code Quality Standards
 
-Wir verwenden moderne Tools für hohe Code-Qualität:
+We use modern tools for high code quality:
 
 - **ruff** - Linting & Formatting (replaces black, isort, flake8, pylint)
 - **pytest** - Testing Framework

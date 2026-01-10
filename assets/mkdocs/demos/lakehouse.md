@@ -5,16 +5,10 @@ Imagine you are a data engineer in a company that needs to process, validate, an
 
 This demo shows how to build a self-service, event-sourced lakehouse API using Orchestrix and FastAPI. Every process is modular, every action is auditable, and the architecture is cloud-agnostic.
 
----
 
 ## Why Lakehouse? Why Event Sourcing?
 
-- **Self-Service:** Business teams can register datasets, upload batches, and consume data without IT bottlenecks.
-- **Auditability:** Every step emits events, so you can reconstruct the entire system state at any time.
-- **Modularity:** Add new checks, processes, or storage backends with minimal effort.
-- **Cloud-Agnostic:** Upload/download always via signed URLs—works with local, S3, Azure, GCS, etc.
 
----
 
 ## Core Processes & Events
 
@@ -30,7 +24,6 @@ This demo shows how to build a self-service, event-sourced lakehouse API using O
 | Publish Batch        | PublishData             | DataPublished                    | Make batch available for consumption         |
 | Consume Batch        | GrantConsumption        | ConsumptionGranted               | Grant access to batch (signed URL)           |
 
----
 
 ## End-to-End API Story
 
@@ -116,26 +109,15 @@ This demo shows how to build a self-service, event-sourced lakehouse API using O
       -d '{"dataset": "sales"}'
     ```
 
----
 
 ## Architecture Highlights
 
-- **Event Sourcing:** Every state change is an event. Full audit trail and system reconstruction.
-- **Aggregates:** Datasets, contracts, and batches are modeled as aggregates.
-- **Process API:** Each endpoint represents a business process.
-- **Pluggable Storage:** Easily switch between local, S3, Azure, etc.
-- **Signed URLs:** Secure, cloud-agnostic data transfer.
 
----
 
 
 ## Code Structure & Process Flow
 
 **Modular Design:**
-- `models.py`: Defines all commands (e.g., RegisterDataset) and events (e.g., DatasetRegistered) as dataclasses.
-- `aggregate.py`: Contains aggregates for Dataset, Contract, and Batch. Manages business logic and state.
-- `handlers.py`: Implements API endpoints and process logic. Each endpoint triggers the appropriate command/event.
-- `engine.py`, `gdpr.py`: Optional modules for advanced features like data quality, privacy, or compliance.
 
 **Typical Process Flow:**
 1. A user sends an HTTP request (e.g., POST /datasets).
@@ -145,18 +127,10 @@ This demo shows how to build a self-service, event-sourced lakehouse API using O
 5. Every step is modular and easily extensible.
 
 **Event-Driven & Auditable:**
-- Every API call triggers at least one event.
-- All events are stored and can be used to reconstruct system state.
-- The architecture allows easy addition of new processes, checks, or storage backends.
 
 **Entrypoint:**
-- The FastAPI app (`app.py` or `entry.py`) starts the server and registers all endpoints.
-- All business logic is in `bases/`, no Python code in `projects/`.
 
 **Extensibility:**
-- New processes (e.g., checks, event types) can be added as new commands/events and handlers.
-- The storage backend is pluggable: local, S3, Azure, GCS—just swap the storage component.
 
----
 
 **Note:** All business logic lives in `bases/`. No Python code in `projects/`. This demo is modular, process-driven, and ready for extension.

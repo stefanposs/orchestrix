@@ -7,17 +7,9 @@ Orchestrix comes with production-ready demos demonstrating real-world patterns a
 
 ### 🏦 [Banking](banking.md)
 Account management system with event sourcing, including:
-- Account creation and transactions
-- Event-driven balance updates
-- Transaction history and audit trail
-- Domain-driven design patterns
 
 ### 🛒 [E-Commerce](ecommerce.md)
 Complete order processing system with:
-- Order lifecycle management
-- Saga pattern for distributed transactions
-- Payment processing coordination
-- Inventory management integration
 
 ### 🏢 [Lakehouse Platform](lakehouse.md)
 Self-service, event-sourced data platform with modular processes, compliance, and auditability.
@@ -30,7 +22,6 @@ Optimized read models, CQRS, and query denormalization.
 
 ### Banking, E-Commerce, Lakehouse, Notifications, Projections: These demos show business processes, compliance, and production patterns.
 
----
 
 ## Simple Demos (Technical Patterns & Didactic)
 
@@ -49,7 +40,6 @@ Event schema evolution, upcasters, compatibility.
 ### [Index](index.md)
 Overview and entry point for all demos.
 
----
 
 ## Running Examples
 
@@ -146,10 +136,6 @@ async def on_order_created(event: OrderCreated, bus: MessageBus):
 
 ## Next Steps
 
-- **[Getting Started](../getting-started/quick-start.md)** - Build your first module
-- **[Core Concepts](../getting-started/concepts.md)** - Understand the framework
-- **[API Reference](../api/core.md)** - Detailed API documentation
-- **[Best Practices](../guide/best-practices.md)** - Production guidelines
 
 ## Contributing Examples
 
@@ -157,9 +143,3 @@ Have a great example? Contributions are welcome! See our [Contributing Guide](..
 
 Examples should:
 
-- ✅ Demonstrate a real-world use case
-- ✅ Follow consistent structure
-- ✅ Include comprehensive README
-- ✅ Be fully runnable
-- ✅ Show best practices
-- ✅ Include inline documentation
