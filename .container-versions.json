@@ -1,4 +1,6 @@
 {
   "postgres": ["15-alpine", "16-alpine"],
-  "eventsourcingdb": ["latest"]
+  "eventsourcingdb": ["latest"],
+  "pubsub-emulator": ["latest"],
+  "bigquery-emulator": ["latest"]
 }
