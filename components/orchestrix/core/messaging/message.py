@@ -39,6 +39,7 @@ class Message:
     dataschema: str | None = field(default=None)
     correlation_id: str | None = field(default=None)
     causation_id: str | None = field(default=None)
+    trace_id: str | None = field(default=None)
 
     def __post_init__(self) -> None:
         """Set type from class name if not provided."""

@@ -1,0 +1,42 @@
+[project]
+name = "orchestrix-web-gui-demo"
+version = "2.0.0"
+description = "Enterprise-ready Dash web GUI for Orchestrix event-sourcing framework"
+authors = [
+    { name = "Orchestrix Team", email = "info@orchestrix.dev" }
+]
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+license = { text = "MIT" }
+dependencies = [
+    "dash>=3.3.0",
+    "dash-bootstrap-components>=2.0.4",
+    "dash-table>=5.0.0",
+    "plotly>=6.5.1",
+    "pandas>=2.3.3",
+    "orchestrix",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.1.0",
+    "black>=23.11.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "N", "D", "UP", "ANN"]
+ignore = ["D100", "D104", "ANN201", "ANN204"]
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]

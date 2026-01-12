@@ -24,6 +24,7 @@ class InMemoryEventStore:
 
     def __init__(self) -> None:
         self._events: dict[str, list[Event]] = defaultdict(list)
+        self._events_by_trace: dict[str, list[Event]] = defaultdict(list)
         self._snapshots: dict[str, Snapshot] = {}
 
     def save(
@@ -51,11 +52,17 @@ class InMemoryEventStore:
                 )
 
         self._events[aggregate_id].extend(events)
+        for event in events:
+            if getattr(event, "trace_id", None):
+                self._events_by_trace[event.trace_id].append(event)
         _logger.info(
             "Events saved",
             aggregate_id=aggregate_id,
             event_count=len(events),
         )
+    def load_by_trace(self, trace_id: str) -> list[Event]:
+        """Load all events for a given trace_id."""
+        return list(self._events_by_trace.get(trace_id, []))
 
     def load(self, aggregate_id: str, from_version: int = 0) -> list[Event]:
         """Load events for an aggregate from a specific version.

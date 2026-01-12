@@ -1,0 +1,42 @@
+.notion-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(60, 60, 60, 0.04);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.notion-table th, .notion-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f0f1f3;
+  text-align: left;
+}
+.notion-table th {
+  background: #f6f7f9;
+  font-weight: 600;
+  color: #3a3a3a;
+}
+.notion-table tr:last-child td {
+  border-bottom: none;
+}
+.notion-table tr {
+  transition: background 0.2s;
+}
+.notion-table tbody tr:nth-child(even) {
+  background: #fafbfc;
+}
+.notion-table tbody tr:hover {
+  background: #f0f4fa;
+}
+.notion-table td {
+  color: #444;
+}
+.notion-table th:first-child, .notion-table td:first-child {
+  border-top-left-radius: 12px;
+}
+.notion-table th:last-child, .notion-table td:last-child {
+  border-top-right-radius: 12px;
+}

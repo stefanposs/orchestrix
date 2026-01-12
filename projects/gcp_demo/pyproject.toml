@@ -40,4 +40,4 @@ packages = ["orchestrix"]
 "../../components/orchestrix/infrastructure/observability" = "orchestrix/infrastructure/observability"
 "../../components/orchestrix/infrastructure/postgres" = "orchestrix/infrastructure/postgres"
 # Bases
-"../../bases/orchestrix/ecommerce_demo" = "orchestrix/ecommerce_demo"
+"../../bases/orchestrix/gcp_demo" = "orchestrix/gcp_demo"
