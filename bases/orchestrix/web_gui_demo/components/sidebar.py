@@ -44,4 +44,4 @@ def sidebar() -> html.Div:
                 "WebGUI v2.0.0"
             ], className="text-muted text-center small mt-2")
         ], className="sidebar-footer")
-    ], className="sidebar")
+    ], id="main-sidebar", className="sidebar")

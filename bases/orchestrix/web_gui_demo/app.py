@@ -39,13 +39,41 @@ content = html.Div(id="page-content", className="p-4")
 
 app.layout = html.Div([
     dcc.Location(id="url"),
+    dcc.Store(id="sidebar-visible-store", data=True),
+    # Topbar mit Hamburger-Icon
+    html.Div([
+        html.Button(
+            html.I(className="bi bi-list", style={"fontSize": "1.5rem"}),
+            id="sidebar-hamburger-btn",
+            n_clicks=0,
+            className="btn btn-link p-0 ms-2",
+            style={"background": "none", "border": "none", "outline": "none", "marginTop": "8px"}
+        ),
+        html.Span("Orchestrix", className="navbar-brand ms-2 fw-bold", style={"fontSize": "1.3rem"}),
+    ], style={"height": "48px", "display": "flex", "alignItems": "center", "background": "#f8f9fa", "borderBottom": "1px solid #e0e0e0", "zIndex": 1001, "position": "relative"}),
     dbc.Container([
         dbc.Row([
-            dbc.Col(sidebar(), width=2, className="sidebar-col"),
+            dbc.Col(sidebar(), width=2, className="sidebar-col", id="sidebar-col"),
             dbc.Col(content, width=10, className="main-content bg-white p-4 rounded-4 shadow-sm"),
-        ], className="g-0", style={"height": "100vh"})
+        ], className="g-0", style={"height": "calc(100vh - 48px)"})
     ], fluid=True)
 ])
+
+# Callback: Sidebar ein-/ausblenden
+@app.callback(
+    Output("sidebar-col", "style"),
+    Output("sidebar-visible-store", "data"),
+    Input("sidebar-hamburger-btn", "n_clicks"),
+    State("sidebar-visible-store", "data"),
+    prevent_initial_call=False
+)
+def toggle_sidebar(n_clicks, visible):
+    if n_clicks is None:
+        raise dash.exceptions.PreventUpdate
+    # Toggle Sichtbarkeit
+    new_visible = not visible if n_clicks else True
+    style = {"display": "block"} if new_visible else {"display": "none"}
+    return style, new_visible
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname: str):

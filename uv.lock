@@ -1546,12 +1546,14 @@ dependencies = [
     { name = "dash-bootstrap-components" },
     { name = "dash-table" },
     { name = "deprecated" },
+    { name = "fastapi" },
     { name = "google-cloud-bigquery" },
     { name = "google-cloud-pubsub" },
     { name = "opentelemetry-api" },
     { name = "opentelemetry-exporter-jaeger" },
     { name = "pandas" },
     { name = "plotly" },
+    { name = "pydantic-core" },
 ]
 
 [package.dev-dependencies]
@@ -1580,12 +1582,14 @@ requires-dist = [
     { name = "dash-bootstrap-components", specifier = ">=2.0.4" },
     { name = "dash-table", specifier = ">=5.0.0" },
     { name = "deprecated", specifier = ">=1.2.0,<2.0.0" },
+    { name = "fastapi", specifier = ">=0.128.0" },
     { name = "google-cloud-bigquery", specifier = ">=3.40.0" },
     { name = "google-cloud-pubsub", specifier = ">=2.34.0" },
     { name = "opentelemetry-api", specifier = ">=1.24.0,<2.0.0" },
     { name = "opentelemetry-exporter-jaeger", specifier = ">=1.21.0,<2.0.0" },
     { name = "pandas", specifier = ">=2.3.3" },
     { name = "plotly", specifier = ">=6.5.1" },
+    { name = "pydantic-core", specifier = ">=2.41.5" },
 ]
 
 [package.metadata.requires-dev]
