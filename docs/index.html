@@ -1754,14 +1754,14 @@
 
 
 <hr />
-<h1 id="orchestrix-your-processes-your-data-your-control">🔹 Orchestrix – Your Processes. Your Data. Your Control.</h1>
-<p><strong>Orchestrix is the event-sourcing framework for AI-driven, enterprise-grade, and rapidly evolving systems. Model, manage, and version your business processes, commands, and events—guaranteeing data quality, auditability, and governance.</strong></p>
-<p>In today’s world of AI, fast code iteration, and dynamic environments, a solid foundation is essential. Orchestrix keeps your processes, knowledge, and data consistent, versioned, and under your control—while your systems evolve at AI speed.</p>
+<h1 id="orchestrix-your-processes-your-data-your-control">Orchestrix — Your Processes. Your Data. Your Control.</h1>
+<p><strong>Orchestrix is the event-sourcing framework for AI-driven, enterprise-grade, rapidly evolving Python systems. Model, manage, and version your business processes — guaranteeing data quality, auditability, and governance.</strong></p>
+<p>In a world of AI-accelerated development, your processes and data need a solid, versioned foundation. Orchestrix keeps them consistent, auditable, and under your control while your systems evolve at AI speed.</p>
 <p><strong>Get Started:</strong></p>
 <ul>
-<li><a href="getting-started/installation/">Minimal Service &amp; Installation</a> — Quick setup for new projects</li>
-<li><a href="getting-started/concepts/">Architecture &amp; Event-Sourcing Concepts</a> — Learn the core ideas</li>
-<li><a href="demos/lakehouse/">Demos: Lakehouse / Migration / Order Processing</a> — See Orchestrix in action</li>
+<li><a href="getting-started/installation/">Installation &amp; Quick Setup</a></li>
+<li><a href="getting-started/concepts/">Core Concepts (Commands, Events, Aggregates)</a></li>
+<li><a href="demos/">Demos: Banking, E-Commerce, Lakehouse, Web GUI</a></li>
 </ul>
 <h2 id="1-why-orchestrix">1️⃣ Why Orchestrix</h2>
 <p>Modern enterprises rarely operate a single system. Instead, they manage <strong>hundreds of applications and tools</strong>, each storing and interpreting data differently. Business knowledge often becomes <strong>fragmented</strong>, trapped in multiple tools, leaving organizations blind to their own data quality and process behavior.</p>
@@ -1820,19 +1820,19 @@
 </ul>
 <h2 id="quick-start">Quick Start</h2>
 <h3 id="installation">Installation</h3>
-<p>pip install orchestrix[observability]
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Basic installation</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pip<span class="w"> </span>install<span class="w"> </span>orchestrix
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># With PostgreSQL support</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>pip<span class="w"> </span>install<span class="w"> </span>orchestrix<span class="o">[</span>postgres<span class="o">]</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># With observability (Prometheus + Tracing)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># With observability (Prometheus + OpenTelemetry tracing)</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>pip<span class="w"> </span>install<span class="w"> </span>orchestrix<span class="o">[</span>observability<span class="o">]</span>
-</code></pre></div></p>
-<p>Or with <a href="https://docs.astral.sh/uv/">uv</a>:</p>
+</code></pre></div>
+<p>Or with <a href="https://docs.astral.sh/uv/">uv</a> (recommended):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uv<span class="w"> </span>add<span class="w"> </span>orchestrix
 </code></pre></div>
+<p><strong>Requires Python 3.12+</strong></p>
 <h3 id="basic-usage">Basic Usage</h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix.infrastructure</span><span class="w"> </span><span class="kn">import</span> <span class="n">InMemoryMessageBus</span><span class="p">,</span> <span class="n">InMemoryEventStore</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">.order_module</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderModule</span><span class="p">,</span> <span class="n">CreateOrder</span>
@@ -1853,7 +1853,7 @@
 <a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="p">))</span>
 </code></pre></div>
 <h2 id="documentation">Documentation</h2>
-<p>Full documentation is available at <a href="https://orchestrix.readthedocs.io">orchestrix.readthedocs.io</a></p>
+<p>Full documentation: <a href="https://stefanposs.github.io/orchestrix">stefanposs.github.io/orchestrix</a></p>
 <h2 id="example">Example</h2>
 <p>Create a simple order management system in minutes:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
