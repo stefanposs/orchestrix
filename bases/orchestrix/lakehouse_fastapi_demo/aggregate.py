@@ -17,6 +17,7 @@ from .models import (
     AppendIngestionRequested,
     ApproveContract,
     BatchQuarantined,
+    CheckSLA,
     ColumnAnonymized,
     CreateContract,
     DataAppended,
@@ -29,11 +30,15 @@ from .models import (
     DatasetRegistered,
     DatasetVersionActivated,
     DeclineContract,
+    DefineSLA,
     DeprecateDataset,
     DryRunCompleted,
     DryRunFailed,
     DryRunResult,
     DryRunStarted,
+    ExecutionCompleted,
+    ExecutionFailed,
+    ExecutionStarted,
     JobStatus,
     PrivacyCheckPassed,
     PublishData,
@@ -42,6 +47,10 @@ from .models import (
     QuarantineReleased,
     RegisterDataset,
     ReleaseQuarantine,
+    RequestExecution,
+    SLABreached,
+    SLACheckPassed,
+    SLADefined,
     TableSchema,
     UpdateContract,
     ValidationPassed,
@@ -565,3 +574,180 @@ class AnonymizationJob(AggregateRoot):
     def _when_anonymization_rolled_back(self, _event: AnonymizationRolledBack) -> None:
         """Apply AnonymizationRolledBack event."""
         self.status = JobStatus.ROLLED_BACK
+
+
+# --- SLA Aggregate ---
+
+
+@dataclass
+class SLAAggregate(AggregateRoot):
+    """Aggregate for SLA enforcement and monitoring."""
+
+    sla_id: str = ""
+    dataset: str = ""
+    freshness_hours: float = 0.0
+    availability_pct: float = 99.9
+    owner: str = ""
+    consumers: list[str] = field(default_factory=list)
+    breached: bool = False
+    last_check_passed: bool | None = None
+    breach_count: int = 0
+    defined_at: datetime | None = None
+    last_checked_at: datetime | None = None
+
+    def define(self, cmd: DefineSLA) -> None:
+        """Define SLA for a dataset."""
+        if self.sla_id:
+            raise ValueError("SLA already defined")
+        self._apply_event(
+            SLADefined(
+                dataset=cmd.dataset,
+                sla_id=self.aggregate_id,
+                freshness_hours=cmd.freshness_hours,
+                availability_pct=cmd.availability_pct,
+                owner=cmd.owner,
+                consumers=cmd.consumers,
+                defined_at=datetime.now(UTC),
+            )
+        )
+
+    def check(self, cmd: CheckSLA, freshness_ok: bool, availability_ok: bool) -> None:
+        """Run an SLA check — pass or breach."""
+        if freshness_ok and availability_ok:
+            self._apply_event(
+                SLACheckPassed(
+                    sla_id=self.aggregate_id,
+                    dataset=self.dataset,
+                    freshness_ok=freshness_ok,
+                    availability_ok=availability_ok,
+                    checked_at=datetime.now(UTC),
+                )
+            )
+        else:
+            violations = []
+            if not freshness_ok:
+                violations.append(f"freshness > {self.freshness_hours}h")
+            if not availability_ok:
+                violations.append(f"availability < {self.availability_pct}%")
+            self._apply_event(
+                SLABreached(
+                    sla_id=self.aggregate_id,
+                    dataset=self.dataset,
+                    violation="; ".join(violations),
+                    breached_at=datetime.now(UTC),
+                )
+            )
+
+    def _when_sla_defined(self, event: SLADefined) -> None:
+        self.sla_id = event.sla_id
+        self.dataset = event.dataset
+        self.freshness_hours = event.freshness_hours
+        self.availability_pct = event.availability_pct
+        self.owner = event.owner
+        self.consumers = list(event.consumers)
+        self.defined_at = event.defined_at
+
+    def _when_sla_check_passed(self, event: SLACheckPassed) -> None:
+        self.last_check_passed = True
+        self.breached = False
+        self.last_checked_at = event.checked_at
+
+    def _when_sla_breached(self, event: SLABreached) -> None:
+        self.breached = True
+        self.last_check_passed = False
+        self.breach_count += 1
+        self.last_checked_at = event.breached_at
+
+
+# --- Execution Job Aggregate ---
+
+
+class ExecutionStatus(Enum):
+    """Lifecycle states of an execution job."""
+
+    PENDING = "pending"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+
+@dataclass
+class ExecutionJobAggregate(AggregateRoot):
+    """Aggregate for executor job lifecycle."""
+
+    job_id: str = ""
+    job_type: str = ""
+    dataset: str = ""
+    batch_id: str = ""
+    executor_type: str = "local_python"
+    status: ExecutionStatus = ExecutionStatus.PENDING
+    result: dict[str, Any] = field(default_factory=dict)
+    error: str | None = None
+    duration_seconds: float = 0.0
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
+
+    def request(self, cmd: RequestExecution) -> None:
+        """Start an execution job."""
+        if self.status != ExecutionStatus.PENDING:
+            raise ValueError(f"Cannot start job in status: {self.status.value}")
+        self._apply_event(
+            ExecutionStarted(
+                job_id=cmd.job_id,
+                job_type=cmd.job_type,
+                dataset=cmd.dataset,
+                batch_id=cmd.batch_id,
+                executor_type=cmd.executor_type,
+                started_at=datetime.now(UTC),
+            )
+        )
+
+    def complete(self, result: dict[str, Any], duration: float) -> None:
+        """Mark job as completed."""
+        if self.status != ExecutionStatus.RUNNING:
+            raise ValueError(f"Cannot complete job in status: {self.status.value}")
+        self._apply_event(
+            ExecutionCompleted(
+                job_id=self.aggregate_id,
+                job_type=self.job_type,
+                dataset=self.dataset,
+                batch_id=self.batch_id,
+                result=result,
+                duration_seconds=duration,
+                completed_at=datetime.now(UTC),
+            )
+        )
+
+    def fail(self, reason: str) -> None:
+        """Mark job as failed."""
+        if self.status != ExecutionStatus.RUNNING:
+            raise ValueError(f"Cannot fail job in status: {self.status.value}")
+        self._apply_event(
+            ExecutionFailed(
+                job_id=self.aggregate_id,
+                job_type=self.job_type,
+                dataset=self.dataset,
+                batch_id=self.batch_id,
+                reason=reason,
+                failed_at=datetime.now(UTC),
+            )
+        )
+
+    def _when_execution_started(self, event: ExecutionStarted) -> None:
+        self.job_id = event.job_id
+        self.job_type = event.job_type
+        self.dataset = event.dataset
+        self.batch_id = event.batch_id
+        self.executor_type = event.executor_type
+        self.status = ExecutionStatus.RUNNING
+        self.started_at = event.started_at
+
+    def _when_execution_completed(self, event: ExecutionCompleted) -> None:
+        self.status = ExecutionStatus.COMPLETED
+        self.result = event.result
+        self.duration_seconds = event.duration_seconds
+        self.completed_at = event.completed_at
+
+    def _when_execution_failed(self, event: ExecutionFailed) -> None:
+        self.status = ExecutionStatus.FAILED
+        self.error = event.reason

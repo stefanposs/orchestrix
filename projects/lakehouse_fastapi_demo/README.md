@@ -1,6 +1,6 @@
 # Lakehouse FastAPI Demo
 
-Event-sourced self-service lakehouse platform built with **Orchestrix** aggregates, `AggregateRepository`, and `InMemoryEventStore`.
+Event-sourced enterprise lakehouse platform built with **Orchestrix** aggregates, `AggregateRepository`, and `InMemoryEventStore`.
 
 ## Architecture
 
@@ -9,17 +9,20 @@ Event-sourced self-service lakehouse platform built with **Orchestrix** aggregat
 │  FastAPI     │────▶│  Aggregates  │────▶│  EventStore    │
 │  Endpoints   │     │  (DDD)       │     │  (in-memory)   │
 └─────────────┘     └──────────────┘     └────────────────┘
-      │                    │
-      │  Pydantic          │  _apply_event()
-      │  Request/Response  │  _when_*() handlers
-      ▼                    ▼
-  Typed JSON          Domain Events
+      │                    │                     │
+      │  Pydantic          │  _apply_event()     │  SLA Monitor
+      │  Request/Response  │  _when_*() handlers │  (projection)
+      ▼                    ▼                     ▼
+  Typed JSON          Domain Events         Observability
 ```
 
 **Core Concepts:**
-- **Dataset** — Registered data object with schema and description
-- **Contract** — Data contract with schema, privacy rules, and quality rules
-- **Batch** — Single data delivery with full lifecycle (see below)
+- **Dataset** -- Registered data object with schema, versioning, and deprecation
+- **Contract** -- Data contract with schema, privacy rules, quality rules, approve/decline
+- **Batch** -- Single data delivery with full lifecycle (see below)
+- **SLA** -- Freshness & availability enforcement with breach detection
+- **Executor** -- Pluggable job execution (LocalPython, BigQuery, Spark, dbt)
+- **Pipeline** -- Full ingest -> validate -> privacy -> publish in one call
 
 ---
 
@@ -89,12 +92,16 @@ INGESTED ──┬──▶ QUARANTINED ──▶ (release) ────┘
 | `POST` | `/datasets` | Register dataset (name, schema, description) |
 | `GET` | `/datasets` | List all datasets |
 | `GET` | `/datasets/{name}` | Get single dataset |
+| `POST` | `/datasets/{name}/deprecate` | Deprecate a dataset |
+| `POST` | `/datasets/{name}/activate-version` | Activate a dataset version |
 
 ### Contracts
 | Method | Path | Description |
 |--------|------|-------------|
 | `POST` | `/contracts` | Create data contract (schema, privacy/quality rules) |
 | `GET` | `/contracts` | List all contracts |
+| `POST` | `/contracts/{id}/approve` | Approve a contract |
+| `POST` | `/contracts/{id}/decline` | Decline a contract |
 
 ### Batches
 | Method | Path | Description |
@@ -109,17 +116,39 @@ INGESTED ──┬──▶ QUARANTINED ──▶ (release) ────┘
 | `POST` | `/batches/{id}/publish` | Publish batch |
 | `POST` | `/batches/{id}/consume` | Consume batch (download URL) |
 
+### SLAs
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/slas` | Define SLA (freshness, availability) |
+| `GET` | `/slas` | List all SLAs |
+| `GET` | `/slas/{id}` | Get SLA details |
+| `POST` | `/slas/{id}/check` | Run SLA check |
+
+### Executor
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/executor/run` | Run job on backend (local_python, bigquery, spark, dbt) |
+| `GET` | `/executor/{id}` | Get execution status |
+| `GET` | `/executor` | List all execution jobs |
+
+### Pipeline
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/pipeline/ingest` | Full pipeline: ingest -> validate -> privacy -> publish |
+
 ### Events
 | Method | Path | Description |
 |--------|------|-------------|
 | `POST` | `/events/replay` | Replay events for a dataset |
 | `GET` | `/events` | Query event log (filter: `aggregate_id`, `event_type`) |
+| `GET` | `/events/subscribe` | SSE stream of real-time events |
 
 ### Operations
 | Method | Path | Description |
 |--------|------|-------------|
 | `GET` | `/health` | Liveness probe |
 | `GET` | `/ready` | Readiness probe |
+| `GET` | `/dashboard` | Platform observability dashboard |
 
 ---
 
@@ -135,7 +164,9 @@ Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ## Tech Stack
 
-- **Orchestrix** — AggregateRoot, AggregateRepository, InMemoryEventStore
-- **FastAPI** + Pydantic v2 — Typed REST API
-- **Event Sourcing** — All state changes stored as domain events
-- **DDD** — Aggregates with lifecycle guards and state machine
+- **Orchestrix** -- AggregateRoot, AggregateRepository, InMemoryEventStore
+- **FastAPI** + Pydantic v2 -- Typed REST API
+- **Event Sourcing** -- All state changes stored as domain events
+- **DDD** -- Aggregates with lifecycle guards and state machine
+- **Pluggable Executors** -- LocalPython, BigQuery, Spark, dbt backends
+- **SLA Monitoring** -- Event-driven projection for platform observability

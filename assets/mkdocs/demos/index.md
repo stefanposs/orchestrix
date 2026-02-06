@@ -13,8 +13,9 @@ Account management with event sourcing, transfer saga, and compensation flows.
 Order processing with multi-aggregate saga, payment, inventory, and automatic rollback.
 
 ### [Lakehouse Platform](lakehouse.md)
-Self-service data platform with GDPR compliance, batch lifecycle, data contracts,
-quality gates, and a FastAPI REST API with real-time SSE streaming.
+Enterprise data platform with SLA enforcement, pluggable executor backends
+(LocalPython, BigQuery, Spark, dbt), full pipeline automation, data contracts,
+GDPR compliance, and an observability dashboard -- all event-sourced with SSE streaming.
 
 ### [Notifications](notifications.md)
 Resilient notification system with retry policies, exponential backoff,
@@ -91,6 +92,6 @@ uv run python -m bases.orchestrix.gcp_demo.main
 1. **Events & Commands** → Learn message-driven basics
 2. **Banking** → Understand event sourcing + aggregates
 3. **E-Commerce** → Master sagas and distributed transactions
-4. **Lakehouse** → Production patterns for compliance and data management
+4. **Lakehouse** → Enterprise patterns: SLAs, executors, pipelines, GDPR compliance
 5. **Notifications** → Resilience: retries, backoff, dead letter queues
 6. **Web GUI** → Visualize everything interactively

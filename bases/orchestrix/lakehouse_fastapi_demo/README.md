@@ -1,24 +1,30 @@
 # Lakehouse FastAPI Demo
 
-**Self-Service Lakehouse Platform — Event-Sourced Data Management**
+**Enterprise Lakehouse Platform -- Event-Sourced Data Management**
 
 
 ## Features & Processes
-- Dataset registration with schema, description, lifecycle (deprecation)
-- Data contracts with schema, privacy rules, quality rules
+- Dataset registration with schema, versioning, lifecycle (deprecation)
+- Data contracts with schema, privacy rules, quality rules, approve/decline
 - Append-only data ingestion with auto-generated batch IDs
 - Quality checks, privacy checks, quarantine, publish, consume
+- SLA enforcement: freshness & availability thresholds with breach detection
+- Pluggable executor layer: LocalPython, BigQuery, Spark, dbt backends
+- Full pipeline automation: ingest -> validate -> privacy -> publish in one call
+- Observability dashboard: health scores, SLA compliance, execution metrics
 - Event sourcing: every step emits events, full audit trail via `/events`
-- Modular aggregates: Dataset, Contract, Batch
+- Modular aggregates: Dataset, Contract, Batch, SLA, ExecutionJob
 - FastAPI with Pydantic models, RESTful routing, SSE streaming
 
 
 ## Architecture
 - **models.py**: Commands & Events for all processes
-- **aggregate.py**: Aggregates (Dataset, Contract, Batch, AnonymizationJob)
-- **entry.py**: FastAPI endpoints — wired to Aggregates via Commands → Events
+- **aggregate.py**: Aggregates (Dataset, Contract, Batch, SLA, ExecutionJob, AnonymizationJob)
+- **entry.py**: FastAPI endpoints -- wired to Aggregates via Commands -> Events
+- **executor.py**: Pluggable executor layer (LocalPython, BigQuery, Spark, dbt)
+- **sla_monitor.py**: SLA monitoring projection (health scores, breach tracking)
 - **engine.py**: Anonymization strategies (masking, hashing, pseudonymization)
-- **saga.py**: Anonymization saga (dry-run → approval → execution → rollback)
+- **saga.py**: Anonymization saga (dry-run -> approval -> execution -> rollback)
 - **gdpr.py**: GDPR compliance demo (data lake, deletion requests, audit)
 - **app.py**: FastAPI app setup with tagged routers
 
@@ -75,16 +81,20 @@ curl -X POST http://localhost:8000/batches/{batch_id}/consume \
 
 ## Design Principles
 
-- **RESTful**: Resource-oriented URLs (`POST /datasets`, `POST /batches/{id}/publish`)
+- **RESTful**: Resource-oriented URLs (`POST /datasets`, `POST /slas/{id}/check`)
 - **Event Sourced**: Every command emits events, all queryable via `/events`
 - **Aggregate-wired**: Endpoints use domain aggregates, not plain dicts
 - **Self-Service**: Upload/download via signed URLs, technology-agnostic
-- **Extensible**: Storage backend swappable (Local → S3 → Azure Blob → GCS)
+- **Pluggable**: Executor backends swappable (LocalPython -> BigQuery -> Spark -> dbt)
+- **Observable**: Platform dashboard with health scores, SLA compliance, metrics
+- **Extensible**: Storage backend swappable (Local -> S3 -> Azure Blob -> GCS)
 
 ---
 
 ## Advanced Features
 
+- **executor.py**: Pluggable multi-backend executor (LocalPython, BigQuery, Spark, dbt)
+- **sla_monitor.py**: Event-driven SLA monitoring projection (breach tracking, health scores)
 - **engine.py**: Anonymization engine (masking, hashing, pseudonymization, generalization)
 - **saga.py**: Multi-step anonymization workflow with dry-run, approval, rollback
 - **gdpr.py**: GDPR compliance demo (data lake, right-to-be-forgotten, access audit)

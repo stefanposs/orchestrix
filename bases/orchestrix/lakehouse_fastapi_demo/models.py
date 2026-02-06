@@ -596,3 +596,120 @@ class SignedUrlCreated(Event):
     filename: str
     url: str
     expires_at: datetime
+
+
+# --- SLA & Contract Enforcement ---
+
+
+@dataclass(frozen=True, kw_only=True)
+class DefineSLA(Command):
+    """Command to define an SLA for a dataset."""
+
+    dataset: str
+    freshness_hours: float
+    availability_pct: float
+    owner: str
+    consumers: list[str] = field(default_factory=list)
+
+
+@dataclass(frozen=True, kw_only=True)
+class SLADefined(Event):
+    """Event emitted when an SLA is defined for a dataset."""
+
+    dataset: str
+    sla_id: str
+    freshness_hours: float
+    availability_pct: float
+    owner: str
+    consumers: list[str]
+    defined_at: datetime
+
+
+@dataclass(frozen=True, kw_only=True)
+class CheckSLA(Command):
+    """Command to trigger an SLA check for a dataset."""
+
+    dataset: str
+    sla_id: str
+
+
+@dataclass(frozen=True, kw_only=True)
+class SLACheckPassed(Event):
+    """Event emitted when an SLA check passes."""
+
+    sla_id: str
+    dataset: str
+    freshness_ok: bool
+    availability_ok: bool
+    checked_at: datetime
+
+
+@dataclass(frozen=True, kw_only=True)
+class SLABreached(Event):
+    """Event emitted when an SLA is breached."""
+
+    sla_id: str
+    dataset: str
+    violation: str
+    breached_at: datetime
+
+
+# --- Executor Layer ---
+
+
+class ExecutorType(Enum):
+    """Supported executor backends."""
+
+    LOCAL_PYTHON = "local_python"
+    BIGQUERY = "bigquery"
+    SPARK = "spark"
+    DBT = "dbt"
+
+
+@dataclass(frozen=True, kw_only=True)
+class RequestExecution(Command):
+    """Command to request a job execution (validation, anonymization, publish)."""
+
+    job_id: str
+    job_type: str  # "validation" | "anonymization" | "publish"
+    dataset: str
+    batch_id: str
+    executor_type: str = "local_python"
+    parameters: dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass(frozen=True, kw_only=True)
+class ExecutionStarted(Event):
+    """Event emitted when an executor starts a job."""
+
+    job_id: str
+    job_type: str
+    dataset: str
+    batch_id: str
+    executor_type: str
+    started_at: datetime
+
+
+@dataclass(frozen=True, kw_only=True)
+class ExecutionCompleted(Event):
+    """Event emitted when an executor finishes a job successfully."""
+
+    job_id: str
+    job_type: str
+    dataset: str
+    batch_id: str
+    result: dict[str, Any]
+    duration_seconds: float
+    completed_at: datetime
+
+
+@dataclass(frozen=True, kw_only=True)
+class ExecutionFailed(Event):
+    """Event emitted when an executor job fails."""
+
+    job_id: str
+    job_type: str
+    dataset: str
+    batch_id: str
+    reason: str
+    failed_at: datetime
