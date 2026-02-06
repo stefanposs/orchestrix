@@ -28,15 +28,30 @@ from pydantic import BaseModel, Field
 from orchestrix.core.eventsourcing.aggregate import AggregateRepository
 from orchestrix.infrastructure.memory.store import InMemoryEventStore
 
-from .aggregate import BatchAggregate, ContractAggregate, DatasetAggregate
+from .aggregate import (
+    BatchAggregate,
+    ContractAggregate,
+    DatasetAggregate,
+    ExecutionJobAggregate,
+    SLAAggregate,
+)
+from .executor import ExecutorResult, create_default_registry
 from .models import (
+    ActivateDatasetVersion,
     AppendData,
+    ApproveContract,
+    CheckSLA,
     CreateContract,
+    DeclineContract,
+    DefineSLA,
+    DeprecateDataset,
     PublishData,
     QuarantineBatch,
     RegisterDataset,
     ReleaseQuarantine,
+    RequestExecution,
 )
+from .sla_monitor import SLAMonitor
 
 logger = logging.getLogger("lakehouse")
 
@@ -231,6 +246,7 @@ class EventNotifier:
 # ---------------------------------------------------------------------------
 event_store = InMemoryEventStore()
 _event_notifier = EventNotifier()
+_sla_monitor = SLAMonitor()
 
 # --- Hook into event store so every save() also notifies subscribers ---
 _original_event_store_save = event_store.save
@@ -243,6 +259,9 @@ def _notifying_save(
 ) -> None:
     _original_event_store_save(aggregate_id, events, expected_version)
     _event_notifier.publish(aggregate_id, events)
+    # Feed events into the SLA monitoring projection
+    for evt in events:
+        _sla_monitor.handle_event(evt)
 
 
 event_store.save = _notifying_save  # type: ignore[method-assign]
@@ -250,10 +269,19 @@ event_store.save = _notifying_save  # type: ignore[method-assign]
 dataset_repo: AggregateRepository[DatasetAggregate] = AggregateRepository(event_store=event_store)
 contract_repo: AggregateRepository[ContractAggregate] = AggregateRepository(event_store=event_store)
 batch_repo: AggregateRepository[BatchAggregate] = AggregateRepository(event_store=event_store)
+sla_repo: AggregateRepository[SLAAggregate] = AggregateRepository(event_store=event_store)
+execution_repo: AggregateRepository[ExecutionJobAggregate] = AggregateRepository(
+    event_store=event_store
+)
+
+# Executor registry — pluggable multi-backend job execution
+executor_registry = create_default_registry()
 
 # Secondary index: name → aggregate_id (needed because we address datasets by name)
 _dataset_index: dict[str, str] = {}
 _contract_index: dict[str, str] = {}
+_sla_index: dict[str, str] = {}  # sla_id → aggregate_id
+_execution_index: dict[str, str] = {}  # job_id → aggregate_id
 
 
 # ---------------------------------------------------------------------------
@@ -391,6 +419,110 @@ class HealthResponse(BaseModel):
     event_store: str = "in_memory"
 
 
+# --- SLA Models ---
+
+
+class SLAResponse(BaseModel):
+    """Response for a single SLA definition."""
+
+    sla_id: str
+    dataset: str
+    freshness_hours: float
+    availability_pct: float
+    owner: str
+    consumers: list[str] = Field(default_factory=list)
+    breached: bool = False
+    last_check_passed: bool | None = None
+    breach_count: int = 0
+
+
+class SLAListResponse(BaseModel):
+    """List of SLA definitions."""
+
+    slas: list[SLAResponse]
+
+
+class SLACheckResponse(BaseModel):
+    """Response after running an SLA check."""
+
+    sla_id: str
+    dataset: str
+    passed: bool
+    freshness_ok: bool
+    availability_ok: bool
+    detail: str | None = None
+
+
+# --- Executor Models ---
+
+
+class ExecutionResponse(BaseModel):
+    """Response for an execution job."""
+
+    job_id: str
+    job_type: str
+    dataset: str
+    batch_id: str
+    executor_type: str
+    status: str
+    result: dict[str, Any] = Field(default_factory=dict)
+    error: str | None = None
+    duration_seconds: float = 0.0
+
+
+# --- Pipeline Models ---
+
+
+class PipelineStepResult(BaseModel):
+    """Result of a single pipeline step."""
+
+    step: str
+    status: str
+    detail: dict[str, Any] = Field(default_factory=dict)
+
+
+class PipelineIngestResponse(BaseModel):
+    """Response for a full pipeline ingestion run."""
+
+    batch_id: str
+    dataset: str
+    steps: list[PipelineStepResult]
+    final_status: str
+
+
+# --- Monitoring / Observability Models ---
+
+
+class DatasetHealthResponse(BaseModel):
+    """Health metrics for a single dataset."""
+
+    dataset: str
+    total_batches: int = 0
+    published_batches: int = 0
+    quarantined_batches: int = 0
+    validated_batches: int = 0
+    sla_checks: int = 0
+    sla_breaches: int = 0
+    sla_compliance_pct: float = 100.0
+    publish_rate_pct: float = 0.0
+    quarantine_rate_pct: float = 0.0
+    execution_count: int = 0
+    execution_failures: int = 0
+    avg_execution_seconds: float = 0.0
+
+
+class PlatformDashboardResponse(BaseModel):
+    """Platform-wide observability dashboard."""
+
+    health_score: float
+    total_datasets: int
+    total_slas: int
+    total_breaches: int
+    total_executions: int
+    total_execution_failures: int
+    datasets: list[DatasetHealthResponse]
+
+
 # ---------------------------------------------------------------------------
 # Pydantic Request Models
 # ---------------------------------------------------------------------------
@@ -457,6 +589,57 @@ class ReplayIn(BaseModel):
     dataset: str = Field(..., examples=["sales"])
 
 
+# --- SLA Request Models ---
+
+
+class DefineSLAIn(BaseModel):
+    """Define an SLA for a dataset."""
+
+    dataset: str = Field(..., examples=["sales"])
+    freshness_hours: float = Field(24.0, examples=[24.0])
+    availability_pct: float = Field(99.9, examples=[99.9])
+    owner: str = Field(..., examples=["data-platform-team"])
+    consumers: list[str] = Field(default_factory=list, examples=[["analytics", "ml-team"]])
+
+
+class CheckSLAIn(BaseModel):
+    """Run an SLA check — simulates freshness and availability metrics."""
+
+    freshness_ok: bool = Field(True, description="Whether the dataset is fresh enough.")
+    availability_ok: bool = Field(True, description="Whether the dataset meets availability SLA.")
+
+
+# --- Executor Request Models ---
+
+
+class RunExecutionIn(BaseModel):
+    """Request execution of a job on a specific backend."""
+
+    job_type: str = Field(..., examples=["validation"])
+    dataset: str = Field(..., examples=["sales"])
+    batch_id: str = Field(..., examples=["batch-abc123"])
+    executor_type: str = Field("local_python", examples=["local_python"])
+    parameters: dict[str, Any] = Field(default_factory=dict)
+
+
+# --- Pipeline Request Models ---
+
+
+class PipelineIngestIn(BaseModel):
+    """Run a full pipeline: ingest → validate → privacy-check → publish."""
+
+    dataset: str = Field(..., examples=["sales"])
+    contract_id: str = Field(..., examples=["contract-abc123"])
+    file_url: str = Field(..., examples=["s3://bucket/sales_2024.csv"])
+    quality_rules: dict[str, str] = Field(
+        default_factory=dict, examples=[{"amount": ">0", "id": "not_null"}]
+    )
+    privacy_rules: dict[str, str] = Field(
+        default_factory=dict, examples=[{"email": "mask", "name": "hash"}]
+    )
+    executor_type: str = Field("local_python", examples=["local_python"])
+
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -485,6 +668,23 @@ def _load_batch(batch_id: str) -> BatchAggregate:
         raise NotFoundError("Batch", batch_id)
 
 
+def _require_sla(sla_id: str) -> str:
+    """Validate SLA exists, return aggregate_id."""
+    if sla_id not in _sla_index:
+        raise NotFoundError("SLA", sla_id)
+    return _sla_index[sla_id]
+
+
+def _load_execution(job_id: str) -> ExecutionJobAggregate:
+    """Load an execution job aggregate or raise NotFoundError."""
+    if job_id not in _execution_index:
+        raise NotFoundError("ExecutionJob", job_id)
+    try:
+        return execution_repo.load(ExecutionJobAggregate, _execution_index[job_id])
+    except Exception:
+        raise NotFoundError("ExecutionJob", job_id)
+
+
 # ---------------------------------------------------------------------------
 # Routers
 # ---------------------------------------------------------------------------
@@ -492,6 +692,9 @@ datasets_router = APIRouter(prefix="/datasets", tags=["Datasets"])
 contracts_router = APIRouter(prefix="/contracts", tags=["Contracts"])
 batches_router = APIRouter(prefix="/batches", tags=["Batches"])
 events_router = APIRouter(prefix="/events", tags=["Events"])
+sla_router = APIRouter(prefix="/slas", tags=["SLAs"])
+executor_router = APIRouter(prefix="/executor", tags=["Executor"])
+pipeline_router = APIRouter(prefix="/pipeline", tags=["Pipeline"])
 
 
 # ===========================================================================
@@ -527,6 +730,49 @@ async def health_check() -> HealthResponse:
 async def readiness_check() -> HealthResponse:
     """Readiness probe — checks if event store is accessible."""
     return HealthResponse(timestamp=datetime.now(UTC).isoformat(), status="ready")
+
+
+@health_router.get(
+    "/dashboard",
+    response_model=PlatformDashboardResponse,
+    summary="Observability Dashboard",
+    description=(
+        "Platform-wide monitoring dashboard. Returns health scores, "
+        "SLA compliance, publish rates, quarantine rates, and execution "
+        "metrics per dataset — built from the event-sourced projection."
+    ),
+)
+async def platform_dashboard() -> PlatformDashboardResponse:
+    """Return the platform observability dashboard."""
+    m = _sla_monitor.metrics
+    datasets = []
+    for dh in m.datasets.values():
+        datasets.append(
+            DatasetHealthResponse(
+                dataset=dh.dataset,
+                total_batches=dh.total_batches,
+                published_batches=dh.published_batches,
+                quarantined_batches=dh.quarantined_batches,
+                validated_batches=dh.validated_batches,
+                sla_checks=dh.sla_checks,
+                sla_breaches=dh.sla_breaches,
+                sla_compliance_pct=dh.sla_compliance_pct,
+                publish_rate_pct=dh.publish_rate_pct,
+                quarantine_rate_pct=dh.quarantine_rate_pct,
+                execution_count=dh.execution_count,
+                execution_failures=dh.execution_failures,
+                avg_execution_seconds=dh.avg_execution_seconds,
+            )
+        )
+    return PlatformDashboardResponse(
+        health_score=m.health_score(),
+        total_datasets=m.total_datasets,
+        total_slas=m.total_slas,
+        total_breaches=m.total_breaches,
+        total_executions=m.total_executions,
+        total_execution_failures=m.total_execution_failures,
+        datasets=datasets,
+    )
 
 
 # ===========================================================================
@@ -599,8 +845,60 @@ async def get_dataset(name: str) -> DatasetResponse:
     )
 
 
+@datasets_router.post(
+    "/{name}/deprecate",
+    summary="Deprecate Dataset",
+    description="Mark a dataset as deprecated. Deprecated datasets cannot receive new batches.",
+    response_model=DatasetResponse,
+)
+async def deprecate_dataset(name: str) -> DatasetResponse:
+    """Deprecate a dataset. Emits *DatasetDeprecated*."""
+    agg_id = _require_dataset(name)
+    agg = dataset_repo.load(DatasetAggregate, agg_id)
+    try:
+        agg.deprecate(DeprecateDataset(name=name))
+    except ValueError as e:
+        raise InvalidStateError(str(e))
+    dataset_repo.save(agg)
+
+    logger.info("dataset_deprecated %s", _sanitize_log({"dataset": name}))
+    return DatasetResponse(
+        name=agg.name,
+        schema_def=agg.schema,
+        description=agg.description,
+        deprecated=agg.deprecated,
+    )
+
+
+@datasets_router.post(
+    "/{name}/activate-version",
+    summary="Activate Dataset Version",
+    description="Activate a specific version of a dataset (e.g. 'v2', 'v3').",
+    response_model=DatasetResponse,
+)
+async def activate_version(
+    name: str, version: str = Query(..., examples=["v2"])
+) -> DatasetResponse:
+    """Activate a dataset version. Emits *DatasetVersionActivated*."""
+    agg_id = _require_dataset(name)
+    agg = dataset_repo.load(DatasetAggregate, agg_id)
+    agg.activate_version(ActivateDatasetVersion(name=name, version=version))
+    dataset_repo.save(agg)
+
+    logger.info(
+        "version_activated %s",
+        _sanitize_log({"dataset": name, "version": version}),
+    )
+    return DatasetResponse(
+        name=agg.name,
+        schema_def=agg.schema,
+        description=agg.description,
+        deprecated=agg.deprecated,
+    )
+
+
 # ===========================================================================
-# Contracts — create, list
+# Contracts — create, approve, decline, list
 # ===========================================================================
 
 
@@ -655,6 +953,55 @@ async def list_contracts() -> ContractListResponse:
             )
         )
     return ContractListResponse(contracts=contracts)
+
+
+@contracts_router.post(
+    "/{contract_id}/approve",
+    summary="Approve Contract",
+    description="Approve a data contract, enabling it for data ingestion.",
+    response_model=ContractResponse,
+)
+async def approve_contract(
+    contract_id: str, approver: str = Query(..., examples=["data-steward"])
+) -> ContractResponse:
+    """Approve a contract. Emits *DataContractApproved*."""
+    _require_contract(contract_id)
+    agg = contract_repo.load(ContractAggregate, contract_id)
+    agg.approve(ApproveContract(contract_id=contract_id, approver=approver))
+    contract_repo.save(agg)
+
+    logger.info(
+        "contract_approved %s",
+        _sanitize_log({"contract_id": contract_id, "approver": approver}),
+    )
+    return ContractResponse(
+        contract_id=agg.contract_id or contract_id,
+        dataset=agg.dataset,
+        approved=agg.approved,
+    )
+
+
+@contracts_router.post(
+    "/{contract_id}/decline",
+    summary="Decline Contract",
+    description="Decline (deprecate) a data contract.",
+    response_model=ContractResponse,
+)
+async def decline_contract(
+    contract_id: str, reason: str = Query("Declined", examples=["Does not meet requirements"])
+) -> ContractResponse:
+    """Decline a contract. Emits *DataContractDeprecated*."""
+    _require_contract(contract_id)
+    agg = contract_repo.load(ContractAggregate, contract_id)
+    agg.decline(DeclineContract(contract_id=contract_id, reason=reason))
+    contract_repo.save(agg)
+
+    logger.info("contract_declined %s", _sanitize_log({"contract_id": contract_id}))
+    return ContractResponse(
+        contract_id=agg.contract_id or contract_id,
+        dataset=agg.dataset,
+        approved=agg.approved,
+    )
 
 
 # ===========================================================================
@@ -1058,6 +1405,350 @@ async def query_events(
             )
         )
     return EventListResponse(events=records, count=len(records))
+
+
+# ===========================================================================
+# SLAs — define, check, list, get
+# ===========================================================================
+
+
+@sla_router.post(
+    "",
+    summary="Define SLA",
+    description=(
+        "Define an SLA for a dataset. Includes freshness and availability "
+        "thresholds, owner, and consumer list. SLAs can be checked periodically "
+        "to detect breaches."
+    ),
+    response_model=SLAResponse,
+    status_code=201,
+)
+async def define_sla(body: DefineSLAIn) -> SLAResponse:
+    """Define an SLA for a dataset. Emits *SLADefined*."""
+    _require_dataset(body.dataset)
+
+    sla_id = f"sla-{uuid.uuid4().hex[:8]}"
+    agg = SLAAggregate()
+    agg.aggregate_id = sla_id
+    agg.define(
+        DefineSLA(
+            dataset=body.dataset,
+            freshness_hours=body.freshness_hours,
+            availability_pct=body.availability_pct,
+            owner=body.owner,
+            consumers=body.consumers,
+        )
+    )
+    sla_repo.save(agg)
+    _sla_index[sla_id] = sla_id
+
+    logger.info(
+        "sla_defined %s",
+        _sanitize_log({"sla_id": sla_id, "dataset": body.dataset}),
+    )
+    return _sla_response(agg)
+
+
+@sla_router.get(
+    "",
+    summary="List SLAs",
+    description="Return all SLA definitions with their current breach status.",
+    response_model=SLAListResponse,
+)
+async def list_slas(dataset: str | None = Query(None)) -> SLAListResponse:
+    """Return all SLA definitions, optionally filtered by dataset."""
+    slas = []
+    for _sid, agg_id in _sla_index.items():
+        agg = sla_repo.load(SLAAggregate, agg_id)
+        if dataset and agg.dataset != dataset:
+            continue
+        slas.append(_sla_response(agg))
+    return SLAListResponse(slas=slas)
+
+
+@sla_router.get(
+    "/{sla_id}",
+    summary="Get SLA",
+    description="Return the definition and current status of a single SLA.",
+    response_model=SLAResponse,
+)
+async def get_sla(sla_id: str) -> SLAResponse:
+    """Return details of a single SLA."""
+    agg_id = _require_sla(sla_id)
+    agg = sla_repo.load(SLAAggregate, agg_id)
+    return _sla_response(agg)
+
+
+@sla_router.post(
+    "/{sla_id}/check",
+    summary="Run SLA Check",
+    description=(
+        "Run an SLA check for a dataset. In a real system the freshness and "
+        "availability values would come from monitoring infrastructure. "
+        "Here they are passed explicitly for demo purposes."
+    ),
+    response_model=SLACheckResponse,
+)
+async def check_sla(sla_id: str, body: CheckSLAIn) -> SLACheckResponse:
+    """Run an SLA check. Emits *SLACheckPassed* or *SLABreached*."""
+    agg_id = _require_sla(sla_id)
+    agg = sla_repo.load(SLAAggregate, agg_id)
+    agg.check(
+        CheckSLA(dataset=agg.dataset, sla_id=sla_id),
+        freshness_ok=body.freshness_ok,
+        availability_ok=body.availability_ok,
+    )
+    sla_repo.save(agg)
+
+    passed = body.freshness_ok and body.availability_ok
+    detail = None if passed else f"Breach #{agg.breach_count}"
+
+    logger.info(
+        "sla_checked %s",
+        _sanitize_log({"sla_id": sla_id, "passed": passed}),
+    )
+    return SLACheckResponse(
+        sla_id=sla_id,
+        dataset=agg.dataset,
+        passed=passed,
+        freshness_ok=body.freshness_ok,
+        availability_ok=body.availability_ok,
+        detail=detail,
+    )
+
+
+def _sla_response(agg: SLAAggregate) -> SLAResponse:
+    """Build an SLAResponse from aggregate state."""
+    return SLAResponse(
+        sla_id=agg.sla_id or agg.aggregate_id,
+        dataset=agg.dataset,
+        freshness_hours=agg.freshness_hours,
+        availability_pct=agg.availability_pct,
+        owner=agg.owner,
+        consumers=agg.consumers,
+        breached=agg.breached,
+        last_check_passed=agg.last_check_passed,
+        breach_count=agg.breach_count,
+    )
+
+
+# ===========================================================================
+# Executor — run jobs, get status
+# ===========================================================================
+
+
+@executor_router.post(
+    "/run",
+    summary="Run Execution Job",
+    description=(
+        "Submit a job (validation, anonymization, publish) to a specific "
+        "executor backend. The job is tracked via an event-sourced aggregate, "
+        "and the executor result is recorded with duration metrics."
+    ),
+    response_model=ExecutionResponse,
+    status_code=201,
+)
+async def run_execution(body: RunExecutionIn) -> ExecutionResponse:
+    """Run a job on the specified executor. Emits execution lifecycle events."""
+    _require_dataset(body.dataset)
+
+    job_id = f"exec-{uuid.uuid4().hex[:8]}"
+    agg = ExecutionJobAggregate()
+    agg.aggregate_id = job_id
+
+    cmd = RequestExecution(
+        job_id=job_id,
+        job_type=body.job_type,
+        dataset=body.dataset,
+        batch_id=body.batch_id,
+        executor_type=body.executor_type,
+        parameters=body.parameters,
+    )
+    agg.request(cmd)
+
+    # Dispatch to the executor backend
+    try:
+        executor = executor_registry.get(body.executor_type)
+    except KeyError as e:
+        agg.fail(str(e))
+        execution_repo.save(agg)
+        _execution_index[job_id] = job_id
+        return _execution_response(agg)
+
+    result: ExecutorResult = executor.execute(body.job_type, body.parameters)
+
+    if result.success:
+        agg.complete(result.result, result.duration_seconds)
+    else:
+        agg.fail("; ".join(result.errors))
+
+    execution_repo.save(agg)
+    _execution_index[job_id] = job_id
+
+    logger.info(
+        "execution_completed %s",
+        _sanitize_log({"job_id": job_id, "status": agg.status.value}),
+    )
+    return _execution_response(agg)
+
+
+@executor_router.get(
+    "/{job_id}",
+    summary="Get Execution Status",
+    description="Return the status and result of an execution job.",
+    response_model=ExecutionResponse,
+)
+async def get_execution(job_id: str) -> ExecutionResponse:
+    """Return execution job status."""
+    agg = _load_execution(job_id)
+    return _execution_response(agg)
+
+
+@executor_router.get(
+    "",
+    summary="List Execution Jobs",
+    description="Return all execution jobs, optionally filtered by dataset.",
+    response_model=list[ExecutionResponse],
+)
+async def list_executions(dataset: str | None = Query(None)) -> list[ExecutionResponse]:
+    """Return all execution jobs."""
+    result = []
+    for _jid, agg_id in _execution_index.items():
+        agg = execution_repo.load(ExecutionJobAggregate, agg_id)
+        if dataset and agg.dataset != dataset:
+            continue
+        result.append(_execution_response(agg))
+    return result
+
+
+def _execution_response(agg: ExecutionJobAggregate) -> ExecutionResponse:
+    """Build an ExecutionResponse from aggregate state."""
+    return ExecutionResponse(
+        job_id=agg.job_id or agg.aggregate_id,
+        job_type=agg.job_type,
+        dataset=agg.dataset,
+        batch_id=agg.batch_id,
+        executor_type=agg.executor_type,
+        status=agg.status.value,
+        result=agg.result,
+        error=agg.error,
+        duration_seconds=agg.duration_seconds,
+    )
+
+
+# ===========================================================================
+# Pipeline — full ingest → validate → privacy → publish lifecycle
+# ===========================================================================
+
+
+@pipeline_router.post(
+    "/ingest",
+    summary="Full Pipeline Ingest",
+    description=(
+        "Execute the complete data lifecycle in one call:\n\n"
+        "1. **Ingest** — append data batch\n"
+        "2. **Validate** — run quality checks via executor\n"
+        "3. **Privacy** — run privacy checks via executor\n"
+        "4. **Publish** — publish batch to consumption layer\n\n"
+        "Each step is event-sourced. If validation or privacy fails, "
+        "the batch is quarantined and the pipeline stops."
+    ),
+    response_model=PipelineIngestResponse,
+    status_code=201,
+)
+async def pipeline_ingest(body: PipelineIngestIn) -> PipelineIngestResponse:
+    """Run the full ingest pipeline. Returns step-by-step results."""
+    _require_dataset(body.dataset)
+    _require_contract(body.contract_id)
+
+    batch_id = f"batch-{uuid.uuid4().hex[:8]}"
+    steps: list[PipelineStepResult] = []
+
+    # Step 1: Ingest
+    batch_agg = BatchAggregate()
+    batch_agg.aggregate_id = batch_id
+    batch_agg.append(
+        AppendData(
+            dataset=body.dataset,
+            contract_id=body.contract_id,
+            batch_id=batch_id,
+            file_url=body.file_url,
+        )
+    )
+    batch_repo.save(batch_agg)
+    steps.append(
+        PipelineStepResult(step="ingest", status="completed", detail={"batch_id": batch_id})
+    )
+
+    # Step 2: Validate (via executor)
+    try:
+        executor = executor_registry.get(body.executor_type)
+        val_result = executor.execute("validation", {"quality_rules": body.quality_rules})
+        if not val_result.success:
+            batch_agg.quarantine(
+                QuarantineBatch(batch_id=batch_id, reason="; ".join(val_result.errors))
+            )
+            batch_repo.save(batch_agg)
+            steps.append(
+                PipelineStepResult(
+                    step="validate", status="failed", detail={"errors": val_result.errors}
+                )
+            )
+            return PipelineIngestResponse(
+                batch_id=batch_id, dataset=body.dataset, steps=steps, final_status="quarantined"
+            )
+        batch_agg.mark_dq_passed(batch_id)
+        batch_repo.save(batch_agg)
+        steps.append(PipelineStepResult(step="validate", status="passed", detail=val_result.result))
+    except Exception as exc:
+        batch_agg.quarantine(QuarantineBatch(batch_id=batch_id, reason=str(exc)))
+        batch_repo.save(batch_agg)
+        steps.append(
+            PipelineStepResult(step="validate", status="error", detail={"error": str(exc)})
+        )
+        return PipelineIngestResponse(
+            batch_id=batch_id, dataset=body.dataset, steps=steps, final_status="quarantined"
+        )
+
+    # Step 3: Privacy check (via executor)
+    try:
+        priv_result = executor.execute("anonymization", {"privacy_rules": body.privacy_rules})
+        if not priv_result.success:
+            batch_agg.quarantine(
+                QuarantineBatch(batch_id=batch_id, reason="; ".join(priv_result.errors))
+            )
+            batch_repo.save(batch_agg)
+            steps.append(
+                PipelineStepResult(
+                    step="privacy", status="failed", detail={"errors": priv_result.errors}
+                )
+            )
+            return PipelineIngestResponse(
+                batch_id=batch_id, dataset=body.dataset, steps=steps, final_status="quarantined"
+            )
+        batch_agg.mark_privacy_passed(batch_id)
+        batch_repo.save(batch_agg)
+        steps.append(PipelineStepResult(step="privacy", status="passed", detail=priv_result.result))
+    except Exception as exc:
+        batch_agg.quarantine(QuarantineBatch(batch_id=batch_id, reason=str(exc)))
+        batch_repo.save(batch_agg)
+        steps.append(PipelineStepResult(step="privacy", status="error", detail={"error": str(exc)}))
+        return PipelineIngestResponse(
+            batch_id=batch_id, dataset=body.dataset, steps=steps, final_status="quarantined"
+        )
+
+    # Step 4: Publish
+    batch_agg.publish(PublishData(batch_id=batch_id))
+    batch_repo.save(batch_agg)
+    steps.append(PipelineStepResult(step="publish", status="completed", detail={"published": True}))
+
+    logger.info(
+        "pipeline_completed %s",
+        _sanitize_log({"batch_id": batch_id, "dataset": body.dataset}),
+    )
+    return PipelineIngestResponse(
+        batch_id=batch_id, dataset=body.dataset, steps=steps, final_status="published"
+    )
 
 
 # ===========================================================================

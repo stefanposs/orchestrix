@@ -1554,6 +1554,7 @@ dependencies = [
     { name = "pandas" },
     { name = "plotly" },
     { name = "pydantic-core" },
+    { name = "uvicorn" },
 ]
 
 [package.dev-dependencies]
@@ -1590,6 +1591,7 @@ requires-dist = [
     { name = "pandas", specifier = ">=2.3.3" },
     { name = "plotly", specifier = ">=6.5.1" },
     { name = "pydantic-core", specifier = ">=2.41.5" },
+    { name = "uvicorn", specifier = ">=0.40.0" },
 ]
 
 [package.metadata.requires-dev]

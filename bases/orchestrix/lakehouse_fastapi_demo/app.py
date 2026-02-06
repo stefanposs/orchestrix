@@ -10,8 +10,11 @@ from .entry import (
     datasets_router,
     domain_error_handler,
     events_router,
+    executor_router,
     health_router,
+    pipeline_router,
     router,
+    sla_router,
 )
 
 tags_metadata = [
@@ -23,6 +26,21 @@ tags_metadata = [
     {
         "name": "Batches",
         "description": "Ingest data, validate, quarantine, publish and consume batches.",
+    },
+    {
+        "name": "SLAs",
+        "description": "Define and enforce SLA contracts (freshness, availability) for datasets.",
+    },
+    {
+        "name": "Executor",
+        "description": (
+            "Run jobs (validation, anonymization, publish) on pluggable backends "
+            "(local Python, BigQuery, Spark, dbt)."
+        ),
+    },
+    {
+        "name": "Pipeline",
+        "description": "Full lifecycle pipelines: ingest → validate → privacy → publish in one call.",
     },
     {
         "name": "Events",
@@ -62,6 +80,9 @@ app.add_exception_handler(DomainError, domain_error_handler)
 app.include_router(datasets_router)
 app.include_router(contracts_router)
 app.include_router(batches_router)
+app.include_router(sla_router)
+app.include_router(executor_router)
+app.include_router(pipeline_router)
 app.include_router(events_router)
 app.include_router(health_router)
 app.include_router(router)
