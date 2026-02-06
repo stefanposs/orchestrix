@@ -11,6 +11,10 @@
       
       
       
+        <link rel="prev" href="../../api/infrastructure/">
+      
+      
+        <link rel="next" href="../contributing/">
       
       
         
@@ -267,6 +271,48 @@
   
   
   API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/ASYNC_DESIGN/" class="md-tabs__link">
+          
+  
+  
+  Architecture
 
         </a>
       </li>
@@ -1052,6 +1098,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../demos/gcp_demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GCP Cloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1358,18 +1432,115 @@
   
 
     
-  </ul>
-</nav>
-                  </div>
-                </div>
-              </div>
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
             
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
 
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
@@ -1400,7 +1571,7 @@
   <a href="#1-protocol-based-design" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Protocol-based Design
+        1. Protocol-Based Design
       
     </span>
   </a>
@@ -1485,6 +1656,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#polylith-repository-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Polylith Repository Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#design-patterns" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1530,6 +1712,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#saga-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saga Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#strategy-pattern" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1557,74 +1750,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#scalability-considerations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Scalability Considerations
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Scalability Considerations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#current-v010" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Current (v0.1.0)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#future-scaling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Future Scaling
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Future Scaling">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#horizontal-scaling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Horizontal Scaling
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#async-processing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Async Processing
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#event-streaming" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Event Streaming
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#cqrs-separation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1632,16 +1757,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1654,14 +1769,223 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Technology Choices">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ASYNC_DESIGN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Async Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#core-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Principles">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#why-python" class="md-nav__link">
+  <a href="#1-protocol-based-design" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why Python?
+        1. Protocol-Based Design
       
     </span>
   </a>
@@ -1669,10 +1993,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#why-protocols-over-abc" class="md-nav__link">
+  <a href="#2-immutable-messages" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why Protocols over ABC?
+        2. Immutable Messages
       
     </span>
   </a>
@@ -1680,21 +2004,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#why-dataclasses" class="md-nav__link">
+  <a href="#3-event-sourcing-first" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why Dataclasses?
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#why-event-sourcing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Why Event Sourcing?
+        3. Event Sourcing First
       
     </span>
   </a>
@@ -1707,22 +2020,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#performance-characteristics" class="md-nav__link">
+  <a href="#architecture-layers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Performance Characteristics
+        Architecture Layers
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Performance Characteristics">
+    <nav class="md-nav" aria-label="Architecture Layers">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#inmemorymessagebus" class="md-nav__link">
+  <a href="#application-layer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        InMemoryMessageBus
+        Application Layer
       
     </span>
   </a>
@@ -1730,10 +2043,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#inmemoryeventstore" class="md-nav__link">
+  <a href="#domain-layer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        InMemoryEventStore
+        Domain Layer
       
     </span>
   </a>
@@ -1741,10 +2054,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#optimization-snapshots" class="md-nav__link">
+  <a href="#infrastructure-layer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Optimization: Snapshots
+        Infrastructure Layer
       
     </span>
   </a>
@@ -1757,22 +2070,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#extensibility-points" class="md-nav__link">
+  <a href="#polylith-repository-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Extensibility Points
+        Polylith Repository Structure
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Extensibility Points">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Design Patterns">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-custom-message-types" class="md-nav__link">
+  <a href="#command-pattern" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Custom Message Types
+        Command Pattern
       
     </span>
   </a>
@@ -1780,10 +2104,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-custom-bus-implementations" class="md-nav__link">
+  <a href="#observer-pattern" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Custom Bus Implementations
+        Observer Pattern
       
     </span>
   </a>
@@ -1791,10 +2115,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-custom-store-implementations" class="md-nav__link">
+  <a href="#repository-pattern" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Custom Store Implementations
+        Repository Pattern
       
     </span>
   </a>
@@ -1802,10 +2126,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-middlewaredecorators" class="md-nav__link">
+  <a href="#saga-pattern" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Middleware/Decorators
+        Saga Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy Pattern
       
     </span>
   </a>
@@ -1818,10 +2153,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#testing-architecture" class="md-nav__link">
+  <a href="#event-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Testing Architecture
+        Event Flow
       
     </span>
   </a>
@@ -1829,71 +2164,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#future-roadmap" class="md-nav__link">
+  <a href="#cqrs-separation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Future Roadmap
+        CQRS Separation
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Future Roadmap">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#v020-async-support" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        v0.2.0 - Async Support
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#v030-persistence" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        v0.3.0 - Persistence
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#v040-distributed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        v0.4.0 - Distributed
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#v100-production-ready" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        v1.0.0 - Production Ready
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#architecture-decisions" class="md-nav__link">
+  <a href="#technology-choices" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Architecture Decisions
+        Technology Choices
       
     </span>
   </a>
@@ -1933,388 +2218,276 @@
 
 <h1 id="architecture">Architecture</h1>
 <p>Technical architecture and design decisions behind Orchestrix.</p>
+<hr />
 <h2 id="core-principles">Core Principles</h2>
-<h3 id="1-protocol-based-design">1. Protocol-based Design</h3>
-<p>Orchestrix uses <code>typing.Protocol</code> instead of Abstract Base Classes:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Protocol</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">MessageBus</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Message bus interface - no inheritance required!&quot;&quot;&quot;</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Message</span><span class="p">],</span> <span class="n">handler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+<h3 id="1-protocol-based-design">1. Protocol-Based Design</h3>
+<p>Orchestrix uses <code>typing.Protocol</code> instead of Abstract Base Classes for all core interfaces:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MessageBus</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">handler</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
 <p><strong>Advantages:</strong></p>
 <ul>
-<li>✅ Duck Typing - Pythonic!</li>
-<li>✅ No inheritance required</li>
-<li>✅ Better IDE support</li>
-<li>✅ Easier to mock in tests</li>
+<li>Duck typing — Pythonic, no inheritance required</li>
+<li>Better IDE autocompletion and type checking</li>
+<li>Easy to mock in tests — any matching object works</li>
+<li>Clear, minimal contracts</li>
 </ul>
 <h3 id="2-immutable-messages">2. Immutable Messages</h3>
-<p>All messages are <code>frozen</code> dataclasses:</p>
+<p>All messages are <code>frozen</code> dataclasses with CloudEvents metadata:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">CreateOrder</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">order_id</span><span class="p">:</span> <span class="nb">str</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">customer_id</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="c1"># Inherited: id, specversion, type, source, timestamp,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="c1">#            correlation_id, causation_id, trace_id, …</span>
 </code></pre></div>
-<p><strong>Advantages:</strong></p>
 <ul>
-<li>✅ Thread-safe</li>
-<li>✅ Hashable (can use in sets/dicts)</li>
-<li>✅ Prevents unexpected mutations</li>
-<li>✅ CloudEvents-compatible</li>
+<li>Thread-safe and hashable</li>
+<li>Prevents unexpected mutations after creation</li>
+<li>CloudEvents-compatible for interoperability</li>
 </ul>
 <h3 id="3-event-sourcing-first">3. Event Sourcing First</h3>
-<p>Events are the single source of truth:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># State = fold(events)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">from_events</span><span class="p">(</span><span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Order</span><span class="p">:</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">order</span> <span class="o">=</span> <span class="kc">None</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>        <span class="n">order</span> <span class="o">=</span> <span class="n">apply</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="k">return</span> <span class="n">order</span>
+<p>Events are the single source of truth. Aggregate state is reconstructed by replaying events:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">account</span> <span class="o">=</span> <span class="n">AggregateRepository</span><span class="p">(</span><span class="n">event_store</span><span class="o">=</span><span class="n">store</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">BankAccount</span><span class="p">,</span> <span class="s2">&quot;ACC-001&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># Internally: events = store.load(&quot;ACC-001&quot;) → replay → BankAccount instance</span>
 </code></pre></div>
-<p><strong>Advantages:</strong></p>
 <ul>
-<li>✅ Complete audit trail</li>
-<li>✅ Time travel (state at any point in time)</li>
-<li>✅ Event replay for projections</li>
-<li>✅ Debugging &amp; error analysis</li>
+<li>Complete audit trail</li>
+<li>Time travel (state at any historical point)</li>
+<li>Event replay for projections and analytics</li>
+<li>Built-in debugging through event history</li>
 </ul>
+<hr />
 <h2 id="architecture-layers">Architecture Layers</h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>┌─────────────────────────────────────────────┐
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>│           Application Layer                 │
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│  (Modules, Command Handlers, Use Cases)     │
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│  (Modules, Use Cases, Wiring)               │
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>└──────────────────┬──────────────────────────┘
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>                   │
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>┌──────────────────▼──────────────────────────┐
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│           Domain Layer                      │
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│  (Aggregates, Commands, Events)             │
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│  (AggregateRoot, Commands, Events, Sagas)   │
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>└──────────────────┬──────────────────────────┘
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>                   │
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>┌──────────────────▼──────────────────────────┐
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>│         Infrastructure Layer                │
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>│  (MessageBus, EventStore Implementations)   │
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>│  (MessageBus, EventStore, Observability)    │
 <a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>└─────────────────────────────────────────────┘
 </code></pre></div>
 <h3 id="application-layer">Application Layer</h3>
-<p><strong>Responsibility:</strong> Orchestration &amp; Use Cases</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">OrderModule</span><span class="p">(</span><span class="n">Module</span><span class="p">):</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Application-level orchestration.&quot;&quot;&quot;</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<p><code>Module</code> implementations wire domain logic to infrastructure:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix.core.common.module</span><span class="w"> </span><span class="kn">import</span> <span class="n">Module</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">OrderModule</span><span class="p">:</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bus</span><span class="p">:</span> <span class="n">MessageBus</span><span class="p">,</span> <span class="n">store</span><span class="p">:</span> <span class="n">EventStore</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="c1"># Wire domain to infrastructure</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        <span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">CreateOrder</span><span class="p">,</span> <span class="n">CreateOrderHandler</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">store</span><span class="p">))</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_email</span><span class="p">)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="n">handler</span> <span class="o">=</span> <span class="n">CreateOrderHandler</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">store</span><span class="p">)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        <span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">CreateOrder</span><span class="p">,</span> <span class="n">handler</span><span class="o">.</span><span class="n">handle</span><span class="p">)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">send_confirmation_email</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="domain-layer">Domain Layer</h3>
-<p><strong>Responsibility:</strong> Business Logic &amp; Rules</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@dataclass</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Order</span><span class="p">:</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Domain aggregate.&quot;&quot;&quot;</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Business rule: Can only cancel pending orders.&quot;&quot;&quot;</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="s2">&quot;pending&quot;</span><span class="p">:</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Can only cancel pending orders&quot;</span><span class="p">)</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;cancelled&quot;</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">OrderCancelled</span><span class="p">(</span><span class="n">order_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">order_id</span><span class="p">))</span>
+<p>Business rules live in <code>AggregateRoot</code> subclasses:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix.core.eventsourcing.aggregate</span><span class="w"> </span><span class="kn">import</span> <span class="n">AggregateRoot</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nd">@dataclass</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">Order</span><span class="p">(</span><span class="n">AggregateRoot</span><span class="p">):</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pending&quot;</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;shipped&quot;</span><span class="p">:</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot cancel shipped order&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_event</span><span class="p">(</span><span class="n">OrderCancelled</span><span class="p">(</span><span class="n">order_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">aggregate_id</span><span class="p">))</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_when_order_cancelled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">OrderCancelled</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;cancelled&quot;</span>
 </code></pre></div>
 <h3 id="infrastructure-layer">Infrastructure Layer</h3>
-<p><strong>Responsibility:</strong> Technical Implementation</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">InMemoryMessageBus</span><span class="p">(</span><span class="n">MessageBus</span><span class="p">):</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Technical implementation of message routing.&quot;&quot;&quot;</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handlers</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">message</span><span class="p">)]:</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>            <span class="n">handler</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<p>Pluggable implementations of core Protocols:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Dev / Test</th>
+<th>Production</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MessageBus</td>
+<td><code>InMemoryMessageBus</code></td>
+<td><code>InMemoryMessageBus</code> / custom</td>
+</tr>
+<tr>
+<td>AsyncMessageBus</td>
+<td><code>InMemoryAsyncMessageBus</code></td>
+<td><code>InMemoryAsyncMessageBus</code> / custom</td>
+</tr>
+<tr>
+<td>EventStore</td>
+<td><code>InMemoryEventStore</code></td>
+<td><code>PostgreSQLEventStore</code></td>
+</tr>
+<tr>
+<td>Metrics</td>
+<td><code>NoOpMetricsProvider</code></td>
+<td><code>PrometheusMetrics</code></td>
+</tr>
+<tr>
+<td>Tracing</td>
+<td><code>NoOpTracingProvider</code></td>
+<td><code>JaegerTracer</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="polylith-repository-structure">Polylith Repository Structure</h2>
+<p>Orchestrix uses the <a href="https://polylith.gitbook.io/">Polylith</a> architecture for modular monorepo layout:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>orchestrix/
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>├── components/orchestrix/     # Reusable building blocks
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>│   ├── core/                  # Domain Protocols &amp; base classes
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>│   │   ├── messaging/         # Message, Command, Event, MessageBus, CommandHandler
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>│   │   ├── eventsourcing/     # AggregateRoot, EventStore, Projection, Versioning
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>│   │   ├── execution/         # Saga
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>│   │   └── common/            # Module, Validation, Retry, Observability, Logging
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>│   └── infrastructure/        # Concrete implementations
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>│       ├── memory/            # InMemoryMessageBus, InMemoryEventStore, async variants
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>│       ├── postgres/          # PostgreSQLEventStore
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>│       └── observability/     # JaegerTracer, PrometheusMetrics
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>├── bases/orchestrix/          # Application entry points (demos)
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>│   ├── banking_demo/
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>│   ├── ecommerce_demo/
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>│   ├── lakehouse_fastapi_demo/
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>│   └── …
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>├── projects/                  # Deployable artifacts (pyproject.toml per project)
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>│   ├── orchestrix_lib/        # The published library package
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>│   ├── banking_demo/
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>│   └── …
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>└── test/                      # All tests
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>    ├── conftest.py            # Shared fixtures (bus, store)
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>    ├── components/orchestrix/
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>    │   ├── core/              # Unit tests for core modules
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>    │   └── infrastructure/    # Integration tests for implementations
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>    ├── benchmarks/            # Performance benchmarks
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>    └── projects/              # Project-level integration tests
 </code></pre></div>
+<p><strong>Key rule:</strong> Components never import from bases or projects. Bases compose components. Projects wire everything together.</p>
+<hr />
 <h2 id="design-patterns">Design Patterns</h2>
 <h3 id="command-pattern">Command Pattern</h3>
-<p>Commands encapsulate requests:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">CreateOrder</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Command = Request to do something.&quot;&quot;&quot;</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">order_id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">customer_id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># Execute via handler</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">handler</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="n">CreateOrder</span><span class="p">(</span><span class="o">...</span><span class="p">))</span>
+<p>Commands encapsulate requests; handlers execute them:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">CreateOrder</span><span class="p">(</span><span class="n">order_id</span><span class="o">=</span><span class="s2">&quot;ORD-001&quot;</span><span class="p">,</span> <span class="n">customer_id</span><span class="o">=</span><span class="s2">&quot;CUST-123&quot;</span><span class="p">))</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># → routed to CreateOrderHandler.handle()</span>
 </code></pre></div>
 <h3 id="observer-pattern">Observer Pattern</h3>
-<p>MessageBus implements observer:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Subscribe observers</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">send_email</span><span class="p">)</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">update_inventory</span><span class="p">)</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">log_event</span><span class="p">)</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1"># Notify all observers</span>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="n">bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">(</span><span class="o">...</span><span class="p">))</span>
+<p><code>MessageBus.subscribe()</code> implements observer — multiple handlers per event type:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">send_email</span><span class="p">)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">update_inventory</span><span class="p">)</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">record_analytics</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="repository-pattern">Repository Pattern</h3>
-<p>EventStore is a repository:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Save aggregate state (as events)</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">store</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">aggregate_id</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Load aggregate state (from events)</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">events</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">aggregate_id</span><span class="p">)</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">aggregate</span> <span class="o">=</span> <span class="n">reconstruct</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+<p><code>AggregateRepository</code> abstracts event persistence:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">repo</span> <span class="o">=</span> <span class="n">AggregateRepository</span><span class="p">(</span><span class="n">event_store</span><span class="o">=</span><span class="n">store</span><span class="p">)</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">account</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">BankAccount</span><span class="p">,</span> <span class="s2">&quot;ACC-001&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">account</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="mf">500.0</span><span class="p">)</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">repo</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="saga-pattern">Saga Pattern</h3>
+<p><code>Saga</code> orchestrates multi-step processes with compensation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">saga</span> <span class="o">=</span> <span class="n">Saga</span><span class="p">(</span><span class="n">saga_type</span><span class="o">=</span><span class="s2">&quot;order-fulfillment&quot;</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="p">[</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">SagaStep</span><span class="p">(</span><span class="s2">&quot;reserve&quot;</span><span class="p">,</span> <span class="n">reserve_inventory</span><span class="p">,</span> <span class="n">compensation</span><span class="o">=</span><span class="n">release_inventory</span><span class="p">),</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="n">SagaStep</span><span class="p">(</span><span class="s2">&quot;charge&quot;</span><span class="p">,</span> <span class="n">charge_payment</span><span class="p">,</span> <span class="n">compensation</span><span class="o">=</span><span class="n">refund_payment</span><span class="p">),</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="n">SagaStep</span><span class="p">(</span><span class="s2">&quot;ship&quot;</span><span class="p">,</span> <span class="n">ship_order</span><span class="p">),</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">],</span> <span class="n">state_store</span><span class="o">=</span><span class="n">state_store</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="strategy-pattern">Strategy Pattern</h3>
-<p>Pluggable infrastructure:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Strategy 1: In-Memory</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">bus</span> <span class="o">=</span> <span class="n">InMemoryMessageBus</span><span class="p">()</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Strategy 2: Redis (future)</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">bus</span> <span class="o">=</span> <span class="n">RedisMessageBus</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># Strategy 3: RabbitMQ (future)</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="n">bus</span> <span class="o">=</span> <span class="n">RabbitMQMessageBus</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
-<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1"># Same interface, different implementation!</span>
+<p>Pluggable infrastructure via Protocol adherence:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Same code, different stores</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">store</span> <span class="o">=</span> <span class="n">InMemoryEventStore</span><span class="p">()</span>          <span class="c1"># Dev</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">store</span> <span class="o">=</span> <span class="n">PostgreSQLEventStore</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>    <span class="c1"># Production</span>
 </code></pre></div>
+<hr />
 <h2 id="event-flow">Event Flow</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>1. Client
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>   │
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>   ├─► publish(Command)
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>   │
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>2. MessageBus
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>   │
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>   ├─► route to CommandHandler
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>   │
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>3. CommandHandler
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>   │
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>   ├─► load Events from EventStore
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>   ├─► reconstruct Aggregate
-<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>   ├─► execute business logic
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>   ├─► collect new Events
-<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>   ├─► save Events to EventStore
-<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>   │
-<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>   └─► publish Events to MessageBus
-<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>       │
-<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>4. MessageBus
-<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>   │
-<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>   └─► notify all Event Handlers
-<a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>       │
-<a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a>       ├─► Projection Handler
-<a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>       ├─► Email Handler
-<a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>       ├─► Analytics Handler
-<a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a>       └─► ...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Client
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>  │
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>  ├─► bus.publish(Command)
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>  │
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>MessageBus
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>  │
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>  ├─► CommandHandler.handle()
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>  │     │
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>  │     ├─► AggregateRepository.load()  — EventStore.load()
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>  │     ├─► aggregate.do_something()    — business logic
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>  │     ├─► AggregateRepository.save()  — EventStore.save()
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>  │     └─► bus.publish(Event)          — notify subscribers
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>  │
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>  └─► Event Handlers
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>        ├─► Projection (read model update)
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>        ├─► Notification (email, webhook)
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>        └─► Analytics / Logging
 </code></pre></div>
-<h2 id="scalability-considerations">Scalability Considerations</h2>
-<h3 id="current-v010">Current (v0.1.0)</h3>
-<ul>
-<li>✅ Single process</li>
-<li>✅ Synchronous</li>
-<li>✅ In-memory storage</li>
-<li>✅ Perfect for: Monoliths, testing, development</li>
-</ul>
-<h3 id="future-scaling">Future Scaling</h3>
-<h4 id="horizontal-scaling">Horizontal Scaling</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Distributed message bus</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">bus</span> <span class="o">=</span> <span class="n">RedisMessageBus</span><span class="p">(</span><span class="s2">&quot;redis://...&quot;</span><span class="p">)</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Multiple instances can publish/subscribe</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c1"># Events are distributed across workers</span>
+<hr />
+<h2 id="cqrs-separation">CQRS Separation</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Commands ──► Write Model (EventStore)
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>                  │ Events
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>                  ▼
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>             ProjectionEngine
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>                  │
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>                  ▼
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>            Read Models (dict, DB, search index)
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>                  │
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>                  ▼
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>             Queries ◄── Clients
 </code></pre></div>
-<h4 id="async-processing">Async Processing</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">AsyncMessageBus</span><span class="p">(</span><span class="n">MessageBus</span><span class="p">):</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Non-blocking event publishing.&quot;&quot;&quot;</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">handler</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">handlers</span><span class="p">]</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">)</span>
-</code></pre></div>
-<h4 id="event-streaming">Event Streaming</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Kafka for high-throughput events</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">bus</span> <span class="o">=</span> <span class="n">KafkaMessageBus</span><span class="p">(</span><span class="s2">&quot;kafka://...&quot;</span><span class="p">)</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Process millions of events/sec</span>
-</code></pre></div>
-<h4 id="cqrs-separation">CQRS Separation</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Commands ──► Write Model (Event Store)
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>                  │
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>                  │ Events
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>                  │
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>                  ▼
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>             Event Handlers
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>                  │
-<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>                  ▼
-<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>            Read Models (PostgreSQL, Elasticsearch, ...)
-<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>                  │
-<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>                  ▼
-<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>             Queries ◄── Clients
-</code></pre></div>
+<hr />
 <h2 id="technology-choices">Technology Choices</h2>
-<h3 id="why-python">Why Python?</h3>
-<ul>
-<li>✅ Type hints für Type Safety</li>
-<li>✅ Dataclasses für Value Objects</li>
-<li>✅ Protocols für Interfaces</li>
-<li>✅ Rich ecosystem</li>
-<li>✅ Widely adopted</li>
-</ul>
-<h3 id="why-protocols-over-abc">Why Protocols over ABC?</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># ❌ Abstract Base Class - requires inheritance</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">MessageBus</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>    <span class="nd">@abstractmethod</span>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>        <span class="k">pass</span>
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
-<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">(</span><span class="n">MessageBus</span><span class="p">):</span>  <span class="c1"># Must inherit!</span>
-<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>        <span class="k">pass</span>
-<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>
-<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="c1"># ✅ Protocol - duck typing</span>
-<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="k">class</span><span class="w"> </span><span class="nc">MessageBus</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
-<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>
-<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyBus</span><span class="p">:</span>  <span class="c1"># No inheritance needed!</span>
-<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>        <span class="k">pass</span>
-</code></pre></div>
-<h3 id="why-dataclasses">Why Dataclasses?</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># ✅ Immutable, type-safe, clean</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">Order</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>    <span class="n">order_id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>    <span class="n">customer_id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
-<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># Automatically generates:</span>
-<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="c1"># - __init__</span>
-<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="c1"># - __repr__</span>
-<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="c1"># - __eq__</span>
-<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="c1"># - __hash__ (because frozen)</span>
-</code></pre></div>
-<h3 id="why-event-sourcing">Why Event Sourcing?</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Traditional: Current state only</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">order</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Order</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">order_id</span><span class="p">)</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="c1"># Lost: How did we get here? Who made changes? When?</span>
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="c1"># Event Sourcing: Complete history</span>
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="n">events</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">order_id</span><span class="p">)</span>
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Have: Every change, every reason, complete audit trail</span>
-</code></pre></div>
-<h2 id="performance-characteristics">Performance Characteristics</h2>
-<h3 id="inmemorymessagebus">InMemoryMessageBus</h3>
-<ul>
-<li><strong>Subscribe:</strong> O(1)</li>
-<li><strong>Publish:</strong> O(n) where n = handlers for message type</li>
-<li><strong>Memory:</strong> O(m) where m = total subscriptions</li>
-</ul>
-<h3 id="inmemoryeventstore">InMemoryEventStore</h3>
-<ul>
-<li><strong>Save:</strong> O(1) append</li>
-<li><strong>Load:</strong> O(n) where n = events for aggregate</li>
-<li><strong>Memory:</strong> O(e) where e = total events</li>
-</ul>
-<h3 id="optimization-snapshots">Optimization: Snapshots</h3>
-<p>For aggregates with many events (&gt; 1000):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Without snapshot: Load 10,000 events</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="n">events</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">aggregate_id</span><span class="p">)</span>  <span class="c1"># Slow!</span>
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="n">order</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">from_events</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="c1"># With snapshot: Load snapshot + recent events</span>
-<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="n">snapshot</span> <span class="o">=</span> <span class="n">snapshot_store</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">aggregate_id</span><span class="p">)</span>
-<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="n">recent_events</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">load_after_version</span><span class="p">(</span><span class="n">aggregate_id</span><span class="p">,</span> <span class="n">snapshot</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
-<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="n">order</span> <span class="o">=</span> <span class="n">snapshot</span><span class="o">.</span><span class="n">aggregate</span>
-<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">recent_events</span><span class="p">:</span>
-<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>    <span class="n">order</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="extensibility-points">Extensibility Points</h2>
-<p>Orchestrix is designed to be extended:</p>
-<h3 id="1-custom-message-types">1. Custom Message Types</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Query</span><span class="p">(</span><span class="n">Message</span><span class="p">):</span>
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;New message type for queries.&quot;&quot;&quot;</span>
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>    <span class="k">pass</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>
-<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">GetOrder</span><span class="p">(</span><span class="n">Query</span><span class="p">):</span>
-<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>    <span class="n">order_id</span><span class="p">:</span> <span class="nb">str</span>
-</code></pre></div>
-<h3 id="2-custom-bus-implementations">2. Custom Bus Implementations</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">RateLimitedBus</span><span class="p">(</span><span class="n">MessageBus</span><span class="p">):</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Bus with rate limiting.&quot;&quot;&quot;</span>
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rate_limiter</span><span class="o">.</span><span class="n">allow</span><span class="p">():</span>
-<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_inner_bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>        <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>            <span class="k">raise</span> <span class="n">RateLimitExceeded</span><span class="p">()</span>
-</code></pre></div>
-<h3 id="3-custom-store-implementations">3. Custom Store Implementations</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">PostgreSQLEventStore</span><span class="p">(</span><span class="n">EventStore</span><span class="p">):</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Production-grade PostgreSQL store.&quot;&quot;&quot;</span>
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
-<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aggregate_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>        <span class="c1"># Implement with psycopg2/asyncpg</span>
-<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>        <span class="k">pass</span>
-</code></pre></div>
-<h3 id="4-middlewaredecorators">4. Middleware/Decorators</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">logged</span><span class="p">(</span><span class="n">handler</span><span class="p">):</span>
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator for logging handlers.&quot;&quot;&quot;</span>
-<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
-<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Handling </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">handler</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Handled </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>        <span class="k">return</span> <span class="n">result</span>
-<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>    <span class="k">return</span> <span class="n">wrapper</span>
-<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>
-<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="nd">@logged</span>
-<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_create_order</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="n">CreateOrder</span><span class="p">):</span>
-<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>    <span class="c1"># Implementation</span>
-<a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a>    <span class="k">pass</span>
-</code></pre></div>
-<h2 id="testing-architecture">Testing Architecture</h2>
-<p>Testable by design:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Production</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="n">bus</span> <span class="o">=</span> <span class="n">RedisMessageBus</span><span class="p">(</span><span class="s2">&quot;redis://prod&quot;</span><span class="p">)</span>
-<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="n">store</span> <span class="o">=</span> <span class="n">PostgreSQLEventStore</span><span class="p">(</span><span class="s2">&quot;postgresql://prod&quot;</span><span class="p">)</span>
-<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="c1"># Testing</span>
-<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="n">bus</span> <span class="o">=</span> <span class="n">InMemoryMessageBus</span><span class="p">()</span>
-<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="n">store</span> <span class="o">=</span> <span class="n">InMemoryEventStore</span><span class="p">()</span>
-<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>
-<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="c1"># Same interface - tests pass!</span>
-</code></pre></div>
-<h2 id="future-roadmap">Future Roadmap</h2>
-<h3 id="v020-async-support">v0.2.0 - Async Support</h3>
-<ul>
-<li>AsyncMessageBus</li>
-<li>AsyncEventStore</li>
-<li>Async handlers</li>
-</ul>
-<h3 id="v030-persistence">v0.3.0 - Persistence</h3>
-<ul>
-<li>PostgreSQL EventStore</li>
-<li>MongoDB EventStore</li>
-<li>SQLite EventStore</li>
-</ul>
-<h3 id="v040-distributed">v0.4.0 - Distributed</h3>
-<ul>
-<li>Redis MessageBus</li>
-<li>RabbitMQ MessageBus</li>
-<li>Kafka Integration</li>
-</ul>
-<h3 id="v100-production-ready">v1.0.0 - Production Ready</h3>
-<ul>
-<li>Saga Support</li>
-<li>Process Managers</li>
-<li>Outbox Pattern</li>
-<li>Event Versioning</li>
-</ul>
-<h2 id="architecture-decisions">Architecture Decisions</h2>
-<p>See ADR (Architecture Decision Records) in <code>/assets/adr/</code>:</p>
-<ul>
-<li>ADR-001: Use Protocols over ABC</li>
-<li>ADR-002: Immutable Messages with Dataclasses</li>
-<li>ADR-003: Event Sourcing by Default</li>
-<li>ADR-004: CloudEvents Compatibility</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Choice</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python 3.12+</td>
+<td>Type hints, dataclasses, Protocols, <code>type</code> statement</td>
+</tr>
+<tr>
+<td><code>typing.Protocol</code></td>
+<td>Duck typing, no inheritance, easy mocking</td>
+</tr>
+<tr>
+<td><code>@dataclass(frozen=True)</code></td>
+<td>Immutable, hashable, auto-generated <code>__init__</code>/<code>__repr__</code>/<code>__eq__</code></td>
+</tr>
+<tr>
+<td>Polylith</td>
+<td>Modular monorepo without microservice overhead</td>
+</tr>
+<tr>
+<td><code>uv</code></td>
+<td>Fast dependency management and virtual environments</td>
+</tr>
+<tr>
+<td><code>ruff</code></td>
+<td>Linting + formatting (replaces black, isort, flake8, pylint)</td>
+</tr>
+<tr>
+<td><code>ty</code></td>
+<td>Type checking</td>
+</tr>
+<tr>
+<td><code>pytest</code></td>
+<td>Flexible test framework with rich fixture support</td>
+</tr>
+</tbody>
+</table>
+<hr />
 <h2 id="next-steps">Next Steps</h2>
 <ul>
-<li><a href="../contributing/">Contributing</a> - How to contribute</li>
-<li><a href="../testing/">Testing</a> - Test strategies</li>
-<li><a href="../../guide/best-practices/">Best Practices</a> - Production guidelines</li>
+<li><a href="../contributing/">Contributing</a> — Development setup and workflow</li>
+<li><a href="../testing/">Testing</a> — Test strategies and patterns</li>
+<li><a href="../../architecture/ASYNC_DESIGN/">Async Design</a> — Async API design document</li>
 </ul>
 
 

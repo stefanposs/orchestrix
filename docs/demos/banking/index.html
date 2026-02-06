@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#banking-money-transfers-with-compensation" class="md-skip">
+        <a href="#banking-demo-money-transfers-with-compensation" class="md-skip">
           Skip to content
         </a>
       
@@ -273,6 +273,46 @@
   
   
   API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../development/architecture/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/ASYNC_DESIGN/" class="md-tabs__link">
+          
+  
+  
+  Architecture
 
         </a>
       </li>
@@ -991,17 +1031,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Overview
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1013,30 +1042,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#architecture" class="md-nav__link">
+  <a href="#what-it-demonstrates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Architecture
+        What It Demonstrates
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Architecture">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#compensation-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Compensation Flow
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1061,45 +1073,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Commands">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openaccount" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OpenAccount
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#transfermoney" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        TransferMoney
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#withdrawmoney-depositmoney" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        WithdrawMoney / DepositMoney
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
         
           <li class="md-nav__item">
@@ -1114,88 +1087,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#aggregate" class="md-nav__link">
+  <a href="#aggregate-account" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Aggregate
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Aggregate">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#account" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Account
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Patterns
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Key Patterns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-two-phase-commit" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Two-Phase Commit
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-event-sourced-balance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Event-Sourced Balance
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-saga-state-management" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Saga State Management
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-transaction-log" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Transaction Log
+        Aggregate: Account
       
     </span>
   </a>
@@ -1208,41 +1103,24 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#business-rules" class="md-nav__link">
+  <a href="#transfer-saga-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Business Rules
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Business Rules">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#account-rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Account Rules
+        Transfer Saga Flow
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#transfer-rules" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#code-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Transfer Rules
+        Code Structure
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1258,154 +1136,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#testing" class="md-nav__link">
+  <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Testing
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Testing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#test-insufficient-funds" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Test Insufficient Funds
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#test-transfer-compensation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Test Transfer Compensation
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#projections" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Projections
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#production-considerations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Production Considerations
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Production Considerations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-idempotency" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Idempotency
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-timeout-handling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Timeout Handling
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-retry-logic" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Retry Logic
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-concurrency-control" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Concurrency Control
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#5-monitoring" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Monitoring
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related-examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related Examples
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#learn-more" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Learn More
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#source-code" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Source Code
+        Related
       
     </span>
   </a>
@@ -1520,6 +1254,34 @@
     
   
     Projections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gcp_demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GCP Cloud
   
 
     
@@ -1842,6 +1604,240 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ASYNC_DESIGN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Async Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -1869,17 +1865,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Overview
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1891,30 +1876,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#architecture" class="md-nav__link">
+  <a href="#what-it-demonstrates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Architecture
+        What It Demonstrates
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Architecture">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#compensation-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Compensation Flow
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1939,45 +1907,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Commands">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openaccount" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OpenAccount
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#transfermoney" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        TransferMoney
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#withdrawmoney-depositmoney" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        WithdrawMoney / DepositMoney
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
         
           <li class="md-nav__item">
@@ -1992,88 +1921,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#aggregate" class="md-nav__link">
+  <a href="#aggregate-account" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Aggregate
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Aggregate">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#account" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Account
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Patterns
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Key Patterns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-two-phase-commit" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Two-Phase Commit
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-event-sourced-balance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Event-Sourced Balance
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-saga-state-management" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Saga State Management
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-transaction-log" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Transaction Log
+        Aggregate: Account
       
     </span>
   </a>
@@ -2086,41 +1937,24 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#business-rules" class="md-nav__link">
+  <a href="#transfer-saga-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Business Rules
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Business Rules">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#account-rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Account Rules
+        Transfer Saga Flow
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#transfer-rules" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#code-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Transfer Rules
+        Code Structure
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2136,154 +1970,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#testing" class="md-nav__link">
+  <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Testing
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Testing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#test-insufficient-funds" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Test Insufficient Funds
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#test-transfer-compensation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Test Transfer Compensation
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#projections" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Projections
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#production-considerations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Production Considerations
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Production Considerations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-idempotency" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Idempotency
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-timeout-handling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Timeout Handling
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-retry-logic" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Retry Logic
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-concurrency-control" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Concurrency Control
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#5-monitoring" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Monitoring
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related-examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related Examples
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#learn-more" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Learn More
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#source-code" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Source Code
+        Related
       
     </span>
   </a>
@@ -2310,423 +2000,196 @@
   
 
 
-<h1 id="banking-money-transfers-with-compensation">Banking: Money Transfers with Compensation</h1>
-<p>This example demonstrates money transfers between accounts with automatic compensation when transfers fail, showcasing the Saga pattern and event sourcing.</p>
+<h1 id="banking-demo-money-transfers-with-compensation">Banking Demo — Money Transfers with Compensation</h1>
+<p>Event-sourced account management with two-phase transfers, saga-based
+compensation, and a full transaction audit trail.</p>
 <blockquote>
-<p><strong>📂 Source Code:</strong><br />
-Complete Example: <a href="https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/banking"><code>bases/orchestrix/banking/</code></a><br />
-Main Demo: <a href="https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/banking/main.py"><code>bases/orchestrix/banking/main.py</code></a><br />
-Domain Models: <a href="https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/banking/models.py"><code>bases/orchestrix/banking/models.py</code></a></p>
+<p><strong>Source Code:</strong>
+<a href="https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/banking_demo"><code>bases/orchestrix/banking_demo/</code></a></p>
 </blockquote>
-<h2 id="overview">Overview</h2>
-<p>The banking example demonstrates:</p>
-<ul>
-<li>✅ <strong>Money Transfers</strong> - Between accounts with saga coordination</li>
-<li>✅ <strong>Automatic Compensation</strong> - Rollback on failure</li>
-<li>✅ <strong>Event-Sourced Balances</strong> - Balance calculated from events</li>
-<li>✅ <strong>Two-Phase Commit</strong> - Distributed transaction pattern</li>
-<li>✅ <strong>Transaction Audit Trail</strong> - Complete immutable history</li>
-</ul>
 <h2 id="quick-start">Quick Start</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Run the banking demo</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>bases/orchestrix/banking/main.py
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>bases.orchestrix.banking_demo.main
 </code></pre></div>
-<h2 id="architecture">Architecture</h2>
-<p>The transfer saga coordinates a distributed transaction:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>TransferMoney Command
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    ↓
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>TransferInitiated Event → TransferSaga
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    ↓
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>WithdrawMoney Command (Debit source)
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    ↓
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>TransferDebited Event → TransferSaga
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    ↓
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>DepositMoney Command (Credit destination)
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    ↓
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>TransferCompleted Event ✅
-</code></pre></div>
-<h3 id="compensation-flow">Compensation Flow</h3>
-<p>If the destination deposit fails, the saga automatically compensates:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>DepositMoney fails (e.g., account closed)
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    ↓
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>DepositMoney Command (Re-credit source)
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    ↓
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>TransferReversed Event
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    ↓
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>TransferFailed Event ❌
-</code></pre></div>
+<h2 id="what-it-demonstrates">What It Demonstrates</h2>
+<ul>
+<li><strong>Event-sourced accounts</strong> — balance reconstructed from events</li>
+<li><strong>Transfer saga</strong> — two-phase debit/credit with automatic rollback</li>
+<li><strong>Compensation</strong> — if the credit leg fails, the debit is reversed</li>
+<li><strong>Account lifecycle</strong> — open, suspend, reactivate, close</li>
+<li><strong>Command handlers</strong> — <code>BankingCommandHandlers</code> wires everything together</li>
+</ul>
 <h2 id="domain-model">Domain Model</h2>
 <h3 id="commands">Commands</h3>
-<h4 id="openaccount">OpenAccount</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">OpenAccount</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">account_id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">owner_name</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">initial_balance</span><span class="p">:</span> <span class="n">Decimal</span>
-</code></pre></div>
-<h4 id="transfermoney">TransferMoney</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">TransferMoney</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">transfer_id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">from_account_id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">to_account_id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">amount</span><span class="p">:</span> <span class="n">Decimal</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
-</code></pre></div>
-<h4 id="withdrawmoney-depositmoney">WithdrawMoney / DepositMoney</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">WithdrawMoney</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">account_id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">amount</span><span class="p">:</span> <span class="n">Decimal</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">transaction_id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">DepositMoney</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="n">account_id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="n">amount</span><span class="p">:</span> <span class="n">Decimal</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="n">transaction_id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
-</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Fields</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OpenAccount</code></td>
+<td><code>account_id</code>, <code>owner_name</code>, <code>initial_balance</code></td>
+<td>Open a new account</td>
+</tr>
+<tr>
+<td><code>DepositMoney</code></td>
+<td><code>account_id</code>, <code>amount</code>, <code>description</code></td>
+<td>Deposit funds</td>
+</tr>
+<tr>
+<td><code>WithdrawMoney</code></td>
+<td><code>account_id</code>, <code>amount</code>, <code>description</code></td>
+<td>Withdraw funds</td>
+</tr>
+<tr>
+<td><code>TransferMoney</code></td>
+<td><code>transfer_id</code>, <code>from_account_id</code>, <code>to_account_id</code>, <code>amount</code>, <code>description</code></td>
+<td>Transfer between accounts</td>
+</tr>
+<tr>
+<td><code>SuspendAccount</code></td>
+<td><code>account_id</code>, <code>reason</code></td>
+<td>Suspend an account</td>
+</tr>
+<tr>
+<td><code>ReactivateAccount</code></td>
+<td><code>account_id</code></td>
+<td>Reactivate a suspended account</td>
+</tr>
+<tr>
+<td><code>CloseAccount</code></td>
+<td><code>account_id</code></td>
+<td>Close an account</td>
+</tr>
+</tbody>
+</table>
 <h3 id="events">Events</h3>
-<ul>
-<li><code>AccountOpened</code> - Account created with initial balance</li>
-<li><code>MoneyDeposited</code> - Funds added to account</li>
-<li><code>MoneyWithdrawn</code> - Funds removed from account</li>
-<li><code>TransferInitiated</code> - Transfer started by saga</li>
-<li><code>TransferDebited</code> - Source account debited</li>
-<li><code>TransferCompleted</code> - Transfer successful</li>
-<li><code>TransferReversed</code> - Compensation executed</li>
-<li><code>TransferFailed</code> - Transfer failed after compensation</li>
-</ul>
-<h3 id="aggregate">Aggregate</h3>
-<h4 id="account">Account</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nd">@dataclass</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Account</span><span class="p">:</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">account_id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">owner_name</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="n">balance</span><span class="p">:</span> <span class="n">Decimal</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="n">status</span><span class="p">:</span> <span class="n">AccountStatus</span>  <span class="c1"># ACTIVE, SUSPENDED, CLOSED</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">withdraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">Decimal</span><span class="p">,</span> <span class="n">txn_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">&lt;</span> <span class="n">amount</span><span class="p">:</span>
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Insufficient balance&quot;</span><span class="p">)</span>
-<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>        <span class="c1"># Emit MoneyWithdrawn event</span>
-<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
-<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="n">Decimal</span><span class="p">,</span> <span class="n">txn_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>        <span class="c1"># Emit MoneyDeposited event</span>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AccountOpened</code></td>
+<td>Account created with initial balance</td>
+</tr>
+<tr>
+<td><code>MoneyDeposited</code></td>
+<td>Funds added</td>
+</tr>
+<tr>
+<td><code>MoneyWithdrawn</code></td>
+<td>Funds removed</td>
+</tr>
+<tr>
+<td><code>AccountSuspended</code></td>
+<td>Account suspended</td>
+</tr>
+<tr>
+<td><code>AccountReactivated</code></td>
+<td>Account reactivated</td>
+</tr>
+<tr>
+<td><code>AccountClosed</code></td>
+<td>Account closed</td>
+</tr>
+<tr>
+<td><code>TransferInitiated</code></td>
+<td>Transfer started by saga</td>
+</tr>
+<tr>
+<td><code>TransferDebited</code></td>
+<td>Source account debited</td>
+</tr>
+<tr>
+<td><code>TransferCompleted</code></td>
+<td>Transfer succeeded</td>
+</tr>
+<tr>
+<td><code>TransferFailed</code></td>
+<td>Transfer failed after compensation</td>
+</tr>
+<tr>
+<td><code>TransferReversed</code></td>
+<td>Compensation: debit reversed</td>
+</tr>
+</tbody>
+</table>
+<h3 id="aggregate-account">Aggregate: <code>Account</code></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix.core.eventsourcing.aggregate</span><span class="w"> </span><span class="kn">import</span> <span class="n">AggregateRoot</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nd">@dataclass</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">Account</span><span class="p">(</span><span class="n">AggregateRoot</span><span class="p">):</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">owner_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">balance</span><span class="p">:</span> <span class="n">Decimal</span> <span class="o">=</span> <span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">status</span><span class="p">:</span> <span class="n">AccountStatus</span> <span class="o">=</span> <span class="n">AccountStatus</span><span class="o">.</span><span class="n">ACTIVE</span>   <span class="c1"># ACTIVE | SUSPENDED | CLOSED</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">transactions</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="key-patterns">Key Patterns</h2>
-<h3 id="1-two-phase-commit">1. Two-Phase Commit</h3>
-<p>The transfer saga implements a distributed transaction:</p>
-<ol>
-<li>
-<p><strong>Phase 1</strong>: Debit source account
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">await</span> <span class="n">bus</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">WithdrawMoney</span><span class="p">(</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">account_id</span><span class="o">=</span><span class="n">from_account</span><span class="p">,</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="o">...</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">))</span>
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Phase 2</strong>: Credit destination account
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">await</span> <span class="n">bus</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">DepositMoney</span><span class="p">(</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="n">account_id</span><span class="o">=</span><span class="n">to_account</span><span class="p">,</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="o">...</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">))</span>
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Compensation</strong>: If phase 2 fails, reverse phase 1
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">await</span> <span class="n">bus</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">DepositMoney</span><span class="p">(</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="n">account_id</span><span class="o">=</span><span class="n">from_account</span><span class="p">,</span>  <span class="c1"># Refund</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">,</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="o">...</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">))</span>
-</code></pre></div></p>
-</li>
-</ol>
-<h3 id="2-event-sourced-balance">2. Event-Sourced Balance</h3>
-<p>Account balance is calculated from events, not stored directly:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">balance</span> <span class="o">=</span> <span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">AccountOpened</span><span class="p">):</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>        <span class="n">balance</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">initial_balance</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">MoneyDeposited</span><span class="p">):</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>        <span class="n">balance</span> <span class="o">+=</span> <span class="n">event</span><span class="o">.</span><span class="n">amount</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">MoneyWithdrawn</span><span class="p">):</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>        <span class="n">balance</span> <span class="o">-=</span> <span class="n">event</span><span class="o">.</span><span class="n">amount</span>
+<p>Key methods: <code>open()</code>, <code>deposit()</code>, <code>withdraw()</code>, <code>suspend()</code>, <code>reactivate()</code>, <code>close()</code>.
+Business rules: no overdraft, no ops on suspended/closed accounts, no closing with non-zero balance.</p>
+<h2 id="transfer-saga-flow">Transfer Saga Flow</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>TransferMoney command
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  ↓
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>TransferInitiated → TransferSaga
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  ↓
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>WithdrawMoney (debit source)
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  ↓
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>TransferDebited → TransferSaga
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>  ↓
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>DepositMoney (credit destination)
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>  ↓  success              ↓  failure
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>TransferCompleted ✅      DepositMoney (re-credit source)
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>                            ↓
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>                          TransferReversed → TransferFailed ❌
 </code></pre></div>
-<p><strong>Benefits:</strong>
-- Complete audit trail
-- Temporal queries ("balance at time X")
-- Replay for debugging
-- No lost updates</p>
-<h3 id="3-saga-state-management">3. Saga State Management</h3>
-<p>The saga stores state implicitly through events:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">TransferSaga</span><span class="p">:</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_transfer_initiated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">TransferInitiated</span><span class="p">):</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>        <span class="c1"># Start phase 1: debit source</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">WithdrawMoney</span><span class="p">(</span><span class="o">...</span><span class="p">))</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_transfer_debited</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">TransferDebited</span><span class="p">):</span>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>        <span class="c1"># Phase 1 complete, start phase 2: credit destination</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">DepositMoney</span><span class="p">(</span><span class="o">...</span><span class="p">))</span>
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_money_deposited</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">MoneyDeposited</span><span class="p">):</span>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>        <span class="c1"># Phase 2 complete, transfer successful</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">CompleteTransfer</span><span class="p">(</span><span class="o">...</span><span class="p">))</span>
+<h2 id="code-structure">Code Structure</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>bases/orchestrix/banking_demo/
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── main.py       # Runnable entry point (async demo)
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├── models.py     # Commands, Events, Enums
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>├── aggregate.py  # Account aggregate
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>├── handlers.py   # BankingCommandHandlers
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>├── saga.py       # TransferSaga
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>└── README.md
 </code></pre></div>
-<h3 id="4-transaction-log">4. Transaction Log</h3>
-<p>All balance changes are immutable events providing a complete transaction history:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Load transaction history</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">events</span> <span class="o">=</span> <span class="k">await</span> <span class="n">event_store</span><span class="o">.</span><span class="n">load_async</span><span class="p">(</span><span class="s2">&quot;account-123&quot;</span><span class="p">)</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">MoneyWithdrawn</span><span class="p">):</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Debit:  $</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">amount</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">MoneyDeposited</span><span class="p">):</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Credit: $</span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">amount</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="business-rules">Business Rules</h2>
-<h3 id="account-rules">Account Rules</h3>
-<ul>
-<li>✅ Initial balance cannot be negative</li>
-<li>✅ Cannot withdraw more than balance (no overdraft)</li>
-<li>✅ Cannot operate on suspended/closed accounts</li>
-<li>✅ Cannot close account with non-zero balance</li>
-</ul>
-<h3 id="transfer-rules">Transfer Rules</h3>
-<ul>
-<li>✅ Both accounts must be active</li>
-<li>✅ Source must have sufficient funds</li>
-<li>✅ If destination fails, source is automatically refunded</li>
-<li>✅ Transfer ID must be unique (idempotency)</li>
-</ul>
 <h2 id="usage-example">Usage Example</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix.core.eventsourcing.aggregate</span><span class="w"> </span><span class="kn">import</span> <span class="n">AggregateRepository</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix.infrastructure.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">InMemoryEventStore</span><span class="p">,</span> <span class="n">InMemoryMessageBus</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">examples.banking.aggregate</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">examples.banking.handlers</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_handlers</span>
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">examples.banking.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAccount</span><span class="p">,</span> <span class="n">TransferMoney</span>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="kn">from</span><span class="w"> </span><span class="nn">examples.banking.saga</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_saga</span>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
-<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
-<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>    <span class="c1"># Setup infrastructure</span>
-<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>    <span class="n">event_store</span> <span class="o">=</span> <span class="n">InMemoryEventStore</span><span class="p">()</span>
-<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>    <span class="n">message_bus</span> <span class="o">=</span> <span class="n">InMemoryMessageBus</span><span class="p">()</span>
-<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>    <span class="n">repository</span> <span class="o">=</span> <span class="n">AggregateRepository</span><span class="p">(</span><span class="n">event_store</span><span class="p">)</span>
-<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>
-<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>    <span class="c1"># Register handlers and saga</span>
-<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>    <span class="n">register_handlers</span><span class="p">(</span><span class="n">message_bus</span><span class="p">,</span> <span class="n">repository</span><span class="p">)</span>
-<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>    <span class="n">register_saga</span><span class="p">(</span><span class="n">message_bus</span><span class="p">,</span> <span class="n">repository</span><span class="p">)</span>
-<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>
-<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a>    <span class="c1"># Open two accounts</span>
-<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a>    <span class="k">await</span> <span class="n">message_bus</span><span class="o">.</span><span class="n">publish_async</span><span class="p">(</span>
-<a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a>        <span class="n">OpenAccount</span><span class="p">(</span>
-<a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a>            <span class="n">account_id</span><span class="o">=</span><span class="s2">&quot;acc-alice&quot;</span><span class="p">,</span>
-<a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a>            <span class="n">owner_name</span><span class="o">=</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
-<a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a>            <span class="n">initial_balance</span><span class="o">=</span><span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;1000.00&quot;</span><span class="p">),</span>
-<a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a>        <span class="p">)</span>
-<a id="__codelineno-13-30" name="__codelineno-13-30" href="#__codelineno-13-30"></a>    <span class="p">)</span>
-<a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a>    <span class="k">await</span> <span class="n">message_bus</span><span class="o">.</span><span class="n">publish_async</span><span class="p">(</span>
-<a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a>        <span class="n">OpenAccount</span><span class="p">(</span>
-<a id="__codelineno-13-33" name="__codelineno-13-33" href="#__codelineno-13-33"></a>            <span class="n">account_id</span><span class="o">=</span><span class="s2">&quot;acc-bob&quot;</span><span class="p">,</span>
-<a id="__codelineno-13-34" name="__codelineno-13-34" href="#__codelineno-13-34"></a>            <span class="n">owner_name</span><span class="o">=</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span>
-<a id="__codelineno-13-35" name="__codelineno-13-35" href="#__codelineno-13-35"></a>            <span class="n">initial_balance</span><span class="o">=</span><span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;500.00&quot;</span><span class="p">),</span>
-<a id="__codelineno-13-36" name="__codelineno-13-36" href="#__codelineno-13-36"></a>        <span class="p">)</span>
-<a id="__codelineno-13-37" name="__codelineno-13-37" href="#__codelineno-13-37"></a>    <span class="p">)</span>
-<a id="__codelineno-13-38" name="__codelineno-13-38" href="#__codelineno-13-38"></a>
-<a id="__codelineno-13-39" name="__codelineno-13-39" href="#__codelineno-13-39"></a>    <span class="c1"># Transfer money from Alice to Bob</span>
-<a id="__codelineno-13-40" name="__codelineno-13-40" href="#__codelineno-13-40"></a>    <span class="k">await</span> <span class="n">message_bus</span><span class="o">.</span><span class="n">publish_async</span><span class="p">(</span>
-<a id="__codelineno-13-41" name="__codelineno-13-41" href="#__codelineno-13-41"></a>        <span class="n">TransferMoney</span><span class="p">(</span>
-<a id="__codelineno-13-42" name="__codelineno-13-42" href="#__codelineno-13-42"></a>            <span class="n">transfer_id</span><span class="o">=</span><span class="s2">&quot;txn-001&quot;</span><span class="p">,</span>
-<a id="__codelineno-13-43" name="__codelineno-13-43" href="#__codelineno-13-43"></a>            <span class="n">from_account_id</span><span class="o">=</span><span class="s2">&quot;acc-alice&quot;</span><span class="p">,</span>
-<a id="__codelineno-13-44" name="__codelineno-13-44" href="#__codelineno-13-44"></a>            <span class="n">to_account_id</span><span class="o">=</span><span class="s2">&quot;acc-bob&quot;</span><span class="p">,</span>
-<a id="__codelineno-13-45" name="__codelineno-13-45" href="#__codelineno-13-45"></a>            <span class="n">amount</span><span class="o">=</span><span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;250.00&quot;</span><span class="p">),</span>
-<a id="__codelineno-13-46" name="__codelineno-13-46" href="#__codelineno-13-46"></a>            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Payment for services&quot;</span><span class="p">,</span>
-<a id="__codelineno-13-47" name="__codelineno-13-47" href="#__codelineno-13-47"></a>        <span class="p">)</span>
-<a id="__codelineno-13-48" name="__codelineno-13-48" href="#__codelineno-13-48"></a>    <span class="p">)</span>
-<a id="__codelineno-13-49" name="__codelineno-13-49" href="#__codelineno-13-49"></a>
-<a id="__codelineno-13-50" name="__codelineno-13-50" href="#__codelineno-13-50"></a>    <span class="c1"># Wait for saga to complete</span>
-<a id="__codelineno-13-51" name="__codelineno-13-51" href="#__codelineno-13-51"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
-<a id="__codelineno-13-52" name="__codelineno-13-52" href="#__codelineno-13-52"></a>
-<a id="__codelineno-13-53" name="__codelineno-13-53" href="#__codelineno-13-53"></a>    <span class="c1"># Check final balances</span>
-<a id="__codelineno-13-54" name="__codelineno-13-54" href="#__codelineno-13-54"></a>    <span class="n">alice</span> <span class="o">=</span> <span class="k">await</span> <span class="n">repository</span><span class="o">.</span><span class="n">load_async</span><span class="p">(</span><span class="n">Account</span><span class="p">,</span> <span class="s2">&quot;acc-alice&quot;</span><span class="p">)</span>
-<a id="__codelineno-13-55" name="__codelineno-13-55" href="#__codelineno-13-55"></a>    <span class="n">bob</span> <span class="o">=</span> <span class="k">await</span> <span class="n">repository</span><span class="o">.</span><span class="n">load_async</span><span class="p">(</span><span class="n">Account</span><span class="p">,</span> <span class="s2">&quot;acc-bob&quot;</span><span class="p">)</span>
-<a id="__codelineno-13-56" name="__codelineno-13-56" href="#__codelineno-13-56"></a>
-<a id="__codelineno-13-57" name="__codelineno-13-57" href="#__codelineno-13-57"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Alice balance: $</span><span class="si">{</span><span class="n">alice</span><span class="o">.</span><span class="n">balance</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># $750.00</span>
-<a id="__codelineno-13-58" name="__codelineno-13-58" href="#__codelineno-13-58"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bob balance: $</span><span class="si">{</span><span class="n">bob</span><span class="o">.</span><span class="n">balance</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>      <span class="c1"># $750.00</span>
-<a id="__codelineno-13-59" name="__codelineno-13-59" href="#__codelineno-13-59"></a>
-<a id="__codelineno-13-60" name="__codelineno-13-60" href="#__codelineno-13-60"></a>
-<a id="__codelineno-13-61" name="__codelineno-13-61" href="#__codelineno-13-61"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<a id="__codelineno-13-62" name="__codelineno-13-62" href="#__codelineno-13-62"></a>    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix.core.eventsourcing.aggregate</span><span class="w"> </span><span class="kn">import</span> <span class="n">AggregateRepository</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix.infrastructure.memory.store</span><span class="w"> </span><span class="kn">import</span> <span class="n">InMemoryEventStore</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bases.orchestrix.banking_demo.aggregate</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bases.orchestrix.banking_demo.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAccount</span><span class="p">,</span> <span class="n">DepositMoney</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">store</span> <span class="o">=</span> <span class="n">InMemoryEventStore</span><span class="p">()</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="n">repo</span> <span class="o">=</span> <span class="n">AggregateRepository</span><span class="p">(</span><span class="n">event_store</span><span class="o">=</span><span class="n">store</span><span class="p">)</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="c1"># Open account</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="n">agg</span> <span class="o">=</span> <span class="n">Account</span><span class="p">()</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    <span class="n">agg</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">OpenAccount</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="s2">&quot;acc-1&quot;</span><span class="p">,</span> <span class="n">owner_name</span><span class="o">=</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">initial_balance</span><span class="o">=</span><span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;1000&quot;</span><span class="p">)))</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="n">repo</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">agg</span><span class="p">)</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="c1"># Deposit</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>    <span class="n">agg</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">Account</span><span class="p">,</span> <span class="s2">&quot;acc-1&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>    <span class="n">agg</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="n">DepositMoney</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="s2">&quot;acc-1&quot;</span><span class="p">,</span> <span class="n">amount</span><span class="o">=</span><span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;500&quot;</span><span class="p">),</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Bonus&quot;</span><span class="p">))</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>    <span class="n">repo</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">agg</span><span class="p">)</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Balance: </span><span class="si">{</span><span class="n">agg</span><span class="o">.</span><span class="n">balance</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># 1500</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </code></pre></div>
-<h2 id="testing">Testing</h2>
-<h3 id="test-insufficient-funds">Test Insufficient Funds</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_insufficient_funds</span><span class="p">():</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>    <span class="c1"># Setup</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>    <span class="n">account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">()</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    <span class="n">account</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;test-1&quot;</span><span class="p">,</span> <span class="s2">&quot;Test User&quot;</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;100.00&quot;</span><span class="p">))</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="c1"># Try to withdraw more than balance</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="s2">&quot;Insufficient balance&quot;</span><span class="p">):</span>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>        <span class="n">account</span><span class="o">.</span><span class="n">withdraw</span><span class="p">(</span><span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;200.00&quot;</span><span class="p">),</span> <span class="s2">&quot;txn-1&quot;</span><span class="p">,</span> <span class="s2">&quot;Test withdrawal&quot;</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="test-transfer-compensation">Test Transfer Compensation</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_transfer_compensation</span><span class="p">():</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>    <span class="c1"># Setup: Alice has money, Bob&#39;s account is closed</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    <span class="n">alice</span> <span class="o">=</span> <span class="n">Account</span><span class="p">()</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    <span class="n">alice</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;alice&quot;</span><span class="p">,</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;1000.00&quot;</span><span class="p">))</span>
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    <span class="k">await</span> <span class="n">repository</span><span class="o">.</span><span class="n">save_async</span><span class="p">(</span><span class="n">alice</span><span class="p">)</span>
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="n">bob</span> <span class="o">=</span> <span class="n">Account</span><span class="p">()</span>
-<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>    <span class="n">bob</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;bob&quot;</span><span class="p">,</span> <span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;0.00&quot;</span><span class="p">))</span>
-<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>    <span class="n">bob</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  <span class="c1"># Close Bob&#39;s account</span>
-<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>    <span class="k">await</span> <span class="n">repository</span><span class="o">.</span><span class="n">save_async</span><span class="p">(</span><span class="n">bob</span><span class="p">)</span>
-<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>
-<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>    <span class="c1"># Try to transfer (will fail and compensate)</span>
-<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>    <span class="k">await</span> <span class="n">message_bus</span><span class="o">.</span><span class="n">publish_async</span><span class="p">(</span>
-<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>        <span class="n">TransferMoney</span><span class="p">(</span>
-<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>            <span class="n">transfer_id</span><span class="o">=</span><span class="s2">&quot;txn-1&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>            <span class="n">from_account_id</span><span class="o">=</span><span class="s2">&quot;alice&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>            <span class="n">to_account_id</span><span class="o">=</span><span class="s2">&quot;bob&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a>            <span class="n">amount</span><span class="o">=</span><span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;100.00&quot;</span><span class="p">),</span>
-<a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Test transfer&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>        <span class="p">)</span>
-<a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a>    <span class="p">)</span>
-<a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a>
-<a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a>    <span class="c1"># Wait for compensation</span>
-<a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
-<a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a>
-<a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a>    <span class="c1"># Verify Alice&#39;s money was returned</span>
-<a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a>    <span class="n">alice_final</span> <span class="o">=</span> <span class="k">await</span> <span class="n">repository</span><span class="o">.</span><span class="n">load_async</span><span class="p">(</span><span class="n">Account</span><span class="p">,</span> <span class="s2">&quot;alice&quot;</span><span class="p">)</span>
-<a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a>    <span class="k">assert</span> <span class="n">alice_final</span><span class="o">.</span><span class="n">balance</span> <span class="o">==</span> <span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;1000.00&quot;</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="projections">Projections</h2>
-<p>Build account statement projection from events:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nd">@dataclass</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">AccountStatement</span><span class="p">:</span>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>    <span class="n">account_id</span><span class="p">:</span> <span class="nb">str</span>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="n">transactions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">account_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">event_store</span><span class="p">):</span>
-<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>        <span class="n">events</span> <span class="o">=</span> <span class="k">await</span> <span class="n">event_store</span><span class="o">.</span><span class="n">load_async</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span>
-<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>        <span class="n">transactions</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>
-<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
-<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;MoneyDeposited&quot;</span><span class="p">:</span>
-<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>                <span class="n">transactions</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Credit&quot;</span><span class="p">,</span>
-<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>                    <span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span>
-<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
-<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>                    <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">deposited_at</span><span class="p">,</span>
-<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>                    <span class="s2">&quot;balance_after&quot;</span><span class="p">:</span> <span class="n">calculate_balance_after</span><span class="p">(</span><span class="n">event</span><span class="p">),</span>
-<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>                <span class="p">})</span>
-<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;MoneyWithdrawn&quot;</span><span class="p">:</span>
-<a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>                <span class="n">transactions</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-<a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Debit&quot;</span><span class="p">,</span>
-<a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>                    <span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span>
-<a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a>                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
-<a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a>                    <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">withdrawn_at</span><span class="p">,</span>
-<a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a>                    <span class="s2">&quot;balance_after&quot;</span><span class="p">:</span> <span class="n">calculate_balance_after</span><span class="p">(</span><span class="n">event</span><span class="p">),</span>
-<a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a>                <span class="p">})</span>
-<a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a>
-<a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="n">account_id</span><span class="p">,</span> <span class="n">transactions</span><span class="o">=</span><span class="n">transactions</span><span class="p">)</span>
-<a id="__codelineno-16-30" name="__codelineno-16-30" href="#__codelineno-16-30"></a>
-<a id="__codelineno-16-31" name="__codelineno-16-31" href="#__codelineno-16-31"></a><span class="c1"># Usage</span>
-<a id="__codelineno-16-32" name="__codelineno-16-32" href="#__codelineno-16-32"></a><span class="n">statement</span> <span class="o">=</span> <span class="k">await</span> <span class="n">AccountStatement</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">&quot;acc-alice&quot;</span><span class="p">,</span> <span class="n">event_store</span><span class="p">)</span>
-<a id="__codelineno-16-33" name="__codelineno-16-33" href="#__codelineno-16-33"></a><span class="k">for</span> <span class="n">txn</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">transactions</span><span class="p">:</span>
-<a id="__codelineno-16-34" name="__codelineno-16-34" href="#__codelineno-16-34"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">txn</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: $</span><span class="si">{</span><span class="n">txn</span><span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">txn</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="production-considerations">Production Considerations</h2>
-<h3 id="1-idempotency">1. Idempotency</h3>
-<p>Track transfer IDs to prevent duplicate processing:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">processed_transfers</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_transfer</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="n">TransferMoney</span><span class="p">):</span>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>    <span class="k">if</span> <span class="n">command</span><span class="o">.</span><span class="n">transfer_id</span> <span class="ow">in</span> <span class="n">processed_transfers</span><span class="p">:</span>
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>        <span class="k">return</span>  <span class="c1"># Already processed</span>
-<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
-<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>    <span class="c1"># Process transfer</span>
-<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>    <span class="k">await</span> <span class="n">saga</span><span class="o">.</span><span class="n">initiate_transfer</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
-<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>    <span class="n">processed_transfers</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">transfer_id</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="2-timeout-handling">2. Timeout Handling</h3>
-<p>Add saga timeout for stuck transfers:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">TransferSaga</span><span class="p">:</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>    <span class="n">timeout</span><span class="p">:</span> <span class="n">timedelta</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check_timeouts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>        <span class="k">for</span> <span class="n">transfer_id</span><span class="p">,</span> <span class="n">initiated_at</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pending_transfers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>            <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">initiated_at</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">:</span>
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">cancel_transfer</span><span class="p">(</span><span class="n">transfer_id</span><span class="p">,</span> <span class="s2">&quot;Timeout&quot;</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="3-retry-logic">3. Retry Logic</h3>
-<p>Retry failed operations with exponential backoff:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nd">@retry</span><span class="p">(</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>    <span class="n">max_attempts</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>    <span class="n">backoff</span><span class="o">=</span><span class="n">exponential_backoff</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">multiplier</span><span class="o">=</span><span class="mf">2.0</span><span class="p">),</span>
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>    <span class="n">exceptions</span><span class="o">=</span><span class="p">(</span><span class="n">NetworkError</span><span class="p">,</span> <span class="ne">TimeoutError</span><span class="p">)</span>
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="p">)</span>
-<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_deposit_command</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="n">DepositMoney</span><span class="p">):</span>
-<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>    <span class="k">await</span> <span class="n">message_bus</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="4-concurrency-control">4. Concurrency Control</h3>
-<p>Use optimistic locking to prevent race conditions:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Account</span><span class="p">:</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>    <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>        <span class="n">expected_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span>
-<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>        <span class="c1"># Save will fail if version doesn&#39;t match</span>
-<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>        <span class="k">await</span> <span class="n">repository</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expected_version</span><span class="o">=</span><span class="n">expected_version</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="5-monitoring">5. Monitoring</h3>
-<p>Track transfer metrics:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>    <span class="s2">&quot;transfers_initiated&quot;</span><span class="p">:</span> <span class="n">Counter</span><span class="p">(),</span>
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>    <span class="s2">&quot;transfers_completed&quot;</span><span class="p">:</span> <span class="n">Counter</span><span class="p">(),</span>
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>    <span class="s2">&quot;transfers_failed&quot;</span><span class="p">:</span> <span class="n">Counter</span><span class="p">(),</span>
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>    <span class="s2">&quot;compensation_executed&quot;</span><span class="p">:</span> <span class="n">Counter</span><span class="p">(),</span>
-<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>    <span class="s2">&quot;avg_transfer_duration&quot;</span><span class="p">:</span> <span class="n">Histogram</span><span class="p">(),</span>
-<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="p">}</span>
-<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>
-<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="c1"># Usage</span>
-<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;transfers_initiated&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">inc</span><span class="p">()</span>
-<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="c1"># ... process transfer ...</span>
-<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;avg_transfer_duration&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="related-examples">Related Examples</h2>
+<h2 id="related">Related</h2>
 <ul>
-<li><strong><a href="../ecommerce/">E-Commerce</a></strong> - Multi-aggregate sagas for order processing</li>
-<li><strong><a href="../notifications/">Notifications</a></strong> - Retry logic and error handling</li>
-<li><strong><a href="../lakehouse/">Lakehouse Platform</a></strong> - Event sourcing with compliance</li>
+<li><a href="../ecommerce/">E-Commerce Demo</a> — Multi-aggregate saga for order processing</li>
+<li><a href="../notifications/">Notifications Demo</a> — Retry logic and error handling</li>
+<li><a href="../../guide/event-store/">Event Store Guide</a> — Persistence deep-dive</li>
 </ul>
-<h2 id="learn-more">Learn More</h2>
-<ul>
-<li><a href="../../guide/best-practices/#sagas">Saga Pattern Guide</a></li>
-<li><a href="../../guide/event-store/">Event Sourcing</a></li>
-<li><a href="../../development/testing/">Testing Strategies</a></li>
-</ul>
-<h2 id="source-code">Source Code</h2>
-<ul>
-<li><a href="https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/banking/aggregate.py"><code>aggregate.py</code></a> - Account aggregate</li>
-<li><a href="https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/banking/saga.py"><code>saga.py</code></a> - Transfer saga coordinator</li>
-<li><a href="https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/banking/handlers.py"><code>handlers.py</code></a> - Command handlers</li>
-<li><a href="https://github.com/stefanposs/orchestrix/blob/main/bases/orchestrix/banking/models.py"><code>models.py</code></a> - Commands and events</li>
-</ul>
-<p><a href="https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/banking"><strong>Browse Complete Example →</strong></a></p>
 
 
 

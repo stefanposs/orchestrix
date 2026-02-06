@@ -280,6 +280,46 @@
   
 
       
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../development/architecture/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/ASYNC_DESIGN/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
     </ul>
   </div>
 </nav>
@@ -705,10 +745,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#was-ist-ein-message-bus" class="md-nav__link">
+  <a href="#protocols" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Was ist ein Message Bus?
+        Protocols
       
     </span>
   </a>
@@ -716,33 +756,44 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
+  <a href="#implementations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Basic Usage
+        Implementations
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inmemorymessagebus" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        InMemoryMessageBus
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="InMemoryMessageBus">
+    <nav class="md-nav" aria-label="Implementations">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#wie-es-funktioniert" class="md-nav__link">
+  <a href="#inmemorymessagebus-sync" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Wie es funktioniert
+        InMemoryMessageBus (sync)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inmemoryasyncmessagebus-async" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        InMemoryAsyncMessageBus (async)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gcp-pubsub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GCP Pub/Sub
       
     </span>
   </a>
@@ -755,102 +806,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#handler-types" class="md-nav__link">
+  <a href="#handler-registration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Handler Types
+        Handler Registration
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Handler Types">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-function-handler" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Function Handler
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-lambda-handler" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Lambda Handler
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-class-based-handler" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Class-based Handler
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-method-handler" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Method Handler
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#subscription-patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Subscription Patterns
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Subscription Patterns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#one-handler-per-command" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        One Handler per Command
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multiple-handlers-per-event" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multiple Handlers per Event
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -863,111 +825,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Error Handling">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#current-behavior" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Current Behavior
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#robust-handler-pattern" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Robust Handler Pattern
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
-  <a href="#testing-with-message-bus" class="md-nav__link">
+  <a href="#publishing-events-from-aggregates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Testing with Message Bus
+        Publishing Events from Aggregates
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Testing with Message Bus">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#test-spy-pattern" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Test Spy Pattern
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#advanced-custom-bus-implementation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Advanced: Custom Bus Implementation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#future-alternative-buses" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Future: Alternative Buses
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Future: Alternative Buses">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#redis-message-bus" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Redis Message Bus
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#rabbitmq-message-bus" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        RabbitMQ Message Bus
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -976,45 +843,6 @@
     <span class="md-ellipsis">
       
         Best Practices
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Best Practices">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#do" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ✅ DO
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dont" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ❌ DON'T
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next Steps
       
     </span>
   </a>
@@ -1425,6 +1253,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../demos/gcp_demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GCP Cloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1731,6 +1587,240 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ASYNC_DESIGN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Async Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -1758,10 +1848,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#was-ist-ein-message-bus" class="md-nav__link">
+  <a href="#protocols" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Was ist ein Message Bus?
+        Protocols
       
     </span>
   </a>
@@ -1769,33 +1859,44 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
+  <a href="#implementations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Basic Usage
+        Implementations
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inmemorymessagebus" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        InMemoryMessageBus
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="InMemoryMessageBus">
+    <nav class="md-nav" aria-label="Implementations">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#wie-es-funktioniert" class="md-nav__link">
+  <a href="#inmemorymessagebus-sync" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Wie es funktioniert
+        InMemoryMessageBus (sync)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inmemoryasyncmessagebus-async" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        InMemoryAsyncMessageBus (async)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gcp-pubsub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GCP Pub/Sub
       
     </span>
   </a>
@@ -1808,102 +1909,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#handler-types" class="md-nav__link">
+  <a href="#handler-registration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Handler Types
+        Handler Registration
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Handler Types">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-function-handler" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Function Handler
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-lambda-handler" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Lambda Handler
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-class-based-handler" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Class-based Handler
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-method-handler" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Method Handler
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#subscription-patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Subscription Patterns
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Subscription Patterns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#one-handler-per-command" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        One Handler per Command
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multiple-handlers-per-event" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multiple Handlers per Event
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1916,111 +1928,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Error Handling">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#current-behavior" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Current Behavior
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#robust-handler-pattern" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Robust Handler Pattern
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
-  <a href="#testing-with-message-bus" class="md-nav__link">
+  <a href="#publishing-events-from-aggregates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Testing with Message Bus
+        Publishing Events from Aggregates
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Testing with Message Bus">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#test-spy-pattern" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Test Spy Pattern
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#advanced-custom-bus-implementation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Advanced: Custom Bus Implementation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#future-alternative-buses" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Future: Alternative Buses
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Future: Alternative Buses">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#redis-message-bus" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Redis Message Bus
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#rabbitmq-message-bus" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        RabbitMQ Message Bus
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2029,45 +1946,6 @@
     <span class="md-ellipsis">
       
         Best Practices
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Best Practices">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#do" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ✅ DO
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dont" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ❌ DON'T
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next Steps
       
     </span>
   </a>
@@ -2095,277 +1973,78 @@
 
 
 <h1 id="message-bus">Message Bus</h1>
-<p>Der Message Bus ist das Herzstück der Event-Driven Architecture - er routet alle Messages zu ihren Handlers.</p>
-<h2 id="was-ist-ein-message-bus">Was ist ein Message Bus?</h2>
-<p>Ein <strong>Message Bus</strong>:</p>
-<ul>
-<li>Nimmt Messages entgegen (Commands &amp; Events)</li>
-<li>Routet sie zu registrierten Handlers</li>
-<li>Entkoppelt Publisher von Subscribern</li>
-<li>Ermöglicht 1-zu-N Kommunikation</li>
-</ul>
-<h2 id="basic-usage">Basic Usage</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">InMemoryMessageBus</span><span class="p">,</span> <span class="n">Command</span><span class="p">,</span> <span class="n">Event</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Create bus</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">bus</span> <span class="o">=</span> <span class="n">InMemoryMessageBus</span><span class="p">()</span>
+<p>Route commands and events to handlers using the message bus.</p>
+<h2 id="protocols">Protocols</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Sync</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">MessageBus</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">handler</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Subscribe handlers</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">CreateOrder</span><span class="p">,</span> <span class="n">create_order_handler</span><span class="p">)</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">send_email_handler</span><span class="p">)</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">update_inventory_handler</span><span class="p">)</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="c1"># Publish messages</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">CreateOrder</span><span class="p">(</span><span class="n">order_id</span><span class="o">=</span><span class="s2">&quot;ORD-001&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">))</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Async</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">AsyncMessageBus</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">handler</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="n">Coroutine</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
 </code></pre></div>
-<h2 id="inmemorymessagebus">InMemoryMessageBus</h2>
-<p>Der <code>InMemoryMessageBus</code> ist die Standard-Implementierung - perfekt für:</p>
-<ul>
-<li>✅ Entwicklung &amp; Testing</li>
-<li>✅ Einfache Applikationen</li>
-<li>✅ Monolithen</li>
-<li>✅ Schnelle Prototypen</li>
-</ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">InMemoryMessageBus</span>
+<h2 id="implementations">Implementations</h2>
+<h3 id="inmemorymessagebus-sync">InMemoryMessageBus (sync)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix.infrastructure.memory.bus</span><span class="w"> </span><span class="kn">import</span> <span class="n">InMemoryMessageBus</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">bus</span> <span class="o">=</span> <span class="n">InMemoryMessageBus</span><span class="p">()</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Subscribe: Message Type → Handler</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">CreateOrder</span><span class="p">,</span> <span class="n">create_order_handler</span><span class="p">)</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># Publish: Alle Handler werden synchron aufgerufen</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">CreateOrder</span><span class="p">(</span><span class="n">order_id</span><span class="o">=</span><span class="s2">&quot;ORD-001&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">))</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Order: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">order_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">(</span><span class="n">order_id</span><span class="o">=</span><span class="s2">&quot;123&quot;</span><span class="p">,</span> <span class="n">customer_name</span><span class="o">=</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">total_amount</span><span class="o">=</span><span class="mf">99.0</span><span class="p">))</span>
 </code></pre></div>
-<h3 id="wie-es-funktioniert">Wie es funktioniert</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">MessageBus</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">InMemoryMessageBus</span><span class="p">(</span><span class="n">MessageBus</span><span class="p">):</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_handlers</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Message</span><span class="p">],</span> <span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Message</span><span class="p">],</span> <span class="n">handler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a handler for a message type.&quot;&quot;&quot;</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_handlers</span><span class="p">[</span><span class="n">message_type</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Publish to all registered handlers.&quot;&quot;&quot;</span>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>        <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handlers</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">message</span><span class="p">)]:</span>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>            <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">handler</span><span class="p">):</span>
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>                <span class="n">handler</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">):</span>
-<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>                <span class="n">handler</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<h3 id="inmemoryasyncmessagebus-async">InMemoryAsyncMessageBus (async)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix.infrastructure.memory.async_bus</span><span class="w"> </span><span class="kn">import</span> <span class="n">InMemoryAsyncMessageBus</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">bus</span> <span class="o">=</span> <span class="n">InMemoryAsyncMessageBus</span><span class="p">()</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">my_async_handler</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">await</span> <span class="n">bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">(</span><span class="o">...</span><span class="p">))</span>
 </code></pre></div>
-<h2 id="handler-types">Handler Types</h2>
-<h3 id="1-function-handler">1. Function Handler</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_order_created</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">OrderCreated</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Order </span><span class="si">{</span><span class="n">event</span><span class="o">.</span><span class="n">order_id</span><span class="si">}</span><span class="s2"> created!&quot;</span><span class="p">)</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">handle_order_created</span><span class="p">)</span>
+<h3 id="gcp-pubsub">GCP Pub/Sub</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix.infrastructure.gcp_pubsub</span><span class="w"> </span><span class="kn">import</span> <span class="n">GCPPubSub</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">bus</span> <span class="o">=</span> <span class="n">GCPPubSub</span><span class="p">(</span><span class="n">project_id</span><span class="o">=</span><span class="s2">&quot;my-project&quot;</span><span class="p">,</span> <span class="n">topic_id</span><span class="o">=</span><span class="s2">&quot;events&quot;</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="2-lambda-handler">2. Lambda Handler</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">OrderCreated</span><span class="p">,</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Order </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">order_id</span><span class="si">}</span><span class="s2"> created!&quot;</span><span class="p">)</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">)</span>
-</code></pre></div>
-<h3 id="3-class-based-handler">3. Class-based Handler</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">CommandHandler</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">CreateOrderHandler</span><span class="p">(</span><span class="n">CommandHandler</span><span class="p">[</span><span class="n">CreateOrder</span><span class="p">]):</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bus</span><span class="p">:</span> <span class="n">MessageBus</span><span class="p">,</span> <span class="n">store</span><span class="p">:</span> <span class="n">EventStore</span><span class="p">):</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">bus</span> <span class="o">=</span> <span class="n">bus</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">store</span> <span class="o">=</span> <span class="n">store</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="n">CreateOrder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="c1"># Business logic here</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>        <span class="n">order</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">order_id</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>        <span class="n">events</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">collect_events</span><span class="p">()</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">order_id</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
-<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">CreateOrder</span><span class="p">,</span> <span class="n">CreateOrderHandler</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">store</span><span class="p">))</span>
-</code></pre></div>
-<h3 id="4-method-handler">4. Method Handler</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">OrderService</span><span class="p">:</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_order_created</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">OrderCreated</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">save_order</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">service</span> <span class="o">=</span> <span class="n">OrderService</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">service</span><span class="o">.</span><span class="n">on_order_created</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="subscription-patterns">Subscription Patterns</h2>
-<h3 id="one-handler-per-command">One Handler per Command</h3>
-<p>Commands sollten <strong>genau einen Handler</strong> haben:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># ✅ Gut: 1 Command → 1 Handler</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">CreateOrder</span><span class="p">,</span> <span class="n">CreateOrderHandler</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">store</span><span class="p">))</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">CancelOrder</span><span class="p">,</span> <span class="n">CancelOrderHandler</span><span class="p">(</span><span class="n">bus</span><span class="p">,</span> <span class="n">store</span><span class="p">))</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># ❌ Vermeiden: Multiple Handler für Commands</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">CreateOrder</span><span class="p">,</span> <span class="n">handler1</span><span class="p">)</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">CreateOrder</span><span class="p">,</span> <span class="n">handler2</span><span class="p">)</span>  <span class="c1"># Wer ist verantwortlich?</span>
-</code></pre></div>
-<h3 id="multiple-handlers-per-event">Multiple Handlers per Event</h3>
-<p>Events können <strong>mehrere Handler</strong> haben:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># ✅ Gut: 1 Event → N Handler</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">send_confirmation_email</span><span class="p">)</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">update_inventory</span><span class="p">)</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">send_to_analytics</span><span class="p">)</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">notify_warehouse</span><span class="p">)</span>
+<h2 id="handler-registration">Handler Registration</h2>
+<p>Subscribe handlers per message type:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">CreateOrder</span><span class="p">,</span> <span class="n">handle_create_order</span><span class="p">)</span>    <span class="c1"># command → 1 handler</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">send_email</span><span class="p">)</span>            <span class="c1"># event → multiple handlers</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">update_projection</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="error-handling">Error Handling</h2>
-<h3 id="current-behavior">Current Behavior</h3>
-<p>Der <code>InMemoryMessageBus</code> hat <strong>keine eingebaute Error Handling</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">failing_handler</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">OrderCreated</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Something went wrong!&quot;</span><span class="p">)</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">failing_handler</span><span class="p">)</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">working_handler</span><span class="p">)</span>  <span class="c1"># Wird nicht aufgerufen!</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">(</span><span class="o">...</span><span class="p">))</span>  <span class="c1"># Raises ValueError</span>
+<p>The sync <code>InMemoryMessageBus</code> catches handler exceptions and continues
+to the next handler. Exceptions are logged, not re-raised. This prevents
+a failing side-effect handler from blocking the main flow.</p>
+<p>For explicit error handling, wrap handlers:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">safe_handler</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">OrderCreated</span><span class="p">):</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>        <span class="n">send_email</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;Email failed for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">order_id</span><span class="p">)</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">safe_handler</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="robust-handler-pattern">Robust Handler Pattern</h3>
-<p>Wrap deine Handler für besseres Error Handling:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">safe_handler</span><span class="p">(</span><span class="n">handler</span><span class="p">):</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator für safe handlers.&quot;&quot;&quot;</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>        <span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>            <span class="k">return</span> <span class="n">handler</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;❌ Error in handler: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>            <span class="c1"># Log to monitoring system</span>
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>            <span class="c1"># Send to dead letter queue</span>
-<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>    <span class="k">return</span> <span class="n">wrapper</span>
-<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
-<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="nd">@safe_handler</span>
-<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="k">def</span><span class="w"> </span><span class="nf">send_email</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">OrderCreated</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>    <span class="c1"># Can fail without breaking other handlers</span>
-<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>    <span class="n">email_service</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>
-<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">send_email</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="testing-with-message-bus">Testing with Message Bus</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">InMemoryMessageBus</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_order_creation</span><span class="p">():</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="c1"># Arrange</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">bus</span> <span class="o">=</span> <span class="n">InMemoryMessageBus</span><span class="p">()</span>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="n">events_received</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">events_received</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>    <span class="c1"># Act</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    <span class="n">bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">(</span><span class="n">order_id</span><span class="o">=</span><span class="s2">&quot;ORD-001&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">))</span>
-<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>    <span class="c1"># Assert</span>
-<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">events_received</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>    <span class="k">assert</span> <span class="n">events_received</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">order_id</span> <span class="o">==</span> <span class="s2">&quot;ORD-001&quot;</span>
-</code></pre></div>
-<h3 id="test-spy-pattern">Test Spy Pattern</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MessageSpy</span><span class="p">:</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Collect all published messages for testing.&quot;&quot;&quot;</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_by_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_type</span><span class="p">):</span>
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>        <span class="k">return</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">messages</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">message_type</span><span class="p">)]</span>
-<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
-<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="c1"># Usage in tests</span>
-<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="n">spy</span> <span class="o">=</span> <span class="n">MessageSpy</span><span class="p">()</span>
-<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">,</span> <span class="n">spy</span><span class="o">.</span><span class="n">record</span><span class="p">)</span>
-<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">OrderShipped</span><span class="p">,</span> <span class="n">spy</span><span class="o">.</span><span class="n">record</span><span class="p">)</span>
-<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>
-<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="c1"># ... run test code ...</span>
-<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>
-<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="n">created_events</span> <span class="o">=</span> <span class="n">spy</span><span class="o">.</span><span class="n">get_by_type</span><span class="p">(</span><span class="n">OrderCreated</span><span class="p">)</span>
-<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">created_events</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-</code></pre></div>
-<h2 id="advanced-custom-bus-implementation">Advanced: Custom Bus Implementation</h2>
-<p>Du kannst eigene Bus-Implementierungen erstellen:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">orchestrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">MessageBus</span><span class="p">,</span> <span class="n">Message</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">AsyncMessageBus</span><span class="p">(</span><span class="n">MessageBus</span><span class="p">):</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Async message bus using asyncio.&quot;&quot;&quot;</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_handlers</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Message</span><span class="p">],</span> <span class="n">handler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_handlers</span><span class="p">[</span><span class="n">message_type</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
-<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">publish_async</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Publish message asynchronously.&quot;&quot;&quot;</span>
-<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>        <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handlers</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">message</span><span class="p">)]:</span>
-<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>            <span class="k">if</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">iscoroutinefunction</span><span class="p">(</span><span class="n">handler</span><span class="p">):</span>
-<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>                <span class="n">tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">handler</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
-<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>            <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>                <span class="n">tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">message</span><span class="p">))</span>
-<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>
-<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">,</span> <span class="n">return_exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="future-alternative-buses">Future: Alternative Buses</h2>
-<p>Orchestrix ist designed für pluggable Buses:</p>
-<h3 id="redis-message-bus">Redis Message Bus</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">RedisMessageBus</span><span class="p">(</span><span class="n">MessageBus</span><span class="p">):</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Distributed message bus using Redis Pub/Sub.&quot;&quot;&quot;</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">redis_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">redis</span> <span class="o">=</span> <span class="n">redis</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="n">redis_url</span><span class="p">)</span>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_handlers</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_type</span><span class="p">,</span> <span class="n">handler</span><span class="p">):</span>
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>        <span class="n">channel</span> <span class="o">=</span> <span class="n">message_type</span><span class="o">.</span><span class="vm">__name__</span>
-<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_handlers</span><span class="p">[</span><span class="n">channel</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
-<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>        <span class="c1"># Subscribe to Redis channel</span>
-<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>        <span class="n">pubsub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">redis</span><span class="o">.</span><span class="n">pubsub</span><span class="p">()</span>
-<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>        <span class="n">pubsub</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
-<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>
-<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">Message</span><span class="p">):</span>
-<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>        <span class="n">channel</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
-<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>        <span class="c1"># Serialize and publish to Redis</span>
-<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">redis</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">serialize</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
-</code></pre></div>
-<h3 id="rabbitmq-message-bus">RabbitMQ Message Bus</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">RabbitMQMessageBus</span><span class="p">(</span><span class="n">MessageBus</span><span class="p">):</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Enterprise message bus using RabbitMQ.&quot;&quot;&quot;</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">pika</span><span class="o">.</span><span class="n">BlockingConnection</span><span class="p">(</span>
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>            <span class="n">pika</span><span class="o">.</span><span class="n">URLParameters</span><span class="p">(</span><span class="n">connection_string</span><span class="p">)</span>
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>        <span class="p">)</span>
-<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">channel</span><span class="p">()</span>
+<h2 id="publishing-events-from-aggregates">Publishing Events from Aggregates</h2>
+<p>The typical pattern uses <code>AggregateRepository.save()</code> which persists events.
+Publish events separately if you need bus-based side-effects:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyHandler</span><span class="p">:</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">:</span> <span class="n">CreateOrder</span><span class="p">):</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>        <span class="n">order</span> <span class="o">=</span> <span class="n">Order</span><span class="p">()</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>        <span class="n">order</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>        <span class="c1"># Optionally publish to bus for side-effects</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">order</span><span class="o">.</span><span class="n">uncommitted_events</span><span class="p">:</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>        <span class="n">order</span><span class="o">.</span><span class="n">mark_events_committed</span><span class="p">()</span>
 </code></pre></div>
 <h2 id="best-practices">Best Practices</h2>
-<h3 id="do">✅ DO</h3>
-<ul>
-<li><strong>Synchrone Handler</strong> für kritische Business Logic</li>
-<li><strong>Idempotente Handler</strong> - können mehrfach aufgerufen werden</li>
-<li><strong>Kleine Handler</strong> - Single Responsibility</li>
-<li><strong>Error Handling</strong> - Wrapper für robuste Handler</li>
-</ul>
-<h3 id="dont">❌ DON'T</h3>
-<ul>
-<li><strong>Lange laufende Tasks</strong> im Handler - use async/queue</li>
-<li><strong>Handler mit Side Effects</strong> ohne Error Handling</li>
-<li><strong>Multiple Command Handlers</strong> - unclear responsibility</li>
-<li><strong>Handler die auf Handler warten</strong> - Deadlock Risk</li>
-</ul>
-<h2 id="next-steps">Next Steps</h2>
-<ul>
-<li><a href="../event-store/">Event Store</a> - Persistence Patterns</li>
-<li><a href="../best-practices/">Best Practices</a> - Production Guidelines</li>
-<li><a href="../../development/testing/">Testing</a> - Test Strategies</li>
-</ul>
+<ol>
+<li><strong>Commands → one handler</strong>, Events → many handlers</li>
+<li><strong>Don't put business logic in event handlers</strong> — keep it in aggregates</li>
+<li><strong>Use async bus for I/O-heavy handlers</strong> (email, HTTP, database)</li>
+<li><strong>Consider idempotency</strong> — handlers may be called more than once</li>
+</ol>
 
 
 

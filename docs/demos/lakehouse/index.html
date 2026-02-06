@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#lakehouse-fastapi-demo-a-modern-data-platform-story" class="md-skip">
+        <a href="#lakehouse-fastapi-demo-self-service-data-platform" class="md-skip">
           Skip to content
         </a>
       
@@ -273,6 +273,46 @@
   
   
   API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../development/architecture/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/ASYNC_DESIGN/" class="md-tabs__link">
+          
+  
+  
+  Architecture
 
         </a>
       </li>
@@ -1047,10 +1087,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#why-lakehouse-why-event-sourcing" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why Lakehouse? Why Event Sourcing?
+        Overview
       
     </span>
   </a>
@@ -1058,10 +1098,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#core-processes-events" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Core Processes &amp; Events
+        Quick Start
       
     </span>
   </a>
@@ -1069,10 +1109,276 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#end-to-end-api-story" class="md-nav__link">
+  <a href="#rest-api-endpoints" class="md-nav__link">
     <span class="md-ellipsis">
       
-        End-to-End API Story
+        REST API Endpoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="REST API Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#datasets-apiv1datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Datasets (/api/v1/datasets)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contracts-apiv1contracts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contracts (/api/v1/contracts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batches-apiv1batches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batches (/api/v1/batches)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#events-apiv1events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Events (/api/v1/events)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#health" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#end-to-end-walkthrough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        End-to-End Walkthrough
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="End-to-End Walkthrough">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-register-a-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Register a Dataset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-create-a-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Create a Contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-append-a-batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Append a Batch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-run-quality-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Run Quality Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-run-privacy-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Run Privacy Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-publish" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Publish
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-consume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Consume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-stream-events-sse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Stream Events (SSE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domain-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domain Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Domain Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aggregates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aggregates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Events
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batch-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gdpr-anonymization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GDPR &amp; Anonymization
       
     </span>
   </a>
@@ -1080,21 +1386,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#architecture-highlights" class="md-nav__link">
+  <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Architecture Highlights
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#code-structure-process-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Code Structure &amp; Process Flow
+        Related
       
     </span>
   </a>
@@ -1153,6 +1448,34 @@
     
   
     Projections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gcp_demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GCP Cloud
   
 
     
@@ -1475,6 +1798,240 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/ASYNC_DESIGN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Async Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -1502,10 +2059,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#why-lakehouse-why-event-sourcing" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why Lakehouse? Why Event Sourcing?
+        Overview
       
     </span>
   </a>
@@ -1513,10 +2070,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#core-processes-events" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Core Processes &amp; Events
+        Quick Start
       
     </span>
   </a>
@@ -1524,10 +2081,276 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#end-to-end-api-story" class="md-nav__link">
+  <a href="#rest-api-endpoints" class="md-nav__link">
     <span class="md-ellipsis">
       
-        End-to-End API Story
+        REST API Endpoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="REST API Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#datasets-apiv1datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Datasets (/api/v1/datasets)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contracts-apiv1contracts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contracts (/api/v1/contracts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batches-apiv1batches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batches (/api/v1/batches)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#events-apiv1events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Events (/api/v1/events)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#health" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#end-to-end-walkthrough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        End-to-End Walkthrough
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="End-to-End Walkthrough">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-register-a-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Register a Dataset
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-create-a-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Create a Contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-append-a-batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Append a Batch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-run-quality-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Run Quality Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-run-privacy-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Run Privacy Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-publish" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Publish
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-consume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Consume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-stream-events-sse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Stream Events (SSE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domain-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domain Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Domain Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aggregates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aggregates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Events
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batch-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gdpr-anonymization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GDPR &amp; Anonymization
       
     </span>
   </a>
@@ -1535,21 +2358,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#architecture-highlights" class="md-nav__link">
+  <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Architecture Highlights
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#code-structure-process-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Code Structure &amp; Process Flow
+        Related
       
     </span>
   </a>
@@ -1576,175 +2388,417 @@
   
 
 
-<h1 id="lakehouse-fastapi-demo-a-modern-data-platform-story">Lakehouse FastAPI Demo – A Modern Data Platform Story</h1>
-<p>Imagine you are a data engineer in a company that needs to process, validate, and audit large volumes of business data every day. You want a platform that empowers teams to register datasets, upload data, run compliance checks, and consume results—all with full transparency and modularity.</p>
-<p>This demo shows how to build a self-service, event-sourced lakehouse API using Orchestrix and FastAPI. Every process is modular, every action is auditable, and the architecture is cloud-agnostic.</p>
-<h2 id="why-lakehouse-why-event-sourcing">Why Lakehouse? Why Event Sourcing?</h2>
-<h2 id="core-processes-events">Core Processes &amp; Events</h2>
+<h1 id="lakehouse-fastapi-demo-self-service-data-platform">Lakehouse FastAPI Demo — Self-Service Data Platform</h1>
+<p>Build an event-sourced, self-service data platform with full batch lifecycle,
+data contracts, quality gates, privacy checks, and real-time SSE streaming.</p>
+<blockquote>
+<p><strong>Source Code:</strong>
+<a href="https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/lakehouse_fastapi_demo"><code>bases/orchestrix/lakehouse_fastapi_demo/</code></a></p>
+</blockquote>
+<h2 id="overview">Overview</h2>
 <table>
 <thead>
 <tr>
-<th>Process</th>
-<th>Command</th>
-<th>Event(s) Produced</th>
+<th>Capability</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Register Dataset</td>
-<td>RegisterDataset</td>
-<td>DatasetRegistered</td>
-<td>Register a new dataset with schema</td>
+<td>Dataset Registry</td>
+<td>Register datasets with schema + description</td>
 </tr>
 <tr>
-<td>Register Contract</td>
-<td>CreateContract</td>
-<td>DataContractDefined</td>
-<td>Define contract/retention for a dataset</td>
+<td>Data Contracts</td>
+<td>Define quality &amp; privacy rules per dataset</td>
 </tr>
 <tr>
-<td>Upload Batch</td>
-<td>AppendData</td>
-<td>DataAppended</td>
-<td>Upload a data batch (CSV)</td>
+<td>Batch Lifecycle</td>
+<td>Append → Quarantine → Validate → Publish → Consume</td>
 </tr>
 <tr>
-<td>Replay</td>
-<td>RequestReplay</td>
-<td>ReplayRequested, ReplayCompleted</td>
-<td>Reprocess all batches for a dataset</td>
+<td>Quality Gates</td>
+<td>DQ + privacy checks; both must pass before publishing</td>
 </tr>
 <tr>
-<td>Quarantine Batch</td>
-<td>QuarantineBatch</td>
-<td>BatchQuarantined</td>
-<td>Mark batch as faulty</td>
+<td>GDPR Compliance</td>
+<td>Anonymization engine with dry-run, approval, rollback</td>
 </tr>
 <tr>
-<td>Data Quality Check</td>
-<td>RunQualityCheck</td>
-<td>QualityCheckPassed/Failed</td>
-<td>Run DQ checks for a batch</td>
+<td>SSE Streaming</td>
+<td>Real-time CloudEvents via Server-Sent Events</td>
 </tr>
 <tr>
-<td>Privacy Check</td>
-<td>AnonymizeData</td>
-<td>DataAnonymized</td>
-<td>Run privacy/compliance checks</td>
-</tr>
-<tr>
-<td>Publish Batch</td>
-<td>PublishData</td>
-<td>DataPublished</td>
-<td>Make batch available for consumption</td>
-</tr>
-<tr>
-<td>Consume Batch</td>
-<td>GrantConsumption</td>
-<td>ConsumptionGranted</td>
-<td>Grant access to batch (signed URL)</td>
+<td>Swagger UI</td>
+<td>Interactive docs at <code>/docs</code></td>
 </tr>
 </tbody>
 </table>
-<h2 id="end-to-end-api-story">End-to-End API Story</h2>
-<ol>
-<li>
-<p><strong>Start the FastAPI server</strong>
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uv<span class="w"> </span>run<span class="w"> </span>main:start
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Register a Dataset</strong>
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/datasets<span class="w"> </span><span class="se">\</span>
+<h2 id="quick-start">Quick Start</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uv<span class="w"> </span>run<span class="w"> </span>uvicorn<span class="w"> </span>bases.orchestrix.lakehouse_fastapi_demo.app:app<span class="w"> </span>--reload
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># Open http://localhost:8000/docs</span>
+</code></pre></div>
+<h2 id="rest-api-endpoints">REST API Endpoints</h2>
+<h3 id="datasets-apiv1datasets">Datasets (<code>/api/v1/datasets</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/v1/datasets</code></td>
+<td>Register a new dataset</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/v1/datasets</code></td>
+<td>List all datasets</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/v1/datasets/{name}</code></td>
+<td>Get dataset details</td>
+</tr>
+</tbody>
+</table>
+<h3 id="contracts-apiv1contracts">Contracts (<code>/api/v1/contracts</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/v1/contracts</code></td>
+<td>Create a data contract</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/v1/contracts</code></td>
+<td>List all contracts</td>
+</tr>
+</tbody>
+</table>
+<h3 id="batches-apiv1batches">Batches (<code>/api/v1/batches</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/v1/batches/append</code></td>
+<td>Append a data batch</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/v1/batches/{id}/quarantine</code></td>
+<td>Quarantine a batch</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/v1/batches/{id}/release</code></td>
+<td>Release from quarantine</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/v1/batches/{id}/validate</code></td>
+<td>Run quality check</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/v1/batches/{id}/privacy-check</code></td>
+<td>Run privacy check</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/v1/batches/{id}/publish</code></td>
+<td>Publish a validated batch</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/v1/batches/{id}/consume</code></td>
+<td>Consume a published batch</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/v1/batches</code></td>
+<td>List batches (optional <code>?dataset=</code> filter)</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/v1/batches/{id}</code></td>
+<td>Get batch details</td>
+</tr>
+</tbody>
+</table>
+<h3 id="events-apiv1events">Events (<code>/api/v1/events</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/v1/events</code></td>
+<td>Query events (filter by <code>aggregate_id</code> or <code>event_type</code>)</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/v1/events/stream</code></td>
+<td>SSE stream of real-time events</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/v1/events/replay</code></td>
+<td>Replay events for a dataset</td>
+</tr>
+</tbody>
+</table>
+<h3 id="health">Health</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>/health</code></td>
+<td>Liveness probe</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/ready</code></td>
+<td>Readiness probe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="end-to-end-walkthrough">End-to-End Walkthrough</h2>
+<h3 id="1-register-a-dataset">1. Register a Dataset</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/api/v1/datasets<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;: &quot;sales&quot;, &quot;schema&quot;: {&quot;id&quot;: &quot;int&quot;, &quot;amount&quot;: &quot;float&quot;}}&#39;</span>
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Register a Contract</strong>
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/contracts<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;name&quot;: &quot;sales&quot;, &quot;schema_def&quot;: {&quot;id&quot;: &quot;int&quot;, &quot;amount&quot;: &quot;float&quot;}, &quot;description&quot;: &quot;Sales data&quot;}&#39;</span>
+</code></pre></div>
+<h3 id="2-create-a-contract">2. Create a Contract</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/api/v1/contracts<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;dataset&quot;: &quot;sales&quot;, &quot;retention_days&quot;: 365}&#39;</span>
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Get Signed Upload URL</strong>
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/upload-url<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="s1">    &quot;dataset&quot;: &quot;sales&quot;,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="s1">    &quot;schema_def&quot;: {&quot;id&quot;: &quot;int&quot;, &quot;amount&quot;: &quot;float&quot;},</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="s1">    &quot;quality_rules&quot;: {&quot;amount&quot;: &quot;&gt;0&quot;},</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="s1">    &quot;privacy_rules&quot;: {&quot;id&quot;: &quot;mask&quot;}</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="s1">  }&#39;</span>
+</code></pre></div>
+<h3 id="3-append-a-batch">3. Append a Batch</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/api/v1/batches/append<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;filename&quot;: &quot;sales_2024_01.csv&quot;}&#39;</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Response: { &quot;upload_url&quot;: &quot;https://...&quot; }</span>
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Upload Data as CSV</strong>
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;id,amount\n1,100.0\n2,200.0&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>sales_2024_01.csv
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;&lt;UPLOAD_URL_FROM_STEP_4&gt;&quot;</span><span class="w"> </span>--data-binary<span class="w"> </span>@sales_2024_01.csv
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Append Batch</strong>
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/append-batch<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="s1">    &quot;dataset&quot;: &quot;sales&quot;,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="s1">    &quot;contract_id&quot;: &quot;&lt;contract-id-from-step-2&gt;&quot;,</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="s1">    &quot;file_url&quot;: &quot;s3://bucket/sales_2025_01.csv&quot;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="s1">  }&#39;</span>
+</code></pre></div>
+<h3 id="4-run-quality-check">4. Run Quality Check</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/api/v1/batches/&lt;batch-id&gt;/validate<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;quality_rules&quot;: {&quot;amount&quot;: &quot;&gt;0&quot;}}&#39;</span>
+</code></pre></div>
+<h3 id="5-run-privacy-check">5. Run Privacy Check</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/api/v1/batches/&lt;batch-id&gt;/privacy-check<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;dataset&quot;: &quot;sales&quot;, &quot;contract_id&quot;: &quot;contract1&quot;, &quot;batch_id&quot;: &quot;batch1&quot;, &quot;file_url&quot;: &quot;sales_2024_01.csv&quot;}&#39;</span>
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Quarantine Batch (optional)</strong>
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/quarantine-batch<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;batch_id&quot;: &quot;batch1&quot;, &quot;reason&quot;: &quot;DQ failed&quot;}&#39;</span>
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Run Data Quality Check</strong>
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/run-dq<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;privacy_rules&quot;: {&quot;id&quot;: &quot;mask&quot;}}&#39;</span>
+</code></pre></div>
+<h3 id="6-publish">6. Publish</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/api/v1/batches/&lt;batch-id&gt;/publish
+</code></pre></div>
+<h3 id="7-consume">7. Consume</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/api/v1/batches/&lt;batch-id&gt;/consume<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;batch_id&quot;: &quot;batch1&quot;, &quot;quality_rules&quot;: {&quot;amount&quot;: &quot;&gt;0&quot;}}&#39;</span>
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Run Privacy Check</strong>
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/run-privacy<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;batch_id&quot;: &quot;batch1&quot;, &quot;privacy_rules&quot;: {&quot;id&quot;: &quot;mask&quot;}}&#39;</span>
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Publish Batch</strong>
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/publish-batch<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;batch_id&quot;: &quot;batch1&quot;}&#39;</span>
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Consume Batch</strong>
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/consume-batch<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;batch_id&quot;: &quot;batch1&quot;, &quot;consumer&quot;: &quot;alice&quot;}&#39;</span>
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Replay (optional)</strong>
-    <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/replay<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;dataset&quot;: &quot;sales&quot;}&#39;</span>
-</code></pre></div></p>
-</li>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;consumer&quot;: &quot;analytics-team&quot;}&#39;</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># → Returns a signed download URL</span>
+</code></pre></div>
+<h3 id="8-stream-events-sse">8. Stream Events (SSE)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>-N<span class="w"> </span>http://localhost:8000/api/v1/events/stream
+</code></pre></div>
+<h2 id="domain-model">Domain Model</h2>
+<h3 id="aggregates">Aggregates</h3>
+<table>
+<thead>
+<tr>
+<th>Aggregate</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DatasetAggregate</code></td>
+<td>Dataset lifecycle — register, activate version, deprecate</td>
+</tr>
+<tr>
+<td><code>ContractAggregate</code></td>
+<td>Contract lifecycle — create, approve, decline, update</td>
+</tr>
+<tr>
+<td><code>BatchAggregate</code></td>
+<td>Batch ingestion lifecycle — append, quarantine, validate, publish</td>
+</tr>
+<tr>
+<td><code>AnonymizationJob</code></td>
+<td>GDPR anonymization — dry-run, approve, execute, rollback</td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-commands">Key Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RegisterDataset</code></td>
+<td>Register a new dataset with schema</td>
+</tr>
+<tr>
+<td><code>CreateContract</code></td>
+<td>Define a data contract with quality &amp; privacy rules</td>
+</tr>
+<tr>
+<td><code>AppendData</code></td>
+<td>Append a batch to a dataset</td>
+</tr>
+<tr>
+<td><code>QuarantineBatch</code></td>
+<td>Mark a batch as faulty</td>
+</tr>
+<tr>
+<td><code>ReleaseQuarantine</code></td>
+<td>Release a batch from quarantine</td>
+</tr>
+<tr>
+<td><code>RunQualityCheck</code></td>
+<td>Run DQ rules against a batch</td>
+</tr>
+<tr>
+<td><code>PublishData</code></td>
+<td>Publish a validated batch</td>
+</tr>
+<tr>
+<td><code>GrantConsumption</code></td>
+<td>Grant signed-URL access to a batch</td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-events">Key Events</h3>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Trigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DatasetRegistered</code></td>
+<td>Dataset registered</td>
+</tr>
+<tr>
+<td><code>DataContractDefined</code></td>
+<td>Contract created</td>
+</tr>
+<tr>
+<td><code>DataAppended</code></td>
+<td>Batch appended</td>
+</tr>
+<tr>
+<td><code>BatchQuarantined</code></td>
+<td>Batch quarantined</td>
+</tr>
+<tr>
+<td><code>QualityCheckPassed</code></td>
+<td>DQ check succeeded</td>
+</tr>
+<tr>
+<td><code>PrivacyCheckPassed</code></td>
+<td>Privacy check succeeded</td>
+</tr>
+<tr>
+<td><code>DataPublished</code></td>
+<td>Batch published</td>
+</tr>
+<tr>
+<td><code>ConsumptionGranted</code></td>
+<td>Download URL issued</td>
+</tr>
+</tbody>
+</table>
+<h3 id="batch-lifecycle">Batch Lifecycle</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>INGESTED ──→ QUARANTINED ──(release)──→ INGESTED
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>INGESTED ──→ DQ_PASSED ──→ VALIDATED ──→ PUBLISHED
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>INGESTED ──→ PRIVACY_PASSED ──→ VALIDATED ──→ PUBLISHED
+</code></pre></div>
+<p>Both DQ and privacy checks must pass (in any order) before a batch
+transitions to <code>VALIDATED</code>. Only validated batches can be published.</p>
+<h2 id="architecture">Architecture</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>┌─────────────┐    ┌──────────────┐    ┌───────────────────┐
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>│ FastAPI App  │───▶│  APIRouters  │───▶│ Aggregate + Repo  │
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>│  (app.py)   │    │  (entry.py)  │    │  (aggregate.py)   │
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>└─────────────┘    └──────┬───────┘    └─────────┬─────────┘
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>                          │                      │
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>                    ┌─────▼──────┐         ┌─────▼──────┐
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>                    │ SSE Stream │         │ EventStore │
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>                    │ /events/   │         │ (in-memory │
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>                    │   stream   │         │  default)  │
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>                    └────────────┘         └────────────┘
+</code></pre></div>
+<h3 id="code-structure">Code Structure</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>bases/orchestrix/lakehouse_fastapi_demo/
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>├── app.py          # FastAPI application assembly + router mounting
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>├── entry.py        # Route handlers, SSE notifier, Pydantic I/O models
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>├── aggregate.py    # DatasetAggregate, ContractAggregate, BatchAggregate, AnonymizationJob
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>├── models.py       # Commands, Events, domain value objects
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>├── engine.py       # Anonymization strategies (mask, hash, pseudonymize, generalize)
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>├── saga.py         # Anonymization saga (dry-run → approval → execution)
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>├── gdpr.py         # GDPR compliance (right-to-be-forgotten, access audit)
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>└── README.md
+</code></pre></div>
+<h2 id="gdpr-anonymization">GDPR &amp; Anonymization</h2>
+<p>The demo includes a full anonymization pipeline:</p>
+<ol>
+<li><strong><code>AnonymizationJob</code></strong> aggregate tracks job lifecycle</li>
+<li><strong>Strategies</strong> in <code>engine.py</code>: masking, SHA-256 hashing, pseudonymization, generalization</li>
+<li><strong>Saga</strong> in <code>saga.py</code>: dry-run → human approval → column-by-column execution → rollback on failure</li>
+<li><strong>GDPR helpers</strong> in <code>gdpr.py</code>: right-to-be-forgotten, data access audit trail</li>
 </ol>
-<h2 id="architecture-highlights">Architecture Highlights</h2>
-<h2 id="code-structure-process-flow">Code Structure &amp; Process Flow</h2>
-<p><strong>Modular Design:</strong></p>
-<p><strong>Typical Process Flow:</strong>
-1. A user sends an HTTP request (e.g., POST /datasets).
-2. The handler receives the request and creates a command (e.g., RegisterDataset).
-3. The aggregate processes the command, applies business rules, and emits an event (e.g., DatasetRegistered).
-4. The event is stored (event sourcing) and can trigger further processes (e.g., DQ, privacy checks).
-5. Every step is modular and easily extensible.</p>
-<p><strong>Event-Driven &amp; Auditable:</strong></p>
-<p><strong>Entrypoint:</strong></p>
-<p><strong>Extensibility:</strong></p>
-<p><strong>Note:</strong> All business logic lives in <code>bases/</code>. No Python code in <code>projects/</code>. This demo is modular, process-driven, and ready for extension.</p>
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="../banking/">Banking Demo</a> — Saga pattern for money transfers</li>
+<li><a href="../ecommerce/">E-Commerce Demo</a> — Multi-aggregate order processing</li>
+<li><a href="../notifications/">Notifications Demo</a> — Retry logic and dead letter queues</li>
+</ul>
 
 
 
