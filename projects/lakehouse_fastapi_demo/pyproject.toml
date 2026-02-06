@@ -17,7 +17,6 @@ dependencies = [
 ]
 
 [project.scripts]
-lakehouse-demo-fastapi = "orchestrix.lakehouse_fastapi_demo.main"
 
 # This section is needed for the Hatchling build backend, to activate the polylith build hook.
 [tool.hatch.build.hooks.polylith-bricks]

@@ -495,6 +495,23 @@ class QualityCheckFailed(Event):
     failed_at: datetime
 
 
+@dataclass(frozen=True, kw_only=True)
+class PrivacyCheckPassed(Event):
+    """Event emitted when a privacy check passes."""
+
+    batch_id: str
+    checked_at: datetime
+
+
+@dataclass(frozen=True, kw_only=True)
+class PrivacyCheckFailed(Event):
+    """Event emitted when a privacy check fails."""
+
+    batch_id: str
+    reason: str
+    failed_at: datetime
+
+
 # --- Quarantine / Isolation ---
 @dataclass(frozen=True, kw_only=True)
 class QuarantineBatch(Command):

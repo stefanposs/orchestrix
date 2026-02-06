@@ -1,145 +1,97 @@
 
 # Demos
 
-Orchestrix comes with production-ready demos demonstrating real-world patterns and best practices for event-driven architectures.
+Orchestrix includes production-ready demos that showcase real-world patterns for event-driven architectures. Each demo is self-contained and runnable.
 
-## Practical Demos (Real-World Use Cases)
+## Practical Demos
 
 ### 🏦 [Banking](banking.md)
-Account management system with event sourcing, including:
+Account management with event sourcing, aggregates, sagas, and compensation flows.
 
 ### 🛒 [E-Commerce](ecommerce.md)
-Complete order processing system with:
+Order processing with multi-aggregate saga, inventory reservation, payment, and automatic rollback.
 
 ### 🏢 [Lakehouse Platform](lakehouse.md)
-Self-service, event-sourced data platform with modular processes, compliance, and auditability.
+Self-service data platform with GDPR compliance, batch lifecycle, data contracts, and quality checks. Includes FastAPI REST API with SSE streaming.
 
 ### 🔔 [Notifications](notifications.md)
-Resilient notification system with retries, dead letter queue, and multi-channel support.
+Resilient notification system with configurable retry policies, dead letter queue, and multi-channel delivery.
 
 ### 📊 [Projections](projection.md)
-Optimized read models, CQRS, and query denormalization.
+Read model construction from event streams — CQRS pattern with denormalized query models.
 
-### Banking, E-Commerce, Lakehouse, Notifications, Projections: These demos show business processes, compliance, and production patterns.
+### 🖥️ Web GUI
+Interactive Dash dashboard for exploring events, commands, and aggregate state in real time.
 
-
-## Simple Demos (Technical Patterns & Didactic)
+## Simple Demos (Technical Patterns)
 
 ### [Events & Commands](events_and_commands.md)
-Basic command/event separation and handler logic.
+Basics of command/event separation and handler registration.
 
 ### [Tracing](tracing.md)
-Distributed tracing, OpenTelemetry, Jaeger integration.
+Distributed tracing with OpenTelemetry and Jaeger.
 
 ### [Validation](validation.md)
-Input validation, error handling, simple process flows.
+Input validation, error handling, and guard clauses.
 
 ### [Versioning](versioning.md)
-Event schema evolution, upcasters, compatibility.
-
-### [Index](index.md)
-Overview and entry point for all demos.
+Event schema evolution using upcasters and version compatibility.
 
 
-## Running Examples
+## Running Demos
 
-All examples are located in the `examples/` directory and can be run directly:
+All demos live in `bases/orchestrix/` and run directly with `uv`:
 
 ```bash
-# Banking example
-uv run python -m examples.banking.example
+# Banking
+uv run python -m bases.orchestrix.banking_demo.main
 
-# E-Commerce example  
-uv run python -m examples.ecommerce.example
+# E-Commerce
+uv run python -m bases.orchestrix.ecommerce_demo.main
 
-# Lakehouse anonymization
-uv run python -m examples.lakehouse.example
+# Lakehouse (FastAPI server)
+uv run uvicorn bases.orchestrix.lakehouse_fastapi_demo.app:app --reload
 
-# Lakehouse GDPR compliance
-uv run python examples/lakehouse/gdpr_simple.py
+# Notifications
+uv run python -m bases.orchestrix.notifications_demo.main
 
-# Notifications example
-uv run python -m examples.notifications.example
+# Projections
+uv run python -m bases.orchestrix.projection_demo.demo_projection
+
+# Web GUI (Dash dashboard)
+uv run python -m bases.orchestrix.web_gui_demo.app
+
+# Events & Commands
+uv run python -m bases.orchestrix.events_and_commands_demo.demo_events_and_commands
+
+# Validation
+uv run python -m bases.orchestrix.validation_demo.demo_validation
+
+# Versioning
+uv run python -m bases.orchestrix.versioning_demo.demo_versioning
 ```
 
-## Example Structure
+## Demo Structure
 
-Each example follows a consistent structure:
+Each demo follows a consistent pattern using the [Polylith](https://polylith.gitbook.io/) architecture:
 
 ```
-examples/
-├── {domain}/
-│   ├── README.md              # Overview and quick start
-│   ├── __init__.py            # Module exports
-│   ├── models.py              # Commands, Events, Domain models
-│   ├── aggregate.py           # Aggregate root with business logic
-│   ├── handlers.py            # Command and event handlers
-│   ├── saga.py                # Saga orchestration (if applicable)
-│   └── example.py             # Runnable demo
+bases/orchestrix/{demo}/
+├── README.md              # Overview and quick start
+├── __init__.py            # Module exports
+├── models.py              # Commands, Events, Domain models
+├── aggregate.py           # Aggregate root with business logic
+├── handlers.py            # Command and event handlers
+├── saga.py                # Saga orchestration (if applicable)
+└── main.py                # Runnable entry point
 ```
 
 ## Learning Path
 
-### 1. **Start with Banking**
-Learn the fundamentals of event sourcing and aggregates with a simple domain.
-
-### 2. **Move to E-Commerce**
-Understand sagas and process managers for coordinating distributed transactions.
-
-### 3. **Study Lakehouse**
-See production patterns for compliance, data management, and advanced event sourcing.
-
-### 4. **Explore Notifications**
-Master resilience patterns, retries, and error handling.
-
-## Common Patterns
-
-All examples demonstrate these key patterns:
-
-### Event Sourcing
-```python
-class OrderAggregate(AggregateRoot):
-    def handle_create_order(self, cmd: CreateOrder):
-        event = OrderCreated(order_id=cmd.order_id, ...)
-        self._apply_event(event)
-    
-    def _when_order_created(self, event: OrderCreated):
-        self.order_id = event.order_id
-        self.status = OrderStatus.PENDING
-```
-
-### Command/Event Separation
-```python
-# Command (intent)
-@dataclass(frozen=True)
-class CreateOrder(Command):
-    order_id: str
-    customer_id: str
-
-# Event (fact)
-@dataclass(frozen=True)
-class OrderCreated(Event):
-    order_id: str
-    customer_id: str
-    timestamp: datetime
-```
-
-### Saga Pattern
-```python
-async def on_order_created(event: OrderCreated, bus: MessageBus):
-    # Step 1: Reserve inventory
-    await bus.send(ReserveInventory(order_id=event.order_id))
-    
-    # Step 2: Process payment
-    await bus.send(ProcessPayment(order_id=event.order_id))
-```
-
-## Next Steps
-
-
-## Contributing Examples
-
-Have a great example? Contributions are welcome! See our [Contributing Guide](../development/contributing.md).
-
-Examples should:
+1. **Start with Events & Commands** — Learn the basics of message-driven design
+2. **Move to Banking** — Understand event sourcing and aggregate patterns
+3. **Study E-Commerce** — Master sagas and distributed transaction coordination
+4. **Explore Lakehouse** — See production patterns for compliance and data management
+5. **Try Notifications** — Learn resilience patterns, retries, and error handling
+6. **Launch Web GUI** — Visualize everything interactively
 
