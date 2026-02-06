@@ -1,136 +1,241 @@
 
-# Lakehouse FastAPI Demo – A Modern Data Platform Story
+# Lakehouse FastAPI Demo — Self-Service Data Platform
 
-Imagine you are a data engineer in a company that needs to process, validate, and audit large volumes of business data every day. You want a platform that empowers teams to register datasets, upload data, run compliance checks, and consume results—all with full transparency and modularity.
+Build an event-sourced, self-service data platform with full batch lifecycle,
+data contracts, quality gates, privacy checks, and real-time SSE streaming.
 
-This demo shows how to build a self-service, event-sourced lakehouse API using Orchestrix and FastAPI. Every process is modular, every action is auditable, and the architecture is cloud-agnostic.
+> **Source Code:**
+> [`bases/orchestrix/lakehouse_fastapi_demo/`](https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/lakehouse_fastapi_demo)
 
+## Overview
 
-## Why Lakehouse? Why Event Sourcing?
+| Capability | Description |
+|---|---|
+| Dataset Registry | Register datasets with schema + description |
+| Data Contracts | Define quality & privacy rules per dataset |
+| Batch Lifecycle | Append → Quarantine → Validate → Publish → Consume |
+| Quality Gates | DQ + privacy checks; both must pass before publishing |
+| GDPR Compliance | Anonymization engine with dry-run, approval, rollback |
+| SSE Streaming | Real-time CloudEvents via Server-Sent Events |
+| Swagger UI | Interactive docs at `/docs` |
 
+## Quick Start
 
+```bash
+uv run uvicorn bases.orchestrix.lakehouse_fastapi_demo.app:app --reload
+# Open http://localhost:8000/docs
+```
 
-## Core Processes & Events
+## REST API Endpoints
 
-| Process              | Command                  | Event(s) Produced                | Description                                  |
-|----------------------|-------------------------|----------------------------------|----------------------------------------------|
-| Register Dataset     | RegisterDataset         | DatasetRegistered                | Register a new dataset with schema           |
-| Register Contract    | CreateContract          | DataContractDefined              | Define contract/retention for a dataset      |
-| Upload Batch         | AppendData              | DataAppended                     | Upload a data batch (CSV)                    |
-| Replay               | RequestReplay           | ReplayRequested, ReplayCompleted | Reprocess all batches for a dataset          |
-| Quarantine Batch     | QuarantineBatch         | BatchQuarantined                 | Mark batch as faulty                         |
-| Data Quality Check   | RunQualityCheck         | QualityCheckPassed/Failed        | Run DQ checks for a batch                    |
-| Privacy Check        | AnonymizeData           | DataAnonymized                   | Run privacy/compliance checks                |
-| Publish Batch        | PublishData             | DataPublished                    | Make batch available for consumption         |
-| Consume Batch        | GrantConsumption        | ConsumptionGranted               | Grant access to batch (signed URL)           |
+### Datasets (`/api/v1/datasets`)
 
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/api/v1/datasets` | Register a new dataset |
+| `GET`  | `/api/v1/datasets` | List all datasets |
+| `GET`  | `/api/v1/datasets/{name}` | Get dataset details |
 
-## End-to-End API Story
+### Contracts (`/api/v1/contracts`)
 
-1. **Start the FastAPI server**
-    ```bash
-    uv run main:start
-    ```
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/api/v1/contracts` | Create a data contract |
+| `GET`  | `/api/v1/contracts` | List all contracts |
 
-2. **Register a Dataset**
-    ```bash
-    curl -X POST http://localhost:8000/datasets \
-      -H "Content-Type: application/json" \
-      -d '{"name": "sales", "schema": {"id": "int", "amount": "float"}}'
-    ```
+### Batches (`/api/v1/batches`)
 
-3. **Register a Contract**
-    ```bash
-    curl -X POST http://localhost:8000/contracts \
-      -H "Content-Type: application/json" \
-      -d '{"dataset": "sales", "retention_days": 365}'
-    ```
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/api/v1/batches/append` | Append a data batch |
+| `POST` | `/api/v1/batches/{id}/quarantine` | Quarantine a batch |
+| `POST` | `/api/v1/batches/{id}/release` | Release from quarantine |
+| `POST` | `/api/v1/batches/{id}/validate` | Run quality check |
+| `POST` | `/api/v1/batches/{id}/privacy-check` | Run privacy check |
+| `POST` | `/api/v1/batches/{id}/publish` | Publish a validated batch |
+| `POST` | `/api/v1/batches/{id}/consume` | Consume a published batch |
+| `GET`  | `/api/v1/batches` | List batches (optional `?dataset=` filter) |
+| `GET`  | `/api/v1/batches/{id}` | Get batch details |
 
-4. **Get Signed Upload URL**
-    ```bash
-    curl -X POST http://localhost:8000/upload-url \
-      -H "Content-Type: application/json" \
-      -d '{"filename": "sales_2024_01.csv"}'
-    # Response: { "upload_url": "https://..." }
-    ```
+### Events (`/api/v1/events`)
 
-5. **Upload Data as CSV**
-    ```bash
-    echo "id,amount\n1,100.0\n2,200.0" > sales_2024_01.csv
-    curl -X PUT "<UPLOAD_URL_FROM_STEP_4>" --data-binary @sales_2024_01.csv
-    ```
+| Method | Path | Description |
+|---|---|---|
+| `GET`  | `/api/v1/events` | Query events (filter by `aggregate_id` or `event_type`) |
+| `GET`  | `/api/v1/events/stream` | SSE stream of real-time events |
+| `POST` | `/api/v1/events/replay` | Replay events for a dataset |
 
-6. **Append Batch**
-    ```bash
-    curl -X POST http://localhost:8000/append-batch \
-      -H "Content-Type: application/json" \
-      -d '{"dataset": "sales", "contract_id": "contract1", "batch_id": "batch1", "file_url": "sales_2024_01.csv"}'
-    ```
+### Health
 
-7. **Quarantine Batch (optional)**
-    ```bash
-    curl -X POST http://localhost:8000/quarantine-batch \
-      -H "Content-Type: application/json" \
-      -d '{"batch_id": "batch1", "reason": "DQ failed"}'
-    ```
-
-8. **Run Data Quality Check**
-    ```bash
-    curl -X POST http://localhost:8000/run-dq \
-      -H "Content-Type: application/json" \
-      -d '{"batch_id": "batch1", "quality_rules": {"amount": ">0"}}'
-    ```
-
-9. **Run Privacy Check**
-    ```bash
-    curl -X POST http://localhost:8000/run-privacy \
-      -H "Content-Type: application/json" \
-      -d '{"batch_id": "batch1", "privacy_rules": {"id": "mask"}}'
-    ```
-
-10. **Publish Batch**
-    ```bash
-    curl -X POST http://localhost:8000/publish-batch \
-      -H "Content-Type: application/json" \
-      -d '{"batch_id": "batch1"}'
-    ```
-
-11. **Consume Batch**
-    ```bash
-    curl -X POST http://localhost:8000/consume-batch \
-      -H "Content-Type: application/json" \
-      -d '{"batch_id": "batch1", "consumer": "alice"}'
-    ```
-
-12. **Replay (optional)**
-    ```bash
-    curl -X POST http://localhost:8000/replay \
-      -H "Content-Type: application/json" \
-      -d '{"dataset": "sales"}'
-    ```
+| Method | Path | Description |
+|---|---|---|
+| `GET` | `/health` | Liveness probe |
+| `GET` | `/ready` | Readiness probe |
 
 
-## Architecture Highlights
+## End-to-End Walkthrough
+
+### 1. Register a Dataset
+
+```bash
+curl -X POST http://localhost:8000/api/v1/datasets \
+  -H "Content-Type: application/json" \
+  -d '{"name": "sales", "schema_def": {"id": "int", "amount": "float"}, "description": "Sales data"}'
+```
+
+### 2. Create a Contract
+
+```bash
+curl -X POST http://localhost:8000/api/v1/contracts \
+  -H "Content-Type: application/json" \
+  -d '{
+    "dataset": "sales",
+    "schema_def": {"id": "int", "amount": "float"},
+    "quality_rules": {"amount": ">0"},
+    "privacy_rules": {"id": "mask"}
+  }'
+```
+
+### 3. Append a Batch
+
+```bash
+curl -X POST http://localhost:8000/api/v1/batches/append \
+  -H "Content-Type: application/json" \
+  -d '{
+    "dataset": "sales",
+    "contract_id": "<contract-id-from-step-2>",
+    "file_url": "s3://bucket/sales_2025_01.csv"
+  }'
+```
+
+### 4. Run Quality Check
+
+```bash
+curl -X POST http://localhost:8000/api/v1/batches/<batch-id>/validate \
+  -H "Content-Type: application/json" \
+  -d '{"quality_rules": {"amount": ">0"}}'
+```
+
+### 5. Run Privacy Check
+
+```bash
+curl -X POST http://localhost:8000/api/v1/batches/<batch-id>/privacy-check \
+  -H "Content-Type: application/json" \
+  -d '{"privacy_rules": {"id": "mask"}}'
+```
+
+### 6. Publish
+
+```bash
+curl -X POST http://localhost:8000/api/v1/batches/<batch-id>/publish
+```
+
+### 7. Consume
+
+```bash
+curl -X POST http://localhost:8000/api/v1/batches/<batch-id>/consume \
+  -H "Content-Type: application/json" \
+  -d '{"consumer": "analytics-team"}'
+# → Returns a signed download URL
+```
+
+### 8. Stream Events (SSE)
+
+```bash
+curl -N http://localhost:8000/api/v1/events/stream
+```
 
 
+## Domain Model
+
+### Aggregates
+
+| Aggregate | Responsibility |
+|---|---|
+| `DatasetAggregate` | Dataset lifecycle — register, activate version, deprecate |
+| `ContractAggregate` | Contract lifecycle — create, approve, decline, update |
+| `BatchAggregate` | Batch ingestion lifecycle — append, quarantine, validate, publish |
+| `AnonymizationJob` | GDPR anonymization — dry-run, approve, execute, rollback |
+
+### Key Commands
+
+| Command | Description |
+|---|---|
+| `RegisterDataset` | Register a new dataset with schema |
+| `CreateContract` | Define a data contract with quality & privacy rules |
+| `AppendData` | Append a batch to a dataset |
+| `QuarantineBatch` | Mark a batch as faulty |
+| `ReleaseQuarantine` | Release a batch from quarantine |
+| `RunQualityCheck` | Run DQ rules against a batch |
+| `PublishData` | Publish a validated batch |
+| `GrantConsumption` | Grant signed-URL access to a batch |
+
+### Key Events
+
+| Event | Trigger |
+|---|---|
+| `DatasetRegistered` | Dataset registered |
+| `DataContractDefined` | Contract created |
+| `DataAppended` | Batch appended |
+| `BatchQuarantined` | Batch quarantined |
+| `QualityCheckPassed` | DQ check succeeded |
+| `PrivacyCheckPassed` | Privacy check succeeded |
+| `DataPublished` | Batch published |
+| `ConsumptionGranted` | Download URL issued |
+
+### Batch Lifecycle
+
+```
+INGESTED ──→ QUARANTINED ──(release)──→ INGESTED
+INGESTED ──→ DQ_PASSED ──→ VALIDATED ──→ PUBLISHED
+INGESTED ──→ PRIVACY_PASSED ──→ VALIDATED ──→ PUBLISHED
+```
+
+Both DQ and privacy checks must pass (in any order) before a batch
+transitions to `VALIDATED`. Only validated batches can be published.
 
 
-## Code Structure & Process Flow
+## Architecture
 
-**Modular Design:**
+```
+┌─────────────┐    ┌──────────────┐    ┌───────────────────┐
+│ FastAPI App  │───▶│  APIRouters  │───▶│ Aggregate + Repo  │
+│  (app.py)   │    │  (entry.py)  │    │  (aggregate.py)   │
+└─────────────┘    └──────┬───────┘    └─────────┬─────────┘
+                          │                      │
+                    ┌─────▼──────┐         ┌─────▼──────┐
+                    │ SSE Stream │         │ EventStore │
+                    │ /events/   │         │ (in-memory │
+                    │   stream   │         │  default)  │
+                    └────────────┘         └────────────┘
+```
 
-**Typical Process Flow:**
-1. A user sends an HTTP request (e.g., POST /datasets).
-2. The handler receives the request and creates a command (e.g., RegisterDataset).
-3. The aggregate processes the command, applies business rules, and emits an event (e.g., DatasetRegistered).
-4. The event is stored (event sourcing) and can trigger further processes (e.g., DQ, privacy checks).
-5. Every step is modular and easily extensible.
+### Code Structure
 
-**Event-Driven & Auditable:**
+```
+bases/orchestrix/lakehouse_fastapi_demo/
+├── app.py          # FastAPI application assembly + router mounting
+├── entry.py        # Route handlers, SSE notifier, Pydantic I/O models
+├── aggregate.py    # DatasetAggregate, ContractAggregate, BatchAggregate, AnonymizationJob
+├── models.py       # Commands, Events, domain value objects
+├── engine.py       # Anonymization strategies (mask, hash, pseudonymize, generalize)
+├── saga.py         # Anonymization saga (dry-run → approval → execution)
+├── gdpr.py         # GDPR compliance (right-to-be-forgotten, access audit)
+└── README.md
+```
 
-**Entrypoint:**
+## GDPR & Anonymization
 
-**Extensibility:**
+The demo includes a full anonymization pipeline:
+
+1. **`AnonymizationJob`** aggregate tracks job lifecycle
+2. **Strategies** in `engine.py`: masking, SHA-256 hashing, pseudonymization, generalization
+3. **Saga** in `saga.py`: dry-run → human approval → column-by-column execution → rollback on failure
+4. **GDPR helpers** in `gdpr.py`: right-to-be-forgotten, data access audit trail
 
 
-**Note:** All business logic lives in `bases/`. No Python code in `projects/`. This demo is modular, process-driven, and ready for extension.
+## Related
+
+- [Banking Demo](banking.md) — Saga pattern for money transfers
+- [E-Commerce Demo](ecommerce.md) — Multi-aggregate order processing
+- [Notifications Demo](notifications.md) — Retry logic and dead letter queues

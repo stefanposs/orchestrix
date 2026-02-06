@@ -1,35 +1,27 @@
+
 # Core Concepts
 
-Orchestrix is built around several key concepts from **Domain-Driven Design (DDD)** and **Event Sourcing**.
+Orchestrix implements **Domain-Driven Design (DDD)**, **Event Sourcing**, and
+**CQRS** patterns. This page covers the building blocks.
 
 ## Messages
 
-All communication in Orchestrix happens through **Messages**. Every message is:
-
-- **Immutable** - Implemented with `@dataclass(frozen=True)`
-- **CloudEvents-compatible** - Has `id`, `type`, `source`, and `timestamp`
-- **Type-safe** - Full type annotations for IDE support
+All communication uses **Messages** — immutable, CloudEvents-compatible dataclasses:
 
 ```python
-from orchestrix import Message, Command, Event
-
-# Base message - rarely used directly
-@dataclass(frozen=True, kw_only=True)
-class MyMessage(Message):
-    data: str
+from orchestrix.core.messaging.message import Message, Command, Event
 ```
+
+Every message has auto-generated fields: `id`, `type`, `source`, `timestamp`,
+`correlation_id`, `causation_id`, `trace_id`.
 
 ## Commands
 
-**Commands** represent an **intention to change state**. They:
-
-- Express what you want to happen
-- May be rejected (validation, business rules)
-- Are handled by exactly one handler
-- Use imperative naming (CreateOrder, CancelOrder)
+**Commands** = intentions. Imperative naming. Handled by exactly one handler.
 
 ```python
-from orchestrix import Command
+from dataclasses import dataclass
+from orchestrix.core.messaging.message import Command
 
 @dataclass(frozen=True, kw_only=True)
 class CreateOrder(Command):
@@ -40,15 +32,10 @@ class CreateOrder(Command):
 
 ## Events
 
-**Events** represent **facts that have occurred**. They:
-
-- Express what has happened
-- Cannot be rejected (they already happened)
-- May be handled by zero or more handlers
-- Use past-tense naming (OrderCreated, OrderCancelled)
+**Events** = facts. Past-tense naming. Handled by zero or more handlers.
 
 ```python
-from orchestrix import Event
+from orchestrix.core.messaging.message import Event
 
 @dataclass(frozen=True, kw_only=True)
 class OrderCreated(Event):
@@ -59,181 +46,117 @@ class OrderCreated(Event):
 
 ## Aggregates
 
-**Aggregates** are domain objects that:
-
-- Enforce business rules
-- Maintain consistency boundaries
-- Emit events when state changes
-- Are reconstructed from their event stream
+**Aggregates** enforce business rules and emit events. State is rebuilt from events.
 
 ```python
-from dataclasses import dataclass, field
+from orchestrix.core.eventsourcing.aggregate import AggregateRoot
 
 @dataclass
-class Order:
-    order_id: str
-    customer_name: str
-    total_amount: float
+class Order(AggregateRoot):
+    customer_name: str = ""
+    total_amount: float = 0.0
     status: str = "pending"
-    _events: list[Event] = field(default_factory=list, repr=False)
-    
-    @classmethod
-    def create(cls, order_id: str, customer_name: str, total_amount: float):
-        order = cls(order_id, customer_name, total_amount)
-        order._events.append(OrderCreated(
-            order_id=order_id,
-            customer_name=customer_name,
-            total_amount=total_amount
-        ))
-        return order
-    
-    def cancel(self) -> None:
-        if self.status != "pending":
-            raise ValueError("Can only cancel pending orders")
-        self.status = "cancelled"
-        self._events.append(OrderCancelled(order_id=self.order_id))
-    
-    def collect_events(self) -> list[Event]:
-        events = self._events.copy()
-        self._events.clear()
-        return events
+
+    def create(self, cmd):
+        self._apply_event(OrderCreated(...))
+
+    def _when_order_created(self, event: OrderCreated):
+        self.aggregate_id = event.order_id
+        self.customer_name = event.customer_name
+        self.total_amount = event.total_amount
+```
+
+Key methods on `AggregateRoot`:
+
+| Method | Purpose |
+|---|---|
+| `_apply_event(event)` | Record event and apply state change |
+| `_when_<snake_case>(event)` | Convention-based state mutator |
+| `mark_events_committed()` | Clear pending events after save |
+
+## AggregateRepository
+
+Loads and saves aggregates via an event store:
+
+```python
+from orchestrix.core.eventsourcing.aggregate import AggregateRepository
+from orchestrix.infrastructure.memory.store import InMemoryEventStore
+
+store = InMemoryEventStore()
+repo = AggregateRepository(event_store=store)
+
+# Save
+repo.save(order_aggregate)
+
+# Load (replays events to rebuild state)
+order = repo.load(Order, "order-123")
+
+# Async variants
+await repo.save_async(order)
+order = await repo.load_async(Order, "order-123")
 ```
 
 ## Message Bus
 
-The **MessageBus** routes messages to their handlers:
+Routes messages to handlers:
 
 ```python
-from orchestrix import MessageBus, InMemoryMessageBus
+from orchestrix.infrastructure.memory.bus import InMemoryMessageBus
 
 bus = InMemoryMessageBus()
-
-# Subscribe handlers
-bus.subscribe(CreateOrder, create_order_handler)
+bus.subscribe(CreateOrder, handle_create_order)
 bus.subscribe(OrderCreated, send_confirmation_email)
-bus.subscribe(OrderCreated, update_inventory)
-
-# Publish messages
 bus.publish(CreateOrder(...))
 ```
 
+Async variant: `InMemoryAsyncMessageBus` with `await bus.publish(...)`.
+
 ## Event Store
 
-The **EventStore** persists events for aggregate reconstruction:
+Persists event streams. Protocol with `save()` and `load()`:
 
 ```python
-from orchestrix import EventStore, InMemoryEventStore
+from orchestrix.infrastructure.memory.store import InMemoryEventStore
 
 store = InMemoryEventStore()
-
-# Save events
-events = [OrderCreated(...), OrderShipped(...)]
-store.save("ORDER-123", events)
-
-# Load events
-all_events = store.load("ORDER-123")
-# Reconstruct aggregate from events
+store.save("order-123", [event1, event2], expected_version=0)
+events = store.load("order-123")
 ```
+
+Implementations:
+
+| Store | Use Case |
+|---|---|
+| `InMemoryEventStore` | Development, testing |
+| `InMemoryAsyncEventStore` | Async development |
+| `PostgreSQLEventStore` | Production (asyncpg) |
+| `GCPCloudSQLEventStore` | Google Cloud SQL |
+| `GCPBigQueryEventStore` | Analytics workloads |
 
 ## Modules
 
-**Modules** encapsulate domain logic and wire handlers to the bus:
+Encapsulate domain logic and wire handlers:
 
 ```python
-from orchestrix import Module, MessageBus, EventStore
+from orchestrix.core.common.module import Module
 
-class OrderModule(Module):
-    def register(self, bus: MessageBus, store: EventStore) -> None:
-        # Register command handlers
+class OrderModule:
+    def register(self, bus, store):
         bus.subscribe(CreateOrder, CreateOrderHandler(bus, store))
-        bus.subscribe(CancelOrder, CancelOrderHandler(bus, store))
-        
-        # Register event handlers (projections, side effects)
-        bus.subscribe(OrderCreated, log_order_created)
-        bus.subscribe(OrderCancelled, refund_payment)
+        bus.subscribe(OrderCreated, log_order)
 ```
 
-## Command Handlers
-
-**Command Handlers** process commands:
-
-1. Load aggregate from event store (or create new)
-2. Execute business logic on aggregate
-3. Collect new events from aggregate
-4. Save events to store
-5. Publish events to bus
-
-```python
-from orchestrix import CommandHandler
-
-class CreateOrderHandler(CommandHandler[CreateOrder]):
-    def __init__(self, bus: MessageBus, store: EventStore) -> None:
-        self.bus = bus
-        self.store = store
-    
-    def handle(self, command: CreateOrder) -> None:
-        # Create aggregate
-        order = Order.create(
-            command.order_id,
-            command.customer_name,
-            command.total_amount
-        )
-        
-        # Persist and publish events
-        events = order.collect_events()
-        self.store.save(command.order_id, events)
-        for event in events:
-            self.bus.publish(event)
-```
-
-## Putting It Together
-
-The typical flow is:
-
-1. **Application** publishes a **Command** to the **MessageBus**
-2. **MessageBus** routes to the appropriate **CommandHandler**
-3. **CommandHandler** loads/creates an **Aggregate**
-4. **Aggregate** executes business logic and emits **Events**
-5. **Events** are saved to **EventStore**
-6. **Events** are published to **MessageBus**
-7. **Event Handlers** react to events (projections, notifications, etc.)
+## Flow
 
 ```
-┌─────────────┐
-│ Application │
-└──────┬──────┘
-       │ publish(Command)
-       ▼
-┌─────────────┐
-│ MessageBus  │
-└──────┬──────┘
-       │ route
-       ▼
-┌────────────────┐      ┌───────────┐
-│ CommandHandler │─────▶│ Aggregate │
-└────────┬───────┘      └─────┬─────┘
-         │                     │ emit Events
-         │                     ▼
-         │              ┌──────────────┐
-         │              │ collect      │
-         │              │ _events      │
-         │              └──────┬───────┘
-         ▼                     │
-┌────────────────┐             │
-│ EventStore     │◀────────────┘
-│ save(events)   │
-└────────────────┘
-         │
-         │ publish Events
-         ▼
-┌─────────────────┐
-│ Event Handlers  │
-│ (projections,   │
-│  side effects)  │
-└─────────────────┘
+Application → Command → MessageBus → CommandHandler → Aggregate → Events
+                                                                    ↓
+                                                              EventStore
+                                                                    ↓
+                                                        Event Handlers (projections, side-effects)
 ```
 
 ## Next Steps
 
-- [Creating Modules](../guide/creating-modules.md) - Module design patterns
-- [Commands & Events](../guide/commands-events.md) - Message design guidelines
+- [User Guide](../guide/index.md) — Production patterns
+- [Demos](../demos/index.md) — Working examples

@@ -1,321 +1,102 @@
+
 # Commands & Events
 
-Commands and events are the two main message types in Orchestrix. Understand the difference!
+Design guidelines for messages in Orchestrix.
 
-## Commands vs Events
+## Message Hierarchy
 
-| Aspect | Command | Event |
-|--------|---------|-------|
-| **Meaning** | Intention (what should happen) | Fact (what has happened) |
-| **Tense** | Imperative (CreateOrder) | Past (OrderCreated) |
-| **Handler** | Exactly 1 handler | 0 to N handlers |
-| **Validation** | Can be rejected | Has already happened |
-| **Source** | Application/User | Domain Logic |
+```
+Message (base — CloudEvents-compatible)
+├── Command  (intention to change state)
+└── Event    (fact that occurred)
+```
 
-## Commands
+All messages are `@dataclass(frozen=True)` with auto-generated `id`, `type`,
+`source`, `timestamp`, `correlation_id`, `causation_id`, `trace_id`.
 
-### Definition
+## Defining Commands
 
-**A Command** represents an **intention to change state**.
+Commands express **what should happen**. Use imperative naming.
 
 ```python
 from dataclasses import dataclass
-from orchestrix import Command
+from orchestrix.core.messaging.message import Command
 
 @dataclass(frozen=True, kw_only=True)
 class CreateOrder(Command):
-    """Command to create a new order."""
     order_id: str
-    customer_id: str
-    items: list[dict]
-    shipping_address: str
+    customer_name: str
+    total_amount: float
 ```
 
-### Naming Convention
+Commands may be rejected (validation, business rules). Each command is
+handled by **exactly one** handler.
 
-- **Imperative**: CreateX, UpdateX, DeleteX, CancelX
-- **Specific**: What exactly should happen?
-- **Domain Language**: Terms from the business domain
+## Defining Events
 
-```python
-# ✅ Good
-class PlaceOrder(Command): pass
-class CancelSubscription(Command): pass
-class ApproveInvoice(Command): pass
-
-# ❌ Bad
-class OrderCommand(Command): pass  # Too generic
-class DoSomething(Command): pass   # Not meaningful
-class Process(Command): pass       # What is processed?
-```
-
-### Command Design
-
-```python
-@dataclass(frozen=True, kw_only=True)
-class RegisterUser(Command):
-    """Register a new user account.
-    
-    Business Rules:
-    - Email must be unique
-    - Password min 8 characters
-    - Username alphanumeric only
-    """
-    user_id: str
-    email: str
-    username: str
-    password: str
-    terms_accepted: bool = False
-    
-    def __post_init__(self) -> None:
-        """Validate command data."""
-        if not self.terms_accepted:
-            raise ValueError("Terms must be accepted")
-        if len(self.password) < 8:
-            raise ValueError("Password too short")
-```
-
-## Events
-
-### Definition
-
-**An Event** represents a **fact that has already happened**.
+Events express **what has happened**. Use past-tense naming.
 
 ```python
 from dataclasses import dataclass
-from orchestrix import Event
+from orchestrix.core.messaging.message import Event
 
 @dataclass(frozen=True, kw_only=True)
 class OrderCreated(Event):
-    """Event emitted when an order is successfully created."""
     order_id: str
-    customer_id: str
+    customer_name: str
     total_amount: float
-    created_at: str
 ```
 
-### Naming Convention
+Events are immutable facts. They can be handled by **zero or more** handlers
+(projections, notifications, side effects).
 
-- **Past tense**: XCreated, XUpdated, XDeleted, XCancelled
-- **Fact**: What actually happened?
-- **Domain Events**: Business-relevant events
+## CloudEvents Fields
+
+Every `Message` includes these fields (set automatically):
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | `str` | UUID v4 |
+| `specversion` | `str` | `"1.0"` |
+| `type` | `str` | Class name (auto-derived) |
+| `source` | `str` | `"orchestrix"` |
+| `timestamp` | `datetime` | UTC now |
+| `subject` | `str \| None` | Optional subject |
+| `data` | `Any` | Optional payload |
+| `correlation_id` | `str \| None` | Links related messages |
+| `causation_id` | `str \| None` | ID of the causing message |
+| `trace_id` | `str \| None` | Distributed trace ID |
+
+## Validation
+
+Use `__post_init__` for input validation:
 
 ```python
-# ✅ Good
-class OrderPlaced(Event): pass
-class SubscriptionCancelled(Event): pass
-class InvoiceApproved(Event): pass
-class PaymentReceived(Event): pass
+from orchestrix.core.common.validation import validate_not_empty, validate_positive
 
-# ❌ Bad
-class OrderEvent(Event): pass     # Too generic
-class OrderChange(Event): pass    # What changed?
-class Updated(Event): pass        # What was updated?
-```
-
-### Event Design
-
-Events should be **immutable** and **serializable**:
-
-```python
 @dataclass(frozen=True, kw_only=True)
-class UserRegistered(Event):
-    """User successfully registered.
-    
-    Downstream consumers:
-    - Email service: Send welcome email
-    - Analytics: Track new user
-    - Billing: Create customer account
-    """
-    user_id: str
-    email: str
-    username: str
-    registered_at: str
-    referral_code: str | None = None
-    
-    # ❌ No mutable objects!
-    # settings: dict  # Better: own dataclass
-    
-    # ✅ Immutable data
-    # settings: UserSettings  # Own frozen dataclass
+class CreateOrder(Command):
+    order_id: str
+    amount: float
+
+    def __post_init__(self):
+        super().__post_init__()  # sets type field
+        validate_not_empty(self.order_id, "order_id")
+        validate_positive(self.amount, "amount")
 ```
 
-## Message Flow
+## Naming Conventions
 
-```
-┌─────────────┐
-│   Client    │
-└──────┬──────┘
-    │
-    │ publish(Command)
-    ▼
-┌──────────────────┐
-│   MessageBus     │
-└──────┬───────────┘
-    │
-    │ route to handler
-    ▼
-┌──────────────────┐      ┌─────────────┐
-│ CommandHandler   │─────▶│  Aggregate  │
-└──────┬───────────┘      └──────┬──────┘
-    │                         │
-    │                         │ emit Events
-    │                         ▼
-    │                  ┌──────────────┐
-    │                  │ OrderCreated │
-    │                  │ ItemAdded    │
-    │                  └──────┬───────┘
-    │                         │
-    │ save & publish          │
-    ▼                         │
-┌──────────────────┐             │
-│   EventStore     │◀────────────┘
-└──────┬───────────┘
-    │
-    │ publish Events
-    ▼
-┌──────────────────────────┐
-│   Event Handlers         │
-│   - EmailService         │
-│   - Analytics            │
-│   - InventoryService     │
-└──────────────────────────┘
-```
+| Type | Convention | Examples |
+|---|---|---|
+| Command | Imperative verb + noun | `CreateOrder`, `SuspendAccount`, `PublishBatch` |
+| Event | Noun + past participle | `OrderCreated`, `AccountSuspended`, `BatchPublished` |
 
 ## Best Practices
 
-### Commands
-
-```python
-# ✅ Specific and clear
-@dataclass(frozen=True, kw_only=True)
-class CancelOrder(Command):
-    order_id: str
-    cancellation_reason: str
-    refund_method: str
-
-# ✅ Validation in the command
-@dataclass(frozen=True, kw_only=True)
-class UpdatePrice(Command):
-    product_id: str
-    new_price: float
-    
-    def __post_init__(self) -> None:
-        if self.new_price < 0:
-            raise ValueError("Price cannot be negative")
-
-# ❌ Too generic
-@dataclass(frozen=True, kw_only=True)
-class OrderCommand(Command):
-    action: str  # "create" | "cancel" | "update"
-    data: dict   # Untyped!
-```
-
-### Events
-
-```python
-# ✅ Rich in information
-@dataclass(frozen=True, kw_only=True)
-class OrderShipped(Event):
-    order_id: str
-    tracking_number: str
-    carrier: str
-    estimated_delivery: str
-    shipped_at: str
-
-# ✅ Several small events instead of one big one
-@dataclass(frozen=True, kw_only=True)
-class OrderPlaced(Event):
-    order_id: str
-    ...
-
-@dataclass(frozen=True, kw_only=True)
-class PaymentReceived(Event):
-    order_id: str
-    payment_id: str
-    ...
-
-# ❌ Too little information
-@dataclass(frozen=True, kw_only=True)
-class OrderUpdated(Event):
-    order_id: str
-    # What was updated? When? By whom?
-```
-
-## Event Versioning
-
-Events must remain **backward-compatible**:
-
-```python
-# Version 1
-@dataclass(frozen=True, kw_only=True)
-class UserCreated(Event):
-    user_id: str
-    email: str
-
-# Version 2 - ✅ Backward compatible
-@dataclass(frozen=True, kw_only=True)
-class UserCreated(Event):
-    user_id: str
-    email: str
-    username: str = ""  # Default for old events
-    created_at: str = ""
-
-# Version 2 - ❌ BREAKING CHANGE
-@dataclass(frozen=True, kw_only=True)
-class UserCreated(Event):
-    user_id: str
-    username: str  # email removed - breaks old events!
-```
-
-## Practical Example
-
-```python
-# Commands
-@dataclass(frozen=True, kw_only=True)
-class PlaceOrder(Command):
-    order_id: str
-    customer_id: str
-    items: list[dict]
-
-@dataclass(frozen=True, kw_only=True)
-class PayOrder(Command):
-    order_id: str
-    payment_method: str
-    amount: float
-
-@dataclass(frozen=True, kw_only=True)
-class ShipOrder(Command):
-    order_id: str
-    carrier: str
-
-# Events
-@dataclass(frozen=True, kw_only=True)
-class OrderPlaced(Event):
-    order_id: str
-    customer_id: str
-    total_amount: float
-
-@dataclass(frozen=True, kw_only=True)
-class OrderPaid(Event):
-    order_id: str
-    payment_id: str
-    amount: float
-
-@dataclass(frozen=True, kw_only=True)
-class OrderShipped(Event):
-    order_id: str
-    tracking_number: str
-    carrier: str
-
-# Flow
-bus.publish(PlaceOrder(...))  # → OrderPlaced
-bus.publish(PayOrder(...))    # → OrderPaid
-bus.publish(ShipOrder(...))   # → OrderShipped
-```
-
-## Next Steps
-
-- [Message Bus](message-bus.md) - Routing & subscription
-- [Event Store](event-store.md) - Persistence patterns
-- [Best Practices](best-practices.md) - Production guidelines
+1. **Keep messages small** — only include data the handler needs
+2. **Use frozen dataclasses** — messages must be immutable
+3. **Add `kw_only=True`** — prevents positional constructor errors
+4. **Prefer primitive types** — strings, numbers, booleans for serializability
+5. **Never put behavior in messages** — messages are pure data
+6. **Version events carefully** — see [Versioning Demo](../demos/versioning.md)

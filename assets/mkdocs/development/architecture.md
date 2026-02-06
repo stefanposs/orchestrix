@@ -2,482 +2,279 @@
 
 Technical architecture and design decisions behind Orchestrix.
 
+---
+
 ## Core Principles
 
-### 1. Protocol-based Design
+### 1. Protocol-Based Design
 
-Orchestrix uses `typing.Protocol` instead of Abstract Base Classes:
+Orchestrix uses `typing.Protocol` instead of Abstract Base Classes for all core interfaces:
 
 ```python
-from typing import Protocol
-
 class MessageBus(Protocol):
-    """Message bus interface - no inheritance required!"""
-    
-    def subscribe(self, message_type: type[Message], handler) -> None: ...
     def publish(self, message: Message) -> None: ...
+    def subscribe(self, message_type: type[T], handler: Callable[[T], None]) -> None: ...
 ```
 
 **Advantages:**
 
-- ✅ Duck Typing - Pythonic!
-- ✅ No inheritance required
-- ✅ Better IDE support
-- ✅ Easier to mock in tests
+- Duck typing — Pythonic, no inheritance required
+- Better IDE autocompletion and type checking
+- Easy to mock in tests — any matching object works
+- Clear, minimal contracts
 
 ### 2. Immutable Messages
 
-All messages are `frozen` dataclasses:
+All messages are `frozen` dataclasses with CloudEvents metadata:
 
 ```python
 @dataclass(frozen=True, kw_only=True)
 class CreateOrder(Command):
     order_id: str
     customer_id: str
+    # Inherited: id, specversion, type, source, timestamp,
+    #            correlation_id, causation_id, trace_id, …
 ```
 
-**Advantages:**
-
-- ✅ Thread-safe
-- ✅ Hashable (can use in sets/dicts)
-- ✅ Prevents unexpected mutations
-- ✅ CloudEvents-compatible
+- Thread-safe and hashable
+- Prevents unexpected mutations after creation
+- CloudEvents-compatible for interoperability
 
 ### 3. Event Sourcing First
 
-Events are the single source of truth:
+Events are the single source of truth. Aggregate state is reconstructed by replaying events:
 
 ```python
-# State = fold(events)
-def from_events(events: list[Event]) -> Order:
-    order = None
-    for event in events:
-        order = apply(order, event)
-    return order
+account = AggregateRepository(event_store=store).load(BankAccount, "ACC-001")
+# Internally: events = store.load("ACC-001") → replay → BankAccount instance
 ```
 
-**Advantages:**
+- Complete audit trail
+- Time travel (state at any historical point)
+- Event replay for projections and analytics
+- Built-in debugging through event history
 
-- ✅ Complete audit trail
-- ✅ Time travel (state at any point in time)
-- ✅ Event replay for projections
-- ✅ Debugging & error analysis
+---
 
 ## Architecture Layers
 
 ```
 ┌─────────────────────────────────────────────┐
 │           Application Layer                 │
-│  (Modules, Command Handlers, Use Cases)     │
+│  (Modules, Use Cases, Wiring)               │
 └──────────────────┬──────────────────────────┘
                    │
 ┌──────────────────▼──────────────────────────┐
 │           Domain Layer                      │
-│  (Aggregates, Commands, Events)             │
+│  (AggregateRoot, Commands, Events, Sagas)   │
 └──────────────────┬──────────────────────────┘
                    │
 ┌──────────────────▼──────────────────────────┐
 │         Infrastructure Layer                │
-│  (MessageBus, EventStore Implementations)   │
+│  (MessageBus, EventStore, Observability)    │
 └─────────────────────────────────────────────┘
 ```
 
 ### Application Layer
 
-**Responsibility:** Orchestration & Use Cases
+`Module` implementations wire domain logic to infrastructure:
 
 ```python
-class OrderModule(Module):
-    """Application-level orchestration."""
-    
+from orchestrix.core.common.module import Module
+
+class OrderModule:
     def register(self, bus: MessageBus, store: EventStore) -> None:
-        # Wire domain to infrastructure
-        bus.subscribe(CreateOrder, CreateOrderHandler(bus, store))
-        bus.subscribe(OrderCreated, self._send_email)
+        handler = CreateOrderHandler(bus, store)
+        bus.subscribe(CreateOrder, handler.handle)
+        bus.subscribe(OrderCreated, send_confirmation_email)
 ```
 
 ### Domain Layer
 
-**Responsibility:** Business Logic & Rules
+Business rules live in `AggregateRoot` subclasses:
 
 ```python
+from orchestrix.core.eventsourcing.aggregate import AggregateRoot
+
 @dataclass
-class Order:
-    """Domain aggregate."""
-    
+class Order(AggregateRoot):
+    status: str = "pending"
+
     def cancel(self) -> None:
-        """Business rule: Can only cancel pending orders."""
-        if self.status != "pending":
-            raise ValueError("Can only cancel pending orders")
+        if self.status == "shipped":
+            raise ValueError("Cannot cancel shipped order")
+        self._apply_event(OrderCancelled(order_id=self.aggregate_id))
+
+    def _when_order_cancelled(self, event: OrderCancelled) -> None:
         self.status = "cancelled"
-        self._events.append(OrderCancelled(order_id=self.order_id))
 ```
 
 ### Infrastructure Layer
 
-**Responsibility:** Technical Implementation
+Pluggable implementations of core Protocols:
 
-```python
-class InMemoryMessageBus(MessageBus):
-    """Technical implementation of message routing."""
-    
-    def publish(self, message: Message) -> None:
-        for handler in self._handlers[type(message)]:
-            handler(message)
+| Component | Dev / Test | Production |
+|-----------|-----------|------------|
+| MessageBus | `InMemoryMessageBus` | `InMemoryMessageBus` / custom |
+| AsyncMessageBus | `InMemoryAsyncMessageBus` | `InMemoryAsyncMessageBus` / custom |
+| EventStore | `InMemoryEventStore` | `PostgreSQLEventStore` |
+| Metrics | `NoOpMetricsProvider` | `PrometheusMetrics` |
+| Tracing | `NoOpTracingProvider` | `JaegerTracer` |
+
+---
+
+## Polylith Repository Structure
+
+Orchestrix uses the [Polylith](https://polylith.gitbook.io/) architecture for modular monorepo layout:
+
 ```
+orchestrix/
+├── components/orchestrix/     # Reusable building blocks
+│   ├── core/                  # Domain Protocols & base classes
+│   │   ├── messaging/         # Message, Command, Event, MessageBus, CommandHandler
+│   │   ├── eventsourcing/     # AggregateRoot, EventStore, Projection, Versioning
+│   │   ├── execution/         # Saga
+│   │   └── common/            # Module, Validation, Retry, Observability, Logging
+│   └── infrastructure/        # Concrete implementations
+│       ├── memory/            # InMemoryMessageBus, InMemoryEventStore, async variants
+│       ├── postgres/          # PostgreSQLEventStore
+│       └── observability/     # JaegerTracer, PrometheusMetrics
+├── bases/orchestrix/          # Application entry points (demos)
+│   ├── banking_demo/
+│   ├── ecommerce_demo/
+│   ├── lakehouse_fastapi_demo/
+│   └── …
+├── projects/                  # Deployable artifacts (pyproject.toml per project)
+│   ├── orchestrix_lib/        # The published library package
+│   ├── banking_demo/
+│   └── …
+└── test/                      # All tests
+    ├── conftest.py            # Shared fixtures (bus, store)
+    ├── components/orchestrix/
+    │   ├── core/              # Unit tests for core modules
+    │   └── infrastructure/    # Integration tests for implementations
+    ├── benchmarks/            # Performance benchmarks
+    └── projects/              # Project-level integration tests
+```
+
+**Key rule:** Components never import from bases or projects. Bases compose components. Projects wire everything together.
+
+---
 
 ## Design Patterns
 
 ### Command Pattern
 
-Commands encapsulate requests:
+Commands encapsulate requests; handlers execute them:
 
 ```python
-@dataclass(frozen=True, kw_only=True)
-class CreateOrder(Command):
-    """Command = Request to do something."""
-    order_id: str
-    customer_id: str
-
-# Execute via handler
-handler.handle(CreateOrder(...))
+bus.publish(CreateOrder(order_id="ORD-001", customer_id="CUST-123"))
+# → routed to CreateOrderHandler.handle()
 ```
 
 ### Observer Pattern
 
-MessageBus implements observer:
+`MessageBus.subscribe()` implements observer — multiple handlers per event type:
 
 ```python
-# Subscribe observers
 bus.subscribe(OrderCreated, send_email)
 bus.subscribe(OrderCreated, update_inventory)
-bus.subscribe(OrderCreated, log_event)
-
-# Notify all observers
-bus.publish(OrderCreated(...))
+bus.subscribe(OrderCreated, record_analytics)
 ```
 
 ### Repository Pattern
 
-EventStore is a repository:
+`AggregateRepository` abstracts event persistence:
 
 ```python
-# Save aggregate state (as events)
-store.save(aggregate_id, events)
+repo = AggregateRepository(event_store=store)
+account = repo.load(BankAccount, "ACC-001")
+account.deposit(500.0)
+repo.save(account)
+```
 
-# Load aggregate state (from events)
-events = store.load(aggregate_id)
-aggregate = reconstruct(events)
+### Saga Pattern
+
+`Saga` orchestrates multi-step processes with compensation:
+
+```python
+saga = Saga(saga_type="order-fulfillment", steps=[
+    SagaStep("reserve", reserve_inventory, compensation=release_inventory),
+    SagaStep("charge", charge_payment, compensation=refund_payment),
+    SagaStep("ship", ship_order),
+], state_store=state_store)
 ```
 
 ### Strategy Pattern
 
-Pluggable infrastructure:
+Pluggable infrastructure via Protocol adherence:
 
 ```python
-# Strategy 1: In-Memory
-bus = InMemoryMessageBus()
-
-# Strategy 2: Redis (future)
-bus = RedisMessageBus(url)
-
-# Strategy 3: RabbitMQ (future)
-bus = RabbitMQMessageBus(url)
-
-# Same interface, different implementation!
+# Same code, different stores
+store = InMemoryEventStore()          # Dev
+store = PostgreSQLEventStore(conn)    # Production
 ```
+
+---
 
 ## Event Flow
 
 ```
-1. Client
-   │
-   ├─► publish(Command)
-   │
-2. MessageBus
-   │
-   ├─► route to CommandHandler
-   │
-3. CommandHandler
-   │
-   ├─► load Events from EventStore
-   ├─► reconstruct Aggregate
-   ├─► execute business logic
-   ├─► collect new Events
-   ├─► save Events to EventStore
-   │
-   └─► publish Events to MessageBus
-       │
-4. MessageBus
-   │
-   └─► notify all Event Handlers
-       │
-       ├─► Projection Handler
-       ├─► Email Handler
-       ├─► Analytics Handler
-       └─► ...
+Client
+  │
+  ├─► bus.publish(Command)
+  │
+MessageBus
+  │
+  ├─► CommandHandler.handle()
+  │     │
+  │     ├─► AggregateRepository.load()  — EventStore.load()
+  │     ├─► aggregate.do_something()    — business logic
+  │     ├─► AggregateRepository.save()  — EventStore.save()
+  │     └─► bus.publish(Event)          — notify subscribers
+  │
+  └─► Event Handlers
+        ├─► Projection (read model update)
+        ├─► Notification (email, webhook)
+        └─► Analytics / Logging
 ```
 
-## Scalability Considerations
+---
 
-### Current (v0.1.0)
-
-- ✅ Single process
-- ✅ Synchronous
-- ✅ In-memory storage
-- ✅ Perfect for: Monoliths, testing, development
-
-### Future Scaling
-
-#### Horizontal Scaling
-
-```python
-# Distributed message bus
-bus = RedisMessageBus("redis://...")
-
-# Multiple instances can publish/subscribe
-# Events are distributed across workers
-```
-
-#### Async Processing
-
-```python
-class AsyncMessageBus(MessageBus):
-    async def publish(self, message: Message) -> None:
-        """Non-blocking event publishing."""
-        tasks = [handler(message) for handler in handlers]
-        await asyncio.gather(*tasks)
-```
-
-#### Event Streaming
-
-```python
-# Kafka for high-throughput events
-bus = KafkaMessageBus("kafka://...")
-
-# Process millions of events/sec
-```
-
-#### CQRS Separation
+## CQRS Separation
 
 ```
-Commands ──► Write Model (Event Store)
-                  │
+Commands ──► Write Model (EventStore)
                   │ Events
+                  ▼
+             ProjectionEngine
                   │
                   ▼
-             Event Handlers
-                  │
-                  ▼
-            Read Models (PostgreSQL, Elasticsearch, ...)
+            Read Models (dict, DB, search index)
                   │
                   ▼
              Queries ◄── Clients
 ```
 
+---
+
 ## Technology Choices
 
-### Why Python?
+| Choice | Rationale |
+|--------|-----------|
+| Python 3.12+ | Type hints, dataclasses, Protocols, `type` statement |
+| `typing.Protocol` | Duck typing, no inheritance, easy mocking |
+| `@dataclass(frozen=True)` | Immutable, hashable, auto-generated `__init__`/`__repr__`/`__eq__` |
+| Polylith | Modular monorepo without microservice overhead |
+| `uv` | Fast dependency management and virtual environments |
+| `ruff` | Linting + formatting (replaces black, isort, flake8, pylint) |
+| `ty` | Type checking |
+| `pytest` | Flexible test framework with rich fixture support |
 
-- ✅ Type hints für Type Safety
-- ✅ Dataclasses für Value Objects
-- ✅ Protocols für Interfaces
-- ✅ Rich ecosystem
-- ✅ Widely adopted
-
-### Why Protocols over ABC?
-
-```python
-# ❌ Abstract Base Class - requires inheritance
-class MessageBus(ABC):
-    @abstractmethod
-    def publish(self, message: Message) -> None:
-        pass
-
-class MyBus(MessageBus):  # Must inherit!
-    def publish(self, message: Message) -> None:
-        pass
-
-# ✅ Protocol - duck typing
-class MessageBus(Protocol):
-    def publish(self, message: Message) -> None: ...
-
-class MyBus:  # No inheritance needed!
-    def publish(self, message: Message) -> None:
-        pass
-```
-
-### Why Dataclasses?
-
-```python
-# ✅ Immutable, type-safe, clean
-@dataclass(frozen=True, kw_only=True)
-class Order(Command):
-    order_id: str
-    customer_id: str
-
-# Automatically generates:
-# - __init__
-# - __repr__
-# - __eq__
-# - __hash__ (because frozen)
-```
-
-### Why Event Sourcing?
-
-```python
-# Traditional: Current state only
-order = db.query(Order).get(order_id)
-# Lost: How did we get here? Who made changes? When?
-
-# Event Sourcing: Complete history
-events = store.load(order_id)
-# Have: Every change, every reason, complete audit trail
-```
-
-## Performance Characteristics
-
-### InMemoryMessageBus
-
-- **Subscribe:** O(1)
-- **Publish:** O(n) where n = handlers for message type
-- **Memory:** O(m) where m = total subscriptions
-
-### InMemoryEventStore
-
-- **Save:** O(1) append
-- **Load:** O(n) where n = events for aggregate
-- **Memory:** O(e) where e = total events
-
-### Optimization: Snapshots
-
-For aggregates with many events (> 1000):
-
-```python
-# Without snapshot: Load 10,000 events
-events = store.load(aggregate_id)  # Slow!
-order = Order.from_events(events)
-
-# With snapshot: Load snapshot + recent events
-snapshot = snapshot_store.load(aggregate_id)
-recent_events = store.load_after_version(aggregate_id, snapshot.version)
-order = snapshot.aggregate
-for event in recent_events:
-    order.apply(event)
-```
-
-## Extensibility Points
-
-Orchestrix is designed to be extended:
-
-### 1. Custom Message Types
-
-```python
-@dataclass(frozen=True, kw_only=True)
-class Query(Message):
-    """New message type for queries."""
-    pass
-
-class GetOrder(Query):
-    order_id: str
-```
-
-### 2. Custom Bus Implementations
-
-```python
-class RateLimitedBus(MessageBus):
-    """Bus with rate limiting."""
-    
-    def publish(self, message: Message) -> None:
-        if self._rate_limiter.allow():
-            self._inner_bus.publish(message)
-        else:
-            raise RateLimitExceeded()
-```
-
-### 3. Custom Store Implementations
-
-```python
-class PostgreSQLEventStore(EventStore):
-    """Production-grade PostgreSQL store."""
-    
-    def save(self, aggregate_id: str, events: list[Event]) -> None:
-        # Implement with psycopg2/asyncpg
-        pass
-```
-
-### 4. Middleware/Decorators
-
-```python
-def logged(handler):
-    """Decorator for logging handlers."""
-    def wrapper(message):
-        logger.info(f"Handling {type(message).__name__}")
-        result = handler(message)
-        logger.info(f"Handled {type(message).__name__}")
-        return result
-    return wrapper
-
-@logged
-def handle_create_order(command: CreateOrder):
-    # Implementation
-    pass
-```
-
-## Testing Architecture
-
-Testable by design:
-
-```python
-# Production
-bus = RedisMessageBus("redis://prod")
-store = PostgreSQLEventStore("postgresql://prod")
-
-# Testing
-bus = InMemoryMessageBus()
-store = InMemoryEventStore()
-
-# Same interface - tests pass!
-```
-
-## Future Roadmap
-
-### v0.2.0 - Async Support
-
-- AsyncMessageBus
-- AsyncEventStore
-- Async handlers
-
-### v0.3.0 - Persistence
-
-- PostgreSQL EventStore
-- MongoDB EventStore
-- SQLite EventStore
-
-### v0.4.0 - Distributed
-
-- Redis MessageBus
-- RabbitMQ MessageBus
-- Kafka Integration
-
-### v1.0.0 - Production Ready
-
-- Saga Support
-- Process Managers
-- Outbox Pattern
-- Event Versioning
-
-## Architecture Decisions
-
-See ADR (Architecture Decision Records) in `/assets/adr/`:
-
-- ADR-001: Use Protocols over ABC
-- ADR-002: Immutable Messages with Dataclasses
-- ADR-003: Event Sourcing by Default
-- ADR-004: CloudEvents Compatibility
+---
 
 ## Next Steps
 
-- [Contributing](contributing.md) - How to contribute
-- [Testing](testing.md) - Test strategies
-- [Best Practices](../guide/best-practices.md) - Production guidelines
+- [Contributing](contributing.md) — Development setup and workflow
+- [Testing](testing.md) — Test strategies and patterns
+- [Async Design](../architecture/ASYNC_DESIGN.md) — Async API design document

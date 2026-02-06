@@ -1,33 +1,58 @@
-# Tracing Demo
 
-A minimal demo showing how to trace event flow in Orchestrix.
+# Tracing — Distributed Observability
 
-## Scenario
-You want to track the flow of commands and events for debugging or observability.
+Orchestrix includes built-in tracing support via OpenTelemetry and Jaeger.
 
-## Example
+## Infrastructure
+
+Tracing is provided by the `infrastructure/observability` package:
 
 ```python
-from orchestrix import InMemoryMessageBus, Command, Event
-from dataclasses import dataclass
+from orchestrix.infrastructure.observability import JaegerTracer, TracingConfig
 
-@dataclass(frozen=True, kw_only=True)
-class MyCommand(Command):
-    value: int
+# Initialize
+config = TracingConfig(service_name="my-service", jaeger_agent_host="localhost")
+tracer = JaegerTracer()
 
-@dataclass(frozen=True, kw_only=True)
-class MyEvent(Event):
-    value: int
+# Trace a command
+with tracer.span_command("CreateOrder", aggregate_id="order-123"):
+    # ... handle command ...
+    pass
 
-bus = InMemoryMessageBus()
+# Trace an event
+with tracer.span_event("OrderCreated", event_id="evt-1", aggregate_id="order-123"):
+    # ... process event ...
+    pass
 
-# Simple tracing handler
-bus.subscribe(MyCommand, lambda cmd: print(f"TRACE: Command {cmd}"))
-bus.subscribe(MyEvent, lambda evt: print(f"TRACE: Event {evt}"))
-
-bus.publish(MyCommand(value=42))
+# Trace a saga
+with tracer.span_saga("OrderSaga", saga_id="saga-1"):
+    # ... execute saga steps ...
+    pass
 ```
 
-## Key Points
-- Use bus.subscribe to add tracing/logging handlers.
-- You can integrate with OpenTelemetry or other tracing tools for production.
+## Async Support
+
+```python
+async with tracer.async_span_command("ProcessPayment", aggregate_id="order-123"):
+    await process_payment(...)
+```
+
+## Trace Context
+
+```python
+trace_id = tracer.get_trace_id()
+tracer.set_attribute("customer_id", "cust-456")
+tracer.add_event("payment_authorized", {"amount": "99.99"})
+```
+
+## Prerequisites
+
+```bash
+uv add orchestrix[observability]
+# Requires: opentelemetry-api, opentelemetry-sdk, opentelemetry-exporter-otlp
+```
+
+## Related
+
+- [Prometheus Metrics](../guide/production-ready.md) — Monitoring setup
+- [Production Deployment](../guide/production-deployment.md) — Infrastructure guidance
