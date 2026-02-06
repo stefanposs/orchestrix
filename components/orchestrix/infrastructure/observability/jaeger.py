@@ -50,7 +50,7 @@ def _check_jaeger_available() -> bool:
 
         # Try modern OTLP first, fallback to legacy Jaeger
         with suppress(ImportError):
-            import opentelemetry.exporter.otlp.proto.grpc.trace_exporter  # noqa: F401
+            import opentelemetry.exporter.otlp.proto.grpc.trace_exporter  # noqa: F401  # type: ignore[import-not-found]
         return True
     except ImportError:
         return False
@@ -399,7 +399,7 @@ def init_tracing(
         config = TracingConfig(service_name=service_name)
 
     try:
-        from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+        from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter  # type: ignore[import-not-found]
 
         exporter = OTLPSpanExporter(
             endpoint=f"{config.jaeger_agent_host}:{config.jaeger_agent_port}",

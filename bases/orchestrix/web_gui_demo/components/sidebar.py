@@ -1,7 +1,16 @@
 """Sidebar navigation component."""
 
-from dash import html
 import dash_bootstrap_components as dbc
+from dash import html
+
+
+def _nav_item(icon: str, label: str, href: str) -> dbc.NavLink:
+    """Create a sidebar navigation item."""
+    return dbc.NavLink(
+        [html.I(className=f"bi bi-{icon}"), label],
+        href=href,
+        active="exact",
+    )
 
 
 def sidebar() -> html.Div:
@@ -9,39 +18,60 @@ def sidebar() -> html.Div:
 
     Returns:
         Sidebar component with navigation links
+
     """
-    return html.Div([
-        html.Div([
-            html.H2("Orchestrix", className="dashboard-header mb-4"),
-            html.P("Event-Sourcing Framework", className="text-muted small mb-4"),
-        ], className="mb-4"),
-        dbc.Nav([
-            dbc.NavLink([
-                html.I(className="bi bi-speedometer2 me-2"),
-                "Dashboard"
-            ], href="/", active="exact", className="nav-link"),
-            dbc.NavLink([
-                html.I(className="bi bi-lightning-charge me-2"),
-                "Event Explorer"
-            ], href="/events", active="exact", className="nav-link"),
-            dbc.NavLink([
-                html.I(className="bi bi-diagram-3 me-2"),
-                "Aggregate Viewer"
-            ], href="/aggregates", active="exact", className="nav-link"),
-            dbc.NavLink([
-                html.I(className="bi bi-send me-2"),
-                "Command Center"
-            ], href="/commands", active="exact", className="nav-link"),
-        ], vertical=True, pills=True, className="mt-2"),
-        html.Div([
-            html.Hr(className="my-3"),
-            dbc.Button([
-                html.I(className="bi bi-question-circle me-2"),
-                "Documentation"
-            ], href="https://orchestrix-docs.example.com", color="info", className="w-100 mb-2", external_link=True),
-            html.Div([
-                html.I(className="bi bi-code-slash me-1"),
-                "WebGUI v2.0.0"
-            ], className="text-muted text-center small mt-2")
-        ], className="sidebar-footer")
-    ], id="main-sidebar", className="sidebar")
+    return html.Div(
+        [
+            # Brand
+            html.Div(
+                [
+                    html.Div(
+                        html.I(className="bi bi-boxes"),
+                        className="ox-sidebar-brand-icon",
+                    ),
+                    html.Div(
+                        [
+                            html.Span("Orchestrix", className="ox-sidebar-brand-text"),
+                            html.Span(
+                                "Event-Sourcing Framework",
+                                className="ox-sidebar-brand-sub",
+                            ),
+                        ]
+                    ),
+                ],
+                className="ox-sidebar-brand",
+            ),
+            # Section: Overview
+            html.Div("Overview", className="ox-sidebar-section"),
+            dbc.Nav(
+                [
+                    _nav_item("grid-1x2-fill", "Dashboard", "/"),
+                    _nav_item("lightning-charge-fill", "Event Explorer", "/events"),
+                    _nav_item("diagram-3-fill", "Aggregate Viewer", "/aggregates"),
+                ],
+                vertical=True,
+                pills=True,
+            ),
+            # Section: Actions
+            html.Div("Actions", className="ox-sidebar-section"),
+            dbc.Nav(
+                [
+                    _nav_item("send-fill", "Command Center", "/commands"),
+                    _nav_item("arrow-repeat", "Processes", "/processes"),
+                ],
+                vertical=True,
+                pills=True,
+            ),
+            # Footer
+            html.Div(
+                [
+                    html.Div(
+                        [html.I(className="bi bi-code-slash me-1"), " v2.2.0"],
+                    ),
+                ],
+                className="ox-sidebar-footer",
+            ),
+        ],
+        id="main-sidebar",
+        className="ox-sidebar",
+    )

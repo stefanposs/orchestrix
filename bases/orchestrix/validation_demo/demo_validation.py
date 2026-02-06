@@ -12,8 +12,6 @@ from orchestrix.infrastructure.memory import InMemoryMessageBus
 class ValidationError(Exception):
     """Raised when event validation fails."""
 
-    pass
-
 
 @dataclass(frozen=True, kw_only=True)
 class UserRegistered(Event):

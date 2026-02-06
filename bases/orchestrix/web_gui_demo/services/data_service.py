@@ -1,12 +1,11 @@
 """Data service for accessing event store and aggregates."""
 
 import json
-from collections.abc import Sequence
 from datetime import datetime
 from typing import Any
 
-from orchestrix.core.eventsourcing.aggregate import AggregateRoot
-from orchestrix.core.messaging.message import Command, Event
+from orchestrix.core.messaging.message import Command
+from orchestrix.infrastructure.memory.bus import InMemoryMessageBus
 from orchestrix.infrastructure.memory.store import InMemoryEventStore
 
 
@@ -20,12 +19,13 @@ class DataService:
     - Command dispatch
     """
 
-    def __init__(self, event_store: InMemoryEventStore, message_bus: Any) -> None:
+    def __init__(self, event_store: InMemoryEventStore, message_bus: InMemoryMessageBus) -> None:
         """Initialize data service.
 
         Args:
             event_store: The event store instance
             message_bus: The message bus for dispatching commands
+
         """
         self.event_store = event_store
         self.message_bus = message_bus
@@ -35,6 +35,7 @@ class DataService:
 
         Returns:
             List of aggregate IDs
+
         """
         if hasattr(self.event_store, "_events"):
             return list(self.event_store._events.keys())
@@ -48,6 +49,7 @@ class DataService:
 
         Returns:
             List of event dictionaries with serialized data
+
         """
         try:
             events = self.event_store.load(aggregate_id)
@@ -55,7 +57,11 @@ class DataService:
                 {
                     "id": event.id,
                     "type": event.type,
-                    "timestamp": event.timestamp.isoformat() if isinstance(event.timestamp, datetime) else str(event.timestamp),
+                    "timestamp": (
+                        event.timestamp.isoformat()
+                        if isinstance(event.timestamp, datetime)
+                        else str(event.timestamp)
+                    ),
                     "data": self._serialize_data(event.data),
                     "trace_id": getattr(event, "trace_id", None),
                     "aggregate_id": aggregate_id,
@@ -73,6 +79,7 @@ class DataService:
 
         Returns:
             List of event dictionaries
+
         """
         all_events = []
         for aggregate_id in self.get_all_aggregate_ids():
@@ -91,6 +98,7 @@ class DataService:
 
         Returns:
             Dictionary with aggregate summary or None if not found
+
         """
         events = self.get_events_for_aggregate(aggregate_id)
         if not events:
@@ -109,6 +117,7 @@ class DataService:
 
         Returns:
             List of aggregate summaries
+
         """
         summaries = []
         for aggregate_id in self.get_all_aggregate_ids():
@@ -126,6 +135,7 @@ class DataService:
 
         Returns:
             Result dictionary with status
+
         """
         try:
             command = Command(type=command_type, data=data)
@@ -139,6 +149,7 @@ class DataService:
 
         Returns:
             Dictionary with event statistics
+
         """
         all_events = self.get_all_events(limit=10000)
         event_types: dict[str, int] = {}
@@ -152,7 +163,7 @@ class DataService:
             "event_types": event_types,
         }
 
-    def _serialize_data(self, data: Any) -> str:
+    def _serialize_data(self, data: object) -> str:
         """Serialize event data to JSON string.
 
         Args:
@@ -160,6 +171,7 @@ class DataService:
 
         Returns:
             JSON string representation
+
         """
         if data is None:
             return "{}"

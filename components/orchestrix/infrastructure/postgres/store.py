@@ -391,6 +391,7 @@ class PostgreSQLEventStore:
                 "dataschema",
                 "correlation_id",
                 "causation_id",
+                "trace_id",
                 "data",
             }
         }
@@ -414,6 +415,9 @@ class PostgreSQLEventStore:
         """Convert database row to Event object."""
         data = json.loads(row["event_data"]) if row["event_data"] else {}
 
+        # Extract trace_id from legacy data blobs (stored before exclusion fix)
+        trace_id = data.pop("trace_id", None) if isinstance(data, dict) else None
+
         # Reconstruct Event from stored data
         return Event(
             id=row["event_id"],
@@ -425,5 +429,6 @@ class PostgreSQLEventStore:
             dataschema=row["data_schema"],
             correlation_id=row["correlation_id"],
             causation_id=row["causation_id"],
+            trace_id=trace_id,
             data=data,
         )

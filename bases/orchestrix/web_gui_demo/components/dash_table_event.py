@@ -1,22 +1,27 @@
-from dash import html, dcc
 import dash_bootstrap_components as dbc
 import dash_table
 import pandas as pd
-import io
-import base64
+from dash import html
 
-def DashEventTable(events, table_id="event-table"):
-    """
-    Dash DataTable with filter, pagination, and CSV download for event/command data.
-    """
+
+def dash_event_table(
+    events: list[dict[str, str]],
+    table_id: str = "event-table",
+) -> html.Div:
+    """Build a Dash DataTable with filter, pagination, and CSV download."""
     if not events:
-        df = pd.DataFrame(columns=["ID", "Type", "Payload"])
+        df = pd.DataFrame(columns=pd.Index(["ID", "Type", "Payload"]))
     else:
-        df = pd.DataFrame([{
-            "ID": evt.get("id", ""),
-            "Type": evt.get("type", ""),
-            "Payload": str(evt.get("payload", ""))
-        } for evt in events])
+        df = pd.DataFrame(
+            [
+                {
+                    "ID": evt.get("id", ""),
+                    "Type": evt.get("type", ""),
+                    "Payload": str(evt.get("payload", "")),
+                }
+                for evt in events
+            ]
+        )
 
     table = dash_table.DataTable(
         id=table_id,
@@ -31,39 +36,30 @@ def DashEventTable(events, table_id="event-table"):
             "boxShadow": "0 2px 8px rgba(60,60,60,0.04)",
             "borderCollapse": "separate",
             "borderSpacing": "0",
-            "background": "#fff"
+            "background": "#fff",
         },
         style_cell={
             "textAlign": "left",
             "fontFamily": "Inter, 'Segoe UI', Arial, sans-serif",
             "fontSize": "1rem",
             "color": "#444",
-            "padding": "0.75rem 1rem"
+            "padding": "0.75rem 1rem",
         },
-        style_header={
-            "fontWeight": "600",
-            "backgroundColor": "#f6f7f9",
-            "color": "#3a3a3a"
-        },
-        style_data={
-            "backgroundColor": "#fff"
-        },
-        style_data_conditional=[
-            {
-                "if": {"row_index": "even"},
-                "backgroundColor": "#fafbfc"
-            }
-        ],
+        style_header={"fontWeight": "600", "backgroundColor": "#f6f7f9", "color": "#3a3a3a"},
+        style_data={"backgroundColor": "#fff"},
+        style_data_conditional=[{"if": {"row_index": "even"}, "backgroundColor": "#fafbfc"}],
         export_format="csv",
-        export_headers="display"
+        export_headers="display",
     )
     download_btn = dbc.Button(
-        "Download CSV", id=f"{table_id}-download-btn", color="secondary", className="mb-2", n_clicks=0
+        "Download CSV",
+        id=f"{table_id}-download-btn",
+        color="secondary",
+        className="mb-2",
+        n_clicks=0,
     )
-    return html.Div([
-        download_btn,
-        table
-    ], className="mb-4")
+    return html.Div([download_btn, table], className="mb-4")
+
 
 # Example callback for CSV download (if custom logic needed)
 # @app.callback(

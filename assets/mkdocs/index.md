@@ -1,18 +1,18 @@
 ---
 
 
-# 🔹 Orchestrix – Your Processes. Your Data. Your Control.
+# Orchestrix — Your Processes. Your Data. Your Control.
 
-**Orchestrix is the event-sourcing framework for AI-driven, enterprise-grade, and rapidly evolving systems. Model, manage, and version your business processes, commands, and events—guaranteeing data quality, auditability, and governance.**
+**Orchestrix is the event-sourcing framework for AI-driven, enterprise-grade, rapidly evolving Python systems. Model, manage, and version your business processes — guaranteeing data quality, auditability, and governance.**
 
-In today’s world of AI, fast code iteration, and dynamic environments, a solid foundation is essential. Orchestrix keeps your processes, knowledge, and data consistent, versioned, and under your control—while your systems evolve at AI speed.
+In a world of AI-accelerated development, your processes and data need a solid, versioned foundation. Orchestrix keeps them consistent, auditable, and under your control while your systems evolve at AI speed.
 
 
 **Get Started:**
 
-- [Minimal Service & Installation](getting-started/installation.md) — Quick setup for new projects
-- [Architecture & Event-Sourcing Concepts](getting-started/concepts.md) — Learn the core ideas
-- [Demos: Lakehouse / Migration / Order Processing](demos/lakehouse.md) — See Orchestrix in action
+- [Installation & Quick Setup](getting-started/installation.md)
+- [Core Concepts (Commands, Events, Aggregates)](getting-started/concepts.md)
+- [Demos: Banking, E-Commerce, Lakehouse, Web GUI](demos/index.md)
 
 
 
@@ -69,7 +69,6 @@ Your processes are **digital assets**. Orchestrix ensures they remain so.
 
 ### Installation
 
-pip install orchestrix[observability]
 ```bash
 # Basic installation
 pip install orchestrix
@@ -77,15 +76,17 @@ pip install orchestrix
 # With PostgreSQL support
 pip install orchestrix[postgres]
 
-# With observability (Prometheus + Tracing)
+# With observability (Prometheus + OpenTelemetry tracing)
 pip install orchestrix[observability]
 ```
 
-Or with [uv](https://docs.astral.sh/uv/):
+Or with [uv](https://docs.astral.sh/uv/) (recommended):
 
 ```bash
 uv add orchestrix
 ```
+
+**Requires Python 3.12+**
 
 ### Basic Usage
 
@@ -111,7 +112,7 @@ bus.publish(CreateOrder(
 
 ## Documentation
 
-Full documentation is available at [orchestrix.readthedocs.io](https://orchestrix.readthedocs.io)
+Full documentation: [stefanposs.github.io/orchestrix](https://stefanposs.github.io/orchestrix)
 
 ## Example
 

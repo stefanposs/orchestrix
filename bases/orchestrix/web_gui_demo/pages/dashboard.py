@@ -1,84 +1,149 @@
-"""Dashboard page with system overview and KPIs."""
+"""Dashboard page – real-time KPIs, live chart & error feed."""
 
-from dash import html, dcc, callback, Output, Input, State
+import datetime
 
-import dash_bootstrap_components as dbc
-from components.kpi_cards import kpi_cards
-from components.dashboard_chart import dashboard_chart
-from components.dashboard_error_list import dashboard_error_list
+import plotly.graph_objects as go
+from dash import Dash, Input, Output, State, dcc, html
+
+from ..components.dashboard_error_list import dashboard_error_list
+from ..components.kpi_cards import kpi_cards
+
+# ── Plotly figure factory ────────────────────────────────────────────
+
+_TRACE_COLORS = {
+    "Events": "#4f46e5",
+    "Commands": "#3b82f6",
+    "Errors": "#ef4444",
+}
 
 
-def dashboard_page():
-    """Create the main dashboard page.
-
-    Returns:
-        Dashboard layout component
-    """
-    from components.dashboard_chart import dashboard_chart
-    import plotly.graph_objects as go
-    # Initialisiere leeres Figure mit 3 Traces (Events, Commands, Errors)
+def _empty_figure() -> go.Figure:
+    """Return an empty 3-trace figure matching the design system."""
     fig = go.Figure()
-    fig.add_trace(go.Scatter(y=[], x=[], mode="lines+markers", name="Events", line={"color": "#1976d2", "width": 2}, marker={"size": 4}, fill="tonexty"))
-    fig.add_trace(go.Scatter(y=[], x=[], mode="lines+markers", name="Commands", line={"color": "#00b894", "width": 2}, marker={"size": 4}))
-    fig.add_trace(go.Scatter(y=[], x=[], mode="lines+markers", name="Errors", line={"color": "#e17055", "width": 2}, marker={"size": 4}))
+    for name, color in _TRACE_COLORS.items():
+        fig.add_trace(
+            go.Scatter(
+                x=[],
+                y=[],
+                mode="lines",
+                name=name,
+                line={"color": color, "width": 2.5, "shape": "spline"},
+                fill="tozeroy",
+                fillcolor=color.replace(")", ", 0.06)").replace("rgb", "rgba")
+                if color.startswith("rgb")
+                else color + "0f",
+            )
+        )
     fig.update_layout(
-        margin={"t": 40, "b": 20, "l": 20, "r": 20},
-        height=300,
+        margin={"t": 20, "b": 40, "l": 50, "r": 20},
+        height=320,
         legend={
             "orientation": "h",
             "yanchor": "bottom",
             "y": 1.02,
             "xanchor": "right",
             "x": 1,
-            "bgcolor": "rgba(255,255,255,0.8)",
+            "bgcolor": "rgba(255,255,255,.0)",
+            "font": {"size": 12},
         },
         plot_bgcolor="#ffffff",
         paper_bgcolor="#ffffff",
-        font={"size": 12, "family": "Inter, sans-serif"},
+        font={"size": 12, "family": "Inter, sans-serif", "color": "#64748b"},
         hovermode="x unified",
-        xaxis={"showgrid": True, "gridcolor": "#e8eaf6", "range": [0, 30]},
-        yaxis={"showgrid": True, "gridcolor": "#e8eaf6", "range": [0, 5]},
+        xaxis={
+            "showgrid": False,
+            "zeroline": False,
+            "showline": True,
+            "linecolor": "#e2e8f0",
+        },
+        yaxis={
+            "showgrid": True,
+            "gridcolor": "#f1f5f9",
+            "zeroline": False,
+            "rangemode": "tozero",
+        },
     )
-    layout = html.Div([
-        # Hauptinhalt
-        html.Div([
-            dcc.Interval(id="dashboard-interval", interval=2*1000, n_intervals=0),
-            dcc.Store(id="dashboard-state-store", data={
-                "event_history": [],
-                "command_history": [],
-                "error_history": []
-            }),
-            html.Div([
-                html.H1("System Dashboard", className="dashboard-header"),
-                html.P(
-                    "Event-sourcing framework for AI-driven, rapid-iteration, enterprise-grade process control.",
-                    className="page-subtitle"
-                ),
-            ], className="mb-4 fade-in"),
+    return fig
+
+
+# ── Page layout ──────────────────────────────────────────────────────
+
+
+def dashboard_page() -> html.Div:
+    """Create the main dashboard page layout."""
+    return html.Div(
+        [
+            dcc.Interval(id="dashboard-interval", interval=2_000, n_intervals=0),
+            dcc.Store(
+                id="dashboard-state-store",
+                data={
+                    "event_history": [],
+                    "command_history": [],
+                    "error_history": [],
+                },
+            ),
+            # Header
+            html.Div(
+                [
+                    html.H1("System Dashboard", className="ox-page-title"),
+                    html.P(
+                        "Real-time event-sourcing metrics and monitoring",
+                        className="ox-page-subtitle",
+                    ),
+                ],
+                className="ox-page-header",
+            ),
+            # KPIs
             html.Div(id="kpi-cards-container"),
-            html.Div([
-                html.H4("Live Metrics", className="fw-bold mb-3", style={"color": "var(--primary)"}),
-                dcc.Graph(
-                    id="dashboard-metrics-graph",
-                    figure=fig,
-                    config={
-                        "displayModeBar": True,
-                        "displaylogo": False,
-                        "modeBarButtonsToRemove": ["pan2d", "lasso2d"],
-                    },
-                    animate=True,
-                    extendData=None
-                )
-            ], className="chart-card shadow-hover"),
+            # Chart card
+            html.Div(
+                [
+                    html.Div(
+                        [
+                            html.H3(
+                                [html.I(className="bi bi-graph-up me-2"), "Live Metrics"],
+                                className="ox-card-title",
+                            ),
+                            html.Span(
+                                "Last 60 data points",
+                                style={
+                                    "fontSize": ".75rem",
+                                    "color": "var(--ox-text-muted)",
+                                },
+                            ),
+                        ],
+                        className="ox-card-header",
+                    ),
+                    html.Div(
+                        dcc.Graph(
+                            id="dashboard-metrics-graph",
+                            figure=_empty_figure(),
+                            config={
+                                "displayModeBar": False,
+                                "displaylogo": False,
+                            },
+                            animate=True,
+                            style={"borderRadius": "0 0 var(--ox-radius) var(--ox-radius)"},
+                        ),
+                        className="ox-card-body",
+                        style={"padding": ".75rem"},
+                    ),
+                ],
+                className="ox-card",
+            ),
+            # Error feed
             html.Div(id="dashboard-errors"),
-        ], className="container-fluid", style={"marginLeft": "0px", "transition": "margin-left 0.3s"}),
-    ])
-    return layout
+        ],
+        className="ox-animate-in",
+    )
 
 
-# Register callback at module level (required by Dash)
-def register_dashboard_callbacks(app_instance):
-    """Register dashboard callbacks with the app instance."""
+# ── Callbacks ────────────────────────────────────────────────────────
+
+
+def register_dashboard_callbacks(app_instance: Dash) -> None:  # noqa: C901
+    """Register the periodic dashboard refresh callback."""
+
     @app_instance.callback(
         Output("kpi-cards-container", "children"),
         Output("dashboard-errors", "children"),
@@ -86,76 +151,45 @@ def register_dashboard_callbacks(app_instance):
         Output("dashboard-metrics-graph", "extendData"),
         Input("dashboard-interval", "n_intervals"),
         State("dashboard-state-store", "data"),
-        State("dashboard-metrics-graph", "figure"),
-        prevent_initial_call=False
+        prevent_initial_call=False,
     )
-    def update_dashboard(n: int, state: dict, current_fig) -> tuple:
-        """Update dashboard with latest data.
-
-        Args:
-            n: Interval counter
-            state: Current dashboard state
-
-        Returns:
-            Tuple of (kpi_cards, chart, error_list, new_state)
-        """
+    def update_dashboard(n: int, state: dict) -> tuple:
+        """Fetch latest metrics and push data to all three chart traces."""
         import dash
-        
+
         try:
             app = dash.get_app()
-            flow_tracing_state = app.flow_tracing_state  # type: ignore[attr-defined]
-            data_service = app.data_service  # type: ignore[attr-defined]
-        except Exception as e:
-            # Fallback if app context not available
-            return (
-                html.Div(f"Initializing... ({str(e)})", className="text-center text-muted py-5"),
-                html.Div(),
-                html.Div(),
-                state
+            fts = app.flow_tracing_state
+            ds = app.data_service
+        except Exception as exc:
+            placeholder = html.Div(
+                f"Initializing\u2026 ({exc})",
+                className="ox-empty",
             )
-        
-        # Get real-time data from flow tracing
-        active_events = flow_tracing_state.get("active_events", [])
-        active_commands = flow_tracing_state.get("active_commands", [])
-        errors = flow_tracing_state.get("errors", [])
+            return placeholder, html.Div(), state, dash.no_update
 
-        # Zähle aktuelle Events/Commands und leere die Listen für das nächste Intervall
+        # Snapshot current counters and reset for next interval
+        active_events = fts.get("active_events", [])
+        active_commands = fts.get("active_commands", [])
+        errors = fts.get("errors", [])
         event_count = len(active_events)
         command_count = len(active_commands)
-        flow_tracing_state["active_events"] = []
-        flow_tracing_state["active_commands"] = []
+        fts["active_events"] = []
+        fts["active_commands"] = []
 
-        # Die folgenden Variablen werden für die Delta-Berechnung verwendet
-        curr_event_count = event_count
-        curr_command_count = command_count
-        
-        # Get statistics from data service (this queries the actual event store)
+        # Totals from event store
         try:
-            stats = data_service.get_event_statistics()
+            stats = ds.get_event_statistics()
             total_events = stats.get("total_events", 0)
             total_aggregates = stats.get("total_aggregates", 0)
-        except Exception as e:
-            # Fallback - use flow tracing data
-            total_events = events
-            total_aggregates = len(data_service.get_all_aggregate_ids()) if hasattr(data_service, 'get_all_aggregate_ids') else 0
-        
-        # Update histories in state (keep last 30 data points)
-        event_history = state.get("event_history", [])
-        command_history = state.get("command_history", [])
-        error_history = state.get("error_history", [])
-        prev_event_count = state.get("_prev_event_count", 0)
-        prev_command_count = state.get("_prev_command_count", 0)
+        except Exception:
+            total_events = event_count
+            total_aggregates = 0
 
-
-        # Delta ist jetzt einfach die aktuelle Anzahl, weil die Listen immer geleert werden
-        event_delta = curr_event_count
-        command_delta = curr_command_count
-
-        event_history.append(event_delta)
-        command_history.append(command_delta)
-        error_history.append(len(errors))
-
-        # Keep only last 30 points
+        # Rolling history (max 30 points)
+        event_history = (state.get("event_history") or []) + [event_count]
+        command_history = (state.get("command_history") or []) + [command_count]
+        error_history = (state.get("error_history") or []) + [len(errors)]
         event_history = event_history[-30:]
         command_history = command_history[-30:]
         error_history = error_history[-30:]
@@ -164,65 +198,47 @@ def register_dashboard_callbacks(app_instance):
             "event_history": event_history,
             "command_history": command_history,
             "error_history": error_history,
-            "_prev_event_count": curr_event_count,
-            "_prev_command_count": curr_command_count
         }
 
-        # Calculate lag (simplified - in real system would compare projection position)
-        lag = 0
+        # KPIs + error list
+        kpis = kpi_cards(total_events, command_count, len(errors), 0, total_aggregates)
+        error_list = dashboard_error_list(errors)
 
-        # Define 'commands' for KPI cards (number of active commands)
-        commands = curr_command_count
-
-        try:
-            kpis = kpi_cards(total_events, commands, len(errors), lag, total_aggregates)
-            error_list = dashboard_error_list(errors)
-        except Exception as e:
-            # Fallback on error
-            kpis = html.Div(f"Error loading KPIs: {str(e)}", className="text-danger")
-            error_list = html.Div(f"Error loading errors: {str(e)}", className="text-danger")
-
-        # extendData: Beim ersten Rendern alle Werte, danach nur den letzten Wert anhängen
-        import sys
-        print(f"[DASHBOARD DEBUG] n={n}", file=sys.stderr)
-        print(f"[DASHBOARD DEBUG] event_history={event_history}", file=sys.stderr)
-        print(f"[DASHBOARD DEBUG] command_history={command_history}", file=sys.stderr)
-        print(f"[DASHBOARD DEBUG] error_history={error_history}", file=sys.stderr)
-        import datetime
-        def format_time(ts):
-            return ts.strftime("%H:%M:%S")
+        # Extend all three traces (Events=0, Commands=1, Errors=2)
+        now = datetime.datetime.now()
+        now_str = now.strftime("%H:%M:%S")
 
         if n == 0:
-            # Initialdaten: alle bisherigen Werte, mit x-Achse als Uhrzeit
-            now = datetime.datetime.now()
-            if event_history:
-                # Erzeuge Zeitstempel für die letzten n Punkte (jeweils 2 Sekunden auseinander)
-                x_vals = [format_time(now - datetime.timedelta(seconds=2*(len(event_history)-i-1))) for i in range(len(event_history))]
-                y_vals = event_history
-            else:
-                x_vals = [format_time(now)]
-                y_vals = [0]
+            # First render – push the full (possibly single-element) history
+            x_vals = [
+                (
+                    now
+                    - datetime.timedelta(
+                        seconds=2 * (len(event_history) - i - 1),
+                    )
+                ).strftime("%H:%M:%S")
+                for i in range(len(event_history))
+            ]
             extend_data = (
-                {"x": [x_vals], "y": [y_vals]},
-                [0],
-                500
+                {
+                    "x": [x_vals, x_vals, x_vals],
+                    "y": [event_history, command_history, error_history],
+                },
+                [0, 1, 2],
+                60,
             )
         else:
-            # Nur den letzten Wert anhängen, x ist aktuelle Uhrzeit
-            now = datetime.datetime.now()
-            x_val = format_time(now)
-            if event_history:
-                extend_data = (
-                    {"x": [[x_val]], "y": [[event_history[-1]]]},
-                    [0],
-                    500
-                )
-            else:
-                extend_data = (
-                    {"x": [[x_val]], "y": [[0]]},
-                    [0],
-                    500
-                )
-        print(f"[DASHBOARD DEBUG] extend_data={extend_data}", file=sys.stderr)
+            extend_data = (
+                {
+                    "x": [[now_str], [now_str], [now_str]],
+                    "y": [
+                        [event_history[-1]],
+                        [command_history[-1]],
+                        [error_history[-1]],
+                    ],
+                },
+                [0, 1, 2],
+                60,
+            )
 
         return kpis, error_list, new_state, extend_data

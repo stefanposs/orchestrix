@@ -1,6 +1,11 @@
 """Process service for managing predefined processes."""
 
-from typing import Any
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from .data_service import DataService
 
 
 class ProcessService:
@@ -75,6 +80,7 @@ class ProcessService:
 
         Returns:
             List of process dictionaries
+
         """
         return self.processes
 
@@ -86,6 +92,7 @@ class ProcessService:
 
         Returns:
             Process dictionary or None if not found
+
         """
         return next((p for p in self.processes if p["id"] == process_id), None)
 
@@ -94,11 +101,12 @@ class ProcessService:
 
         Args:
             process: Process dictionary
+
         """
         self.processes.append(process)
 
     def execute_process(
-        self, process_id: str, data_service: Any, **kwargs: Any
+        self, process_id: str, data_service: DataService, **kwargs: str
     ) -> dict[str, Any]:
         """Execute a process by dispatching its commands.
 
@@ -109,6 +117,7 @@ class ProcessService:
 
         Returns:
             Result dictionary with status and executed commands
+
         """
         process = self.get_process_by_id(process_id)
         if not process:
@@ -124,7 +133,6 @@ class ProcessService:
 
             # Replace template variables
             import time
-            from datetime import datetime
 
             timestamp = int(time.time())
             for i in range(repeat):

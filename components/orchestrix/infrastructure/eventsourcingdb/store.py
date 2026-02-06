@@ -41,7 +41,7 @@ from orchestrix.core.eventsourcing.snapshot import Snapshot
 from orchestrix.core.messaging.message import Event
 
 try:
-    from eventsourcingdb import Client, EventCandidate, ReadEventsOptions
+    from eventsourcingdb import Client, EventCandidate, ReadEventsOptions  # type: ignore[import-not-found]
 except ImportError as e:
     msg = (
         "EventSourcingDB support requires official SDK. "

@@ -53,13 +53,15 @@ class InMemoryEventStore:
 
         self._events[aggregate_id].extend(events)
         for event in events:
-            if getattr(event, "trace_id", None):
-                self._events_by_trace[event.trace_id].append(event)
+            trace_id = getattr(event, "trace_id", None)
+            if trace_id:
+                self._events_by_trace[trace_id].append(event)
         _logger.info(
             "Events saved",
             aggregate_id=aggregate_id,
             event_count=len(events),
         )
+
     def load_by_trace(self, trace_id: str) -> list[Event]:
         """Load all events for a given trace_id."""
         return list(self._events_by_trace.get(trace_id, []))

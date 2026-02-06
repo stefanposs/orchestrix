@@ -1,6 +1,6 @@
 # Orchestrix
 
-A modular, event-driven architecture framework for Python with CloudEvents-compatible messages.
+**Event-sourcing framework for building fast, auditable, AI-ready Python systems.**
 
 [![CI](https://github.com/stefanposs/orchestrix/workflows/CI/badge.svg)](https://github.com/stefanposs/orchestrix/actions)
 [![codecov](https://codecov.io/gh/stefanposs/orchestrix/branch/main/graph/badge.svg)](https://codecov.io/gh/stefanposs/orchestrix)
@@ -8,115 +8,138 @@ A modular, event-driven architecture framework for Python with CloudEvents-compa
 [![Python Versions](https://img.shields.io/pypi/pyversions/orchestrix.svg)](https://pypi.org/project/orchestrix/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## What Problem Does Orchestrix Solve?
+> Your Processes. Your Data. Your Control.
 
-Traditional CRUD applications struggle with:
-- **Lost Business Context** - Database updates don't capture *why* changes happened
-- **Difficult Auditing** - No automatic audit trail of state changes
-- **Complex Workflows** - Hard to coordinate multi-step business processes across services
-- **Scalability Limits** - Tight coupling makes it hard to scale components independently
-- **Debugging Nightmares** - Hard to reproduce production issues without event history
+## Quick Start
 
-**Orchestrix provides:**
-- **Event Sourcing** - Store every state change as an immutable event, never lose context
-- **CQRS** - Separate read and write models for optimal performance
-- **Sagas** - Reliable distributed transactions with automatic compensation
-- **Time-Travel Debugging** - Replay events to any point in time
-- **Built-in Observability** - Metrics, tracing, and audit logs out of the box
+```bash
+pip install orchestrix
+# or with uv (recommended)
+uv add orchestrix
+```
+
+**Requires Python 3.12+**
+
+```python
+from dataclasses import dataclass
+from orchestrix import Command, Event, Module, CommandHandler
+from orchestrix.infrastructure import InMemoryMessageBus, InMemoryEventStore
+
+# Define domain messages
+@dataclass(frozen=True)
+class CreateOrder(Command):
+    order_id: str
+    total: float
+
+@dataclass(frozen=True)
+class OrderCreated(Event):
+    order_id: str
+    total: float
+
+# Handle commands, emit events
+class OrderHandler(CommandHandler[CreateOrder]):
+    def handle(self, cmd: CreateOrder) -> list[Event]:
+        return [OrderCreated(order_id=cmd.order_id, total=cmd.total)]
+
+# Wire and run
+bus = InMemoryMessageBus()
+store = InMemoryEventStore()
+bus.register_handler(CreateOrder, OrderHandler(store))
+bus.publish(CreateOrder(order_id="ORD-001", total=149.99))
+```
+
+## Why Orchestrix?
+
+Traditional CRUD loses business context. Orchestrix captures every state change as an immutable event — giving you full audit trails, time-travel debugging, and AI-ready data lineage.
+
+| Capability | What You Get |
+|---|---|
+| **Event Sourcing** | Immutable event streams with optimistic locking |
+| **CQRS** | Separated read/write models for optimal performance |
+| **Sagas** | Distributed transactions with automatic compensation |
+| **Projections** | Build read models from event streams |
+| **Observability** | Prometheus metrics + OpenTelemetry tracing built-in |
+| **CloudEvents** | Standards-compliant, metadata-rich messages |
+| **Event Versioning** | Schema evolution with upcasters |
+| **Pluggable Infra** | Swap stores and buses without changing domain logic |
 
 ## When to Use Orchestrix
-**✅ When is Orchestrix a good fit?**
 
-| Use Case                                 | Why Orchestrix?                                   |
-|-------------------------------------------|---------------------------------------------------|
-| **Finance**<br>(Banking, Payments)        | Full audit trails, compliance, traceability       |
-| **E-Commerce**<br>(Orders, Inventory)     | Complex workflows, state tracking, integrations   |
-| **Collaboration**<br>(Bookings, Scheduling)| Conflict handling, parallel edits, consistency    |
-| **Domain-Driven Design**                  | Clear logic separation, semantic events           |
-| **Microservices & Event-Driven**          | Decoupled, scalable, easy service integration     |
-| **Analytics & AI/ML**                     | Complete event history, reproducible data         |
+**Best fit for:**
+- Finance & compliance (audit trails, traceability)
+- E-Commerce workflows (orders, inventory, payments)
+- Data platforms & lakehouse architectures (lineage, GDPR)
+- AI/ML pipelines (reproducible, versioned training data)
+- Microservices with event-driven coordination
 
----
+**Consider alternatives if:** simple CRUD with no complex business logic, or strong consistency is the only requirement.
 
-**Why Orchestrix?**
+## Architecture
 
-- **Data lineage:** Every change is an event—perfect for audit and analytics
-- **Semantic events:** Capture *why*, not just *what* happened
-- **Immutable history:** Reliable, append-only event streams
-- **AI/ML ready:** Rich, consistent training data
-- **Easy integration:** Stream events to data lakes or dashboards
-- **Traceability:** Built-in audit and governance
+Orchestrix follows a [Polylith](https://polylith.gitbook.io/) architecture with clear separation:
 
-> **Orchestrix makes your data traceable, reliable, and ready for analytics or AI.**
+```
+components/     # Reusable bricks (core logic + infrastructure adapters)
+  core/         # messaging, eventsourcing, execution, common
+  infrastructure/  # memory, postgres, eventsourcingdb, observability, gcp
+bases/          # Deployable applications (demos & services)
+projects/       # Deployment assemblies (thin wrappers referencing bases)
+```
 
+**Infrastructure backends:** InMemory (dev/test), PostgreSQL (production), EventSourcingDB (native CloudEvents)
 
+## Demos
 
-**⚠️ Consider alternatives if:**
-- Simple CRUD with no complex business logic
-- Performance is critical and eventual consistency is unacceptable
-- Team lacks experience with event-driven patterns
-- Small projects where event sourcing overhead isn't justified
+| Demo | Description | Run |
+|---|---|---|
+| 🏦 Banking | Account management, event sourcing, sagas | `uv run python -m bases.orchestrix.banking_demo.main` |
+| 🛒 E-Commerce | Order processing, multi-aggregate saga, compensation | `uv run python -m bases.orchestrix.ecommerce_demo.main` |
+| 🏢 Lakehouse | Self-service data platform, GDPR, batch lifecycle | `uv run uvicorn bases.orchestrix.lakehouse_fastapi_demo.app:app` |
+| 🔔 Notifications | Retry policies, dead letter queue, multi-channel | `uv run python -m bases.orchestrix.notifications_demo.main` |
+| 📊 Projections | Read models, CQRS, query denormalization | `uv run python -m bases.orchestrix.projection_demo.demo_projection` |
+| 🖥️ Web GUI | Interactive dashboard (Dash) for event exploration | `uv run python -m bases.orchestrix.web_gui_demo.app` |
 
-## Features
-
-- 🎯 **Modular Design** - Encapsulate domain logic in independent modules
-- 📦 **Event Sourcing** - First-class support for event-sourced aggregates with optimistic locking
-- ☁️ **CloudEvents Compatible** - Immutable, metadata-rich messages
-- 🔌 **Pluggable Infrastructure** - Swap bus/store implementations easily
-- 🧪 **Type-Safe** - Full type annotations with `py.typed`
-- 🚀 **Simple API** - Minimal boilerplate, maximum productivity
-- 🔄 **Sagas** - Long-running business processes with compensation logic
-- 📊 **Projections** - Build read models from event streams
-- 📈 **Observability** - Built-in Prometheus metrics and OpenTelemetry tracing
-- 🔢 **Event Versioning** - Upcasters for evolving event schemas
+See the [full demo catalog](https://stefanposs.github.io/orchestrix/demos/) for walkthroughs and code.
 
 ## Documentation
 
-- [Changelog](assets/CHANGELOG.md)
-- [Contributing](.github/CONTRIBUTING.md)
-- [Security Policy](.github/SECURITY.md)
-- [Code of Conduct](.github/CODE_OF_CONDUCT.md)
-- [Library Publishing Guide](assets/LIBRARY_PUBLISHING.md)
-- [Application Deployment Guide](assets/deployment/APPLICATION_DEPLOYMENT.md)
+| Resource | Link |
+|---|---|
+| Full Documentation | [stefanposs.github.io/orchestrix](https://stefanposs.github.io/orchestrix) |
+| Installation | [Getting Started](https://stefanposs.github.io/orchestrix/getting-started/installation/) |
+| Core Concepts | [Architecture Guide](https://stefanposs.github.io/orchestrix/getting-started/concepts/) |
+| API Reference | [API Docs](https://stefanposs.github.io/orchestrix/api/core/) |
+| Deployment Guide | [assets/deployment/APPLICATION_DEPLOYMENT.md](assets/deployment/APPLICATION_DEPLOYMENT.md) |
+| Changelog | [assets/CHANGELOG.md](assets/CHANGELOG.md) |
 
-## Roadmap & Future Plans
+## Development
 
-### ✅ Completed (v1.0)
-- ✅ **Native Validation** - Dataclass validation without external dependencies
-- ✅ **Async Support** - Concurrent message handling with asyncio
-- ✅ **Enterprise Features** - Snapshots, retry policies, dead letter queue
-- ✅ **Optimistic Locking** - Concurrency control for event stores
-- ✅ **Sagas** - Long-running business processes with compensation
-- ✅ **Projections** - Read model engine with multiple backends
-- ✅ **OpenTelemetry Tracing** - Distributed tracing with Jaeger integration
-- ✅ **Prometheus Metrics** - Production-grade metrics collection
-- ✅ **Event Versioning** - Upcasters for schema evolution
-- ✅ **Connection Pooling** - PostgreSQL connection management
-- ✅ **PostgreSQL EventStore** - Production-ready backend (JSONB, locking, pooling, migrations)
-- ✅ **EventSourcingDB Integration** - Native CloudEvents, snapshots, EventQL, Docker-ready
+```bash
+# Install dependencies
+just install
 
-#### Benchmark Suite
-- Performance testing framework with pytest-benchmark
-- Baseline metrics (1k messages/sec, 10k event streams)
-- Concurrent publish/subscribe benchmarks
-- Memory profiling for large event streams
+# Run full QA suite (lint + format + typecheck + test)
+just qa
+
+# Auto-fix formatting & lint issues
+just fix
+
+# Serve docs locally
+just docs
+```
+
+## Roadmap
+
+### Completed (v0.1.0)
+Event Sourcing · CQRS · Sagas · Projections · Event Versioning · Snapshots · Retry Policies · Dead Letter Queue · Async Support · PostgreSQL Backend · EventSourcingDB Backend · OpenTelemetry Tracing · Prometheus Metrics · Connection Pooling · Benchmark Suite
 
 ### Under Consideration
+See [TODO.md](TODO.md) — MongoDB/DynamoDB backends, parallel sagas, schema registry, admin CLI, and more.
 
-See [TODO.md](TODO.md) for full list of ideas and discussion points.
+## Contributing
 
-### Contributions Welcome
-
-We're actively looking for contributors interested in:
-- Enhancing EventSourcingDB backend with advanced features
-- Adding more projection backends (Redis, Elasticsearch)
-- Building advanced saga patterns (parallel execution, timeouts)
-- Creating real-world example applications
-- Performance optimizations and benchmarks
-- Cloud service integrations (see TODO.md)
-- DevOps automation (GitHub Actions, CI/CD)
-
-See [Contributing](.github/CONTRIBUTING.md) for details.
+Contributions welcome — see [CONTRIBUTING.md](.github/CONTRIBUTING.md). Areas of interest: new backends, saga patterns, real-world demos, cloud integrations, performance optimizations.
 
 ## License
-MIT
+
+MIT — see [LICENSE](LICENSE)

@@ -1,83 +1,133 @@
-"""Event Explorer page for viewing and filtering events."""
+"""Event Explorer – browse & filter events from the store."""
 
-from dash import html, dcc, callback, Output, Input
-import dash_bootstrap_components as dbc
-import dash_table
 from datetime import datetime
 
+import dash_table
+from dash import Input, Output, callback, dcc, html
 
-def event_explorer_page():
-    """Create the event explorer page.
 
-    Returns:
-        Event explorer layout component
-    """
-    layout = html.Div([
-        dcc.Interval(id="event-explorer-interval", interval=3*1000, n_intervals=0),
-        dcc.Store(id="event-explorer-store", data={"events": []}),
-        html.Div([
-            html.H1("Event Explorer", className="dashboard-header"),
-            html.P("Browse and filter events from the event store", className="page-subtitle"),
-        ], className="mb-4"),
-        dbc.Row([
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardBody([
-                        html.H5("Filters", className="mb-3"),
-                        dbc.Label("Event Type", className="mb-2"),
-                        dcc.Dropdown(
-                            id="event-type-filter",
-                            placeholder="All event types",
-                            clearable=True,
-                            className="mb-3"
-                        ),
-                        dbc.Label("Aggregate ID", className="mb-2"),
-                        dcc.Dropdown(
-                            id="aggregate-id-filter",
-                            placeholder="All aggregates",
-                            clearable=True,
-                            className="mb-3"
-                        ),
-                        dbc.Button([
-                            html.I(className="bi bi-arrow-clockwise me-2"),
-                            "Refresh"
-                        ], id="refresh-events-btn", color="primary", className="w-100 mb-2"),
-                        dbc.Button([
-                            html.I(className="bi bi-lightning me-2"),
-                            "Jetzt Events laden"
-                        ], id="load-events-now-btn", color="secondary", className="w-100"),
-                    ])
-                ], className="shadow-hover")
-            ], width=3),
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardBody([
-                        html.Div([
-                            html.H5("Events", className="mb-0"),
-                            html.Span(id="event-count-badge", className="badge bg-primary ms-2")
-                        ], className="d-flex align-items-center mb-3"),
-                        dbc.InputGroup([
-                            dbc.InputGroupText([
-                                html.I(className="bi bi-search")
-                            ]),
-                            dbc.Input(
-                                id="event-search-input",
-                                placeholder="Search events by type, aggregate ID, or event ID...",
-                                type="text",
-                                className="mb-3"
+def event_explorer_page() -> html.Div:
+    """Create the event explorer page layout."""
+    return html.Div(
+        [
+            dcc.Interval(id="event-explorer-interval", interval=3_000, n_intervals=0),
+            dcc.Store(id="event-explorer-store", data={"events": []}),
+            # Header
+            html.Div(
+                [
+                    html.H1("Event Explorer", className="ox-page-title"),
+                    html.P(
+                        "Browse and filter events from the event store",
+                        className="ox-page-subtitle",
+                    ),
+                ],
+                className="ox-page-header",
+            ),
+            # Body: filter sidebar + table
+            html.Div(
+                [
+                    # --- Filters ---
+                    html.Div(
+                        [
+                            html.Div(
+                                [
+                                    html.H3(
+                                        [
+                                            html.I(className="bi bi-funnel me-2"),
+                                            "Filters",
+                                        ],
+                                        className="ox-card-title",
+                                    ),
+                                ],
+                                className="ox-card-header",
                             ),
-                        ], className="mb-3"),
-                        html.Div(id="event-table-container"),
-                    ])
-                ], className="shadow-hover")
-            ], width=9),
-        ], className="g-4"),
-    ], className="container-fluid")
+                            html.Div(
+                                [
+                                    html.Label("Event Type", className="ox-label"),
+                                    dcc.Dropdown(
+                                        id="event-type-filter",
+                                        placeholder="All event types",
+                                        clearable=True,
+                                        className="ox-dropdown",
+                                    ),
+                                    html.Label(
+                                        "Aggregate ID",
+                                        className="ox-label",
+                                        style={"marginTop": "1rem"},
+                                    ),
+                                    dcc.Dropdown(
+                                        id="aggregate-id-filter",
+                                        placeholder="All aggregates",
+                                        clearable=True,
+                                        className="ox-dropdown",
+                                    ),
+                                    html.Button(
+                                        [html.I(className="bi bi-arrow-clockwise me-1"), "Refresh"],
+                                        id="refresh-events-btn",
+                                        n_clicks=0,
+                                        className="ox-btn ox-btn-primary",
+                                        style={"width": "100%", "marginTop": "1.5rem"},
+                                    ),
+                                    html.Button(
+                                        [html.I(className="bi bi-lightning me-1"), "Load Now"],
+                                        id="load-events-now-btn",
+                                        n_clicks=0,
+                                        className="ox-btn ox-btn-secondary",
+                                        style={"width": "100%", "marginTop": ".5rem"},
+                                    ),
+                                ],
+                                className="ox-card-body",
+                            ),
+                        ],
+                        className="ox-card",
+                        style={"flex": "0 0 280px"},
+                    ),
+                    # --- Table ---
+                    html.Div(
+                        [
+                            html.Div(
+                                [
+                                    html.Div(
+                                        [
+                                            html.H3("Events", className="ox-card-title"),
+                                            html.Span(
+                                                id="event-count-badge",
+                                                className="ox-badge ox-badge-primary",
+                                                style={"marginLeft": ".5rem"},
+                                            ),
+                                        ],
+                                        style={"display": "flex", "alignItems": "center"},
+                                    ),
+                                    dcc.Input(
+                                        id="event-search-input",
+                                        placeholder=("Search by type, aggregate or event ID\u2026"),
+                                        type="text",
+                                        className="ox-input",
+                                        style={"width": "100%", "marginTop": ".75rem"},
+                                    ),
+                                ],
+                                className="ox-card-header",
+                            ),
+                            html.Div(id="event-table-container", className="ox-card-body"),
+                        ],
+                        className="ox-card",
+                        style={"flex": "1 1 0%", "minWidth": 0},
+                    ),
+                ],
+                style={
+                    "display": "flex",
+                    "gap": "1.5rem",
+                    "alignItems": "flex-start",
+                },
+            ),
+        ],
+        className="ox-animate-in",
+    )
 
-    return layout
+
+# ── Callbacks (module-level, Dash auto-discovers) ───────────────────
 
 
-# Register callbacks at module level
 @callback(
     Output("event-explorer-store", "data"),
     Output("event-type-filter", "options"),
@@ -85,32 +135,23 @@ def event_explorer_page():
     Input("event-explorer-interval", "n_intervals"),
     Input("refresh-events-btn", "n_clicks"),
     Input("load-events-now-btn", "n_clicks"),
-    prevent_initial_call=False
+    prevent_initial_call=False,
 )
 def load_events(n_interval: int, n_refresh: int, n_load_now: int) -> tuple:
-        """Load events from data service.
+    """Fetch events and unique filter values from the data service."""
+    import dash
 
-        Args:
-            n_interval: Interval counter
-            n_refresh: Refresh button clicks
+    ds = dash.get_app().data_service
+    events = ds.get_all_events(limit=500)
 
-        Returns:
-            Tuple of (events_data, event_type_options, aggregate_id_options)
-        """
-        import dash
-        data_service = dash.get_app().data_service  # type: ignore[attr-defined]
-        
-        events = data_service.get_all_events(limit=500)
-        
-        # Extract unique event types and aggregate IDs
-        event_types = sorted(set(e.get("type", "Unknown") for e in events))
-        aggregate_ids = sorted(set(e.get("aggregate_id", "Unknown") for e in events))
-        
-        return (
-            {"events": events},
-            [{"label": et, "value": et} for et in event_types],
-            [{"label": aid, "value": aid} for aid in aggregate_ids],
-        )
+    event_types = sorted({e.get("type", "Unknown") for e in events})
+    aggregate_ids = sorted({e.get("aggregate_id", "Unknown") for e in events})
+
+    return (
+        {"events": events},
+        [{"label": t, "value": t} for t in event_types],
+        [{"label": a, "value": a} for a in aggregate_ids],
+    )
 
 
 @callback(
@@ -127,91 +168,68 @@ def filter_events(
     aggregate_id: str | None,
     search_text: str | None,
 ) -> tuple:
-    """Filter and display events.
-
-    Args:
-        store_data: Stored events data
-        event_type: Selected event type filter
-        aggregate_id: Selected aggregate ID filter
-        search_text: Search text input
-
-    Returns:
-        Tuple of (table_component, count_badge)
-    """
-    import dash
+    """Apply filters and render the events DataTable."""
     events = store_data.get("events", [])
 
-    # Apply filters
-    filtered_events = events
+    filtered = events
     if event_type:
-        filtered_events = [e for e in filtered_events if e.get("type") == event_type]
+        filtered = [e for e in filtered if e.get("type") == event_type]
     if aggregate_id:
-        filtered_events = [e for e in filtered_events if e.get("aggregate_id") == aggregate_id]
+        filtered = [e for e in filtered if e.get("aggregate_id") == aggregate_id]
     if search_text:
-        search_lower = search_text.lower()
-        filtered_events = [
-            e for e in filtered_events
-            if search_lower in str(e.get("type", "")).lower()
-            or search_lower in str(e.get("aggregate_id", "")).lower()
-            or search_lower in str(e.get("id", "")).lower()
+        q = search_text.lower()
+        filtered = [
+            e
+            for e in filtered
+            if q in str(e.get("type", "")).lower()
+            or q in str(e.get("aggregate_id", "")).lower()
+            or q in str(e.get("id", "")).lower()
         ]
 
-    if not filtered_events:
+    if not filtered:
         return (
-            html.Div([
-                html.I(className="bi bi-inbox me-2", style={"fontSize": "2rem"}),
-                html.P("No events found", className="mt-2 mb-0"),
-                html.Small(
-                    "Try adjusting your filters or wait for new events",
-                    className="text-muted"
-                )
-            ], className="text-center py-5"),
-            "0"
+            html.Div(
+                [
+                    html.I(className="bi bi-inbox", style={"fontSize": "2rem", "opacity": ".4"}),
+                    html.P("No events found", style={"margin": ".5rem 0 0"}),
+                    html.Small("Adjust filters or wait for new events"),
+                ],
+                className="ox-empty",
+            ),
+            "0",
         )
 
-    # Prepare data for DataTable
+    # Build table rows
     table_data = []
-    for event in filtered_events[-500:]:  # Show last 500
-        event_id = event.get("id", "N/A")
-        event_type_val = event.get("type", "Unknown")
-        timestamp = event.get("timestamp", "N/A")
-        agg_id = event.get("aggregate_id", "N/A")
-
-        # Format timestamp
-        if "T" in timestamp:
+    for ev in filtered[-500:]:
+        eid = ev.get("id", "N/A")
+        ts = ev.get("timestamp", "N/A")
+        if "T" in ts:
             try:
-                dt = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
-                formatted_time = dt.strftime("%Y-%m-%d %H:%M:%S")
+                dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+                ts = dt.strftime("%Y-%m-%d %H:%M:%S")
             except Exception:
-                formatted_time = timestamp[:19] if len(timestamp) > 19 else timestamp
+                ts = ts[:19]
         else:
-            formatted_time = timestamp[:19] if len(timestamp) > 19 else timestamp
+            ts = ts[:19]
 
-        table_data.append({
-            "Timestamp": formatted_time,
-            "Type": event_type_val,
-            "Aggregate ID": agg_id,
-            "Event ID": event_id[:16] + "..." if len(event_id) > 16 else event_id,
-            "Full Event ID": event_id,  # Hidden column for reference
-        })
+        table_data.append(
+            {
+                "Timestamp": ts,
+                "Type": f"`{ev.get('type', 'Unknown')}`",
+                "Aggregate ID": ev.get("aggregate_id", "N/A"),
+                "Event ID": eid[:16] + "\u2026" if len(eid) > 16 else eid,
+                "Full Event ID": eid,
+            }
+        )
 
-    # Define columns
     columns = [
         {"name": "Timestamp", "id": "Timestamp", "type": "datetime"},
-        {
-            "name": "Type",
-            "id": "Type",
-            "presentation": "markdown",
-            "type": "text",
-        },
+        {"name": "Type", "id": "Type", "presentation": "markdown", "type": "text"},
         {"name": "Aggregate ID", "id": "Aggregate ID", "type": "text"},
         {"name": "Event ID", "id": "Event ID", "type": "text"},
         {"name": "Full Event ID", "id": "Full Event ID", "hideable": True},
     ]
-
-    # Format Type column with badges
-    for row in table_data:
-        row["Type"] = f"`{row['Type']}`"
 
     table = dash_table.DataTable(
         id="event-data-table",
@@ -221,54 +239,42 @@ def filter_events(
         page_action="native",
         sort_action="native",
         filter_action="native",
-        style_table={
-            "overflowX": "auto",
-            "borderRadius": "0.5rem",
-        },
+        style_table={"overflowX": "auto", "borderRadius": "var(--ox-radius)"},
         style_header={
-            "backgroundColor": "#1976d2",
-            "color": "white",
-            "fontWeight": "bold",
+            "backgroundColor": "var(--ox-bg-subtle)",
+            "color": "var(--ox-text-secondary)",
+            "fontWeight": "600",
             "textAlign": "left",
-            "padding": "12px",
+            "padding": "10px 14px",
             "border": "none",
+            "fontSize": ".78rem",
+            "textTransform": "uppercase",
+            "letterSpacing": ".04em",
+            "borderBottom": "2px solid var(--ox-border)",
         },
         style_cell={
             "textAlign": "left",
-            "padding": "10px",
+            "padding": "10px 14px",
             "fontFamily": "Inter, sans-serif",
-            "fontSize": "0.875rem",
-            "border": "1px solid #e8eaf6",
+            "fontSize": ".85rem",
+            "border": "none",
+            "borderBottom": "1px solid var(--ox-border-light)",
         },
-        style_data={
-            "whiteSpace": "normal",
-            "height": "auto",
-        },
+        style_data={"whiteSpace": "normal", "height": "auto"},
         style_data_conditional=[
             {
                 "if": {"row_index": "odd"},
-                "backgroundColor": "#f8f9fa",
+                "backgroundColor": "var(--ox-bg-subtle)",
             },
             {
                 "if": {"filter_query": "{Type} contains OrderCreated"},
-                "backgroundColor": "#e8f5e9",
+                "backgroundColor": "#ecfdf5",
             },
             {
                 "if": {"filter_query": "{Type} contains OrderCancelled"},
-                "backgroundColor": "#ffebee",
-            },
-        ],
-        css=[
-            {
-                "selector": ".dash-table-tooltip",
-                "rule": "font-family: Inter, sans-serif",
+                "backgroundColor": "#fef2f2",
             },
         ],
     )
 
-    return html.Div([
-        table
-    ], className="event-table-wrapper"), str(len(filtered_events))
-
-
-## Duplicate callback for event-table-container and event-count-badge removed
+    return html.Div(table, className="ox-table-wrap"), str(len(filtered))

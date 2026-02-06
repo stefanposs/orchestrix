@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
+from enum import Enum
 from typing import Any
 
 from orchestrix.core.eventsourcing.aggregate import AggregateRoot
@@ -34,7 +35,9 @@ from .models import (
     DryRunResult,
     DryRunStarted,
     JobStatus,
+    PrivacyCheckPassed,
     PublishData,
+    QualityCheckPassed,
     QuarantineBatch,
     QuarantineReleased,
     RegisterDataset,
@@ -54,7 +57,7 @@ class DatasetAggregate(AggregateRoot):
     name: str = ""
     schema: dict[str, str] = field(default_factory=dict)
     description: str | None = None
-    version: str | None = None
+    dataset_version: str | None = None
     deprecated: bool = False
     registered_at: datetime | None = None
 
@@ -83,12 +86,28 @@ class DatasetAggregate(AggregateRoot):
 
     def deprecate(self, cmd: DeprecateDataset) -> None:
         """Deprecate a dataset."""
+        if self.deprecated:
+            raise ValueError("Dataset already deprecated")
         self._apply_event(
             DatasetDeprecated(
                 name=cmd.name,
                 deprecated_at=datetime.now(UTC),
             )
         )
+
+    # Event handlers — reconstruct state from events
+
+    def _when_dataset_registered(self, event: DatasetRegistered) -> None:
+        self.name = event.name
+        self.schema = event.schema
+        self.description = event.description
+        self.registered_at = event.registered_at
+
+    def _when_dataset_version_activated(self, event: DatasetVersionActivated) -> None:
+        self.dataset_version = event.version
+
+    def _when_dataset_deprecated(self, _event: DatasetDeprecated) -> None:
+        self.deprecated = True
 
 
 # --- Contract Aggregate ---
@@ -149,24 +168,62 @@ class ContractAggregate(AggregateRoot):
             )
         )
 
+    # Event handlers — reconstruct state from events
+
+    def _when_data_contract_defined(self, event: DataContractDefined) -> None:
+        self.contract_id = event.contract_id
+        self.dataset = event.dataset
+        self.schema = event.schema
+        self.privacy_rules = event.privacy_rules
+        self.quality_rules = event.quality_rules
+        self.defined_at = event.defined_at
+
+    def _when_data_contract_approved(self, event: DataContractApproved) -> None:
+        self.approved = True
+        self.approved_at = event.approved_at
+
+    def _when_data_contract_deprecated(self, _event: DataContractDeprecated) -> None:
+        self.deprecated = True
+
+    def _when_data_contract_updated(self, _event: DataContractUpdated) -> None:
+        pass  # Schema updates handled via new contract version
+
 
 # --- Batch Aggregate ---
 
 
+class BatchStatus(Enum):
+    """Lifecycle states of a data batch."""
+
+    INGESTED = "ingested"
+    QUARANTINED = "quarantined"
+    VALIDATED = "validated"
+    PUBLISHED = "published"
+
+
 @dataclass
 class BatchAggregate(AggregateRoot):
-    """Aggregate for batch (data ingestion) lifecycle."""
+    """Aggregate for batch (data ingestion) lifecycle.
+
+    State machine::
+
+        INGESTED → QUARANTINED → (released) → INGESTED
+                 → VALIDATED (after DQ + privacy pass)
+                 → PUBLISHED (after validation)
+    """
 
     batch_id: str = ""
     dataset: str = ""
     contract_id: str = ""
     file_url: str | None = None
-    appended: bool = False
+    status: BatchStatus = BatchStatus.INGESTED
     quarantined: bool = False
     published: bool = False
-    anonymized: bool = False
     dq_passed: bool = False
-    events: list = field(default_factory=list)
+    privacy_passed: bool = False
+    quarantine_reason: str | None = None
+
+    # --- Commands with lifecycle guards ---
 
     def append(self, cmd: AppendData) -> None:
         """Append a new data batch."""
@@ -189,7 +246,9 @@ class BatchAggregate(AggregateRoot):
         )
 
     def quarantine(self, cmd: QuarantineBatch) -> None:
-        """Quarantine a batch."""
+        """Quarantine a batch — only if not already published."""
+        if self.status == BatchStatus.PUBLISHED:
+            raise ValueError("Cannot quarantine a published batch")
         self._apply_event(
             BatchQuarantined(
                 batch_id=cmd.batch_id,
@@ -199,7 +258,9 @@ class BatchAggregate(AggregateRoot):
         )
 
     def release_quarantine(self, cmd: ReleaseQuarantine) -> None:
-        """Release a batch from quarantine."""
+        """Release from quarantine — only if currently quarantined."""
+        if self.status != BatchStatus.QUARANTINED:
+            raise ValueError("Batch is not quarantined")
         self._apply_event(
             QuarantineReleased(
                 batch_id=cmd.batch_id,
@@ -207,14 +268,68 @@ class BatchAggregate(AggregateRoot):
             )
         )
 
+    def mark_dq_passed(self, batch_id: str) -> None:
+        """Mark DQ check as passed. Emits *QualityCheckPassed*."""
+        if self.status not in (BatchStatus.INGESTED, BatchStatus.VALIDATED):
+            raise ValueError(f"Cannot run DQ check in status: {self.status.value}")
+        self._apply_event(QualityCheckPassed(batch_id=batch_id, checked_at=datetime.now(UTC)))
+
+    def mark_privacy_passed(self, batch_id: str) -> None:
+        """Mark privacy check as passed. Emits *PrivacyCheckPassed*."""
+        if self.status not in (BatchStatus.INGESTED, BatchStatus.VALIDATED):
+            raise ValueError(f"Cannot run privacy check in status: {self.status.value}")
+        self._apply_event(PrivacyCheckPassed(batch_id=batch_id, checked_at=datetime.now(UTC)))
+
+    def _check_validation_complete(self) -> None:
+        """Transition to VALIDATED if both checks passed."""
+        if self.dq_passed and self.privacy_passed:
+            self.status = BatchStatus.VALIDATED
+
     def publish(self, cmd: PublishData) -> None:
-        """Publish a batch for consumption."""
+        """Publish a batch — requires VALIDATED or INGESTED status."""
+        if self.status == BatchStatus.QUARANTINED:
+            raise ValueError("Cannot publish a quarantined batch")
+        if self.status == BatchStatus.PUBLISHED:
+            raise ValueError("Batch is already published")
         self._apply_event(
             DataPublished(
                 batch_id=cmd.batch_id,
                 published_at=datetime.now(UTC),
             )
         )
+
+    # --- Event handlers — reconstruct state from events ---
+
+    def _when_append_ingestion_requested(self, event: AppendIngestionRequested) -> None:
+        self.batch_id = event.batch_id
+        self.dataset = event.dataset
+        self.contract_id = event.contract_id
+        self.file_url = event.file_url
+
+    def _when_data_appended(self, _event: DataAppended) -> None:
+        self.status = BatchStatus.INGESTED
+
+    def _when_batch_quarantined(self, event: BatchQuarantined) -> None:
+        self.status = BatchStatus.QUARANTINED
+        self.quarantined = True
+        self.quarantine_reason = event.reason
+
+    def _when_quarantine_released(self, _event: QuarantineReleased) -> None:
+        self.status = BatchStatus.INGESTED
+        self.quarantined = False
+        self.quarantine_reason = None
+
+    def _when_data_published(self, _event: DataPublished) -> None:
+        self.status = BatchStatus.PUBLISHED
+        self.published = True
+
+    def _when_quality_check_passed(self, _event: QualityCheckPassed) -> None:
+        self.dq_passed = True
+        self._check_validation_complete()
+
+    def _when_privacy_check_passed(self, _event: PrivacyCheckPassed) -> None:
+        self.privacy_passed = True
+        self._check_validation_complete()
 
 
 """Anonymization job aggregate."""
