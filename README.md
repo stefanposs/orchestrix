@@ -94,7 +94,7 @@ projects/       # Deployment assemblies (thin wrappers referencing bases)
 |---|---|---|
 | 🏦 Banking | Account management, event sourcing, sagas | `uv run python -m bases.orchestrix.banking_demo.main` |
 | 🛒 E-Commerce | Order processing, multi-aggregate saga, compensation | `uv run python -m bases.orchestrix.ecommerce_demo.main` |
-| 🏢 Lakehouse | Self-service data platform, GDPR, batch lifecycle | `uv run uvicorn bases.orchestrix.lakehouse_fastapi_demo.app:app` |
+| 🏢 Lakehouse | Enterprise data platform: SLA enforcement, executor backends, pipeline automation, GDPR | `uv run uvicorn bases.orchestrix.lakehouse_fastapi_demo.app:app` |
 | 🔔 Notifications | Retry policies, dead letter queue, multi-channel | `uv run python -m bases.orchestrix.notifications_demo.main` |
 | 📊 Projections | Read models, CQRS, query denormalization | `uv run python -m bases.orchestrix.projection_demo.demo_projection` |
 | 🖥️ Web GUI | Interactive dashboard (Dash) for event exploration | `uv run python -m bases.orchestrix.web_gui_demo.app` |
