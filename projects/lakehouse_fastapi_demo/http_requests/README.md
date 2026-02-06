@@ -1,13 +1,13 @@
 # Lakehouse Demo — HTTP Request Scripts
 
-Sammlung von Shell-Skripten zur Demonstration aller Features der Lakehouse FastAPI Demo. Jedes Skript zeigt einen spezifischen Workflow oder Feature-Set.
+Collection of shell scripts demonstrating all features of the Lakehouse FastAPI Demo. Each script shows a specific workflow or feature set.
 
-## 📋 Übersicht
+## 📋 Overview
 
-| Skript | Fokus | Komplexität | Dauer |
-|--------|-------|-------------|-------|
-| `e2e_happy_path.sh` | Basis-Workflow | ⭐ Beginner | ~10s |
-| `e2e_extended_happy_path.sh` | Vollständiges Feature-Set | ⭐⭐ Intermediate | ~20s |
+| Script | Focus | Complexity | Duration |
+|--------|-------|------------|----------|
+| `e2e_happy_path.sh` | Basic Workflow | ⭐ Beginner | ~10s |
+| `e2e_extended_happy_path.sh` | Complete Feature Set | ⭐⭐ Intermediate | ~20s |
 | `executor_demo.sh` | Multi-Backend Execution | ⭐⭐⭐ Advanced | ~15s |
 | `sla_demo.sh` | SLA Monitoring & Dashboard | ⭐⭐ Intermediate | ~15s |
 | `pipeline_demo.sh` | One-Shot Automation | ⭐⭐ Intermediate | ~12s |
@@ -19,38 +19,38 @@ Sammlung von Shell-Skripten zur Demonstration aller Features der Lakehouse FastA
 
 ## 🚀 Quick Start
 
-### Voraussetzungen
+### Prerequisites
 ```bash
-# API starten
+# Start API
 just run-lakehouse
 
-# In neuem Terminal:
+# In new terminal:
 cd projects/lakehouse_fastapi_demo/http_requests
 ```
 
-### Erstes Demo ausführen
+### Run first demo
 ```bash
-# Basis-Workflow (empfohlen für Einstieg)
+# Basic workflow (recommended for getting started)
 ./e2e_happy_path.sh
 ```
 
 ---
 
-## 📖 Skript-Details
+## 📖 Script Details
 
-### 1. `e2e_happy_path.sh` — Basis-Workflow
-**Use Case:** Grundlegender Lakehouse-Lifecycle  
+### 1. `e2e_happy_path.sh` — Basic Workflow
+**Use Case:** Fundamental Lakehouse lifecycle  
 **Features:**
-- Dataset registrieren
-- Datenvertrag anlegen
-- Batch anhängen
-- DQ + Privacy Checks
-- Batch publishen & konsumieren
+- Register dataset
+- Create data contract
+- Append batch
+- DQ + Privacy checks
+- Publish & consume batch
 
-**Wann nutzen:**
-- ✅ Erste Demo/Präsentation
-- ✅ Schnelle Regressionstests
-- ✅ Onboarding neuer Entwickler
+**When to use:**
+- ✅ First demo/presentation
+- ✅ Quick regression tests
+- ✅ Onboarding new developers
 
 ```bash
 ./e2e_happy_path.sh
@@ -58,14 +58,14 @@ cd projects/lakehouse_fastapi_demo/http_requests
 
 ---
 
-### 2. `e2e_extended_happy_path.sh` — Vollständiges Feature-Set
-**Use Case:** Alle Features in einem Durchlauf  
-**Features:** Basis-Workflow + SLA + Executor + Pipeline + Dashboard
+### 2. `e2e_extended_happy_path.sh` — Complete Feature Set
+**Use Case:** All features in one run  
+**Features:** Basic workflow + SLA + Executor + Pipeline + Dashboard
 
-**Wann nutzen:**
-- ✅ Vollständige Feature-Demos
-- ✅ Workshops & Trainings
-- ✅ Integration Tests (CI/CD)
+**When to use:**
+- ✅ Complete feature demos
+- ✅ Workshops & training
+- ✅ Integration tests (CI/CD)
 
 ```bash
 ./e2e_extended_happy_path.sh
@@ -73,18 +73,18 @@ cd projects/lakehouse_fastapi_demo/http_requests
 
 ---
 
-### 3. `executor_demo.sh` — Multi-Backend Job Execution ⭐ NEU
-**Use Case:** Pluggable Executor-Layer verstehen  
+### 3. `executor_demo.sh` — Multi-Backend Job Execution ⭐ NEW
+**Use Case:** Understanding the pluggable Executor layer  
 **Features:**
 - 4 Backends: Local Python, BigQuery, Spark, dbt
-- 3 Job-Typen: Validation, Anonymization, Publish
-- Job-Status Monitoring
-- Backend-Vergleich
+- 3 Job Types: Validation, Anonymization, Publish
+- Job status monitoring
+- Backend comparison
 
-**Wann nutzen:**
-- ✅ Executor-Feature verstehen
-- ✅ Backend-Auswahl evaluieren
-- ✅ Performance-Vergleiche
+**When to use:**
+- ✅ Understanding Executor feature
+- ✅ Evaluating backend choices
+- ✅ Performance comparisons
 
 **Highlights:**
 ```bash
@@ -107,28 +107,28 @@ POST /executor/jobs {"backend": "dbt"}
 
 ---
 
-### 4. `sla_demo.sh` — Service Level Agreements ⭐ NEU
-**Use Case:** SLA-Monitoring & Platform-Dashboard  
+### 4. `sla_demo.sh` — Service Level Agreements ⭐ NEW
+**Use Case:** SLA monitoring & platform dashboard  
 **Features:**
-- Freshness SLAs (Daten-Aktualität)
-- Availability SLAs (Uptime-Garantie)
-- SLA-Checks & Breach-Detection
-- Aggregierte Dashboard-Metriken
+- Freshness SLAs (data actuality)
+- Availability SLAs (uptime guarantee)
+- SLA checks & breach detection
+- Aggregated dashboard metrics
 
-**Wann nutzen:**
-- ✅ SLA-Feature demonstrieren
-- ✅ Data Governance zeigen
-- ✅ Compliance-Workflows
+**When to use:**
+- ✅ Demonstrating SLA feature
+- ✅ Showing data governance
+- ✅ Compliance workflows
 
 **Highlights:**
 ```bash
 # Critical Dataset: 99.9% Availability, 1h Freshness
 POST /slas {"dataset":"orders","freshness_hours":1,"availability_percent":99.9}
 
-# SLA prüfen
+# Check SLA
 POST /slas/{id}/check
 
-# Dashboard mit allen Metriken
+# Dashboard with all metrics
 GET /dashboard
 ```
 
@@ -138,28 +138,28 @@ GET /dashboard
 
 ---
 
-### 5. `pipeline_demo.sh` — One-Shot Automation ⭐ NEU
-**Use Case:** Automatisierte Batch-Verarbeitung  
+### 5. `pipeline_demo.sh` — One-Shot Automation ⭐ NEW
+**Use Case:** Automated batch processing  
 **Features:**
-- Pipeline-Endpunkt (1 Call statt 5)
+- Pipeline endpoint (1 call instead of 5)
 - Ingest → Validate → Privacy → Publish
-- Custom Executor-Backends
-- Parallel Batch-Processing
+- Custom executor backends
+- Parallel batch processing
 
-**Wann nutzen:**
-- ✅ CI/CD Integration zeigen
-- ✅ Self-Service Platform demonstrieren
-- ✅ Batch-Automation evaluieren
+**When to use:**
+- ✅ Showing CI/CD integration
+- ✅ Demonstrating self-service platform
+- ✅ Evaluating batch automation
 
 **Highlights:**
 ```bash
-# Manuell: 5 API-Calls
+# Manual: 5 API calls
 POST /batches/append
 POST /batches/{id}/validate
 POST /batches/{id}/privacy-check
 POST /batches/{id}/publish
 
-# Pipeline: 1 API-Call ✅
+# Pipeline: 1 API call ✅
 POST /pipeline/run {"dataset":"...", "contract_id":"...", "file_url":"..."}
 ```
 
@@ -170,17 +170,17 @@ POST /pipeline/run {"dataset":"...", "contract_id":"...", "file_url":"..."}
 ---
 
 ### 6. `quarantine_demo.sh` — Error Recovery
-**Use Case:** Fehlerhafte Batches isolieren & korrigieren  
+**Use Case:** Isolate & correct faulty batches  
 **Features:**
-- Batch in Quarantäne setzen
-- Publish-Blockade prüfen
-- Quarantäne aufheben
-- Re-Validation & Publish
+- Quarantine batch
+- Check publish blockade
+- Release quarantine
+- Re-validation & publish
 
-**Wann nutzen:**
-- ✅ Error-Handling demonstrieren
-- ✅ Data Quality Workflows zeigen
-- ✅ Incident-Management
+**When to use:**
+- ✅ Demonstrating error handling
+- ✅ Showing data quality workflows
+- ✅ Incident management
 
 ```bash
 ./quarantine_demo.sh
@@ -189,17 +189,17 @@ POST /pipeline/run {"dataset":"...", "contract_id":"...", "file_url":"..."}
 ---
 
 ### 7. `replay_and_events_demo.sh` — Event Sourcing
-**Use Case:** Event Store & Replay verstehen  
+**Use Case:** Understanding event store & replay  
 **Features:**
-- Event-Log abfragen
-- Events filtern (nach Type, Aggregate-ID)
-- Replay für Aggregates
-- Audit-Trail demonstrieren
+- Query event log
+- Filter events (by type, aggregate ID)
+- Replay for aggregates
+- Demonstrate audit trail
 
-**Wann nutzen:**
-- ✅ Event Sourcing erklären
-- ✅ Debugging & Troubleshooting
-- ✅ Compliance Audits
+**When to use:**
+- ✅ Explaining event sourcing
+- ✅ Debugging & troubleshooting
+- ✅ Compliance audits
 
 ```bash
 ./replay_and_events_demo.sh
@@ -208,17 +208,17 @@ POST /pipeline/run {"dataset":"...", "contract_id":"...", "file_url":"..."}
 ---
 
 ### 8. `error_cases_demo.sh` — Domain Guards
-**Use Case:** Fehlerbehandlung & Validierung  
+**Use Case:** Error handling & validation  
 **Features:**
-- Duplikate erkennen (409 Conflict)
+- Detect duplicates (409 Conflict)
 - Not Found (404)
-- Invalid State Transitions (422)
-- Guard-Validierung testen
+- Invalid state transitions (422)
+- Test guard validation
 
-**Wann nutzen:**
-- ✅ Robustheit demonstrieren
-- ✅ Error-Handling dokumentieren
-- ✅ Defensive Programming zeigen
+**When to use:**
+- ✅ Demonstrating robustness
+- ✅ Documenting error handling
+- ✅ Showing defensive programming
 
 ```bash
 ./error_cases_demo.sh
@@ -226,27 +226,27 @@ POST /pipeline/run {"dataset":"...", "contract_id":"...", "file_url":"..."}
 
 ---
 
-## 🎯 Empfohlene Demo-Reihenfolge
+## 🎯 Recommended Demo Sequence
 
-### Für Präsentationen / Workshops:
+### For Presentations / Workshops:
 
-1. **Basis verstehen** → `e2e_happy_path.sh`
-2. **SLA-Feature** → `sla_demo.sh`
-3. **Executor-Layer** → `executor_demo.sh`
-4. **Pipeline-Automation** → `pipeline_demo.sh`
-5. **Error-Handling** → `quarantine_demo.sh`
-6. **Event Sourcing** → `replay_and_events_demo.sh`
+1. **Understand basics** → `e2e_happy_path.sh`
+2. **SLA feature** → `sla_demo.sh`
+3. **Executor layer** → `executor_demo.sh`
+4. **Pipeline automation** → `pipeline_demo.sh`
+5. **Error handling** → `quarantine_demo.sh`
+6. **Event sourcing** → `replay_and_events_demo.sh`
 
-### Für Testing:
+### For Testing:
 
 ```bash
-# Quick Smoke Test
+# Quick smoke test
 ./e2e_happy_path.sh
 
-# Full Integration Test
+# Full integration test
 ./e2e_extended_happy_path.sh
 
-# Feature-Specific Tests
+# Feature-specific tests
 ./executor_demo.sh
 ./sla_demo.sh
 ./pipeline_demo.sh
@@ -257,26 +257,26 @@ POST /pipeline/run {"dataset":"...", "contract_id":"...", "file_url":"..."}
 ## 🛠️ Technische Details
 
 ### Dependencies
-- `curl` — HTTP-Requests
-- `python3` — JSON-Parsing (via `json.tool`)
-- `bash` — Shell-Scripting
+- `curl` — HTTP requests
+- `python3` — JSON parsing (via `json.tool`)
+- `bash` — Shell scripting
 
 ### API Base URL
-Standardmäßig: `http://localhost:8000`  
-Ändern via: `export API="http://your-host:8000"`
+Default: `http://localhost:8000`  
+Change via: `export API="http://your-host:8000"`
 
-### Ausgabe-Format
-Alle Skripte nutzen `python3 -m json.tool` für lesbare JSON-Formatierung.
+### Output Format
+All scripts use `python3 -m json.tool` for readable JSON formatting.
 
 ### Error Handling
-Alle Skripte nutzen `set -euo pipefail` für:
-- Abbruch bei Fehlern (`-e`)
-- Unbound-Variable-Schutz (`-u`)
-- Pipeline-Fehler-Propagation (`-o pipefail`)
+All scripts use `set -euo pipefail` for:
+- Abort on error (`-e`)
+- Unbound variable protection (`-u`)
+- Pipeline error propagation (`-o pipefail`)
 
 ---
 
-## 📊 Feature-Matrix
+## 📊 Feature Matrix
 
 | Feature | happy_path | extended | executor | sla | pipeline | quarantine | replay | errors |
 |---------|:----------:|:--------:|:--------:|:---:|:--------:|:----------:|:------:|:------:|
@@ -299,7 +299,7 @@ Alle Skripte nutzen `set -euo pipefail` für:
 
 ## 🚦 CI/CD Integration
 
-### GitHub Actions Beispiel
+### GitHub Actions Example
 ```yaml
 - name: Run Lakehouse Demo Tests
   run: |
@@ -311,7 +311,7 @@ Alle Skripte nutzen `set -euo pipefail` für:
     ./sla_demo.sh
 ```
 
-### GitLab CI Beispiel
+### GitLab CI Example
 ```yaml
 lakehouse_tests:
   script:
@@ -323,7 +323,7 @@ lakehouse_tests:
 
 ---
 
-## 📝 Eigene Skripte erstellen
+## 📝 Creating Your Own Scripts
 
 ### Template
 ```bash
@@ -332,70 +332,70 @@ set -euo pipefail
 API="http://localhost:8000"
 
 echo "╔═══════════════════════════════════════════╗"
-echo "║   Mein Custom Demo                        ║"
+echo "║   My Custom Demo                        ║"
 echo "╚═══════════════════════════════════════════╝"
 
 # Setup
 echo "▶ Setup..."
-# ... dein Code ...
+# ... your code ...
 
-# Demo-Schritte
-echo "▶ 1. Erster Schritt"
+# Demo steps
+echo "▶ 1. First step"
 curl -s -X POST "$API/..." | python3 -m json.tool
 
-echo "✅ Demo abgeschlossen!"
+echo "✅ Demo completed!"
 ```
 
 ---
 
 ## 🐛 Troubleshooting
 
-### API nicht erreichbar
+### API not reachable
 ```bash
-# API-Status prüfen
+# Check API status
 curl http://localhost:8000/health
 
-# API neu starten
+# Restart API
 just run-lakehouse
 ```
 
-### JSON-Parsing-Fehler
+### JSON parsing errors
 ```bash
-# python3 verfügbar?
+# python3 available?
 python3 --version
 
-# Alternative: jq nutzen
+# Alternative: use jq
 curl -s "$API/datasets" | jq .
 ```
 
-### Script-Permissions
+### Script permissions
 ```bash
-# Ausführungsrechte setzen
+# Set execution rights
 chmod +x *.sh
 ```
 
 ---
 
-## 📚 Weitere Ressourcen
+## 📚 Further Resources
 
-- **API-Dokumentation:** http://localhost:8000/docs
+- **API Documentation:** http://localhost:8000/docs
 - **MkDocs:** [Lakehouse Demo Guide](../../../docs/demos/lakehouse/)
-- **README:** [Projekt-README](../README.md)
-- **E2E-Analyse:** [E2E_ANALYSIS.md](./E2E_ANALYSIS.md)
+- **README:** [Project README](../README.md)
+- **E2E Analysis:** [E2E_ANALYSIS.md](./E2E_ANALYSIS.md)
 
 ---
 
-## 🤝 Beitragen
+## 🤝 Contributing
 
-Neue Demo-Skripte sind willkommen! Folge dem Template oben und erstelle einen PR.
+New demo scripts are welcome! Follow the template above and create a PR.
 
 **Checklist:**
-- [ ] `set -euo pipefail` Header
-- [ ] Ausführungsrechte (`chmod +x`)
-- [ ] JSON-Formatierung via `python3 -m json.tool`
-- [ ] Setup + Cleanup Schritte
-- [ ] Kommentare für jeden Schritt
-- [ ] Erfolgs-Message am Ende
+- [ ] `set -euo pipefail` header
+- [ ] Execution rights (`chmod +x`)
+- [ ] JSON formatting via `python3 -m json.tool`
+- [ ] Setup + cleanup steps
+- [ ] Comments for each step
+- [ ] Success message at the end
 
 ---
 
