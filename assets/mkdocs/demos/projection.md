@@ -1,34 +1,86 @@
-# Projection Demo
 
-A minimal demo showing how to build a read model (projection) from events in Orchestrix.
+# Projection Demo — Building Read Models
 
-## Scenario
-You want to maintain a queryable view (read model) based on events.
+Build queryable read models (projections) from event streams using the CQRS pattern.
+
+> **Source Code:**
+> [`bases/orchestrix/projection_demo/`](https://github.com/stefanposs/orchestrix/tree/main/bases/orchestrix/projection_demo)
+
+## Quick Start
+
+```bash
+uv run python -m bases.orchestrix.projection_demo.demo_projection
+```
 
 ## Example
 
 ```python
-from orchestrix import InMemoryMessageBus, Event
 from dataclasses import dataclass
+from orchestrix.core.messaging.message import Event
+from orchestrix.infrastructure.memory.store import InMemoryEventStore
 
 @dataclass(frozen=True, kw_only=True)
-class UserRegistered(Event):
-    user_id: str
-    email: str
+class AccountCreated(Event):
+    account_id: str
+    owner: str
 
-# Simple projection (read model)
-user_emails = {}
+@dataclass(frozen=True, kw_only=True)
+class MoneyDeposited(Event):
+    account_id: str
+    amount: float
 
-def project_user_registered(event: UserRegistered):
-    user_emails[event.user_id] = event.email
+# Simple projection — a dict-based read model
+class AccountProjection:
+    def __init__(self):
+        self.balances: dict[str, float] = {}
+        self.owners: dict[str, str] = {}
 
-bus = InMemoryMessageBus()
-bus.subscribe(UserRegistered, project_user_registered)
+    def apply_created(self, event: AccountCreated):
+        self.balances[event.account_id] = 0.0
+        self.owners[event.account_id] = event.owner
 
-bus.publish(UserRegistered(user_id="u1", email="a@example.com"))
-print(user_emails)  # {"u1": "a@example.com"}
+    def apply_deposited(self, event: MoneyDeposited):
+        self.balances[event.account_id] += event.amount
+
+    def get_balance(self, account_id: str) -> float:
+        return self.balances.get(account_id, 0.0)
+```
+
+## Orchestrix Projection Engine
+
+For production use, Orchestrix provides a `ProjectionEngine` with state tracking:
+
+```python
+from orchestrix.core.eventsourcing.projection import (
+    ProjectionEngine,
+    InMemoryProjectionStateStore,
+)
+
+state_store = InMemoryProjectionStateStore()
+engine = ProjectionEngine(projection_id="account-balance", state_store=state_store)
+
+@engine.on(AccountCreated)
+async def on_created(event: AccountCreated):
+    # Update your read model
+    ...
+
+@engine.on(MoneyDeposited)
+async def on_deposited(event: MoneyDeposited):
+    # Update your read model
+    ...
+
+# Process a batch of events
+await engine.process_events(events)
 ```
 
 ## Key Points
-- Projections are just event handlers that update a read model.
-- You can use any storage (dict, DB, etc.) for the read model.
+
+- Projections are event handlers that build denormalized query models.
+- Use any storage backend (dict, database, cache) for the read model.
+- `ProjectionEngine` tracks processing state (`ProjectionState`) for reliability.
+- Supports replay: `await engine.replay(events)` rebuilds from scratch.
+
+## Related
+
+- [Event Store Guide](../guide/event-store.md) — Persist and replay events
+- [Banking Demo](banking.md) — Event-sourced aggregates

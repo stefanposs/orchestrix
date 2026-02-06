@@ -66,6 +66,7 @@ nav:
       - Lakehouse Platform: demos/lakehouse.md
       - Notifications: demos/notifications.md
       - Projections: demos/projection.md
+      - GCP Cloud: demos/gcp_demo.md
     - Simple Demos:
       - Events & Commands: demos/events_and_commands.md
       - Tracing: demos/tracing.md
@@ -74,6 +75,12 @@ nav:
   - API Reference:
     - Core: api/core.md
     - Infrastructure: api/infrastructure.md
+  - Development:
+    - Architecture: development/architecture.md
+    - Contributing: development/contributing.md
+    - Testing: development/testing.md
+  - Architecture:
+    - Async Design: architecture/ASYNC_DESIGN.md
 plugins:
   - mkdocstrings:
       handlers:

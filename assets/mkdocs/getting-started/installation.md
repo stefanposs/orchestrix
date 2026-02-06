@@ -1,31 +1,28 @@
+
 # Installation
 
 ## Requirements
 
-- Python 3.12 or higher
-- pip or [uv](https://docs.astral.sh/uv/) package manager (recommended)
+- **Python 3.12+**
+- [uv](https://docs.astral.sh/uv/) package manager (recommended) or pip
 
 ## Install from PyPI
 
-Using pip:
-
 ```bash
-pip install orchestrix
-```
-
-Using uv (recommended):
-
-```bash
+# With uv (recommended)
 uv add orchestrix
+
+# With pip
+pip install orchestrix
 ```
 
 ### Optional Extras
 
 ```bash
-# With PostgreSQL event store
+# PostgreSQL event store
 pip install orchestrix[postgres]
 
-# With observability (Prometheus + OpenTelemetry tracing)
+# Observability (Prometheus + OpenTelemetry)
 pip install orchestrix[observability]
 
 # All extras
@@ -34,24 +31,22 @@ pip install orchestrix[postgres,observability]
 
 ## Install from Source
 
-For development or the latest features:
-
 ```bash
 git clone https://github.com/stefanposs/orchestrix.git
 cd orchestrix
 uv sync --all-extras --dev
 ```
 
-## Verify Installation
-
-Check that Orchestrix is installed correctly:
+## Verify
 
 ```python
-import orchestrix
-print(orchestrix.__version__)
+from orchestrix.core.messaging.message import Command, Event
+from orchestrix.infrastructure.memory.store import InMemoryEventStore
+
+print("Orchestrix ready!")
 ```
 
 ## Next Steps
 
-- [Quick Start Guide](quick-start.md) — Build your first event-sourced application
-- [Core Concepts](concepts.md) — Understand commands, events, aggregates, and message buses
+- [Quick Start](quick-start.md) — Build your first event-sourced app
+- [Core Concepts](concepts.md) — Commands, Events, Aggregates

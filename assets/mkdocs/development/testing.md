@@ -1,432 +1,315 @@
 # Testing
 
-Comprehensive testing strategies for Orchestrix - from unit to integration tests.
+Testing strategies for Orchestrix — from unit to integration tests.
+
+---
 
 ## Test Setup
 
-### Installation
+### Install dependencies
 
 ```bash
-# Install with test dependencies
 uv sync --all-extras --dev
+```
 
-# Or with pip
-pip install orchestrix[test]
+### Run tests
+
+```bash
+just test          # All tests
+just test-cov      # With coverage report
+just test-watch    # Re-run on file change
 ```
 
 ### Test Structure
 
 ```
-tests/
-├── conftest.py                 # Shared fixtures
-├── unit/
-│   ├── test_message.py        # Message tests
-│   ├── test_aggregate.py      # Aggregate tests
-│   └── test_handlers.py       # Handler tests
-├── integration/
-│   ├── test_order_module.py   # Module integration tests
-│   └── test_event_flow.py     # End-to-end flows
-└── performance/
-    └── test_event_store.py    # Performance tests
+test/
+├── conftest.py                          # Shared fixtures (bus, store)
+├── components/orchestrix/
+│   ├── core/
+│   │   ├── test_message.py              # Message creation and metadata
+│   │   ├── test_aggregate_repository.py # AggregateRoot + Repository
+│   │   ├── test_saga.py                 # Saga execution and compensation
+│   │   ├── test_projection_engine.py    # Projection processing
+│   │   ├── test_versioning.py           # Event upcasting
+│   │   ├── test_validation.py           # Built-in validators
+│   │   ├── test_retry.py               # Retry policies
+│   │   ├── test_observability.py        # ObservabilityHooks
+│   │   ├── test_logging.py             # StructuredLogger
+│   │   ├── test_snapshot.py            # Snapshot save/load
+│   │   ├── test_dead_letter_queue.py   # DLQ handling
+│   │   ├── test_error_handling.py      # Exception paths
+│   │   ├── test_edge_cases.py          # Boundary conditions
+│   │   └── test_message_metadata.py    # CloudEvents fields
+│   └── infrastructure/
+│       ├── test_inmemory_bus.py         # InMemoryMessageBus
+│       ├── test_inmemory_store.py       # InMemoryEventStore
+│       ├── test_async_bus.py            # InMemoryAsyncMessageBus
+│       ├── test_async_store.py          # InMemoryAsyncEventStore
+│       ├── test_postgres_store.py       # PostgreSQLEventStore (testcontainers)
+│       ├── test_prometheus_metrics.py   # PrometheusMetrics
+│       ├── test_tracing.py             # JaegerTracer
+│       └── …
+├── benchmarks/                          # Performance benchmarks
+└── projects/                            # Project-level integration tests
 ```
+
+---
+
+## Shared Fixtures
+
+The root `conftest.py` provides pre-built fixtures:
+
+```python
+# test/conftest.py
+from orchestrix.infrastructure.memory import InMemoryEventStore, InMemoryMessageBus
+
+@pytest.fixture
+def bus():
+    """Fresh InMemoryMessageBus for each test."""
+    return InMemoryMessageBus()
+
+@pytest.fixture
+def store():
+    """Fresh InMemoryEventStore for each test."""
+    return InMemoryEventStore()
+```
+
+Use them in any test:
+
+```python
+def test_handler_stores_events(bus, store):
+    handler = CreateOrderHandler(bus, store)
+    bus.subscribe(CreateOrder, handler.handle)
+    bus.publish(CreateOrder(order_id="ORD-001", customer_id="CUST-123"))
+
+    events = store.load("ORD-001")
+    assert len(events) == 1
+    assert isinstance(events[0], OrderCreated)
+```
+
+---
 
 ## Unit Tests
 
 ### Testing Messages
 
 ```python
-def test_command_creation():
-    """Test command with valid data."""
-    command = CreateOrder(
-        order_id="ORD-001",
-        customer_id="CUST-123",
-        items=[{"sku": "A", "qty": 2}]
-    )
-    
-    assert command.order_id == "ORD-001"
-    assert command.customer_id == "CUST-123"
-    assert len(command.items) == 1
-    assert command.type == "CreateOrder"
-    assert command.id  # Auto-generated UUID
+from orchestrix.core.messaging.message import Command
 
-def test_command_validation():
-    """Test command validation in __post_init__."""
-    with pytest.raises(ValueError, match="Order must have items"):
-        CreateOrder(
-            order_id="ORD-001",
-            customer_id="CUST-123",
-            items=[]  # Invalid!
-        )
+def test_command_creation():
+    """Test command with auto-generated metadata."""
+    command = CreateOrder(order_id="ORD-001", customer_id="CUST-123")
+
+    assert command.order_id == "ORD-001"
+    assert command.type == "CreateOrder"  # Auto-derived from class name
+    assert command.id  # UUID auto-generated
+    assert command.specversion == "1.0"
 ```
 
 ### Testing Aggregates
 
 ```python
-def test_order_creation():
-    """Test aggregate creation."""
-    order = Order.create(
-        order_id="ORD-001",
-        customer_id="CUST-123",
-        items=[{"sku": "A", "qty": 2}]
-    )
-    
-    assert order.order_id == "ORD-001"
-    assert order.status == "pending"
-    
-    # Check events
-    events = order.collect_events()
-    assert len(events) == 1
-    assert isinstance(events[0], OrderCreated)
+from orchestrix.core.eventsourcing.aggregate import AggregateRoot
 
-def test_order_cancellation():
-    """Test aggregate business logic."""
-    order = Order.create("ORD-001", "CUST-123", [])
-    order.cancel()
-    
-    assert order.status == "cancelled"
-    
-    events = order.collect_events()
-    assert any(isinstance(e, OrderCancelled) for e in events)
+def test_aggregate_applies_events():
+    """Test that _apply_event tracks uncommitted events."""
+    account = BankAccount(aggregate_id="ACC-001")
+    account.open("Alice", 1000.0)
 
-def test_order_cannot_cancel_if_shipped():
-    """Test business rule enforcement."""
-    order = Order.create("ORD-001", "CUST-123", [])
-    order.status = "shipped"  # Simulate shipping
-    
-    with pytest.raises(ValueError, match="Cannot cancel shipped order"):
-        order.cancel()
+    assert account.owner == "Alice"
+    assert account.balance == 1000.0
+    assert len(account.uncommitted_events) == 1
+    assert isinstance(account.uncommitted_events[0], AccountOpened)
+
+def test_aggregate_mark_committed():
+    """Test that mark_events_committed clears the list."""
+    account = BankAccount(aggregate_id="ACC-001")
+    account.open("Alice", 1000.0)
+    account.mark_events_committed()
+
+    assert len(account.uncommitted_events) == 0
 ```
 
-### Testing Event Reconstruction
+### Testing Validation
 
 ```python
-def test_aggregate_reconstruction():
-    """Test rebuilding aggregate from events."""
-    events = [
-        OrderCreated(order_id="ORD-001", customer_id="CUST-123"),
-        ItemAdded(order_id="ORD-001", item={"sku": "A"}),
-        ItemAdded(order_id="ORD-001", item={"sku": "B"}),
-        OrderPaid(order_id="ORD-001", payment_id="PAY-001")
-    ]
-    
-    order = Order.from_events(events)
-    
-    assert order.order_id == "ORD-001"
-    assert len(order.items) == 2
-    assert order.status == "paid"
+from orchestrix.core.common.validation import validate_not_empty, ValidationError
+
+def test_validation_rejects_empty():
+    with pytest.raises(ValidationError):
+        validate_not_empty("", "name")
+
+def test_validation_accepts_value():
+    validate_not_empty("Alice", "name")  # No error
 ```
 
+---
+
 ## Integration Tests
+
+### Testing with AggregateRepository
+
+```python
+from orchestrix.core.eventsourcing.aggregate import AggregateRepository
+from orchestrix.infrastructure.memory.store import InMemoryEventStore
+
+def test_repository_round_trip():
+    """Test save and load through repository."""
+    store = InMemoryEventStore()
+    repo = AggregateRepository(event_store=store)
+
+    # Create and save
+    account = BankAccount(aggregate_id="ACC-001")
+    account.open("Alice", 500.0)
+    repo.save(account)
+
+    # Load and verify
+    loaded = repo.load(BankAccount, "ACC-001")
+    assert loaded.owner == "Alice"
+    assert loaded.balance == 500.0
+    assert loaded.version == 1
+```
 
 ### Testing with MessageBus
 
 ```python
-@pytest.fixture
-def bus():
-    """Provide clean message bus."""
-    return InMemoryMessageBus()
-
-@pytest.fixture
-def store():
-    """Provide clean event store."""
-    return InMemoryEventStore()
-
-def test_command_handler_integration(bus, store):
-    """Test command handler with infrastructure."""
-    # Register handler
-    handler = CreateOrderHandler(bus, store)
-    bus.subscribe(CreateOrder, handler)
-    
-    # Execute command
-    command = CreateOrder(
-        order_id="ORD-001",
-        customer_id="CUST-123",
-        items=[{"sku": "A", "qty": 2}]
-    )
-    bus.publish(command)
-    
-    # Verify events stored
-    events = store.load("ORD-001")
-    assert len(events) == 1
-    assert isinstance(events[0], OrderCreated)
-```
-
-### Testing Event Handlers
-
-```python
 def test_event_handler_called(bus):
-    """Test that event handlers are invoked."""
-    events_received = []
-    
-    # Subscribe event handler
-    bus.subscribe(OrderCreated, lambda e: events_received.append(e))
-    
-    # Publish event
-    event = OrderCreated(order_id="ORD-001", customer_id="CUST-123")
-    bus.publish(event)
-    
-    # Verify handler was called
-    assert len(events_received) == 1
-    assert events_received[0].order_id == "ORD-001"
+    """Test that event handlers receive published events."""
+    received = []
+    bus.subscribe(OrderCreated, lambda e: received.append(e))
 
-def test_multiple_event_handlers(bus):
-    """Test multiple handlers for same event."""
-    handler1_called = []
-    handler2_called = []
-    
-    bus.subscribe(OrderCreated, lambda e: handler1_called.append(e))
-    bus.subscribe(OrderCreated, lambda e: handler2_called.append(e))
-    
-    event = OrderCreated(order_id="ORD-001", customer_id="CUST-123")
-    bus.publish(event)
-    
-    assert len(handler1_called) == 1
-    assert len(handler2_called) == 1
+    bus.publish(OrderCreated(order_id="ORD-001"))
+
+    assert len(received) == 1
+    assert received[0].order_id == "ORD-001"
 ```
 
-### Testing Complete Modules
+### Testing Async Code
 
 ```python
-def test_order_module(bus, store):
-    """Test complete module registration and execution."""
-    # Register module
-    module = OrderModule()
-    module.register(bus, store)
-    
-    # Execute command
-    bus.publish(CreateOrder(
-        order_id="ORD-001",
-        customer_id="CUST-123",
-        items=[{"sku": "A", "qty": 2}]
-    ))
-    
-    # Verify events
-    events = store.load("ORD-001")
-    assert len(events) == 1
-    assert isinstance(events[0], OrderCreated)
-    
-    # Execute another command
-    bus.publish(CancelOrder(order_id="ORD-001"))
-    
-    # Verify new events
-    events = store.load("ORD-001")
-    assert len(events) == 2
-    assert isinstance(events[1], OrderCancelled)
+import pytest
+from orchestrix.infrastructure.memory.async_bus import InMemoryAsyncMessageBus
+
+@pytest.mark.asyncio
+async def test_async_bus_publish():
+    """Test async message bus publishes to handlers."""
+    bus = InMemoryAsyncMessageBus()
+    received = []
+
+    async def handler(event: OrderCreated) -> None:
+        received.append(event)
+
+    bus.subscribe(OrderCreated, handler)
+    await bus.publish(OrderCreated(order_id="ORD-001"))
+
+    assert len(received) == 1
 ```
+
+---
 
 ## Test Patterns
 
-### Message Spy Pattern
+### Message Spy
 
-Collect all messages for assertions:
+Collect all published messages for assertions:
 
 ```python
 class MessageSpy:
-    """Spy to collect published messages."""
-    
     def __init__(self):
-        self.messages = []
-    
-    def record(self, message):
+        self.messages: list[Message] = []
+
+    def record(self, message: Message) -> None:
         self.messages.append(message)
-    
-    def get_by_type(self, message_type):
+
+    def get_by_type(self, message_type: type) -> list[Message]:
         return [m for m in self.messages if isinstance(m, message_type)]
-    
-    def count(self, message_type):
-        return len(self.get_by_type(message_type))
 
 @pytest.fixture
-def message_spy(bus):
-    """Provide message spy."""
-    spy = MessageSpy()
-    # Subscribe to all message types
-    bus.subscribe(OrderCreated, spy.record)
-    bus.subscribe(OrderCancelled, spy.record)
-    return spy
+def spy(bus):
+    s = MessageSpy()
+    bus.subscribe(OrderCreated, s.record)
+    bus.subscribe(OrderCancelled, s.record)
+    return s
 
-def test_with_spy(bus, message_spy):
-    """Test using message spy."""
-    bus.publish(OrderCreated(order_id="ORD-001", ...))
-    
-    assert message_spy.count(OrderCreated) == 1
-    assert message_spy.count(OrderCancelled) == 0
+def test_with_spy(bus, spy):
+    bus.publish(OrderCreated(order_id="ORD-001"))
+    assert len(spy.get_by_type(OrderCreated)) == 1
 ```
 
-### Fake/Mock Pattern
+### AAA Pattern
 
 ```python
-class FakeEventStore(EventStore):
-    """Fake event store for testing."""
-    
-    def __init__(self):
-        self.saved_events = {}
-        self.load_calls = []
-    
-    def save(self, aggregate_id: str, events: list[Event]) -> None:
-        if aggregate_id not in self.saved_events:
-            self.saved_events[aggregate_id] = []
-        self.saved_events[aggregate_id].extend(events)
-    
-    def load(self, aggregate_id: str) -> list[Event]:
-        self.load_calls.append(aggregate_id)
-        return self.saved_events.get(aggregate_id, [])
+def test_order_cancellation():
+    # Arrange
+    store = InMemoryEventStore()
+    repo = AggregateRepository(event_store=store)
 
-def test_with_fake_store():
-    """Test using fake store."""
-    store = FakeEventStore()
-    
-    # Use fake in test
-    handler = CreateOrderHandler(bus, store)
-    handler.handle(CreateOrder(...))
-    
-    # Assert on fake
-    assert "ORD-001" in store.saved_events
-    assert len(store.load_calls) == 0
+    # Act
+    order = Order(aggregate_id="ORD-001")
+    order.create("CUST-123")
+    order.cancel()
+    repo.save(order)
+
+    # Assert
+    loaded = repo.load(Order, "ORD-001")
+    assert loaded.status == "cancelled"
 ```
 
 ### Parameterized Tests
 
 ```python
-@pytest.mark.parametrize("status,can_cancel", [
-    ("pending", True),
-    ("paid", True),
-    ("shipped", False),
-    ("cancelled", False),
+@pytest.mark.parametrize("value,field,should_raise", [
+    ("", "name", True),
+    ("Alice", "name", False),
+    ("  ", "name", True),
 ])
-def test_order_cancellation_rules(status, can_cancel):
-    """Test cancellation rules for different statuses."""
-    order = Order.create("ORD-001", "CUST-123", [])
-    order.status = status
-    
-    if can_cancel:
-        order.cancel()
-        assert order.status == "cancelled"
+def test_validate_not_empty(value, field, should_raise):
+    if should_raise:
+        with pytest.raises(ValidationError):
+            validate_not_empty(value, field)
     else:
-        with pytest.raises(ValueError):
-            order.cancel()
+        validate_not_empty(value, field)
 ```
 
-## Testing Best Practices
+---
 
-### AAA Pattern
+## PostgreSQL Integration Tests
 
-Arrange-Act-Assert:
+PostgreSQL tests use [testcontainers](https://testcontainers.com/) for isolated containers:
 
 ```python
-def test_order_creation():
-    # Arrange
-    bus = InMemoryMessageBus()
-    store = InMemoryEventStore()
-    handler = CreateOrderHandler(bus, store)
-    bus.subscribe(CreateOrder, handler)
-    
-    # Act
-    bus.publish(CreateOrder(order_id="ORD-001", ...))
-    
-    # Assert
-    events = store.load("ORD-001")
-    assert len(events) == 1
+@pytest.mark.asyncio
+async def test_postgres_save_and_load():
+    """Requires Docker running."""
+    store = PostgreSQLEventStore(connection_string="postgresql://...")
+    await store.initialize()
+
+    try:
+        await store.save("ACC-001", [AccountOpened(...)])
+        events = await store.load("ACC-001")
+        assert len(events) == 1
+    finally:
+        await store.close()
 ```
 
-### Test Isolation
+Container versions are managed in `.container-versions.json` at the repo root.
 
-```python
-@pytest.fixture
-def clean_bus():
-    """Each test gets fresh bus."""
-    return InMemoryMessageBus()
-
-def test_1(clean_bus):
-    # Test 1 doesn't affect test 2
-    pass
-
-def test_2(clean_bus):
-    # Fresh bus, no state from test 1
-    pass
-```
-
-### Descriptive Names
-
-```python
-# ✅ Gut
-def test_order_cannot_be_cancelled_after_shipping():
-    pass
-
-def test_aggregate_emits_correct_events_on_creation():
-    pass
-
-# ❌ Schlecht
-def test_order_1():
-    pass
-
-def test_stuff():
-    pass
-```
+---
 
 ## Coverage
 
-### Run with Coverage
-
 ```bash
+# Run with coverage
 just test-cov
+
+# View HTML report
+open output/htmlcov/index.html
 ```
 
-### View HTML Report
+Coverage output goes to `output/coverage.xml` and `output/htmlcov/`.
 
-```bash
-just test-cov
-open htmlcov/index.html
-```
-
-### Coverage Requirements
-
-Orchestrix requires **100% code coverage**:
-
-```toml
-[tool.pytest.ini_options]
-addopts = "--cov=orchestrix --cov-report=term --cov-report=html --cov-report=xml --cov-fail-under=100"
-```
-
-### Exclude from Coverage
-
-Nur in Ausnahmefällen:
-
-```python
-def __repr__(self):  # pragma: no cover
-    return f"Order({self.order_id})"
-```
-
-## Performance Tests
-
-```python
-import time
-
-def test_event_store_performance():
-    """Test event store can handle large event streams."""
-    store = InMemoryEventStore()
-    
-    # Create 10,000 events
-    events = [
-        OrderCreated(order_id=f"ORD-{i}", ...)
-        for i in range(10_000)
-    ]
-    
-    # Measure save time
-    start = time.time()
-    store.save("ORD-001", events)
-    duration = time.time() - start
-    
-    assert duration < 1.0  # Should be fast
-    
-    # Measure load time
-    start = time.time()
-    loaded = store.load("ORD-001")
-    duration = time.time() - start
-    
-    assert len(loaded) == 10_000
-    assert duration < 0.1  # Should be very fast
-```
+---
 
 ## Continuous Testing
 
@@ -436,20 +319,16 @@ def test_event_store_performance():
 just test-watch
 ```
 
-Tests laufen bei jeder Änderung automatisch!
+Re-runs tests on every file change.
 
-### Pre-commit Hooks
+### CI Pipeline
 
-```bash
-# Install hooks
-uv run pre-commit install
+GitHub Actions runs the full test suite on every push against Python 3.12 and 3.13 on Linux, macOS, and Windows.
 
-# Runs automatically on git commit
-git commit -m "feat: add new feature"
-```
+---
 
 ## Next Steps
 
-- [Architecture](architecture.md) - System Design
-- [Contributing](contributing.md) - Contribution Guidelines
-- [Best Practices](../guide/best-practices.md) - Production Tips
+- [Architecture](architecture.md) — System design
+- [Contributing](contributing.md) — Development workflow
+- [Best Practices](../guide/best-practices.md) — Production patterns

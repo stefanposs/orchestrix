@@ -1,392 +1,336 @@
 # Infrastructure API Reference
 
-## InMemoryMessageBus
+Concrete implementations of the core Protocols. All imports use the full module path.
 
-In-memory implementation of the MessageBus protocol.
+---
+
+## In-Memory Implementations
+
+### `InMemoryMessageBus`
+
+Synchronous in-memory message bus. Handlers called in subscription order.
 
 ```python
-from orchestrix import InMemoryMessageBus
-
-bus = InMemoryMessageBus()
+from orchestrix.infrastructure.memory.bus import InMemoryMessageBus
 ```
-
-### Class Definition
 
 ```python
 class InMemoryMessageBus:
-    """Synchronous in-memory message bus.
-    
-    Suitable for:
-    - Development and testing
-    - Single-process applications
-    - Monolithic architectures
-    
-    Characteristics:
-    - Synchronous handler execution
-    - Handlers called in subscription order
-    - No persistence between restarts
-    """
-    
-    def __init__(self) -> None:
-        """Initialize empty message bus."""
+    def __init__(self) -> None: ...
+    def publish(self, message: Message) -> None: ...
+    def subscribe(self, message_type: type[T], handler: Callable[[T], None]) -> None: ...
 ```
 
-### Methods
+**Characteristics:**
 
-#### `subscribe(message_type, handler)`
-
-Register a handler for a message type.
-
-**Parameters:**
-
-- `message_type` (type[Message]): The message class to handle
-- `handler` (Callable | CommandHandler): Function or handler with `handle()` method
-
-**Returns:** None
+- Synchronous handler execution in subscription order
+- If a handler raises, subsequent handlers are **not** called
+- No persistence between restarts
+- Not thread-safe
 
 **Example:**
 
 ```python
-# Function handler
-def handle_order(event: OrderCreated) -> None:
-    print(f"Order created: {event.order_id}")
+bus = InMemoryMessageBus()
+bus.subscribe(OrderCreated, lambda e: print(f"Order {e.order_id} created"))
+bus.publish(OrderCreated(order_id="ORD-001"))
+```
+
+### `InMemoryAsyncMessageBus`
+
+Async message bus. Handlers execute **concurrently** via `asyncio.gather()`.
+
+```python
+from orchestrix.infrastructure.memory.async_bus import InMemoryAsyncMessageBus
+```
+
+```python
+class InMemoryAsyncMessageBus:
+    def __init__(self) -> None: ...
+    async def publish(self, message: Message) -> None: ...
+    def subscribe(self, message_type: type[T], handler: Callable[[T], Coroutine]) -> None: ...
+```
+
+**Example:**
+
+```python
+bus = InMemoryAsyncMessageBus()
+
+async def handle_order(event: OrderCreated) -> None:
+    print(f"Order {event.order_id} created")
 
 bus.subscribe(OrderCreated, handle_order)
-
-    def handle(self, command: CreateOrder) -> None:
-        # Implementation
-        pass
-
-bus.subscribe(CreateOrder, CreateOrderHandler(bus, store))
-
-# Lambda handler
-bus.subscribe(OrderCreated, lambda e: print(f"Order: {e.order_id}"))
-
-# Method handler
-class OrderService:
-    def on_order_created(self, event: OrderCreated) -> None:
-        self.process(event)
-
-service = OrderService()
-bus.subscribe(OrderCreated, service.on_order_created)
+await bus.publish(OrderCreated(order_id="ORD-001"))
 ```
 
-#### `publish(message)`
+### `InMemoryEventStore`
 
-Publish a message to all registered handlers.
-
-**Parameters:**
-
-- `message` (Message): The message to publish
-
-**Returns:** None
-
-**Raises:**
-
-- Any exception from handlers (no built-in error handling)
-
-**Example:**
+Synchronous in-memory event store with optimistic locking and snapshot support.
 
 ```python
-# Publish command
-bus.publish(CreateOrder(
-    order_id="ORD-001",
-    customer_id="CUST-123"
-))
-
-# Publish event
-bus.publish(OrderCreated(
-    order_id="ORD-001",
-    customer_id="CUST-123"
-))
+from orchestrix.infrastructure.memory.store import InMemoryEventStore
 ```
-
-### Behavior
-
-**Handler Execution:**
-
-- Handlers are called **synchronously** in order of subscription
-- If a handler raises an exception, subsequent handlers are **not** called
-- No transaction management or error recovery
-
-```python
-bus.subscribe(OrderCreated, handler1)  # Called first
-bus.subscribe(OrderCreated, handler2)  # Called second
-bus.subscribe(OrderCreated, handler3)  # Called third
-
-bus.publish(OrderCreated(...))  # Calls in order: 1, 2, 3
-```
-
-**Error Handling:**
-
-```python
-def failing_handler(event):
-    raise ValueError("Oops!")
-
-def working_handler(event):
-    print("This won't be called!")
-
-bus.subscribe(OrderCreated, failing_handler)
-bus.subscribe(OrderCreated, working_handler)  # Never reached!
-
-bus.publish(OrderCreated(...))  # Raises ValueError
-```
-
-### Thread Safety
-
-⚠️ **Not thread-safe!** Don't share across threads without synchronization.
-
-```python
-# ❌ Don't do this
-import threading
-
-def worker():
-    bus.publish(CreateOrder(...))  # Race condition!
-
-threading.Thread(target=worker).start()
-threading.Thread(target=worker).start()
-```
-
-### Performance
-
-- **Subscribe:** O(1)
-- **Publish:** O(n) where n = handlers for message type
-- **Memory:** O(m) where m = total subscriptions
-
-## InMemoryEventStore
-
-In-memory implementation of the EventStore protocol.
-
-```python
-from orchestrix import InMemoryEventStore
-
-store = InMemoryEventStore()
-```
-
-### Class Definition
 
 ```python
 class InMemoryEventStore:
-    """In-memory event store using defaultdict.
-    
-    Suitable for:
-    - Development and testing
-    - Proof of concepts
-    - Single-process applications
-    
-    Characteristics:
-    - Events stored in memory only
-    - No persistence between restarts
-    - Append-only semantics
-    - Events returned in insertion order
-    """
-    
-    def __init__(self) -> None:
-        """Initialize empty event store."""
+    def __init__(self) -> None: ...
+    def save(self, aggregate_id: str, events: Sequence[Event], expected_version: int | None = None) -> None: ...
+    def load(self, aggregate_id: str, from_version: int = 0) -> list[Event]: ...
+    def load_by_trace(self, trace_id: str) -> list[Event]: ...
+    def save_snapshot(self, snapshot: Snapshot) -> None: ...
+    def load_snapshot(self, aggregate_id: str) -> Snapshot | None: ...
 ```
 
-### Methods
+**Key behaviors:**
 
-#### `save(aggregate_id, events)`
-
-Append events to aggregate's event stream.
-
-**Parameters:**
-
-- `aggregate_id` (str): Unique identifier for the aggregate
-- `events` (list[Event]): Events to append
-
-**Returns:** None
+- Append-only semantics — `save()` appends, never replaces
+- `load()` returns events in chronological order
+- `load("UNKNOWN")` returns `[]` (empty list, not error)
+- `expected_version` enables optimistic locking (raises `ConcurrencyError` on conflict)
+- `load_by_trace(trace_id)` finds events across all aggregates by trace ID
 
 **Example:**
 
 ```python
-events = [
-    OrderCreated(order_id="ORD-001", customer_id="CUST-123"),
-    ItemAdded(order_id="ORD-001", item={"sku": "A", "qty": 2}),
-    OrderPaid(order_id="ORD-001", payment_id="PAY-001")
-]
+store = InMemoryEventStore()
 
-store.save("ORD-001", events)
-```
-
-**Append-Only:**
-
-```python
-# First save
-store.save("ORD-001", [OrderCreated(...)])
-
-# Second save - appends, doesn't replace
-store.save("ORD-001", [OrderPaid(...)])
+# Save events
+store.save("ORD-001", [OrderCreated(order_id="ORD-001")])
+store.save("ORD-001", [OrderPaid(order_id="ORD-001")])
 
 # Load returns both
 events = store.load("ORD-001")
 # → [OrderCreated, OrderPaid]
+
+# Optimistic locking
+store.save("ORD-001", [OrderShipped(...)], expected_version=2)
 ```
 
-#### `load(aggregate_id)`
+### `InMemoryAsyncEventStore`
 
-Load all events for an aggregate in chronological order.
+Async variant with snapshot support.
 
-**Parameters:**
+```python
+from orchestrix.infrastructure.memory.async_store import InMemoryAsyncEventStore
+```
 
-- `aggregate_id` (str): Unique identifier for the aggregate
+```python
+class InMemoryAsyncEventStore:
+    def __init__(self) -> None: ...
+    async def save(self, aggregate_id: str, events: Sequence[Event], expected_version: int | None = None) -> None: ...
+    async def load(self, aggregate_id: str, from_version: int = 0) -> list[Event]: ...
+    async def save_snapshot(self, snapshot: Snapshot) -> None: ...
+    async def load_snapshot(self, aggregate_id: str) -> Snapshot | None: ...
+```
 
-**Returns:** list[Event]
+---
+
+## PostgreSQL Event Store
+
+Production-grade event store with connection pooling and async support.
+
+```python
+from orchestrix.infrastructure.postgres.store import PostgreSQLEventStore
+```
+
+```python
+@dataclass(frozen=True)
+class PostgreSQLEventStore:
+    connection_string: str
+    pool_min_size: int = 10
+    pool_max_size: int = 50
+    pool_timeout: float = 30.0
+```
+
+| Method | Signature |
+|--------|-----------|
+| `initialize` | `async () -> None` — Create pool, ensure schema |
+| `close` | `async () -> None` — Release pool |
+| `save` | `async (aggregate_id, events, expected_version=None) -> None` |
+| `load` | `async (aggregate_id, from_version=None) -> list[Event]` |
+| `save_snapshot_async` | `async (snapshot: Snapshot) -> None` |
+| `load_snapshot_async` | `async (aggregate_id: str) -> Snapshot \| None` |
+| `ping` | `async () -> bool` — Health check |
+
+!!! warning
+    The sync `save_snapshot()` and `load_snapshot()` methods raise `NotImplementedError`. Use the `_async` variants.
 
 **Example:**
 
 ```python
-# Load all events
-events = store.load("ORD-001")
-
-for event in events:
-    print(f"{event.timestamp}: {event.__class__.__name__}")
-
-# Reconstruct aggregate
-order = Order.from_events(events)
-```
-
-**Empty Stream:**
-
-```python
-# Load non-existent aggregate
-events = store.load("DOES-NOT-EXIST")
-# → [] (empty list, not error)
-```
-
-### Behavior
-
-**Event Order:**
-
-Events are returned in the order they were saved:
-
-```python
-store.save("ORD-001", [event1, event2])
-store.save("ORD-001", [event3])
-
-events = store.load("ORD-001")
-# → [event1, event2, event3]  # Chronological order
-```
-
-**Isolation:**
-
-Each aggregate has independent event stream:
-
-```python
-store.save("ORD-001", [event1, event2])
-store.save("ORD-002", [event3, event4])
-
-load("ORD-001")  # → [event1, event2]
-load("ORD-002")  # → [event3, event4]
-```
-
-### Memory Management
-
-⚠️ **All events kept in memory!** Consider for production:
-
-```python
-# ❌ Bad for production
-for i in range(1_000_000):
-    store.save(f"ORD-{i}", [OrderCreated(...)])
-# Will use lots of memory!
-
-# ✅ Use persistent store for production
-store = PostgreSQLEventStore(connection_string)
-```
-
-### Thread Safety
-
-⚠️ **Not thread-safe!** Don't share across threads.
-
-### Performance
-
-- **Save:** O(1) append
-- **Load:** O(n) where n = events for aggregate
-- **Memory:** O(e) where e = total events stored
-
-### Limitations
-
-❌ No persistence - data lost on restart  
-❌ No concurrent access control  
-❌ No event versioning  
-❌ No optimistic locking  
-❌ No snapshots  
-
-For production, use:
-- PostgreSQLEventStore
-- SQLiteEventStore
-- MongoDBEventStore
-
-## Usage Example
-
-Complete example with both components:
-
-```python
-from orchestrix import (
-    Command,
-    Event,
-    CommandHandler,
-    Module,
-    InMemoryMessageBus,
-    InMemoryEventStore,
+store = PostgreSQLEventStore(
+    connection_string="postgresql://user:pass@localhost:5432/mydb",
+    pool_min_size=5,
+    pool_max_size=20,
 )
-from dataclasses import dataclass
+await store.initialize()
 
-# Messages
-@dataclass(frozen=True, kw_only=True)
-class CreateOrder(Command):
-    order_id: str
-    customer_id: str
-
-@dataclass(frozen=True, kw_only=True)
-class OrderCreated(Event):
-    order_id: str
-    customer_id: str
-
-# Handler
-class CreateOrderHandler(CommandHandler[CreateOrder]):
-    def __init__(self, bus, store):
-        self.bus = bus
-        self.store = store
-    
-    def handle(self, command: CreateOrder) -> None:
-        # Create event
-        event = OrderCreated(
-            order_id=command.order_id,
-            customer_id=command.customer_id
-        )
-        
-        # Save
-        self.store.save(command.order_id, [event])
-        
-        # Publish
-        self.bus.publish(event)
-
-# Module
-class OrderModule(Module):
-    def register(self, bus, store) -> None:
-        bus.subscribe(CreateOrder, CreateOrderHandler(bus, store))
-        bus.subscribe(OrderCreated, lambda e: print(f"📦 Order {e.order_id} created"))
-
-# Application
-bus = InMemoryMessageBus()
-store = InMemoryEventStore()
-
-module = OrderModule()
-module.register(bus, store)
-
-# Execute
-bus.publish(CreateOrder(order_id="ORD-001", customer_id="CUST-123"))
-
-# Verify
-events = store.load("ORD-001")
-assert len(events) == 1
-assert isinstance(events[0], OrderCreated)
+try:
+    await store.save("ACC-001", [AccountOpened(...)], expected_version=0)
+    events = await store.load("ACC-001")
+finally:
+    await store.close()
 ```
+
+**Features:**
+
+- Automatic connection pooling (asyncpg)
+- Auto-creates `events` and `snapshots` tables on `initialize()`
+- JSON serialization with `OrchestrixJSONEncoder` (handles Decimal, datetime, UUID, dataclasses)
+- Optimistic locking via `expected_version`
+- Snapshot support for fast aggregate hydration
+
+---
+
+## Observability — Jaeger Tracing
+
+Distributed tracing using OpenTelemetry with Jaeger backend.
+
+```python
+from orchestrix.infrastructure.observability.jaeger import (
+    JaegerTracer, TracingConfig, init_tracing, get_tracer,
+)
+```
+
+### `TracingConfig`
+
+```python
+@dataclass(frozen=True)
+class TracingConfig:
+    service_name: str
+    jaeger_agent_host: str = "localhost"
+    jaeger_agent_port: int = 6831
+    jaeger_sampler_type: str = "const"
+    jaeger_sampler_param: float = 1.0
+```
+
+### `JaegerTracer`
+
+```python
+class JaegerTracer:
+    def __init__(self, tracer_name: str = "orchestrix") -> None: ...
+```
+
+**Context-manager spans:**
+
+| Method | Purpose |
+|--------|---------|
+| `span(operation_name, attributes=None)` | General-purpose span (sync) |
+| `async_span(operation_name, attributes=None)` | General-purpose span (async) |
+| `span_event(event_type, event_id, aggregate_id)` | Event processing span (sync) |
+| `async_span_event(...)` | Event processing span (async) |
+| `span_command(command_type, aggregate_id)` | Command handling span (sync) |
+| `async_span_command(...)` | Command handling span (async) |
+| `span_saga(saga_type, saga_id)` | Saga execution span (sync) |
+| `async_span_saga(...)` | Saga execution span (async) |
+
+**Utility methods:** `get_trace_id()`, `set_attribute(key, value)`, `add_event(name, attributes)`
+
+**Example:**
+
+```python
+tracer = init_tracing(service_name="my-service")
+
+with tracer.span_command("CreateOrder", "ORD-001"):
+    # … handle command
+    with tracer.span_event("OrderCreated", event.id, "ORD-001"):
+        store.save("ORD-001", [event])
+```
+
+---
+
+## Observability — Prometheus Metrics
+
+Prometheus metrics provider for event sourcing systems.
+
+```python
+from orchestrix.infrastructure.observability.prometheus import (
+    PrometheusMetrics, MetricConfig, MetricOperationType,
+)
+```
+
+### `MetricConfig`
+
+```python
+@dataclass(frozen=True)
+class MetricConfig:
+    namespace: str = "orchestrix"
+    subsystem: str = "core"
+    registry: CollectorRegistry | None = None
+    enable_summary_metrics: bool = True
+```
+
+### `PrometheusMetrics`
+
+```python
+class PrometheusMetrics:
+    def __init__(self, config: MetricConfig | None = None) -> None: ...
+```
+
+**Context-manager trackers:**
+
+| Method | Purpose |
+|--------|---------|
+| `track_event_publish(event_type)` | Measure event publish duration |
+| `track_command_handle(command_type)` | Measure command handling duration |
+| `track_aggregate_load(aggregate_type)` | Measure aggregate load duration |
+| `track_storage_operation(operation_type)` | Measure storage operation duration |
+| `track_projection_update(projection_name)` | Measure projection update duration |
+| `track_saga_execution(saga_type)` | Measure saga execution duration |
+| `track_async_event_publish(event_type)` | Async event publish |
+| `track_async_command_handle(command_type)` | Async command handling |
+
+**Other methods:**
+
+| Method | Signature |
+|--------|-----------|
+| `record_projection_lag` | `(projection_name: str, events_behind: int) -> None` |
+| `get_prometheus_registry` | `() -> CollectorRegistry` |
+| `generate_exposition` | `(registry) -> bytes` (static) |
+
+**Registered instruments:** `events_total`, `events_processing_seconds`, `commands_total`, `commands_latency_seconds`, `aggregates_loaded_total`, `aggregates_load_time_seconds`, `aggregates_in_memory`, `storage_operations_total`, `storage_operation_seconds`, `projection_events_behind`, `projection_update_seconds`, `saga_executions_total`, `saga_duration_seconds`
+
+**Example:**
+
+```python
+metrics = PrometheusMetrics(MetricConfig(namespace="myapp"))
+
+with metrics.track_command_handle("CreateOrder"):
+    handle_create_order(command)
+
+with metrics.track_storage_operation(MetricOperationType.APPEND):
+    store.save(aggregate_id, events)
+```
+
+### Exposing `/metrics` endpoint
+
+```python
+from prometheus_client import generate_latest
+
+@app.get("/metrics")
+def metrics():
+    registry = metrics_provider.get_prometheus_registry()
+    return Response(generate_latest(registry), media_type="text/plain")
+```
+
+---
+
+## Implementation Comparison
+
+| Feature | InMemory | PostgreSQL |
+|---------|----------|------------|
+| Persistence | No | Yes |
+| Async | Both | Async only |
+| Optimistic locking | Yes | Yes |
+| Snapshots | Yes | Yes (async) |
+| Connection pooling | N/A | Yes (asyncpg) |
+| Thread-safe | No | Yes |
+| Use case | Dev / Test | Production |
+
+---
 
 ## Next Steps
 
-- [Core API](core.md) - Core abstractions
-- [Message Bus Guide](../guide/message-bus.md) - Detailed patterns
-- [Event Store Guide](../guide/event-store.md) - Persistence patterns
+- [Core API](core.md) — Protocol definitions
+- [Event Store Guide](../guide/event-store.md) — Patterns and migration
+- [Production Deployment](../guide/production-deployment.md) — Scaling guidance

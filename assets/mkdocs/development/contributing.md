@@ -1,35 +1,8 @@
-## Integration Tests with testcontainers
-
-Integration tests for PostgreSQL and EventSourcingDB use [testcontainers-python](https://testcontainers.com/). This ensures tests run in isolated, real containers for reproducibility and reliability.
-
-### Container Version Management
-
-- Container image versions are defined centrally in `.container-versions.json` at the repo root.
-- Example:
-
-    ```json
-    {
-        "postgres": "16-alpine",
-        "eventsourcingdb": "latest"
-    }
-    ```
-
-- Test fixtures read this file to determine which image version to use.
-
-### Dependency Monitoring
-
-- [Dependabot](https://github.com/dependabot) is configured to monitor `.container-versions.json` for new container image versions and will open PRs for updates.
-- Python and GitHub Actions dependencies are also monitored.
-
-### How to update container versions
-
-1. Edit `.container-versions.json` and set the desired image tag.
-2. Run the tests locally to verify compatibility.
-3. Commit and push your changes.
-4. Dependabot will propose updates automatically when new versions are available.
 # Contributing
 
-Contributions to Orchestrix are welcome! Here is how you can get involved.
+Contributions to Orchestrix are welcome. Here is how to get involved.
+
+---
 
 ## Setup Development Environment
 
@@ -40,7 +13,7 @@ git clone https://github.com/stefanposs/orchestrix.git
 cd orchestrix
 ```
 
-### 2. Development Setup
+### 2. Install dependencies
 
 With `just` (recommended):
 
@@ -54,11 +27,13 @@ Or manually with `uv`:
 uv sync --all-extras --dev
 ```
 
-### 3. Verify Installation
+### 3. Verify installation
 
 ```bash
 just test
 ```
+
+---
 
 ## Development Workflow
 
@@ -66,25 +41,25 @@ just test
 
 ```bash
 # Setup
-just setup              # Initial setup
-just install PKG        # Install package
+just setup              # Initial setup (uv sync)
+just install PKG        # Install a package
 
-# Development
-just fix                # Format and auto-fix code
-just qa                 # Run all quality checks
-just check              # Quick check (lint + typecheck)
+# Code quality
+just fix                # Auto-format and auto-fix code
+just qa                 # Run all quality checks (lint + format + type + test)
+just check              # Quick check (lint + typecheck only)
 
 # Testing
 just test               # Run tests
 just test-cov           # Run tests with coverage
-just test-watch         # Watch mode
+just test-watch         # Watch mode — re-run on file change
 
 # Build
 just build              # Build package
 just clean              # Clean build artifacts
 
 # Documentation
-just docs               # Serve documentation
+just docs               # Serve documentation locally
 just docs-build         # Build documentation
 just docs-deploy        # Deploy to GitHub Pages
 
@@ -92,41 +67,35 @@ just docs-deploy        # Deploy to GitHub Pages
 just ci                 # Full CI pipeline
 ```
 
-### Code Quality Standards
-
-We use modern tools for high code quality:
-
-- **ruff** - Linting & Formatting (replaces black, isort, flake8, pylint)
-- **pytest** - Testing Framework
-- **pytest-cov** - Code Coverage (100% required)
-
 ### Before Committing
 
 ```bash
-# 1. Format code
+# 1. Auto-format code
 just fix
 
-# 2. Run quality checks
+# 2. Run all quality checks
 just qa
 
-# 3. Verify tests pass
+# 3. Verify tests pass with coverage
 just test-cov
 ```
 
-Alle Checks müssen bestehen! ✅
+All checks must pass.
+
+---
 
 ## Coding Guidelines
 
 ### Messages
 
 ```python
-# Commands: Imperativ
+# Commands: imperative (intent)
 @dataclass(frozen=True, kw_only=True)
 class CreateOrder(Command):
     order_id: str
     customer_id: str
 
-# Events: Vergangenheit
+# Events: past tense (fact)
 @dataclass(frozen=True, kw_only=True)
 class OrderCreated(Event):
     order_id: str
@@ -135,32 +104,31 @@ class OrderCreated(Event):
 
 ### Type Annotations
 
-**Immer** vollständige Type Hints verwenden:
+Always use complete type hints:
 
 ```python
-# ✅ Gut
+# Correct
 def handle(self, command: CreateOrder) -> None:
     events: list[Event] = []
     order: Order = Order.create(command.order_id)
 
-# ❌ Schlecht
-def handle(self, command):  # No types!
+# Avoid
+def handle(self, command):
     events = []
-    order = Order.create(command.order_id)
 ```
 
 ### Docstrings
 
-Google-style Docstrings für öffentliche APIs:
+Google-style docstrings for public APIs:
 
 ```python
 def subscribe(self, message_type: type[Message], handler: Callable) -> None:
     """Subscribe a handler to a message type.
-    
+
     Args:
-        message_type: The message class to handle
-        handler: Callable or handler instance with handle() method
-    
+        message_type: The message class to handle.
+        handler: Callable or handler instance with handle() method.
+
     Example:
         >>> bus.subscribe(CreateOrder, create_order_handler)
     """
@@ -168,7 +136,7 @@ def subscribe(self, message_type: type[Message], handler: Callable) -> None:
 
 ### Tests
 
-Jede neue Funktion braucht Tests:
+Every new feature needs tests:
 
 ```python
 def test_message_bus_subscription():
@@ -177,132 +145,112 @@ def test_message_bus_subscription():
     bus = InMemoryMessageBus()
     events_received = []
     bus.subscribe(OrderCreated, lambda e: events_received.append(e))
-    
+
     # Act
     event = OrderCreated(order_id="ORD-001")
     bus.publish(event)
-    
+
     # Assert
     assert len(events_received) == 1
     assert events_received[0].order_id == "ORD-001"
 ```
 
+---
+
+## Commit Conventions
+
+Use [Conventional Commits](https://www.conventionalcommits.org/):
+
+```bash
+git commit -m "feat: add async message bus implementation"
+```
+
+| Type | Purpose |
+|------|---------|
+| `feat:` | New features |
+| `fix:` | Bug fixes |
+| `docs:` | Documentation |
+| `test:` | Tests |
+| `refactor:` | Code refactoring |
+| `perf:` | Performance improvements |
+| `ci:` | CI/CD changes |
+
+---
+
 ## Pull Request Process
 
-### 1. Create Feature Branch
+### 1. Create feature branch
 
 ```bash
 git checkout -b feature/my-awesome-feature
 ```
 
-### 2. Make Changes
+### 2. Make changes and run quality checks
 
 ```bash
-# Edit files (example)
-vim components/orchestrix.core.messaging.message_bus.py
-
-# Run tests continuously
-just test-watch
+just fix && just qa
 ```
 
-### 3. Commit Changes
-
-Verwende [Conventional Commits](https://www.conventionalcommits.org/):
-
-```bash
-git add .
-git commit -m "feat: add async message bus implementation"
-```
-
-Types:
-- `feat:` - Neue Features
-- `fix:` - Bug Fixes
-- `docs:` - Dokumentation
-- `test:` - Tests
-- `refactor:` - Code Refactoring
-- `perf:` - Performance Improvements
-- `ci:` - CI/CD Changes
-
-### 4. Run Final Checks
-
-```bash
-just ci
-```
-
-Alles muss grün sein! ✅
-
-### 5. Push & Create PR
+### 3. Push and create PR
 
 ```bash
 git push origin feature/my-awesome-feature
 ```
 
-Erstelle dann einen Pull Request auf GitHub mit:
+Include in your PR description:
 
-- **Beschreibung** der Änderungen
-- **Warum** die Änderung notwendig ist
-- **Tests** die hinzugefügt wurden
-- **Breaking Changes** (falls vorhanden)
+- What changed and why
+- Tests added
+- Breaking changes (if any)
+
+---
+
+## Integration Tests with Testcontainers
+
+Integration tests for PostgreSQL and EventSourcingDB use [testcontainers-python](https://testcontainers.com/) for isolated, reproducible container-based testing.
+
+### Container Version Management
+
+Container image versions are defined centrally in `.container-versions.json`:
+
+```json
+{
+    "postgres": "16-alpine",
+    "eventsourcingdb": "latest"
+}
+```
+
+Test fixtures read this file to determine which image version to use. [Dependabot](https://github.com/dependabot) monitors this file for updates.
+
+### Updating container versions
+
+1. Edit `.container-versions.json` with the desired image tag
+2. Run tests locally to verify compatibility
+3. Commit and push
+
+---
 
 ## CI/CD Pipeline
 
-Unsere GitHub Actions Pipeline testet:
+GitHub Actions runs on every push:
 
-- ✅ Tests auf Python 3.9-3.13
-- ✅ Tests auf Linux, macOS, Windows
-- ✅ Ruff Linting
-- ✅ 100% Code Coverage
+- Tests on Python 3.12 and 3.13
+- Tests on Linux, macOS, Windows
+- Ruff linting and formatting
+- Type checking with `ty`
+- CodeQL security analysis
 
-## Architecture Decisions
-
-### ADR (Architecture Decision Records)
-
-Wichtige Design-Entscheidungen werden dokumentiert:
-
-```markdown
-# ADR-001: Use Protocols instead of Abstract Base Classes
-
-## Context
-Need to define interfaces for MessageBus, EventStore, etc.
-
-## Decision
-Use typing.Protocol instead of ABC.
-
-## Rationale
-- More Pythonic (duck typing)
-- Better IDE support
-- No inheritance required
-- Easier to mock in tests
-
-## Consequences
-Users can implement interfaces without inheriting from base classes.
-```
-
-## Community
-
-### Communication
-
-- **GitHub Issues** - Bug Reports & Feature Requests
-- **GitHub Discussions** - Questions & Ideas
-- **Pull Requests** - Code Contributions
-
-### Code of Conduct
-
-Sei respektvoll und konstruktiv. Siehe [CODE_OF_CONDUCT.md](https://github.com/stefanposs/orchestrix/blob/main/.github/CODE_OF_CONDUCT.md).
+---
 
 ## Release Process
-
-Releases werden automatisch erstellt:
 
 1. Update `CHANGELOG.md`
 2. Tag version: `git tag v0.2.0`
 3. Push tags: `git push --tags`
-4. GitHub Actions publisht zu PyPI
+4. GitHub Actions publishes to PyPI
+
+---
 
 ## Questions?
 
-Erstelle ein [GitHub Issue](https://github.com/stefanposs/orchestrix/issues) oder [Discussion](https://github.com/stefanposs/orchestrix/discussions)!
-
-## Thank You! 🎉
-
-Jeder Beitrag ist wertvoll - egal ob Code, Dokumentation, Bug Reports oder Feedback!
+Open a [GitHub Issue](https://github.com/stefanposs/orchestrix/issues) or [Discussion](https://github.com/stefanposs/orchestrix/discussions).
