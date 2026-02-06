@@ -13,6 +13,7 @@ import asyncio
 import contextlib
 import json
 import logging
+import re
 import uuid
 from dataclasses import fields
 from datetime import UTC, datetime
@@ -38,6 +39,35 @@ from .models import (
 )
 
 logger = logging.getLogger("lakehouse")
+
+
+_CONTROL_RE = re.compile(r"[\x00-\x1f\x7f]")
+
+
+def _sanitize_log(value: object) -> str:
+    """Sanitize *any* value for logging — returns a control-char-free string.
+
+    Recursively sanitizes nested containers and models so that no control
+    characters can reach log sinks, even via complex user-provided objects.
+    The return type is always ``str`` so callers can embed it directly in
+    log messages.
+    """
+    if isinstance(value, str):
+        return _CONTROL_RE.sub("", value)
+    if isinstance(value, dict):
+        safe = {_sanitize_log(k): _sanitize_log(v) for k, v in value.items()}
+        return json.dumps(safe, ensure_ascii=False)
+    if isinstance(value, (list, tuple, set)):
+        safe_list = [_sanitize_log(v) for v in value]
+        return json.dumps(safe_list, ensure_ascii=False)
+    if isinstance(value, BaseModel):
+        return _sanitize_log(value.model_dump())
+    # Fallback: stringify then strip control chars.
+    try:
+        text = str(value)
+    except Exception:
+        return ""
+    return _CONTROL_RE.sub("", text)
 
 
 # ---------------------------------------------------------------------------
@@ -525,7 +555,7 @@ async def register_dataset(body: RegisterDatasetIn) -> DatasetResponse:
     dataset_repo.save(agg)
     _dataset_index[body.name] = aggregate_id
 
-    logger.info("dataset_registered", extra={"dataset": body.name})
+    logger.info("dataset_registered %s", _sanitize_log({"dataset": body.name}))
     return DatasetResponse(name=agg.name, schema_def=agg.schema, description=agg.description)
 
 
@@ -599,7 +629,10 @@ async def create_contract(body: CreateContractIn) -> ContractResponse:
     contract_repo.save(agg)
     _contract_index[contract_id] = contract_id
 
-    logger.info("contract_created", extra={"contract_id": contract_id, "dataset": body.dataset})
+    logger.info(
+        "contract_created %s",
+        _sanitize_log({"contract_id": contract_id, "dataset": body.dataset}),
+    )
     return ContractResponse(contract_id=contract_id, dataset=body.dataset)
 
 
@@ -655,7 +688,10 @@ async def append_data(body: AppendDataIn) -> BatchResponse:
     )
     batch_repo.save(agg)
 
-    logger.info("data_appended", extra={"batch_id": batch_id, "dataset": body.dataset})
+    logger.info(
+        "data_appended %s",
+        _sanitize_log({"batch_id": batch_id, "dataset": body.dataset}),
+    )
     return _batch_response(agg)
 
 
@@ -678,7 +714,10 @@ async def quarantine_batch(batch_id: str, body: QuarantineBatchIn) -> BatchActio
         raise InvalidStateError(str(e))
     batch_repo.save(agg)
 
-    logger.info("batch_quarantined", extra={"batch_id": batch_id, "reason": body.reason})
+    logger.info(
+        "batch_quarantined %s",
+        _sanitize_log({"batch_id": batch_id, "reason": body.reason}),
+    )
     return BatchActionResponse(batch_id=batch_id, status="quarantined", detail=body.reason)
 
 
@@ -701,7 +740,7 @@ async def release_quarantine(batch_id: str) -> BatchActionResponse:
         raise InvalidStateError(str(e))
     batch_repo.save(agg)
 
-    logger.info("quarantine_released", extra={"batch_id": batch_id})
+    logger.info("quarantine_released %s", _sanitize_log({"batch_id": batch_id}))
     return BatchActionResponse(batch_id=batch_id, status="released")
 
 
@@ -724,7 +763,10 @@ async def run_quality_check(batch_id: str, body: RunQualityCheckIn) -> BatchActi
         raise InvalidStateError(str(e))
     batch_repo.save(agg)
 
-    logger.info("dq_passed", extra={"batch_id": batch_id, "rules": body.quality_rules})
+    logger.info(
+        "dq_passed %s",
+        _sanitize_log({"batch_id": batch_id, "rules": body.quality_rules}),
+    )
     return BatchActionResponse(
         batch_id=batch_id,
         status=agg.status.value,
@@ -751,7 +793,10 @@ async def run_privacy_check(batch_id: str, body: RunPrivacyCheckIn) -> BatchActi
         raise InvalidStateError(str(e))
     batch_repo.save(agg)
 
-    logger.info("privacy_passed", extra={"batch_id": batch_id, "rules": body.privacy_rules})
+    logger.info(
+        "privacy_passed %s",
+        _sanitize_log({"batch_id": batch_id, "rules": body.privacy_rules}),
+    )
     return BatchActionResponse(
         batch_id=batch_id,
         status=agg.status.value,
@@ -778,7 +823,7 @@ async def publish_batch(batch_id: str) -> BatchActionResponse:
         raise InvalidStateError(str(e))
     batch_repo.save(agg)
 
-    logger.info("batch_published", extra={"batch_id": batch_id})
+    logger.info("batch_published %s", _sanitize_log({"batch_id": batch_id}))
     return BatchActionResponse(batch_id=batch_id, status="published")
 
 
@@ -799,7 +844,10 @@ async def consume_batch(batch_id: str, body: ConsumeBatchIn) -> ConsumeResponse:
         raise InvalidStateError(f"Batch '{batch_id}' is not published yet.")
 
     download_url = f"https://lakehouse.example.com/download/{batch_id}?consumer={body.consumer}"
-    logger.info("batch_consumed", extra={"batch_id": batch_id, "consumer": body.consumer})
+    logger.info(
+        "batch_consumed %s",
+        _sanitize_log({"batch_id": batch_id, "consumer": body.consumer}),
+    )
     return ConsumeResponse(batch_id=batch_id, consumer=body.consumer, download_url=download_url)
 
 
@@ -965,7 +1013,10 @@ async def replay_events(body: ReplayIn) -> ReplayResponse:
     """Replay events for a dataset. Rebuilds aggregate state from event store."""
     agg_id = _require_dataset(body.dataset)
     events = event_store.load(agg_id)
-    logger.info("replay_completed", extra={"dataset": body.dataset, "events": len(events)})
+    logger.info(
+        "replay_completed %s",
+        _sanitize_log({"dataset": body.dataset, "events": len(events)}),
+    )
     return ReplayResponse(dataset=body.dataset, events_replayed=len(events))
 
 
