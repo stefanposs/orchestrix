@@ -26,7 +26,7 @@ jobs:
         run: mkdocs build --config-file mkdocs.yml 
 
       - name: Commit and push docs
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@v10
         with:
           add: 'docs'
           message: 'Update built docs'
